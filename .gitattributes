@@ -1,0 +1,15 @@
+# 文本文件交给 Git 自动判断换行，二进制明确标记，避免无意义的 CRLF 转换
+* text=auto
+
+*.dat    binary
+*.dll    binary
+*.bin    binary
+*.ico    binary
+*.exe    binary
+*.wmv    binary
+*.jpg    binary
+*.gif    binary
+
+# GitHub 上 >50MB 的文件建议走 LFS，启用时取消下面注释并执行 git lfs track
+# game-data/Voice.dat  filter=lfs diff=lfs merge=lfs -text
+# game-data/Bgm.dat    filter=lfs diff=lfs merge=lfs -text

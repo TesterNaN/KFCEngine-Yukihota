@@ -1,0 +1,14 @@
+# 构建产物
+game-data/Yukihota.exe
+game-data/*.pdb
+build.log
+
+# Visual Studio / MSBuild
+bin/
+obj/
+*.user
+*.suo
+*.cache
+
+# 分析中间产物
+work/

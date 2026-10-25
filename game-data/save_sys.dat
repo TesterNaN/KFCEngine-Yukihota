@@ -1,0 +1,21 @@
+<sys>
+  <win>
+    <font>黑体</font>
+    <mode>Windowed</mode>
+    <language>SC</language>
+    <show>True</show>
+  </win>
+  <options>
+    <fade>True</fade>
+    <env>True</env>
+    <sun>True</sun>
+    <shock>True</shock>
+    <color>Blue</color>
+    <speed>4</speed>
+    <synchro>True</synchro>
+  </options>
+  <save>
+    <episode>1</episode>
+    <album>0</album>
+  </save>
+</sys>
