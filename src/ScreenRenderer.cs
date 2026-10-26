@@ -723,8 +723,8 @@ namespace Yukihota
 							{
 								point.X = 832 * (this.backgroundFadeDurations[this.backgroundFadeSpeed] - this.backgroundFadeCounter) / this.backgroundFadeDurations[this.backgroundFadeSpeed] + (-i - 1) * 2;
 								rectangle = new Rectangle(point.X, 0, 2, 600);
-								int num = (int)((double)(i + 1) / 17.0 * 255.0);
-								this.QueueDraw(this.backgroundTexture, rectangle, Rectangle.Empty, point, Color.FromArgb(num, Color.White));
+								int rowAlpha = (int)((double)(i + 1) / 17.0 * 255.0);
+								this.QueueDraw(this.backgroundTexture, rectangle, Rectangle.Empty, point, Color.FromArgb(rowAlpha, Color.White));
 							}
 							point.X = 0;
 							rectangle = new Rectangle(point.X, 0, 832 * (this.backgroundFadeDurations[this.backgroundFadeSpeed] - this.backgroundFadeCounter) / this.backgroundFadeDurations[this.backgroundFadeSpeed] - 32, 600);
@@ -742,8 +742,8 @@ namespace Yukihota
 							{
 								point.X = 832 * this.backgroundFadeCounter / this.backgroundFadeDurations[this.backgroundFadeSpeed] + (j - 16) * 2;
 								rectangle = new Rectangle(point.X, 0, 2, 600);
-								int num = (int)((double)(j + 1) / 17.0 * 255.0);
-								this.QueueDraw(this.backgroundTexture, rectangle, Rectangle.Empty, point, Color.FromArgb(num, Color.White));
+								int rowAlpha = (int)((double)(j + 1) / 17.0 * 255.0);
+								this.QueueDraw(this.backgroundTexture, rectangle, Rectangle.Empty, point, Color.FromArgb(rowAlpha, Color.White));
 							}
 							point.X = 832 * this.backgroundFadeCounter / this.backgroundFadeDurations[this.backgroundFadeSpeed];
 							rectangle = new Rectangle(point.X, 0, 800 - point.X, 600);
@@ -822,17 +822,17 @@ namespace Yukihota
 						{
 							if (this.thinkCounter > 0)
 							{
-								float num2;
+								float thinkProgress;
 								if (!this.thinkReverse)
 								{
-									num2 = (float)(10 - this.thinkCounter) / 10f;
+									thinkProgress = (float)(10 - this.thinkCounter) / 10f;
 								}
 								else
 								{
-									num2 = (float)this.thinkCounter / 10f;
+									thinkProgress = (float)this.thinkCounter / 10f;
 								}
 								this.QueueDraw(this.backgroundTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
-								this.QueueDraw(this.desaturatedBackgroundTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)(255f * num2), Color.White));
+								this.QueueDraw(this.desaturatedBackgroundTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)(255f * thinkProgress), Color.White));
 							}
 							else
 							{
@@ -889,15 +889,15 @@ namespace Yukihota
 			if (this.backgroundTexture != null)
 			{
 				this.desaturatedBackgroundTexture = TextureLoader.FromStream(this.device, this.systemArchive.ReadEntry("WHITE"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
-				uint[,] array = (uint[,])this.backgroundTexture.LockRectangle(typeof(uint), 0, LockFlags.None, new int[] { 800, 600 });
-				uint[,] array2 = (uint[,])this.desaturatedBackgroundTexture.LockRectangle(typeof(uint), 0, LockFlags.None, new int[] { 800, 600 });
+				uint[,] source = (uint[,])this.backgroundTexture.LockRectangle(typeof(uint), 0, LockFlags.None, new int[] { 800, 600 });
+				uint[,] desaturated = (uint[,])this.desaturatedBackgroundTexture.LockRectangle(typeof(uint), 0, LockFlags.None, new int[] { 800, 600 });
 				for (int i = 0; i < 800; i++)
 				{
 					for (int j = 0; j < 600; j++)
 					{
-						uint num = array[i, j];
-						uint num2 = ((num & 255U) + ((num >> 8) & 255U) + ((num >> 16) & 255U)) / 3U;
-						array2[i, j] = 4278190080U + (num2 << 16) + (num2 << 8) + num2;
+						uint pixel = source[i, j];
+						uint gray = ((pixel & 255U) + ((pixel >> 8) & 255U) + ((pixel >> 16) & 255U)) / 3U;
+						desaturated[i, j] = 4278190080U + (gray << 16) + (gray << 8) + gray;
 					}
 				}
 				this.backgroundTexture.UnlockRectangle(0);
@@ -1008,9 +1008,9 @@ namespace Yukihota
 					{
 						if (!this.shakeActive || !this.shakeLoop)
 						{
-							double num = (double)this.zoomCounter / (double)this.zoomDurations[this.zoomSpeedIndex];
-							double num2 = 1.0 - num;
-							Rectangle rectangle = new Rectangle((int)(num * (double)this.zoomSourceRect.Left + num2 * (double)this.zoomTargetRect.Left), (int)(num * (double)this.zoomSourceRect.Top + num2 * (double)this.zoomTargetRect.Top), (int)(num * (double)this.zoomSourceRect.Width + num2 * (double)this.zoomTargetRect.Width), (int)(num * (double)this.zoomSourceRect.Height + num2 * (double)this.zoomTargetRect.Height));
+							double progress = (double)this.zoomCounter / (double)this.zoomDurations[this.zoomSpeedIndex];
+							double inverseProgress = 1.0 - progress;
+							Rectangle rectangle = new Rectangle((int)(progress * (double)this.zoomSourceRect.Left + inverseProgress * (double)this.zoomTargetRect.Left), (int)(progress * (double)this.zoomSourceRect.Top + inverseProgress * (double)this.zoomTargetRect.Top), (int)(progress * (double)this.zoomSourceRect.Width + inverseProgress * (double)this.zoomTargetRect.Width), (int)(progress * (double)this.zoomSourceRect.Height + inverseProgress * (double)this.zoomTargetRect.Height));
 							if (this.backgroundTexture != null)
 							{
 								this.QueueDraw(this.backgroundTexture, rectangle, this.screenRect, Point.Empty, Color.White);
@@ -1128,9 +1128,9 @@ namespace Yukihota
 					{
 						if (this.zoomCounter > 0 && this.fadeEnabled)
 						{
-							double num = (double)this.zoomCounter / (double)this.zoomDurations[this.zoomSpeedIndex];
-							double num2 = 1.0 - num;
-							rectangle = new Rectangle((int)(num * (double)this.zoomSourceRect.Left + num2 * (double)this.zoomTargetRect.Left), (int)(num * (double)this.zoomSourceRect.Top + num2 * (double)this.zoomTargetRect.Top), (int)(num * (double)this.zoomSourceRect.Width + num2 * (double)this.zoomTargetRect.Width), (int)(num * (double)this.zoomSourceRect.Height + num2 * (double)this.zoomTargetRect.Height));
+							double progress = (double)this.zoomCounter / (double)this.zoomDurations[this.zoomSpeedIndex];
+							double inverseProgress = 1.0 - progress;
+							rectangle = new Rectangle((int)(progress * (double)this.zoomSourceRect.Left + inverseProgress * (double)this.zoomTargetRect.Left), (int)(progress * (double)this.zoomSourceRect.Top + inverseProgress * (double)this.zoomTargetRect.Top), (int)(progress * (double)this.zoomSourceRect.Width + inverseProgress * (double)this.zoomTargetRect.Width), (int)(progress * (double)this.zoomSourceRect.Height + inverseProgress * (double)this.zoomTargetRect.Height));
 						}
 						else
 						{
