@@ -378,11 +378,24 @@ case ScenarioResult.Message:
 
 见 [NOTICE.md](NOTICE.md)。本仓库仅用于**失传媒体存档与技术研究**，不提供任何商业用途。
 
+## 同一条引擎线上的其他作品
+
+这套引擎后来又被用了两次，都已经完成还原：
+
+| | 作品 | 仓库 | 状态 |
+|---|---|---|---|
+| v1 | 《雪萤》 | 本仓库 | ✓ 可运行到正片 |
+| v2 | 《AGAIN》 | [KFCEngine-Again](https://github.com/TesterNaN/KFCEngine-Again) | ✓ 可运行到序幕 |
+| v3 | 《思念的碎片 -Close to-》 | [KFCEngine-CloseTo](https://github.com/TesterNaN/KFCEngine-CloseTo) | ✓ 可运行到开场 |
+
+拿 AGAIN 那一代和本仓库对比，能清楚看到引擎一年的演进：命名空间从一个 `Ӓ` 拆成
+八个分层模块，运行时从 .NET 1.1 升到 2.0，视频从 winmm MCI 换成 DirectShow，
+保护也从 XenoCode 换成了 C++ loader + StarForce + 3DES 加密程序集。
+
 ## 征集
 
 如果你手上还有这套引擎的其他痕迹，欢迎开 issue：
 
-- **《秋之回忆：从今以后～AGAIN》PC 中文版（娱乐通 / 光谱，2007）的可执行文件**——同一引擎的第二个产物，比对它能看出引擎的演进
 - 原始安装包（`Setup.exe`）、当时的 BT 种子或发布帖存档
 - 作者 `Mullen` 的技术说明、开发记录
 - 2006 年那个「进化版本」的任何线索（原帖称本版为「最终完全整合版」，并提到还有后续计划）
