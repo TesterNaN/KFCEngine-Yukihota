@@ -150,7 +150,7 @@ namespace Yukihota
 			}
 			else
 			{
-				bool flag = true;
+				bool hasNode = true;
 				while (this.currentNodes[0].ParentNode != this.episodeNodes[0])
 				{
 					if (this.currentNodes[0].ParentNode.NextSibling != null)
@@ -164,7 +164,7 @@ namespace Yukihota
 							}
 							this.currentNodes[k] = this.currentNodes[k].ParentNode.NextSibling;
 						}
-						flag = false;
+						hasNode = false;
 						break;
 					}
 					for (int l = 0; l < 3; l++)
@@ -177,7 +177,7 @@ namespace Yukihota
 						this.currentNodes[l] = this.currentNodes[l].ParentNode;
 					}
 				}
-				if (flag)
+				if (hasNode)
 				{
 					if (this.currentNodes[0].ParentNode.NextSibling == null)
 					{
@@ -247,10 +247,10 @@ namespace Yukihota
 				{
 					try
 					{
-						int num = int.Parse(this.currentNodes[0].Attributes["album"].Value);
-						if (num > this.maxAlbumIndex)
+						int albumIndex = int.Parse(this.currentNodes[0].Attributes["album"].Value);
+						if (albumIndex > this.maxAlbumIndex)
 						{
-							this.maxAlbumIndex = num;
+							this.maxAlbumIndex = albumIndex;
 						}
 					}
 					catch (Exception ex2)
@@ -288,7 +288,7 @@ namespace Yukihota
 					ScenarioScript.bgmArchive.Extract(this.currentNodes[0].Attributes["name"].Value, ScenarioScript.tempDirectory);
 					for (int n = 0; n < 4; n++)
 					{
-						bool flag2 = false;
+						bool matched = false;
 						try
 						{
 							if (File.Exists(string.Concat(new object[]
@@ -315,9 +315,9 @@ namespace Yukihota
 								MessageBox.Show(ex4.Message);
 								return ScenarioResult.Error;
 							}
-							flag2 = true;
+							matched = true;
 						}
-						if (!flag2)
+						if (!matched)
 						{
 							break;
 						}
@@ -550,9 +550,9 @@ namespace Yukihota
 							try
 							{
 								ScenarioScript.seArchive.Extract(this.currentNodes[0].Attributes["name"].Value, ScenarioScript.tempDirectory);
-								for (int num2 = 0; num2 < 4; num2++)
+								for (int routeIndex = 0; routeIndex < 4; routeIndex++)
 								{
-									bool flag3 = false;
+									bool routePicked = false;
 									try
 									{
 										if (File.Exists(string.Concat(new object[]
@@ -574,14 +574,14 @@ namespace Yukihota
 									}
 									catch (Exception ex11)
 									{
-										if (num2 >= 3)
+										if (routeIndex >= 3)
 										{
 											MessageBox.Show(ex11.Message);
 											return ScenarioResult.Error;
 										}
-										flag3 = true;
+										routePicked = true;
 									}
-									if (!flag3)
+									if (!routePicked)
 									{
 										break;
 									}
@@ -668,14 +668,14 @@ namespace Yukihota
 						if (this.currentNodes[0].Name == "title")
 						{
 							resultData = new string[3];
-							for (int num3 = 0; num3 < 3; num3++)
+							for (int episodeIndex = 0; episodeIndex < 3; episodeIndex++)
 							{
-								if (this.episodeNodes[num3].Attributes["title"] == null)
+								if (this.episodeNodes[episodeIndex].Attributes["title"] == null)
 								{
 									MessageBox.Show(ScenarioScript.errorMessage);
 									return ScenarioResult.Error;
 								}
-								((string[])resultData)[num3] = this.episodeNodes[num3].Attributes["title"].Value;
+								((string[])resultData)[episodeIndex] = this.episodeNodes[episodeIndex].Attributes["title"].Value;
 							}
 							return ScenarioResult.Notice;
 						}
@@ -864,10 +864,10 @@ namespace Yukihota
 								{
 									try
 									{
-										int num4 = int.Parse(this.currentNodes[0].Attributes["album"].Value);
-										if (num4 > this.maxAlbumIndex)
+										int albumIndex = int.Parse(this.currentNodes[0].Attributes["album"].Value);
+										if (albumIndex > this.maxAlbumIndex)
 										{
-											this.maxAlbumIndex = num4;
+											this.maxAlbumIndex = albumIndex;
 										}
 										goto IL_03B2;
 									}
@@ -937,9 +937,9 @@ namespace Yukihota
 							if (this.currentNodes[0].Name == "ed")
 							{
 								ScenarioScript.bgmArchive.Extract("BGM37", ScenarioScript.tempDirectory);
-								for (int num5 = 0; num5 < 4; num5++)
+								for (int routeIndex = 0; routeIndex < 4; routeIndex++)
 								{
-									bool flag4 = false;
+									bool routePicked = false;
 									try
 									{
 										if (File.Exists(string.Concat(new object[]
@@ -961,14 +961,14 @@ namespace Yukihota
 									}
 									catch (Exception ex18)
 									{
-										if (num5 >= 3)
+										if (routeIndex >= 3)
 										{
 											MessageBox.Show(ex18.Message);
 											return ScenarioResult.Error;
 										}
-										flag4 = true;
+										routePicked = true;
 									}
-									if (!flag4)
+									if (!routePicked)
 									{
 										break;
 									}
@@ -990,15 +990,15 @@ namespace Yukihota
 									".wav"
 								});
 								ScenarioScript.bgmSlotIndex = (ScenarioScript.bgmSlotIndex + 1) % 4;
-								XmlDocument[] array = new XmlDocument[3];
-								for (int num6 = 0; num6 < 3; num6++)
+								XmlDocument[] endingDocs = new XmlDocument[3];
+								for (int endingIndex = 0; endingIndex < 3; endingIndex++)
 								{
-									array[num6] = new XmlDocument();
+									endingDocs[endingIndex] = new XmlDocument();
 								}
-								array[0].Load(ScenarioScript.scriptArchive.ReadEntry("ED_SC"));
-								array[1].Load(ScenarioScript.scriptArchive.ReadEntry("ED_TC"));
-								array[2].Load(ScenarioScript.scriptArchive.ReadEntry("ED_JP"));
-								StaffRoll u065D = new StaffRoll(text, ScenarioScript.charaArchive, ScenarioScript.bgArchive, array);
+								endingDocs[0].Load(ScenarioScript.scriptArchive.ReadEntry("ED_SC"));
+								endingDocs[1].Load(ScenarioScript.scriptArchive.ReadEntry("ED_TC"));
+								endingDocs[2].Load(ScenarioScript.scriptArchive.ReadEntry("ED_JP"));
+								StaffRoll u065D = new StaffRoll(text, ScenarioScript.charaArchive, ScenarioScript.bgArchive, endingDocs);
 								resultData = u065D;
 								return ScenarioResult.StaffRoll;
 							}
@@ -1020,31 +1020,31 @@ namespace Yukihota
 					goto IL_1E4B;
 				}
 				resultData = new string[3];
-				int num7 = 0;
+				int slotIndex = 0;
 				IL_186C:
-				string[] array2;
-				if (num7 < 3)
+				string[] slotTexts;
+				if (slotIndex < 3)
 				{
-					array2 = (string[])resultData;
+					slotTexts = (string[])resultData;
 					goto IL_287A;
 				}
 				IL_1E4B:
 				string text2 = null;
-				bool flag5 = false;
+				bool instant = false;
 				if (this.currentNodes[0].Attributes["voice"] != null)
 				{
 					if (skipVoice)
 					{
-						flag5 = true;
+						instant = true;
 					}
 					else
 					{
 						try
 						{
 							ScenarioScript.voiceArchive.Extract(this.currentNodes[0].Attributes["voice"].Value, ScenarioScript.tempDirectory);
-							for (int num8 = 0; num8 < 4; num8++)
+							for (int routeIndex = 0; routeIndex < 4; routeIndex++)
 							{
-								bool flag6 = false;
+								bool routePicked = false;
 								try
 								{
 									if (File.Exists(string.Concat(new object[]
@@ -1066,14 +1066,14 @@ namespace Yukihota
 								}
 								catch (Exception ex19)
 								{
-									if (num8 >= 3)
+									if (routeIndex >= 3)
 									{
 										MessageBox.Show(ex19.Message);
 										return ScenarioResult.Error;
 									}
-									flag6 = true;
+									routePicked = true;
 								}
-								if (!flag6)
+								if (!routePicked)
 								{
 									break;
 								}
@@ -1182,7 +1182,7 @@ namespace Yukihota
 						((MessageCommand)resultOption).waitClick = false;
 					}
 					((MessageCommand)resultOption).voice = text2;
-					((MessageCommand)resultOption).instant = flag5;
+					((MessageCommand)resultOption).instant = instant;
 					return ScenarioResult.Message;
 					IL_16B4:
 					((MessageCommand)resultOption).align = HorizontalAlign.Left;
@@ -1191,14 +1191,14 @@ namespace Yukihota
 				resultOption = new CaptionCommand();
 				if (this.currentNodes[0].Attributes["chara"] != null)
 				{
-					for (int num9 = 0; num9 < 3; num9++)
+					for (int nameIndex = 0; nameIndex < 3; nameIndex++)
 					{
-						if (this.currentNodes[num9].Attributes["chara"] == null)
+						if (this.currentNodes[nameIndex].Attributes["chara"] == null)
 						{
 							MessageBox.Show(ScenarioScript.errorMessage);
 							return ScenarioResult.Error;
 						}
-						((CaptionCommand)resultOption).charaNames[num9] = this.currentNodes[num9].Attributes["chara"].Value;
+						((CaptionCommand)resultOption).charaNames[nameIndex] = this.currentNodes[nameIndex].Attributes["chara"].Value;
 					}
 				}
 				else
@@ -1252,55 +1252,55 @@ namespace Yukihota
 					}
 				}
 				((CaptionCommand)resultOption).voice = text2;
-				((CaptionCommand)resultOption).instant = flag5;
+				((CaptionCommand)resultOption).instant = instant;
 				return ScenarioResult.Caption;
 				IL_287A:
-				array2[num7] = "";
-				if (this.currentNodes[num7].HasChildNodes)
+				slotTexts[slotIndex] = "";
+				if (this.currentNodes[slotIndex].HasChildNodes)
 				{
-					for (int num10 = 0; num10 < this.currentNodes[num7].ChildNodes.Count; num10++)
+					for (int childIndex = 0; childIndex < this.currentNodes[slotIndex].ChildNodes.Count; childIndex++)
 					{
-						if (this.currentNodes[num7].ChildNodes[num10].Name == "br")
+						if (this.currentNodes[slotIndex].ChildNodes[childIndex].Name == "br")
 						{
-							if (this.currentNodes[num7].ChildNodes[num10].Attributes["line"] == null)
+							if (this.currentNodes[slotIndex].ChildNodes[childIndex].Attributes["line"] == null)
 							{
-								string[] array3;
+								string[] textArray;
 								IntPtr intPtr;
-								(array3 = (string[])resultData)[(int)(intPtr = (IntPtr)num7)] = array3[(int)intPtr] + "\n";
+								(textArray = (string[])resultData)[(int)(intPtr = (IntPtr)slotIndex)] = textArray[(int)intPtr] + "\n";
 							}
 							else
 							{
-								int num11 = 1;
+								int brLineCount = 1;
 								try
 								{
-									num11 = int.Parse(this.currentNodes[num7].ChildNodes[num10].Attributes["line"].Value);
+									brLineCount = int.Parse(this.currentNodes[slotIndex].ChildNodes[childIndex].Attributes["line"].Value);
 								}
 								catch (Exception ex23)
 								{
 									MessageBox.Show(ex23.Message);
 									return ScenarioResult.Error;
 								}
-								for (int num12 = 0; num12 < num11; num12++)
+								for (int newlineCount = 0; newlineCount < brLineCount; newlineCount++)
 								{
-									string[] array3;
+									string[] textArray;
 									IntPtr intPtr;
-									(array3 = (string[])resultData)[(int)(intPtr = (IntPtr)num7)] = array3[(int)intPtr] + "\n";
+									(textArray = (string[])resultData)[(int)(intPtr = (IntPtr)slotIndex)] = textArray[(int)intPtr] + "\n";
 								}
 							}
 						}
 						else
 						{
-							if (this.currentNodes[num7].ChildNodes[num10].NodeType != XmlNodeType.Text)
+							if (this.currentNodes[slotIndex].ChildNodes[childIndex].NodeType != XmlNodeType.Text)
 							{
 								MessageBox.Show(ScenarioScript.errorMessage);
 								return ScenarioResult.Error;
 							}
-							string[] array3;
+							string[] textArray;
 							IntPtr intPtr;
-							(array3 = (string[])resultData)[(int)(intPtr = (IntPtr)num7)] = array3[(int)intPtr] + this.currentNodes[num7].ChildNodes[num10].Value;
+							(textArray = (string[])resultData)[(int)(intPtr = (IntPtr)slotIndex)] = textArray[(int)intPtr] + this.currentNodes[slotIndex].ChildNodes[childIndex].Value;
 						}
 					}
-					num7++;
+					slotIndex++;
 					goto IL_186C;
 				}
 				MessageBox.Show(ScenarioScript.errorMessage);
