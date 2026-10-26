@@ -82,11 +82,11 @@ namespace Yukihota
 			{
 				throw new ArgumentException("Stream cannot Write");
 			}
-			byte[] array = new byte[1024];
-			int num;
-			int num2;
-			this.index.FindEntry(name, out num, out num2);
-			if (num == -1)
+			byte[] chunk = new byte[1024];
+			int offset;
+			int length;
+			this.index.FindEntry(name, out offset, out length);
+			if (offset == -1)
 			{
 				throw new FileNotFoundException(name + " is not in the Package");
 			}
@@ -94,16 +94,16 @@ namespace Yukihota
 			try
 			{
 				memoryStream = new MemoryStream();
-				this.stream.Position = (long)num;
-				int num3 = 0;
-				while (num3 + 1024 < num2)
+				this.stream.Position = (long)offset;
+				int copied = 0;
+				while (copied + 1024 < length)
 				{
-					this.stream.Read(array, 0, 1024);
-					memoryStream.Write(array, 0, 1024);
-					num3 += 1024;
+					this.stream.Read(chunk, 0, 1024);
+					memoryStream.Write(chunk, 0, 1024);
+					copied += 1024;
 				}
-				this.stream.Read(array, 0, num2 - num3);
-				memoryStream.Write(array, 0, num2 - num3);
+				this.stream.Read(chunk, 0, length - copied);
+				memoryStream.Write(chunk, 0, length - copied);
 				memoryStream.Flush();
 			}
 			catch (Exception)
@@ -112,27 +112,27 @@ namespace Yukihota
 			}
 			try
 			{
-				byte[] array2 = new byte[24];
-				byte[] array3 = new byte[8];
+				byte[] key = new byte[24];
+				byte[] iv = new byte[8];
 				for (int i = 0; i < 24; i++)
 				{
-					array2[i] = (byte)ArchiveFile.keyMaterialA[i];
+					key[i] = (byte)ArchiveFile.keyMaterialA[i];
 				}
 				for (int j = 0; j < 8; j++)
 				{
-					array3[j] = (byte)ArchiveFile.keyMaterialB[j];
+					iv[j] = (byte)ArchiveFile.keyMaterialB[j];
 				}
 				TripleDESCryptoServiceProvider tripleDESCryptoServiceProvider = new TripleDESCryptoServiceProvider();
 				memoryStream.Position = 0L;
 				dataStream.Position = 0L;
-				CryptoStream cryptoStream = new CryptoStream(memoryStream, tripleDESCryptoServiceProvider.CreateDecryptor(array2, array3), (CryptoStreamMode)0);
-				int num3;
+				CryptoStream cryptoStream = new CryptoStream(memoryStream, tripleDESCryptoServiceProvider.CreateDecryptor(key, iv), (CryptoStreamMode)0);
+				int copied;
 				do
 				{
-					num3 = cryptoStream.Read(array, 0, 1024);
-					dataStream.Write(array, 0, num3);
+					copied = cryptoStream.Read(chunk, 0, 1024);
+					dataStream.Write(chunk, 0, copied);
 				}
-				while (num3 == 1024);
+				while (copied == 1024);
 				dataStream.Flush();
 				memoryStream.Close();
 				cryptoStream.Close();
@@ -209,57 +209,57 @@ namespace Yukihota
 			{
 				throw new ArgumentException("Stream cannot Write");
 			}
-			byte[] array = new byte[1024];
+			byte[] chunk = new byte[1024];
 			string text = this.index.GetCurrentName();
 			MemoryStream memoryStream;
 			CryptoStream cryptoStream;
-			int num2;
+			int encryptedLength;
 			try
 			{
 				memoryStream = new MemoryStream();
-				byte[] array2 = new byte[24];
-				byte[] array3 = new byte[8];
+				byte[] key = new byte[24];
+				byte[] iv = new byte[8];
 				for (int i = 0; i < 24; i++)
 				{
-					array2[i] = (byte)ArchiveFile.keyMaterialA[i];
+					key[i] = (byte)ArchiveFile.keyMaterialA[i];
 				}
 				for (int j = 0; j < 8; j++)
 				{
-					array3[j] = (byte)ArchiveFile.keyMaterialB[j];
+					iv[j] = (byte)ArchiveFile.keyMaterialB[j];
 				}
 				TripleDESCryptoServiceProvider tripleDESCryptoServiceProvider = new TripleDESCryptoServiceProvider();
 				dataStream.Position = 0L;
-				cryptoStream = new CryptoStream(memoryStream, tripleDESCryptoServiceProvider.CreateEncryptor(array2, array3), (CryptoStreamMode)1);
-				int num;
+				cryptoStream = new CryptoStream(memoryStream, tripleDESCryptoServiceProvider.CreateEncryptor(key, iv), (CryptoStreamMode)1);
+				int written;
 				do
 				{
-					num = dataStream.Read(array, 0, 1024);
-					cryptoStream.Write(array, 0, num);
+					written = dataStream.Read(chunk, 0, 1024);
+					cryptoStream.Write(chunk, 0, written);
 				}
-				while (num == 1024);
+				while (written == 1024);
 				cryptoStream.Flush();
 				cryptoStream.FlushFinalBlock();
 				memoryStream.Position = 0L;
-				num2 = (int)memoryStream.Length;
+				encryptedLength = (int)memoryStream.Length;
 			}
 			catch (Exception)
 			{
 				throw new IOException("Error Encode " + text);
 			}
-			int num3;
-			this.index.AppendEntrySize(num2, out num3);
+			int newOffset;
+			this.index.AppendEntrySize(encryptedLength, out newOffset);
 			try
 			{
-				this.stream.Position = (long)num3;
-				int num = 0;
-				while (num + 1024 < num2)
+				this.stream.Position = (long)newOffset;
+				int written = 0;
+				while (written + 1024 < encryptedLength)
 				{
-					memoryStream.Read(array, 0, 1024);
-					this.stream.Write(array, 0, 1024);
-					num += 1024;
+					memoryStream.Read(chunk, 0, 1024);
+					this.stream.Write(chunk, 0, 1024);
+					written += 1024;
 				}
-				memoryStream.Read(array, 0, num2 - num);
-				this.stream.Write(array, 0, num2 - num);
+				memoryStream.Read(chunk, 0, encryptedLength - written);
+				this.stream.Write(chunk, 0, encryptedLength - written);
 				this.stream.Flush();
 				cryptoStream.Close();
 				memoryStream.Close();
@@ -303,15 +303,15 @@ namespace Yukihota
 			}
 			DirectoryInfo directoryInfo = new DirectoryInfo(directory);
 			FileInfo[] files = directoryInfo.GetFiles("*." + extension);
-			int num = files.Length;
+			int fileCount = files.Length;
 			this.index = new ArchiveIndex();
-			for (int i = 0; i < num; i++)
+			for (int i = 0; i < fileCount; i++)
 			{
 				this.index.AddEntry(files[i].Name.Substring(0, files[i].Name.Length - files[i].Extension.Length));
 			}
 			this.index.SetExtension(extension);
 			this.SaveIndex();
-			for (int j = 0; j < num; j++)
+			for (int j = 0; j < fileCount; j++)
 			{
 				this.AddEntry(directory);
 			}
