@@ -122,7 +122,7 @@ namespace Yukihota
 			this.device.Clear(ClearFlags.Target, Color.White, 1f, 0);
 			this.device.BeginScene();
 			this.sprite.Begin(SpriteFlags.AlphaBlend);
-			int num = 0;
+			int queueIndex = 0;
 			for (int i = 0; i < this.textureQueue.Count; i++)
 			{
 				if (this.textureQueue[i] != null)
@@ -132,7 +132,7 @@ namespace Yukihota
 				else
 				{
 					Microsoft.DirectX.Direct3D.Font font;
-					switch ((int)this.fontIndexQueue[num])
+					switch ((int)this.fontIndexQueue[queueIndex])
 					{
 					case 1:
 						font = this.noticeFont;
@@ -147,8 +147,8 @@ namespace Yukihota
 						font = this.noticeFont;
 						break;
 					}
-					this.DrawTextCore((string)this.textQueue[num], (int)this.startIndexQueue[num], (double)this.endIndexQueue[num], (Point)this.textPositionQueue[num], (int)this.charWidthQueue[num], (int)this.lineHeightQueue[num], (int)this.shadowOffsetQueue[num], (HorizontalAlign)this.fontSizeModeQueue[num], (int)this.lineWidthQueue[num], font, (bool)this.fadeOutQueue[num], (int)this.fadeLengthQueue[num], (Color)this.textColorQueue[num], (Color)this.shadowColorQueue[num], false);
-					num++;
+					this.DrawTextCore((string)this.textQueue[queueIndex], (int)this.startIndexQueue[queueIndex], (double)this.endIndexQueue[queueIndex], (Point)this.textPositionQueue[queueIndex], (int)this.charWidthQueue[queueIndex], (int)this.lineHeightQueue[queueIndex], (int)this.shadowOffsetQueue[queueIndex], (HorizontalAlign)this.fontSizeModeQueue[queueIndex], (int)this.lineWidthQueue[queueIndex], font, (bool)this.fadeOutQueue[queueIndex], (int)this.fadeLengthQueue[queueIndex], (Color)this.textColorQueue[queueIndex], (Color)this.shadowColorQueue[queueIndex], false);
+					queueIndex++;
 				}
 			}
 			this.sprite.End();
@@ -187,7 +187,7 @@ namespace Yukihota
 				{
 					return true;
 				}
-				int num = i++;
+				int index = i++;
 			}
 			if (this.messageLines != null)
 			{
@@ -497,37 +497,37 @@ namespace Yukihota
 				this.textColorQueue.Add(textColor);
 				this.shadowColorQueue.Add(shadowColor);
 			}
-			int num;
+			int penX;
 			switch (fontSizeMode)
 			{
 			case HorizontalAlign.Left:
-				num = origin.X;
+				penX = origin.X;
 				break;
 			case HorizontalAlign.Center:
 			{
-				int num2 = content.IndexOf('\n');
-				if (num2 == -1)
+				int lineEnd = content.IndexOf('\n');
+				if (lineEnd == -1)
 				{
-					num2 = content.Length;
+					lineEnd = content.Length;
 				}
-				num = origin.X + charWidth * (lineWidth - num2) / 2;
+				penX = origin.X + charWidth * (lineWidth - lineEnd) / 2;
 				break;
 			}
 			case HorizontalAlign.Right:
 			{
-				int num2 = content.IndexOf('\n');
-				if (num2 == -1)
+				int lineEnd = content.IndexOf('\n');
+				if (lineEnd == -1)
 				{
-					num2 = content.Length;
+					lineEnd = content.Length;
 				}
-				num = origin.X + charWidth * (lineWidth - num2);
+				penX = origin.X + charWidth * (lineWidth - lineEnd);
 				break;
 			}
 			default:
-				num = origin.X;
+				penX = origin.X;
 				break;
 			}
-			int num3 = origin.Y;
+			int penY = origin.Y;
 			int i = 0;
 			while (i < content.Length)
 			{
@@ -536,32 +536,32 @@ namespace Yukihota
 					switch (fontSizeMode)
 					{
 					case HorizontalAlign.Left:
-						num = origin.X;
+						penX = origin.X;
 						break;
 					case HorizontalAlign.Center:
 					{
-						int num2 = content.IndexOf('\n', i + 1);
-						if (num2 == -1)
+						int lineEnd = content.IndexOf('\n', i + 1);
+						if (lineEnd == -1)
 						{
-							num2 = content.Length;
+							lineEnd = content.Length;
 						}
-						int num4 = num2 - i - 1;
-						num = origin.X + charWidth * (lineWidth - num4) / 2;
+						int lineCharCount = lineEnd - i - 1;
+						penX = origin.X + charWidth * (lineWidth - lineCharCount) / 2;
 						break;
 					}
 					case HorizontalAlign.Right:
 					{
-						int num2 = content.IndexOf('\n', i + 1);
-						if (num2 == -1)
+						int lineEnd = content.IndexOf('\n', i + 1);
+						if (lineEnd == -1)
 						{
-							num2 = content.Length;
+							lineEnd = content.Length;
 						}
-						int num4 = num2 - i - 1;
-						num = origin.X + charWidth * (lineWidth - num4);
+						int lineCharCount = lineEnd - i - 1;
+						penX = origin.X + charWidth * (lineWidth - lineCharCount);
 						break;
 					}
 					}
-					num3 += lineHeight;
+					penY += lineHeight;
 				}
 				else
 				{
@@ -572,27 +572,27 @@ namespace Yukihota
 						{
 							Sprite sprite = this.sprite;
 							c = content[i];
-							font.DrawText(sprite, c.ToString(), num + shadowOffset, num3 + shadowOffset, shadowColor);
+							font.DrawText(sprite, c.ToString(), penX + shadowOffset, penY + shadowOffset, shadowColor);
 						}
 						Sprite sprite2 = this.sprite;
 						c = content[i];
-						font.DrawText(sprite2, c.ToString(), num, num3, textColor);
+						font.DrawText(sprite2, c.ToString(), penX, penY, textColor);
 					}
 					else if (scroll && i >= startIndex && (double)i >= endIndex && (double)i < endIndex + (double)fadeLength && this.fadeEnabled)
 					{
-						int num5 = (int)(255.0 * ((double)(fadeLength - i) + endIndex) / (double)fadeLength);
+						int fadeAlpha = (int)(255.0 * ((double)(fadeLength - i) + endIndex) / (double)fadeLength);
 						Sprite sprite3 = this.sprite;
 						char c = content[i];
-						font.DrawText(sprite3, c.ToString(), num + shadowOffset, num3 + shadowOffset, (shadowColor == Color.Transparent) ? Color.Transparent : Color.FromArgb(num5, shadowColor));
+						font.DrawText(sprite3, c.ToString(), penX + shadowOffset, penY + shadowOffset, (shadowColor == Color.Transparent) ? Color.Transparent : Color.FromArgb(fadeAlpha, shadowColor));
 						Sprite sprite4 = this.sprite;
 						c = content[i];
-						font.DrawText(sprite4, c.ToString(), num, num3, Color.FromArgb(num5, textColor));
+						font.DrawText(sprite4, c.ToString(), penX, penY, Color.FromArgb(fadeAlpha, textColor));
 					}
-					num += charWidth;
+					penX += charWidth;
 				}
-				int num6 = i++;
+				int unusedIndex = i++;
 			}
-			return new Point(num, num3);
+			return new Point(penX, penY);
 		}
 
 		// Token: 0x06001FA5 RID: 8101 RVA: 0x0001C5B0 File Offset: 0x0001B5B0
