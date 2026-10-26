@@ -202,20 +202,20 @@ namespace Yukihota
 			{
 				MessageBox.Show(ex.Message);
 			}
-			bool flag = true;
+			bool running = true;
 			GalGameForm.noOperationMode = false;
 			for (int i = 0; i < args.Length; i++)
 			{
 				if (args[i] == "/nocopyright")
 				{
-					flag = false;
+					running = false;
 				}
 				if (args[i] == "/noop")
 				{
 					GalGameForm.noOperationMode = true;
 				}
 			}
-			if (flag)
+			if (running)
 			{
 				MessageBox.Show("本游戏为KID Fans Club特别创作组免费制作并发布。\n仅供广大KID Fans试玩，请于下载后24小时自觉删除，\n任何个人或组织不得将其用于任何形式的商业用途，\n违者如造成商业侵权，KID Fans Club将不负连带责任。\n相关说明见Readme.txt\n\n本遊戲為KID Fans Club特別創作組免費製作並發佈。\n僅供廣大KID Fans試玩，請於下載後24小時自覺刪除，\n任何個人或組織不得將其用於任何形式的商業用途，\n違者如造成商業侵權，KID Fans Club將不負連帶責任。\n相關說明見Readme.txt");
 			}
@@ -273,24 +273,24 @@ namespace Yukihota
 					}
 					if (OptionsForm.GetForceFeedback())
 					{
-						int[] array = null;
+						int[] axes = null;
 						foreach (object obj2 in this.joystick.GetObjects(DeviceObjectTypeFlags.Axis))
 						{
 							DeviceObjectInstance deviceObjectInstance2 = (DeviceObjectInstance)obj2;
 							if ((deviceObjectInstance2.Flags & 1) != 0)
 							{
-								if (array != null)
+								if (axes != null)
 								{
-									int[] array2 = new int[array.Length + 1];
-									array.CopyTo(array2, 0);
-									array = array2;
+									int[] grownAxes = new int[axes.Length + 1];
+									axes.CopyTo(grownAxes, 0);
+									axes = grownAxes;
 								}
 								else
 								{
-									array = new int[1];
+									axes = new int[1];
 								}
-								array[array.Length - 1] = deviceObjectInstance2.Offset;
-								if (2 == array.Length)
+								axes[axes.Length - 1] = deviceObjectInstance2.Offset;
+								if (2 == axes.Length)
 								{
 									break;
 								}
@@ -305,10 +305,10 @@ namespace Yukihota
 								if (DInputHelper.GetTypeCode(effectInformation.EffectType) == 1)
 								{
 									Microsoft.DirectX.DirectInput.Effect effect = new Microsoft.DirectX.DirectInput.Effect();
-									effect.SetDirection(new int[array.Length]);
-									effect.SetAxes(new int[array.Length]);
+									effect.SetDirection(new int[axes.Length]);
+									effect.SetAxes(new int[axes.Length]);
 									effect.EffectType = EffectType.ConstantForce;
-									effect.ConditionStruct = new Condition[array.Length];
+									effect.ConditionStruct = new Condition[axes.Length];
 									effect.Duration = -1;
 									effect.Gain = 10000;
 									effect.SamplePeriod = 0;
@@ -316,7 +316,7 @@ namespace Yukihota
 									effect.TriggerRepeatInterval = -1;
 									effect.Flags = EffectFlags.Cartesian | EffectFlags.ObjectOffsets;
 									effect.Constant.Magnitude = 5000;
-									effect.SetAxes(array);
+									effect.SetAxes(axes);
 									this.forceFeedbackEffect = new EffectObject(effectInformation.EffectGuid, effect, this.joystick);
 								}
 							}
@@ -1060,7 +1060,7 @@ namespace Yukihota
 						int x2 = this.textOrigin.X;
 						size = this.charCellSize;
 						font2.DrawText(sprite2, text2, x2 + size.Width * j, this.textOrigin.Y, Color.White);
-						int num = j++;
+						int index = j++;
 					}
 				}
 			}
@@ -1089,11 +1089,11 @@ namespace Yukihota
 		// Token: 0x06001EC8 RID: 7880 RVA: 0x0000F41C File Offset: 0x0000E41C
 		private void OnScenarioTimerTick(object sender, EventArgs e)
 		{
-			bool flag = false;
-			int num = this.PollJoystick();
-			if (num >= 0)
+			bool hasInput = false;
+			int joystickState = this.PollJoystick();
+			if (joystickState >= 0)
 			{
-				switch (num)
+				switch (joystickState)
 				{
 				case 0:
 					this.director.OnClick();
@@ -1115,14 +1115,14 @@ namespace Yukihota
 						this.scenarioTimer.Stop();
 						this.LoadOptionsResources();
 						this.OpenOptions();
-						flag = true;
+						hasInput = true;
 					}
 					break;
 				case 9:
 					if (!this.director.IsStaffRollPlaying())
 					{
 						this.ReturnToTitle();
-						flag = true;
+						hasInput = true;
 					}
 					break;
 				}
@@ -1137,7 +1137,7 @@ namespace Yukihota
 				this.director.SetButtonLayout(this.language);
 				this.languageResetPending = false;
 			}
-			if (!flag && !this.director.Update())
+			if (!hasInput && !this.director.Update())
 			{
 				this.ReturnToTitle();
 			}
@@ -1438,10 +1438,10 @@ namespace Yukihota
 			{
 				try
 				{
-					int num = int.Parse(xmlNode.InnerText);
-					if (num >= min && num <= max)
+					int parsedValue = int.Parse(xmlNode.InnerText);
+					if (parsedValue >= min && parsedValue <= max)
 					{
-						value = num;
+						value = parsedValue;
 					}
 				}
 				catch
@@ -1755,26 +1755,26 @@ namespace Yukihota
 			this.overlayText = null;
 			this.device.BeginScene();
 			this.sprite.Begin(SpriteFlags.AlphaBlend);
-			int num;
+			int alpha;
 			if (this.logoFrame < this.logoFadeThresholds[0])
 			{
-				num = (int)((double)this.logoFrame / (double)this.logoFadeThresholds[0] * 255.0);
+				alpha = (int)((double)this.logoFrame / (double)this.logoFadeThresholds[0] * 255.0);
 			}
 			else if (this.logoFrame < this.logoFadeThresholds[1])
 			{
-				num = 255;
+				alpha = 255;
 			}
 			else if (this.logoFrame < this.logoFadeThresholds[2])
 			{
-				num = (int)((double)(this.logoFadeThresholds[2] - this.logoFrame) / (double)(this.logoFadeThresholds[2] - this.logoFadeThresholds[1]) * 255.0);
+				alpha = (int)((double)(this.logoFadeThresholds[2] - this.logoFrame) / (double)(this.logoFadeThresholds[2] - this.logoFadeThresholds[1]) * 255.0);
 			}
 			else
 			{
 				this.logoFadeTimer.Stop();
 				this.EnterTitleMenu();
-				num = 0;
+				alpha = 0;
 			}
-			this.DrawLayer(this.logoTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb(num, Color.White));
+			this.DrawLayer(this.logoTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb(alpha, Color.White));
 			this.logoFrame++;
 			this.sprite.End();
 			this.device.EndScene();
@@ -1885,9 +1885,9 @@ namespace Yukihota
 		private void OnMenuTimerTick(object sender, EventArgs e)
 		{
 			GC.Collect();
-			int num = this.PollJoystick();
-			int num2;
-			if (num == 0)
+			int joystickState = this.PollJoystick();
+			int joystickState2;
+			if (joystickState == 0)
 			{
 				if (this.menuSelection > 0 && this.menuItemEnabled[this.menuSelection - 1])
 				{
@@ -1898,19 +1898,19 @@ namespace Yukihota
 			}
 			else
 			{
-				num2 = num;
+				joystickState2 = joystickState;
 			}
 			IL_021D:
-			if (num2 == 6)
+			if (joystickState2 == 6)
 			{
 				this.MoveMenuSelection(0);
 			}
-			else if (num == 7)
+			else if (joystickState == 7)
 			{
 				this.MoveMenuSelection(1);
 			}
 			IL_0234:
-			bool flag = false;
+			bool shouldClose = false;
 			this.device.Clear(ClearFlags.Target, Color.White, 1f, 0);
 			this.layerTextures.Clear();
 			this.layerSourceRects.Clear();
@@ -1928,8 +1928,8 @@ namespace Yukihota
 			}
 			if (this.menuFadeCounter > 0)
 			{
-				int num3 = (int)((double)(this.menuFadeIn ? this.menuFadeCounter : (10 - this.menuFadeCounter)) / 10.0 * 255.0);
-				this.DrawLayer(this.whiteTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb(num3, Color.White));
+				int menuAlpha = (int)((double)(this.menuFadeIn ? this.menuFadeCounter : (10 - this.menuFadeCounter)) / 10.0 * 255.0);
+				this.DrawLayer(this.whiteTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb(menuAlpha, Color.White));
 				this.menuFadeCounter--;
 				if (!this.menuFadeIn && this.menuFadeCounter == 0)
 				{
@@ -1937,7 +1937,7 @@ namespace Yukihota
 					switch (this.menuSelection)
 					{
 					case 1:
-						flag = true;
+						shouldClose = true;
 						break;
 					case 2:
 						this.OpenEpisodeSelect();
@@ -1980,7 +1980,7 @@ namespace Yukihota
 			}
 			goto IL_021D;
 			IL_023F:
-			if (flag)
+			if (shouldClose)
 			{
 				this.StartScenario(1);
 			}
@@ -2027,29 +2027,29 @@ namespace Yukihota
 			this.optionsBackTextures[1] = TextureLoader.FromStream(this.device, this.systemArchive.ReadEntry("OPT_BGTC"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 			this.optionsBackTextures[2] = TextureLoader.FromStream(this.device, this.systemArchive.ReadEntry("OPT_BGJP"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 			Texture[] OnActivated = this.optionsLabelTextures;
-			int num = 0;
+			int slot0 = 0;
 			Microsoft.DirectX.Direct3D.Device device = this.device;
 			Stream stream = this.systemArchive.ReadEntry("OPTIONSC");
 			Size size = this.optionsLabelSize;
 			int width = size.Width;
 			size = this.optionsLabelSize;
-			OnActivated[num] = TextureLoader.FromStream(device, stream, width, size.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			OnActivated[slot0] = TextureLoader.FromStream(device, stream, width, size.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 			Texture[] labelTextureAlias1 = this.optionsLabelTextures;
-			int num2 = 1;
+			int slot1 = 1;
 			Microsoft.DirectX.Direct3D.Device device2 = this.device;
 			Stream stream2 = this.systemArchive.ReadEntry("OPTIONTC");
 			size = this.optionsLabelSize;
 			int width2 = size.Width;
 			size = this.optionsLabelSize;
-			labelTextureAlias1[num2] = TextureLoader.FromStream(device2, stream2, width2, size.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			labelTextureAlias1[slot1] = TextureLoader.FromStream(device2, stream2, width2, size.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 			Texture[] labelTextureAlias2 = this.optionsLabelTextures;
-			int num3 = 2;
+			int slot2 = 2;
 			Microsoft.DirectX.Direct3D.Device device3 = this.device;
 			Stream stream3 = this.systemArchive.ReadEntry("OPTIONJP");
 			size = this.optionsLabelSize;
 			int width3 = size.Width;
 			size = this.optionsLabelSize;
-			labelTextureAlias2[num3] = TextureLoader.FromStream(device3, stream3, width3, size.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			labelTextureAlias2[slot2] = TextureLoader.FromStream(device3, stream3, width3, size.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 		}
 
 		// Token: 0x06001EF0 RID: 7920 RVA: 0x0001131C File Offset: 0x0001031C
@@ -2296,21 +2296,21 @@ namespace Yukihota
 		// Token: 0x06001EF5 RID: 7925 RVA: 0x0001182C File Offset: 0x0001082C
 		private void OnOptionsTimerTick(object sender, EventArgs e)
 		{
-			int num = this.PollJoystick();
-			if (num == 0)
+			int joystickState = this.PollJoystick();
+			if (joystickState == 0)
 			{
 				if (this.optionSelection > 0)
 				{
 					this.ApplyOptionValue(this.optionSelection - 1);
 				}
 			}
-			else if (num == 1)
+			else if (joystickState == 1)
 			{
 				this.CloseOptions();
 			}
-			if (num >= 4 && num <= 7)
+			if (joystickState >= 4 && joystickState <= 7)
 			{
-				this.MoveOptionSelection(num - 4);
+				this.MoveOptionSelection(joystickState - 4);
 			}
 			this.device.Clear(ClearFlags.Target, Color.White, 1f, 0);
 			this.layerTextures.Clear();
@@ -2415,11 +2415,11 @@ namespace Yukihota
 					this.optionCursorFrame = 0;
 				}
 			}
-			bool flag = false;
+			bool shouldClose = false;
 			if (this.optionsFadeCounter > 0)
 			{
-				int num2 = (int)((double)(this.optionsFadeIn ? this.optionsFadeCounter : (10 - this.optionsFadeCounter)) / 10.0 * 255.0);
-				this.DrawLayer(this.whiteTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb(num2, Color.White));
+				int menuAlpha = (int)((double)(this.optionsFadeIn ? this.optionsFadeCounter : (10 - this.optionsFadeCounter)) / 10.0 * 255.0);
+				this.DrawLayer(this.whiteTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb(menuAlpha, Color.White));
 				this.optionsFadeCounter--;
 				if (!this.optionsFadeIn && this.optionsFadeCounter == 0)
 				{
@@ -2446,7 +2446,7 @@ namespace Yukihota
 						this.director.SetSynchroEnabled(this.voiceSynchro);
 						this.director.SetPaused(false, false);
 						this.scenarioTimer.Start();
-						flag = true;
+						shouldClose = true;
 					}
 					this.optionSelection = 0;
 				}
@@ -2471,7 +2471,7 @@ namespace Yukihota
 				{
 				}
 			}
-			if (flag)
+			if (shouldClose)
 			{
 				this.FreeOptionsResources();
 			}
@@ -2595,28 +2595,28 @@ namespace Yukihota
 		// Token: 0x06001EFD RID: 7933 RVA: 0x00012208 File Offset: 0x00011208
 		private void OnEpisodeTimerTick(object sender, EventArgs e)
 		{
-			int num = this.PollJoystick();
-			if (num == 0)
+			int joystickState = this.PollJoystick();
+			if (joystickState == 0)
 			{
 				if (this.episodeSelection > 0 && this.unlockedEpisodeCount >= this.episodeSelection)
 				{
 					this.CloseEpisodeSelect();
 				}
 			}
-			else if (num == 1)
+			else if (joystickState == 1)
 			{
 				this.episodeSelection = 0;
 				this.CloseEpisodeSelect();
 			}
-			else if (num == 6)
+			else if (joystickState == 6)
 			{
 				this.MoveEpisodeSelection(0);
 			}
-			else if (num == 7)
+			else if (joystickState == 7)
 			{
 				this.MoveEpisodeSelection(1);
 			}
-			int num2 = 0;
+			int episodeSelection = 0;
 			this.device.Clear(ClearFlags.Target, Color.White, 1f, 0);
 			this.layerTextures.Clear();
 			this.layerSourceRects.Clear();
@@ -2642,8 +2642,8 @@ namespace Yukihota
 				}
 				if (this.episodeFadeCounter > 0)
 				{
-					int num3 = (int)((double)(this.episodeFadeIn ? this.episodeFadeCounter : (10 - this.episodeFadeCounter)) / 10.0 * 255.0);
-					this.DrawLayer(this.whiteTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb(num3, Color.White));
+					int episodeAlpha = (int)((double)(this.episodeFadeIn ? this.episodeFadeCounter : (10 - this.episodeFadeCounter)) / 10.0 * 255.0);
+					this.DrawLayer(this.whiteTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb(episodeAlpha, Color.White));
 					this.episodeFadeCounter--;
 					if (!this.episodeFadeIn && this.episodeFadeCounter == 0)
 					{
@@ -2654,7 +2654,7 @@ namespace Yukihota
 						}
 						else
 						{
-							num2 = this.episodeSelection;
+							episodeSelection = this.episodeSelection;
 						}
 						this.episodeSelection = 0;
 					}
@@ -2682,9 +2682,9 @@ namespace Yukihota
 					break;
 				}
 			}
-			if (num2 > 0)
+			if (episodeSelection > 0)
 			{
-				this.StartScenario(num2);
+				this.StartScenario(episodeSelection);
 			}
 		}
 
@@ -2845,8 +2845,8 @@ namespace Yukihota
 		// Token: 0x06001F07 RID: 7943 RVA: 0x00012998 File Offset: 0x00011998
 		private void OnAlbumTimerTick(object sender, EventArgs e)
 		{
-			int num = this.PollJoystick();
-			if (num == 0)
+			int joystickState = this.PollJoystick();
+			if (joystickState == 0)
 			{
 				if (this.albumGroup == 0)
 				{
@@ -2860,7 +2860,7 @@ namespace Yukihota
 					this.ShowAlbumImage(this.albumGroup, this.albumImageIndex + 1);
 				}
 			}
-			else if (num == 1)
+			else if (joystickState == 1)
 			{
 				if (this.albumGroup == 0)
 				{
@@ -2871,14 +2871,14 @@ namespace Yukihota
 					this.BackToAlbumGrid();
 				}
 			}
-			else if (num == 4)
+			else if (joystickState == 4)
 			{
 				if (this.albumGroup == 0)
 				{
 					this.MoveAlbumSelection(0);
 				}
 			}
-			else if (num == 5 && this.albumGroup == 0)
+			else if (joystickState == 5 && this.albumGroup == 0)
 			{
 				this.MoveAlbumSelection(1);
 			}
@@ -2891,7 +2891,7 @@ namespace Yukihota
 			this.overlayText = null;
 			this.device.BeginScene();
 			this.sprite.Begin(SpriteFlags.AlphaBlend);
-			int num2;
+			int charIndex;
 			if (this.albumGroup == 0 || (this.albumImageIndex == 0 && this.albumImageTransition > 0))
 			{
 				this.DrawLayer(this.albumBackTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
@@ -2905,7 +2905,7 @@ namespace Yukihota
 				}
 				if (this.albumSelection > 0 && this.unlockedAlbumCount >= this.albumSelection)
 				{
-					num2 = 0;
+					charIndex = 0;
 					goto IL_01D6;
 				}
 			}
@@ -2920,8 +2920,8 @@ namespace Yukihota
 			IL_001F:
 			if (this.albumFadeCounter > 0)
 			{
-				int num3 = (int)((double)(this.albumFadeIn ? this.albumFadeCounter : (10 - this.albumFadeCounter)) / 10.0 * 255.0);
-				this.DrawLayer(this.whiteTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb(num3, Color.White));
+				int albumAlpha = (int)((double)(this.albumFadeIn ? this.albumFadeCounter : (10 - this.albumFadeCounter)) / 10.0 * 255.0);
+				this.DrawLayer(this.whiteTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb(albumAlpha, Color.White));
 				this.albumFadeCounter--;
 				if (!this.albumFadeIn && this.albumFadeCounter == 0)
 				{
@@ -2973,11 +2973,11 @@ namespace Yukihota
 			}
 			return;
 			IL_01D4:
-			int num4;
-			int num5;
-			num2 = num4 + num5;
+			int lastChar;
+			int charAdvance;
+			charIndex = lastChar + charAdvance;
 			IL_01D6:
-			if (num2 >= this.albumTitles[this.albumSelection - 1].Length)
+			if (charIndex >= this.albumTitles[this.albumSelection - 1].Length)
 			{
 				this.layerTextures.Add(null);
 				this.layerSourceRects.Add(null);
@@ -2987,10 +2987,10 @@ namespace Yukihota
 				this.overlayText = this.albumTitles[this.albumSelection - 1];
 				goto IL_001F;
 			}
-			this.d3dFont.DrawText(this.sprite, this.albumTitles[this.albumSelection - 1][num2].ToString(), this.textOrigin.X + this.charCellSize.Width * num2 + 2, this.textOrigin.Y + 2, Color.Black);
-			this.d3dFont.DrawText(this.sprite, this.albumTitles[this.albumSelection - 1][num2].ToString(), this.textOrigin.X + this.charCellSize.Width * num2, this.textOrigin.Y, Color.White);
-			num4 = num2;
-			num5 = 1;
+			this.d3dFont.DrawText(this.sprite, this.albumTitles[this.albumSelection - 1][charIndex].ToString(), this.textOrigin.X + this.charCellSize.Width * charIndex + 2, this.textOrigin.Y + 2, Color.Black);
+			this.d3dFont.DrawText(this.sprite, this.albumTitles[this.albumSelection - 1][charIndex].ToString(), this.textOrigin.X + this.charCellSize.Width * charIndex, this.textOrigin.Y, Color.White);
+			lastChar = charIndex;
+			charAdvance = 1;
 			goto IL_01D4;
 		}
 
@@ -3045,7 +3045,7 @@ namespace Yukihota
 						this.albumSelection = i + 1;
 						return;
 					}
-					int num = i++;
+					int index = i++;
 				}
 			}
 		}
