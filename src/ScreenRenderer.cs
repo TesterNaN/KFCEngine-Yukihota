@@ -1391,26 +1391,26 @@ namespace Yukihota
 						}
 						if (this.petalVelocitiesX[j] != this.petalTargetVelocitiesX[j] || this.petalVelocitiesY[j] != this.petalTargetVelocitiesY[j])
 						{
-							float num3 = this.petalTargetVelocitiesY[j] - this.petalVelocitiesY[j];
-							float num4 = this.petalTargetVelocitiesX[j] - this.petalVelocitiesX[j];
-							float num5;
-							if (num3 != 0f)
+							float deltaY = this.petalTargetVelocitiesY[j] - this.petalVelocitiesY[j];
+							float deltaX = this.petalTargetVelocitiesX[j] - this.petalVelocitiesX[j];
+							float targetSpeedX;
+							if (deltaY != 0f)
 							{
-								num5 = Math.Abs(num4 / num3);
+								targetSpeedX = Math.Abs(deltaY / deltaX);
 							}
 							else
 							{
-								num5 = float.NaN;
+								targetSpeedX = float.NaN;
 							}
-							if (Math.Abs(num4) > Math.Abs(num3))
+							if (Math.Abs(deltaY) > Math.Abs(deltaX))
 							{
-								if (Math.Abs(num4) > 0.1f)
+								if (Math.Abs(deltaY) > 0.1f)
 								{
-									float[] array2;
-									(array2 = this.petalVelocitiesX)[(int)(intPtr = (IntPtr)j)] = array2[(int)intPtr] + ((num4 > 0f) ? 0.1f : (-0.1f));
-									if (!float.IsNaN(num5))
+									float[] velocities;
+									(velocities = this.petalVelocitiesX)[(int)(intPtr = (IntPtr)j)] = velocities[(int)intPtr] + ((deltaY > 0f) ? 0.1f : (-0.1f));
+									if (!float.IsNaN(targetSpeedX))
 									{
-										(array2 = this.petalVelocitiesY)[(int)(intPtr = (IntPtr)j)] = array2[(int)intPtr] + ((num3 > 0f) ? 0.1f : (-0.1f)) / num5;
+										(velocities = this.petalVelocitiesY)[(int)(intPtr = (IntPtr)j)] = velocities[(int)intPtr] + ((deltaX > 0f) ? 0.1f : (-0.1f)) / targetSpeedX;
 									}
 								}
 								else
@@ -1419,11 +1419,11 @@ namespace Yukihota
 									this.petalVelocitiesY[j] = this.petalTargetVelocitiesY[j];
 								}
 							}
-							else if (Math.Abs(num3) > 0.1f)
+							else if (Math.Abs(deltaX) > 0.1f)
 							{
-								float[] array2;
-								(array2 = this.petalVelocitiesY)[(int)(intPtr = (IntPtr)j)] = array2[(int)intPtr] + ((num3 > 0f) ? 0.1f : (-0.1f));
-								(array2 = this.petalVelocitiesX)[(int)(intPtr = (IntPtr)j)] = array2[(int)intPtr] + ((num4 > 0f) ? 0.1f : (-0.1f)) * num5;
+								float[] velocities;
+								(velocities = this.petalVelocitiesY)[(int)(intPtr = (IntPtr)j)] = velocities[(int)intPtr] + ((deltaX > 0f) ? 0.1f : (-0.1f));
+								(velocities = this.petalVelocitiesX)[(int)(intPtr = (IntPtr)j)] = velocities[(int)intPtr] + ((deltaY > 0f) ? 0.1f : (-0.1f)) * targetSpeedX;
 							}
 							else
 							{
@@ -1522,23 +1522,23 @@ namespace Yukihota
 		{
 			if (this.snowActive && this.effectEnabled)
 			{
-				int num = -1;
+				int freeSlot = -1;
 				for (int i = 0; i < 25; i++)
 				{
 					if (this.snowLifeCounters[i] == 0)
 					{
-						num = i;
+						freeSlot = i;
 						break;
 					}
 				}
-				if (num >= 0 && (this.snowActiveCount < 15 || this.snowRandom.NextDouble() < 0.2))
+				if (freeSlot >= 0 && (this.snowActiveCount < 15 || this.snowRandom.NextDouble() < 0.2))
 				{
-					this.snowPositions[num] = new PointF((float)this.snowRandom.Next(-16, 800), -16f);
-					this.snowSpeeds[num] = (float)(this.snowRandom.NextDouble() * 4.0 + 2.0);
-					this.snowSwayAmplitudes[num] = (float)(this.snowRandom.NextDouble() * 16.0 + 8.0);
-					this.snowSwayFrequencies[num] = (float)(this.snowRandom.NextDouble() * 0.009999999776482582 + 0.009999999776482582);
-					this.snowSwayPhases[num] = (float)(this.snowRandom.NextDouble() * 6.283185307179586);
-					this.snowLifeCounters[num] = this.snowRandom.Next(1, 5);
+					this.snowPositions[freeSlot] = new PointF((float)this.snowRandom.Next(-16, 800), -16f);
+					this.snowSpeeds[freeSlot] = (float)(this.snowRandom.NextDouble() * 4.0 + 2.0);
+					this.snowSwayAmplitudes[freeSlot] = (float)(this.snowRandom.NextDouble() * 16.0 + 8.0);
+					this.snowSwayFrequencies[freeSlot] = (float)(this.snowRandom.NextDouble() * 0.009999999776482582 + 0.009999999776482582);
+					this.snowSwayPhases[freeSlot] = (float)(this.snowRandom.NextDouble() * 6.283185307179586);
+					this.snowLifeCounters[freeSlot] = this.snowRandom.Next(1, 5);
 					this.snowActiveCount++;
 				}
 				for (int j = 0; j < 25; j++)
@@ -1616,16 +1616,16 @@ namespace Yukihota
 				{
 					if (this.fadeEnabled)
 					{
-						float num;
+						float dimAlpha;
 						if (!this.dimReverse)
 						{
-							num = (float)(10 - this.dimCounter) / 10f;
+							dimAlpha = (float)(10 - this.dimCounter) / 10f;
 						}
 						else
 						{
-							num = (float)this.dimCounter / 10f;
+							dimAlpha = (float)this.dimCounter / 10f;
 						}
-						this.QueueDraw(this.whiteTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)(128f * num), Color.Black));
+						this.QueueDraw(this.whiteTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)(128f * dimAlpha), Color.Black));
 						this.dimCounter--;
 					}
 					else
@@ -1700,16 +1700,16 @@ namespace Yukihota
 				{
 					if (this.fadeEnabled)
 					{
-						float num;
+						float thinkAlpha;
 						if (!this.thinkReverse)
 						{
-							num = (float)(10 - this.thinkCounter) / 10f;
+							thinkAlpha = (float)(10 - this.thinkCounter) / 10f;
 						}
 						else
 						{
-							num = (float)this.thinkCounter / 10f;
+							thinkAlpha = (float)this.thinkCounter / 10f;
 						}
-						this.QueueDraw(this.thinkTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)(255f * num), Color.White));
+						this.QueueDraw(this.thinkTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)(255f * thinkAlpha), Color.White));
 						this.thinkCounter--;
 					}
 					else
@@ -1785,7 +1785,7 @@ namespace Yukihota
 				this.previousCharacterOffsets[i] = 0;
 				this.characterSizes[i] = Size.Empty;
 				this.previousCharacterSizes[i] = Size.Empty;
-				int num = i++;
+				int index = i++;
 			}
 		}
 
@@ -1846,7 +1846,7 @@ namespace Yukihota
 					this.characterShadowTextures[i].Dispose();
 					this.characterShadowTextures[i] = null;
 				}
-				int num = i++;
+				int index = i++;
 			}
 		}
 
@@ -1870,14 +1870,14 @@ namespace Yukihota
 						{
 							if (this.characterAppearCounters[i] > 2)
 							{
-								int num = (int)(Math.Pow((double)(8 - this.characterAppearCounters[i]) / 6.0, 2.0) * 255.0 / (double)(this.characterSemiTransparent[i] ? 2 : 1));
+								int newAlpha = (int)(Math.Pow((double)(8 - this.characterAppearCounters[i]) / 6.0, 2.0) * 255.0 / (double)(this.characterSemiTransparent[i] ? 2 : 1));
 								this.QueueDraw(this.previousCharacterTextures[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + this.previousCharacterOffsets[i] * 15 - this.previousCharacterSizes[i].Width / 2, 600 - this.previousCharacterSizes[i].Height), this.characterSemiTransparent[i] ? Color.FromArgb(128, Color.White) : Color.White);
-								this.QueueDraw(this.characterTextures[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + this.characterOffsets[i] * 15 - this.characterSizes[i].Width / 2, 600 - this.characterSizes[i].Height), Color.FromArgb(num, Color.White));
+								this.QueueDraw(this.characterTextures[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + this.characterOffsets[i] * 15 - this.characterSizes[i].Width / 2, 600 - this.characterSizes[i].Height), Color.FromArgb(newAlpha, Color.White));
 							}
 							else
 							{
-								int num2 = (int)(Math.Pow((double)this.characterAppearCounters[i] / 2.0, 2.0) * 255.0 / (double)(this.characterSemiTransparent[i] ? 2 : 1));
-								this.QueueDraw(this.previousCharacterTextures[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + this.characterOffsets[i] * 15 - this.previousCharacterSizes[i].Width / 2, 600 - this.previousCharacterSizes[i].Height), Color.FromArgb(num2, Color.White));
+								int oldAlpha = (int)(Math.Pow((double)this.characterAppearCounters[i] / 2.0, 2.0) * 255.0 / (double)(this.characterSemiTransparent[i] ? 2 : 1));
+								this.QueueDraw(this.previousCharacterTextures[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + this.characterOffsets[i] * 15 - this.previousCharacterSizes[i].Width / 2, 600 - this.previousCharacterSizes[i].Height), Color.FromArgb(oldAlpha, Color.White));
 								this.QueueDraw(this.characterTextures[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + this.characterOffsets[i] * 15 - this.characterSizes[i].Width / 2, 600 - this.characterSizes[i].Height), this.characterSemiTransparent[i] ? Color.FromArgb(128, Color.White) : Color.White);
 							}
 						}
