@@ -1200,21 +1200,21 @@ namespace Yukihota
 		{
 			if (this.sunActive && this.sunEffectEnabled)
 			{
-				int num = -1;
+				int freeSlot = -1;
 				for (int i = 0; i < 5; i++)
 				{
 					if (this.sunLifeTotals[i] == 0)
 					{
-						num = i;
+						freeSlot = i;
 						break;
 					}
 				}
-				if (num >= 0 && this.sunRandom.NextDouble() < 0.25)
+				if (freeSlot >= 0 && this.sunRandom.NextDouble() < 0.25)
 				{
-					this.sunLifeCounters[num] = 0;
-					this.sunLifeTotals[num] = (int)(20.0 + 60.0 * this.sunRandom.NextDouble());
-					this.sunScales[num] = 0.5 + 0.5 * this.sunRandom.NextDouble();
-					this.sunOffsets[num] = (int)(-75.0 + 150.0 * this.sunRandom.NextDouble());
+					this.sunLifeCounters[freeSlot] = 0;
+					this.sunLifeTotals[freeSlot] = (int)(20.0 + 60.0 * this.sunRandom.NextDouble());
+					this.sunScales[freeSlot] = 0.5 + 0.5 * this.sunRandom.NextDouble();
+					this.sunOffsets[freeSlot] = (int)(-75.0 + 150.0 * this.sunRandom.NextDouble());
 				}
 				for (int j = 0; j < 5; j++)
 				{
@@ -1223,16 +1223,16 @@ namespace Yukihota
 						if ((double)this.sunLifeCounters[j] < (double)this.sunLifeTotals[j] / 2.0)
 						{
 							this.DrawSunSprite(this.sunOffsets[j], this.sunScales[j], (double)this.sunLifeCounters[j] / ((double)this.sunLifeTotals[j] / 2.0));
-							int[] array;
+							int[] lifeCounters;
 							IntPtr intPtr;
-							(array = this.sunLifeCounters)[(int)(intPtr = (IntPtr)j)] = array[(int)intPtr] + 1;
+							(lifeCounters = this.sunLifeCounters)[(int)(intPtr = (IntPtr)j)] = lifeCounters[(int)intPtr] + 1;
 						}
 						else if (this.sunLifeCounters[j] < this.sunLifeTotals[j])
 						{
 							this.DrawSunSprite(this.sunOffsets[j], this.sunScales[j], (double)(this.sunLifeTotals[j] - this.sunLifeCounters[j]) / ((double)this.sunLifeTotals[j] / 2.0));
-							int[] array;
+							int[] lifeCounters;
 							IntPtr intPtr;
-							(array = this.sunLifeCounters)[(int)(intPtr = (IntPtr)j)] = array[(int)intPtr] + 1;
+							(lifeCounters = this.sunLifeCounters)[(int)(intPtr = (IntPtr)j)] = lifeCounters[(int)intPtr] + 1;
 						}
 						else
 						{
@@ -1250,11 +1250,11 @@ namespace Yukihota
 		// Token: 0x06001FBA RID: 8122 RVA: 0x0001DD14 File Offset: 0x0001CD14
 		private void DrawSunSprite(int origin, double scale, double fadeSpeed)
 		{
-			int num = (origin - 18) * 80 / (int)(450.0 * scale);
-			int num2 = (-origin - 18) * 80 / (int)(450.0 * scale);
+			int leftX = (origin - 18) * 80 / (int)(450.0 * scale);
+			int rightX = (-origin - 18) * 80 / (int)(450.0 * scale);
 			Rectangle rectangle = new Rectangle(0, 0, 80, 80);
 			Rectangle rectangle2 = new Rectangle(0, 0, (int)(450.0 * scale), (int)(450.0 * scale));
-			this.QueueDraw(this.sunTexture, rectangle, rectangle2, new Point(num, num2), Color.FromArgb((int)(scale * fadeSpeed * 255.0), Color.White));
+			this.QueueDraw(this.sunTexture, rectangle, rectangle2, new Point(leftX, rightX), Color.FromArgb((int)(scale * fadeSpeed * 255.0), Color.White));
 		}
 
 		// Token: 0x06001FBB RID: 8123 RVA: 0x0001DDB0 File Offset: 0x0001CDB0
@@ -1329,16 +1329,16 @@ namespace Yukihota
 		{
 			if (this.petalActive && this.effectEnabled)
 			{
-				int num = -1;
+				int freeSlot = -1;
 				for (int i = (upperHalf ? 0 : 1); i < 30; i += 2)
 				{
 					if (this.petalLifeCounters[i] == 0)
 					{
-						num = i;
+						freeSlot = i;
 						break;
 					}
 				}
-				if (num >= 0)
+				if (freeSlot >= 0)
 				{
 					if (this.petalActiveCount >= 20)
 					{
@@ -1347,26 +1347,26 @@ namespace Yukihota
 							goto IL_03B4;
 						}
 					}
-					this.petalFrames[num] = this.petalRandom.Next(4);
-					int num2 = this.petalRandom.Next(-3297, 624);
-					this.petalVelocitiesY[num] = (float)(this.petalRandom.NextDouble() * 16.0);
-					this.petalVelocitiesX[num] = (float)(this.petalRandom.NextDouble() * 8.0 * 2.0 - 8.0);
-					this.petalTargetVelocitiesY[num] = this.petalVelocitiesY[num];
-					this.petalTargetVelocitiesX[num] = this.petalVelocitiesX[num];
-					if (num2 < 0)
+					this.petalFrames[freeSlot] = this.petalRandom.Next(4);
+					int spawnY = this.petalRandom.Next(-3297, 624);
+					this.petalVelocitiesY[freeSlot] = (float)(this.petalRandom.NextDouble() * 16.0);
+					this.petalVelocitiesX[freeSlot] = (float)(this.petalRandom.NextDouble() * 8.0 * 2.0 - 8.0);
+					this.petalTargetVelocitiesY[freeSlot] = this.petalVelocitiesY[freeSlot];
+					this.petalTargetVelocitiesX[freeSlot] = this.petalVelocitiesX[freeSlot];
+					if (spawnY < 0)
 					{
-						this.petalPositions[num] = new PointF((float)((-(float)num2 - 1) % 824 - 24), -24f);
+						this.petalPositions[freeSlot] = new PointF((float)((-(float)spawnY - 1) % 824 - 24), -24f);
 					}
-					else if (this.petalVelocitiesX[num] > 0f)
+					else if (this.petalVelocitiesX[freeSlot] > 0f)
 					{
-						this.petalPositions[num] = new PointF(-24f, (float)(num2 - 24));
+						this.petalPositions[freeSlot] = new PointF(-24f, (float)(spawnY - 24));
 					}
 					else
 					{
-						this.petalPositions[num] = new PointF(800f, (float)(num2 - 24));
+						this.petalPositions[freeSlot] = new PointF(800f, (float)(spawnY - 24));
 					}
-					this.petalTurnTimers[num] = this.petalRandom.Next(40, 200);
-					this.petalLifeCounters[num] = this.petalRandom.Next(1, 9);
+					this.petalTurnTimers[freeSlot] = this.petalRandom.Next(40, 200);
+					this.petalLifeCounters[freeSlot] = this.petalRandom.Next(1, 9);
 					this.petalActiveCount++;
 				}
 				IL_03B4:
@@ -1375,14 +1375,14 @@ namespace Yukihota
 					if (this.petalLifeCounters[j] > 0)
 					{
 						this.DrawPetal(this.petalFrames[j], this.petalLifeCounters[j], this.petalPositions[j]);
-						int[] array;
+						int[] petalFrames;
 						IntPtr intPtr;
-						(array = this.petalFrames)[(int)(intPtr = (IntPtr)j)] = array[(int)intPtr] + 1;
+						(petalFrames = this.petalFrames)[(int)(intPtr = (IntPtr)j)] = petalFrames[(int)intPtr] + 1;
 						if (this.petalFrames[j] == 4)
 						{
 							this.petalFrames[j] = 0;
 						}
-						(array = this.petalTurnTimers)[(int)(intPtr = (IntPtr)j)] = array[(int)intPtr] - 1;
+						(petalFrames = this.petalTurnTimers)[(int)(intPtr = (IntPtr)j)] = petalFrames[(int)intPtr] - 1;
 						if (this.petalTurnTimers[j] == 0)
 						{
 							this.petalTargetVelocitiesY[j] = (float)(this.petalRandom.NextDouble() * 16.0);
