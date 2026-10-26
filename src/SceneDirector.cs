@@ -86,7 +86,7 @@ namespace Yukihota
 				}
 				else if (!this.renderer.IsBusy() && !this.audio.IsSeBlocking() && !this.audio.IsVoiceBlocking())
 				{
-					bool flag = false;
+					bool shouldContinue = false;
 					for (;;)
 					{
 						switch (this.currentResult)
@@ -97,7 +97,7 @@ namespace Yukihota
 								this.waitFramesLeft = (((bool)this.resultOption) ? this.waitFrames[0] : this.waitFrames[2]);
 							}
 							this.waitingForClick = true;
-							flag = true;
+							shouldContinue = true;
 							break;
 						case ScenarioResult.Scene:
 							if (this.resultData.GetType().Equals(Color.Transparent.GetType()))
@@ -236,7 +236,7 @@ namespace Yukihota
 							this.finishingAnimation = false;
 						}
 						this.currentResult = this.scenario.Advance(out this.resultData, out this.resultOption, this.skipMode);
-						if (!flag)
+						if (!shouldContinue)
 						{
 							if (this.currentResult == ScenarioResult.Click || this.currentResult == ScenarioResult.Scene || this.currentResult == ScenarioResult.Message || this.currentResult == ScenarioResult.Caption || this.currentResult == ScenarioResult.Jump || this.currentResult == ScenarioResult.Notice || this.currentResult == ScenarioResult.StaffRoll)
 							{
@@ -248,19 +248,19 @@ namespace Yukihota
 							}
 							if (this.currentResult == ScenarioResult.Character)
 							{
-								flag = !((SpriteState)this.resultOption).sync;
+								shouldContinue = !((SpriteState)this.resultOption).sync;
 							}
 							else if (this.currentResult == ScenarioResult.Sound)
 							{
-								flag = ((InputState)this.resultOption).wait;
+								shouldContinue = ((InputState)this.resultOption).wait;
 							}
 							else if (this.currentResult == ScenarioResult.Dismiss)
 							{
-								flag = (bool)this.resultOption;
+								shouldContinue = (bool)this.resultOption;
 							}
 							else if (this.currentResult == ScenarioResult.Draw)
 							{
-								flag = !((DrawItem)this.resultOption).sync;
+								shouldContinue = !((DrawItem)this.resultOption).sync;
 							}
 							IL_005E:
 							if (!this.finishingAnimation && !this.skipMode)
@@ -280,11 +280,11 @@ namespace Yukihota
 							}
 							goto IL_0078;
 							IL_0122:
-							flag = true;
+							shouldContinue = true;
 							goto IL_005E;
 						}
 						IL_0078:
-						if (flag)
+						if (shouldContinue)
 						{
 							goto IL_007E;
 						}

@@ -169,15 +169,15 @@ namespace Yukihota.Audio
 				string text = "status " + this.alias + " length";
 				StringBuilder stringBuilder = new StringBuilder(128);
 				MediaPackage.mciSendString(text, stringBuilder, stringBuilder.Capacity, IntPtr.Zero);
-				int num = -1;
+				int parsed = -1;
 				try
 				{
-					num = int.Parse(stringBuilder.ToString());
+					parsed = int.Parse(stringBuilder.ToString());
 				}
 				catch
 				{
 				}
-				return num;
+				return parsed;
 			}
 			return 0;
 		}
@@ -194,15 +194,15 @@ namespace Yukihota.Audio
 				string text = "status " + this.alias + " position";
 				StringBuilder stringBuilder = new StringBuilder(128);
 				MediaPackage.mciSendString(text, stringBuilder, stringBuilder.Capacity, IntPtr.Zero);
-				int num = -1;
+				int parsed = -1;
 				try
 				{
-					num = int.Parse(stringBuilder.ToString());
+					parsed = int.Parse(stringBuilder.ToString());
 				}
 				catch
 				{
 				}
-				return num;
+				return parsed;
 			}
 			return this.GetLength();
 		}
