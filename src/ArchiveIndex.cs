@@ -19,33 +19,33 @@ namespace Yukihota
 		// Token: 0x06001F6D RID: 8045 RVA: 0x0001A8C0 File Offset: 0x000198C0
 		public void Load(Stream stream)
 		{
-			byte[] array = new byte[8];
+			byte[] buffer = new byte[8];
 			BinaryReader binaryReader = new BinaryReader(stream);
 			binaryReader.BaseStream.Position = 0L;
-			int num = binaryReader.ReadInt32();
+			int entryCount = binaryReader.ReadInt32();
 			this.extension = "";
-			array = binaryReader.ReadBytes(4);
+			buffer = binaryReader.ReadBytes(4);
 			for (int i = 0; i < 3; i++)
 			{
-				this.extension += (char)array[i];
+				this.extension += (char)buffer[i];
 			}
 			int j = 0;
-			while (j < num)
+			while (j < entryCount)
 			{
 				string text = "";
-				array = binaryReader.ReadBytes(8);
-				int num2 = 0;
-				while (num2 < 8 && array[num2] != 0)
+				buffer = binaryReader.ReadBytes(8);
+				int byteIndex = 0;
+				while (byteIndex < 8 && buffer[byteIndex] != 0)
 				{
-					text += (char)array[num2];
-					num2++;
+					text += (char)buffer[byteIndex];
+					byteIndex++;
 				}
-				int num3 = binaryReader.ReadInt32();
-				int num4 = binaryReader.ReadInt32();
+				int length = binaryReader.ReadInt32();
+				int offset = binaryReader.ReadInt32();
 				this.names.Add(text);
-				this.lengths.Add(num3);
-				this.offsets.Add(num4);
-				int num5 = j++;
+				this.lengths.Add(length);
+				this.offsets.Add(offset);
+				int entryIndex = j++;
 			}
 		}
 
@@ -53,36 +53,36 @@ namespace Yukihota
 		public void Save(Stream stream)
 		{
 			int entryCount = this.GetCount();
-			byte[] array = new byte[8];
+			byte[] buffer = new byte[8];
 			BinaryWriter binaryWriter = new BinaryWriter(stream);
 			binaryWriter.BaseStream.Position = 0L;
 			binaryWriter.Write(entryCount);
 			for (int i = 0; i < 3; i++)
 			{
-				array[i] = (byte)this.extension[i];
+				buffer[i] = (byte)this.extension[i];
 			}
-			binaryWriter.Write(array, 0, 4);
+			binaryWriter.Write(buffer, 0, 4);
 			for (int j = 0; j < entryCount; j++)
 			{
 				string text = (string)this.names[j];
-				int num = (int)this.lengths[j];
-				int num2 = (int)this.offsets[j];
+				int length = (int)this.lengths[j];
+				int offset = (int)this.offsets[j];
 				int k = 0;
 				while (k < 8)
 				{
 					if (k < text.Length)
 					{
-						array[k] = (byte)text[k];
+						buffer[k] = (byte)text[k];
 					}
 					else
 					{
-						array[k] = 0;
+						buffer[k] = 0;
 					}
-					int num3 = k++;
+					int entryIndex = k++;
 				}
-				binaryWriter.Write(array);
-				binaryWriter.Write(num);
-				binaryWriter.Write(num2);
+				binaryWriter.Write(buffer);
+				binaryWriter.Write(length);
+				binaryWriter.Write(offset);
 			}
 			binaryWriter.Flush();
 		}
@@ -106,14 +106,14 @@ namespace Yukihota
 			{
 				throw new ScriptException();
 			}
-			int num = this.names.IndexOf(name);
-			if (num == -1)
+			int index = this.names.IndexOf(name);
+			if (index == -1)
 			{
 				throw new FileNotFoundException(name + " is not in the Package");
 			}
-			this.names.RemoveAt(num);
-			this.lengths.RemoveAt(num);
-			this.offsets.RemoveAt(num);
+			this.names.RemoveAt(index);
+			this.lengths.RemoveAt(index);
+			this.offsets.RemoveAt(index);
 		}
 
 		// Token: 0x06001F71 RID: 8049 RVA: 0x0001AB9C File Offset: 0x00019B9C
@@ -157,14 +157,14 @@ namespace Yukihota
 		// Token: 0x06001F73 RID: 8051 RVA: 0x0001ACF0 File Offset: 0x00019CF0
 		public void FindEntry(string name, out int offset, out int length)
 		{
-			int num = this.names.IndexOf(name);
-			if (num == -1)
+			int index = this.names.IndexOf(name);
+			if (index == -1)
 			{
 				offset = (length = -1);
 				return;
 			}
-			offset = (int)this.offsets[num];
-			length = (int)this.lengths[num];
+			offset = (int)this.offsets[index];
+			length = (int)this.lengths[index];
 		}
 
 		// Token: 0x06001F74 RID: 8052 RVA: 0x0001AD40 File Offset: 0x00019D40
