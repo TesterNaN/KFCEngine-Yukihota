@@ -1893,9 +1893,9 @@ namespace Yukihota
 							}
 							this.QueueDraw(this.characterTextures[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + this.characterOffsets[i] * 15 - this.characterSizes[i].Width / 2, 600 - this.characterSizes[i].Height), Color.FromArgb((int)((float)(8 - this.characterAppearCounters[i]) / 8f * 255f / (float)(this.characterSemiTransparent[i] ? 2 : 1)), Color.White));
 						}
-						int[] array;
+						int[] counterArray;
 						IntPtr intPtr;
-						(array = this.characterAppearCounters)[(int)(intPtr = (IntPtr)i)] = array[(int)intPtr] - 1;
+						(counterArray = this.characterAppearCounters)[(int)(intPtr = (IntPtr)i)] = counterArray[(int)intPtr] - 1;
 					}
 					else
 					{
@@ -1918,9 +1918,9 @@ namespace Yukihota
 						{
 							this.QueueDraw(this.characterTextures[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + this.characterOffsets[i] * 15 - this.characterSizes[i].Width / 2 + this.characterShakeTableX[this.characterShakePatterns[i]][this.characterShakePatternLengths[this.characterShakePatterns[i]] - this.characterShakeCounters[i]], 600 - this.characterSizes[i].Height + this.characterShakeTableY[this.characterShakePatterns[i]][this.characterShakePatternLengths[this.characterShakePatterns[i]] - this.characterShakeCounters[i]]), Color.White);
 						}
-						int[] array;
+						int[] counterArray;
 						IntPtr intPtr;
-						(array = this.characterShakeCounters)[(int)(intPtr = (IntPtr)i)] = array[(int)intPtr] - 1;
+						(counterArray = this.characterShakeCounters)[(int)(intPtr = (IntPtr)i)] = counterArray[(int)intPtr] - 1;
 					}
 					else if (this.fadeEnabled && this.characterSemiTransparent[i])
 					{
@@ -1930,17 +1930,17 @@ namespace Yukihota
 					{
 						if (this.thinkCounter > 0)
 						{
-							float num3;
+							float shadowAlpha;
 							if (!this.thinkReverse)
 							{
-								num3 = (float)(10 - this.thinkCounter) / 10f;
+								shadowAlpha = (float)(10 - this.thinkCounter) / 10f;
 							}
 							else
 							{
-								num3 = (float)this.thinkCounter / 10f;
+								shadowAlpha = (float)this.thinkCounter / 10f;
 							}
 							this.QueueDraw(this.characterTextures[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + this.characterOffsets[i] * 15 - this.characterSizes[i].Width / 2, 600 - this.characterSizes[i].Height), Color.White);
-							this.QueueDraw(this.characterShadowTextures[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + this.characterOffsets[i] * 15 - this.characterSizes[i].Width / 2, 600 - this.characterSizes[i].Height), Color.FromArgb((int)(255f * num3), Color.White));
+							this.QueueDraw(this.characterShadowTextures[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + this.characterOffsets[i] * 15 - this.characterSizes[i].Width / 2, 600 - this.characterSizes[i].Height), Color.FromArgb((int)(255f * shadowAlpha), Color.White));
 						}
 						else
 						{
@@ -1967,12 +1967,12 @@ namespace Yukihota
 				if (this.characterTextures[i] != null)
 				{
 					this.characterShadowTextures[i] = TextureLoader.FromStream(this.device, this.systemArchive.ReadEntry("WHITE"), this.characterSizes[i].Width, this.characterSizes[i].Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
-					uint[,] array = (uint[,])this.characterTextures[i].LockRectangle(typeof(uint), 0, LockFlags.None, new int[]
+					uint[,] source = (uint[,])this.characterTextures[i].LockRectangle(typeof(uint), 0, LockFlags.None, new int[]
 					{
 						this.characterSizes[i].Width,
 						this.characterSizes[i].Height
 					});
-					uint[,] array2 = (uint[,])this.characterShadowTextures[i].LockRectangle(typeof(uint), 0, LockFlags.None, new int[]
+					uint[,] shadow = (uint[,])this.characterShadowTextures[i].LockRectangle(typeof(uint), 0, LockFlags.None, new int[]
 					{
 						this.characterSizes[i].Width,
 						this.characterSizes[i].Height
@@ -1981,10 +1981,10 @@ namespace Yukihota
 					{
 						for (int k = 0; k < this.characterSizes[i].Height; k++)
 						{
-							uint num = array[j, k];
-							uint num2 = ((num & 255U) + ((num >> 8) & 255U) + ((num >> 16) & 255U)) / 3U;
-							uint num3 = (num >> 24) & 255U;
-							array2[j, k] = (num3 << 24) + (num2 << 16) + (num2 << 8) + num2;
+							uint pixel = source[j, k];
+							uint gray = ((pixel & 255U) + ((pixel >> 8) & 255U) + ((pixel >> 16) & 255U)) / 3U;
+							uint alpha = (pixel >> 24) & 255U;
+							shadow[j, k] = (alpha << 24) + (gray << 16) + (gray << 8) + gray;
 						}
 					}
 					this.characterTextures[i].UnlockRectangle(0);
@@ -2039,27 +2039,27 @@ namespace Yukihota
 				this.noticeLines = null;
 				return;
 			}
-			int num;
+			int noticeAlpha;
 			if (this.fadeEnabled)
 			{
 				if (this.noticeCounter <= 10)
 				{
-					num = (int)((float)this.noticeCounter / 10f * 255f);
+					noticeAlpha = (int)((float)this.noticeCounter / 10f * 255f);
 				}
 				else if (this.noticeCounter <= 60)
 				{
-					num = 255;
+					noticeAlpha = 255;
 				}
 				else
 				{
-					num = (int)((float)(70 - this.noticeCounter) / 10f * 255f);
+					noticeAlpha = (int)((float)(70 - this.noticeCounter) / 10f * 255f);
 				}
 			}
 			else
 			{
-				num = 255;
+				noticeAlpha = 255;
 			}
-			this.DrawTextCore(this.noticeLines[(int)this.layoutIndex], 0, this.noticeLines[(int)this.layoutIndex].Length, this.noticePosition, this.noticeCharSize.Width, this.noticeCharSize.Height, 2, HorizontalAlign.Right, 15, this.noticeFont, Color.FromArgb(num, Color.White), Color.FromArgb(num, Color.Black));
+			this.DrawTextCore(this.noticeLines[(int)this.layoutIndex], 0, this.noticeLines[(int)this.layoutIndex].Length, this.noticePosition, this.noticeCharSize.Width, this.noticeCharSize.Height, 2, HorizontalAlign.Right, 15, this.noticeFont, Color.FromArgb(noticeAlpha, Color.White), Color.FromArgb(noticeAlpha, Color.Black));
 			this.fontIndexQueue.Add(1);
 			this.noticeCounter--;
 		}
@@ -2083,7 +2083,7 @@ namespace Yukihota
 			while (i < 3)
 			{
 				this.messageStartIndexes[i] = 0;
-				int num = i++;
+				int index = i++;
 			}
 			this.RebuildMessageFont();
 		}
@@ -2107,16 +2107,16 @@ namespace Yukihota
 			this.messageFont = new Microsoft.DirectX.Direct3D.Font(this.device, new System.Drawing.Font(this.baseFont.FontFamily, 24f));
 			if (this.messageLines != null && this.messageStartIndexes[(int)this.layoutIndex] + this.messageVisibleChars > 0 && this.messageVisibleChars > 0)
 			{
-				bool flag = false;
+				bool hasContent = false;
 				for (int i = 0; i < 3; i++)
 				{
 					if (this.messageStartIndexes[i] + this.messageVisibleChars >= this.messageLines[i].Length)
 					{
-						flag = true;
+						hasContent = true;
 						break;
 					}
 				}
-				if (flag)
+				if (hasContent)
 				{
 					this.messageVisibleChars = this.messageLines[(int)this.layoutIndex].Length - this.messageStartIndexes[(int)this.layoutIndex];
 					if (this.messageAlignMode == TextRevealMode.Typewriter)
@@ -2151,9 +2151,9 @@ namespace Yukihota
 			for (int j = 0; j < 3; j++)
 			{
 				this.messageStartIndexes[j] = this.messageLines[j].Length;
-				string[] array;
+				string[] linesBuffer;
 				IntPtr intPtr;
-				(array = this.messageLines)[(int)(intPtr = (IntPtr)j)] = array[(int)intPtr] + content[j];
+				(linesBuffer = this.messageLines)[(int)(intPtr = (IntPtr)j)] = linesBuffer[(int)intPtr] + content[j];
 			}
 			this.messageVisibleChars = 0;
 			switch (this.messageAlignMode)
@@ -2199,8 +2199,8 @@ namespace Yukihota
 			{
 				if (this.fadeEnabled)
 				{
-					int num = (int)((float)this.messageFadeCounter / 10f * 255f);
-					this.DrawTextCore(this.messageLines[(int)this.layoutIndex], 0, this.messageLines[(int)this.layoutIndex].Length, this.messagePosition, this.messageCharSize.Width, this.messageCharSize.Height, 2, this.messageFontSizeMode, 25, this.messageFont, Color.FromArgb(num, this.messageTextColor), (this.messageShadowColor == Color.Transparent) ? Color.Transparent : Color.FromArgb(num, this.messageShadowColor));
+					int messageAlpha = (int)((float)this.messageFadeCounter / 10f * 255f);
+					this.DrawTextCore(this.messageLines[(int)this.layoutIndex], 0, this.messageLines[(int)this.layoutIndex].Length, this.messagePosition, this.messageCharSize.Width, this.messageCharSize.Height, 2, this.messageFontSizeMode, 25, this.messageFont, Color.FromArgb(messageAlpha, this.messageTextColor), (this.messageShadowColor == Color.Transparent) ? Color.Transparent : Color.FromArgb(messageAlpha, this.messageShadowColor));
 					this.fontIndexQueue.Add(2);
 					this.messageFadeCounter--;
 				}
@@ -2217,7 +2217,7 @@ namespace Yukihota
 					while (i < 3)
 					{
 						this.messageStartIndexes[i] = 0;
-						int num2 = i++;
+						int unusedIndex = i++;
 					}
 					this.messageVisibleChars = 0;
 					return;
@@ -2239,8 +2239,8 @@ namespace Yukihota
 						{
 							try
 							{
-								double num3 = this.audioManager.GetVoicePosition() / this.messageVoiceLength;
-								this.messageProgress = (double)(this.messageLines[(int)this.layoutIndex].Length - this.messageStartIndexes[(int)this.layoutIndex] + 4) * num3;
+								double voiceProgress = this.audioManager.GetVoicePosition() / this.messageVoiceLength;
+								this.messageProgress = (double)(this.messageLines[(int)this.layoutIndex].Length - this.messageStartIndexes[(int)this.layoutIndex] + 4) * voiceProgress;
 								goto IL_03E9;
 							}
 							catch (NullReferenceException)
@@ -2278,8 +2278,8 @@ namespace Yukihota
 					{
 						if (this.fadeEnabled)
 						{
-							int num4 = (int)((float)(10 - this.lineRevealCounter) / 10f * 255f);
-							this.lastTextPosition = this.DrawTextCore(this.messageLines[(int)this.layoutIndex], this.messageStartIndexes[(int)this.layoutIndex], this.messageLines[(int)this.layoutIndex].Length, this.messagePosition, this.messageCharSize.Width, this.messageCharSize.Height, 2, this.messageFontSizeMode, 25, this.messageFont, Color.FromArgb(num4, this.messageTextColor), (this.messageShadowColor == Color.Transparent) ? Color.Transparent : Color.FromArgb(num4, this.messageShadowColor));
+							int revealAlpha = (int)((float)(10 - this.lineRevealCounter) / 10f * 255f);
+							this.lastTextPosition = this.DrawTextCore(this.messageLines[(int)this.layoutIndex], this.messageStartIndexes[(int)this.layoutIndex], this.messageLines[(int)this.layoutIndex].Length, this.messagePosition, this.messageCharSize.Width, this.messageCharSize.Height, 2, this.messageFontSizeMode, 25, this.messageFont, Color.FromArgb(revealAlpha, this.messageTextColor), (this.messageShadowColor == Color.Transparent) ? Color.Transparent : Color.FromArgb(revealAlpha, this.messageShadowColor));
 							this.fontIndexQueue.Add(2);
 							this.lineRevealCounter--;
 						}
@@ -2363,22 +2363,22 @@ namespace Yukihota
 				{
 					if (!this.dialogueClosing && this.dialogueCounter < 3)
 					{
-						float num = (float)(3 - this.dialogueCounter) / 3f;
-						float num2 = ((float)this.dialogueRect.X + (1f - num) / 2f * (float)this.dialogueRect.Width) / num;
-						float num3 = ((float)this.dialogueRect.Y + (1f - num) / 2f * (float)this.dialogueRect.Height) / num;
-						float num4 = num * (float)this.dialogueRect.Width;
-						float num5 = num * (float)this.dialogueRect.Height;
-						this.QueueDraw(this.dialogueTexture, new Rectangle(0, 0, this.dialogueRect.Width, this.dialogueRect.Height), new Rectangle(0, 0, (int)num4, (int)num5), new Point((int)num2, (int)num3), this.dialogueColor);
+						float oldScale = (float)(3 - this.dialogueCounter) / 3f;
+						float oldX = ((float)this.dialogueRect.X + (1f - oldScale) / 2f * (float)this.dialogueRect.Width) / oldScale;
+						float oldY = ((float)this.dialogueRect.Y + (1f - oldScale) / 2f * (float)this.dialogueRect.Height) / oldScale;
+						float oldWidth = oldScale * (float)this.dialogueRect.Width;
+						float oldHeight = oldScale * (float)this.dialogueRect.Height;
+						this.QueueDraw(this.dialogueTexture, new Rectangle(0, 0, this.dialogueRect.Width, this.dialogueRect.Height), new Rectangle(0, 0, (int)oldWidth, (int)oldHeight), new Point((int)oldX, (int)oldY), this.dialogueColor);
 						this.QueueDraw(this.whiteTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.Transparent);
 					}
 					else if (this.dialogueClosing && this.dialogueCounter > 0)
 					{
-						float num6 = (float)this.dialogueCounter / 3f;
-						float num7 = ((float)this.dialogueRect.X + (1f - num6) / 2f * (float)this.dialogueRect.Width) / num6;
-						float num8 = ((float)this.dialogueRect.Y + (1f - num6) / 2f * (float)this.dialogueRect.Height) / num6;
-						float num9 = num6 * (float)this.dialogueRect.Width;
-						float num10 = num6 * (float)this.dialogueRect.Height;
-						this.QueueDraw(this.dialogueTexture, new Rectangle(0, 0, this.dialogueRect.Width, this.dialogueRect.Height), new Rectangle(0, 0, (int)num9, (int)num10), new Point((int)num7, (int)num8), this.dialogueColor);
+						float newScale = (float)this.dialogueCounter / 3f;
+						float newX = ((float)this.dialogueRect.X + (1f - newScale) / 2f * (float)this.dialogueRect.Width) / newScale;
+						float newY = ((float)this.dialogueRect.Y + (1f - newScale) / 2f * (float)this.dialogueRect.Height) / newScale;
+						float newWidth = newScale * (float)this.dialogueRect.Width;
+						float newHeight = newScale * (float)this.dialogueRect.Height;
+						this.QueueDraw(this.dialogueTexture, new Rectangle(0, 0, this.dialogueRect.Width, this.dialogueRect.Height), new Rectangle(0, 0, (int)newWidth, (int)newHeight), new Point((int)newX, (int)newY), this.dialogueColor);
 						this.QueueDraw(this.whiteTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.Transparent);
 					}
 					this.dialogueCounter--;
@@ -2434,16 +2434,16 @@ namespace Yukihota
 			this.captionFont = new Microsoft.DirectX.Direct3D.Font(this.device, new System.Drawing.Font(this.baseFont.FontFamily, 24f));
 			if (this.captionLines != null && this.captionStartIndexes[(int)this.layoutIndex] + this.captionVisibleChars > 0 && this.captionVisibleChars > 0)
 			{
-				bool flag = false;
+				bool hasCaption = false;
 				for (int i = 0; i < 3; i++)
 				{
 					if (this.captionStartIndexes[i] + this.captionVisibleChars >= this.captionLines[i].Length)
 					{
-						flag = true;
+						hasCaption = true;
 						break;
 					}
 				}
-				if (flag)
+				if (hasCaption)
 				{
 					this.captionVisibleChars = this.captionLines[(int)this.layoutIndex].Length - this.captionStartIndexes[(int)this.layoutIndex];
 					this.captionProgress = (double)(this.captionLines[(int)this.layoutIndex].Length - this.captionStartIndexes[(int)this.layoutIndex] + 4);
@@ -2473,9 +2473,9 @@ namespace Yukihota
 			for (int j = 0; j < 3; j++)
 			{
 				this.captionStartIndexes[j] = this.captionLines[j].Length;
-				string[] array;
+				string[] linesBuffer;
 				IntPtr intPtr;
-				(array = this.captionLines)[(int)(intPtr = (IntPtr)j)] = array[(int)intPtr] + content[j];
+				(linesBuffer = this.captionLines)[(int)(intPtr = (IntPtr)j)] = linesBuffer[(int)intPtr] + content[j];
 			}
 			this.captionVisibleChars = 0;
 			this.captionProgress = 0.0;
@@ -2535,8 +2535,8 @@ namespace Yukihota
 					{
 						try
 						{
-							double num = this.audioManager.GetVoicePosition() / this.captionVoiceLength;
-							this.captionProgress = (double)(this.captionLines[(int)this.layoutIndex].Length - this.captionStartIndexes[(int)this.layoutIndex] + 4) * num;
+							double voiceProgress = this.audioManager.GetVoicePosition() / this.captionVoiceLength;
+							this.captionProgress = (double)(this.captionLines[(int)this.layoutIndex].Length - this.captionStartIndexes[(int)this.layoutIndex] + 4) * voiceProgress;
 							goto IL_019E;
 						}
 						catch (NullReferenceException)
