@@ -12,10 +12,12 @@ Description `MO2PURE`，Copyright 2005），是一个 **.NET Framework 1.1 + Win
 
 > **关于名字**：原始程序集与 2006 年的发布帖都没有给这套实现命名（命名空间全被混淆成单字符）。
 > `KFCEngine` 是本项目为它约定的名字，用于检索与叙述，**不是官方名称**。
-
-> **同一套引擎的第二代**：2007 年的《秋之回忆：从今以后 AGAIN》用的也是这套引擎的重写版（V2A），
-> 其源码已经单独还原 → **[KFCEngine-Again-TTIME](https://github.com/TesterNaN/KFCEngine-Again-TTIME)**
 > 之所以还是要命名，是因为「某部游戏的源码」不足以指代一套完整引擎——而它已经快没有别的痕迹留下了。
+
+> **同一套引擎的第二代**：2007 年的《秋之回忆：从今以后 AGAIN》用的也是这套引擎的重写版（V2A）。
+> 该作由两家分别发行，两套程序都已还原：
+> [KFCEngine-Again-TTIME](https://github.com/TesterNaN/KFCEngine-Again-TTIME)（光谱版）、
+> [KFCEngine-Again-Gamebridge](https://github.com/TesterNaN/KFCEngine-Again-Gamebridge)（娱乐通版）
 
 本仓库把它还原成**可读、可编译、可运行**的 C# 源码工程，并附上完整还原过程与踩坑记录。
 
@@ -351,7 +353,8 @@ case ScenarioResult.Message:
 | | 作品 | 仓库 | 状态 |
 |---|---|---|---|
 | v1 | 《雪萤》 | 本仓库 | ✓ 可运行到正片 |
-| v2 | 《AGAIN》 | [KFCEngine-Again-TTIME](https://github.com/TesterNaN/KFCEngine-Again-TTIME) | ✓ 可运行到序幕 |
+| v2 | 《AGAIN》光谱版 | [KFCEngine-Again-TTIME](https://github.com/TesterNaN/KFCEngine-Again-TTIME) | ✓ 可运行到序幕 |
+| v2 | 《AGAIN》娱乐通版 | [KFCEngine-Again-Gamebridge](https://github.com/TesterNaN/KFCEngine-Again-Gamebridge) | ✓ 可运行到序幕 |
 | v3 | 《思念的碎片 -Close to-》 | [KFCEngine-CloseTo](https://github.com/TesterNaN/KFCEngine-CloseTo) | ✓ 可运行到开场 |
 
 拿 AGAIN 那一代和本仓库对比，能清楚看到引擎一年的演进：命名空间从一个 `Ӓ` 拆成
