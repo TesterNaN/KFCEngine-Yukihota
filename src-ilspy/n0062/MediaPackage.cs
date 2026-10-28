@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 
-namespace n0062
+namespace Yukihota.Audio
 {
 	public class MediaPackage
 	{
@@ -24,14 +24,14 @@ namespace n0062
 		private bool isWaveAudio;
 
 		[DllImport("winmm.dll")]
-		private static extern long mciSendString(string n0863, StringBuilder n0864, int n0865, IntPtr n0866);
+		private static extern long mciSendString(string command, StringBuilder returnBuffer, int returnLength, IntPtr hwnd);
 
-		public MediaPackage(string n0867)
+		public MediaPackage(string mediaAlias)
 		{
 			opened = false;
 			playing = false;
 			paused = false;
-			alias = n0867;
+			alias = mediaAlias;
 			timer = new Timer();
 			timer.Interval = 50;
 			timer.Enabled = true;
@@ -42,51 +42,51 @@ namespace n0062
 
 		~MediaPackage()
 		{
-			n0162();
+			Close();
 		}
 
-		public bool n0859()
+		public bool IsOpen()
 		{
 			return opened;
 		}
 
-		public void Open(string n0494)
+		public void Open(string path)
 		{
 			if (opened)
 			{
-				n0162();
+				Close();
 			}
-			string n495 = "open \"" + n0494 + "\" type waveaudio alias " + alias;
-			mciSendString(n495, null, 0, IntPtr.Zero);
+			string command = "open \"" + path + "\" type waveaudio alias " + alias;
+			mciSendString(command, null, 0, IntPtr.Zero);
 			opened = true;
 			playing = false;
 			paused = false;
-			fileName = n0494;
+			fileName = path;
 			isWaveAudio = true;
 		}
 
-		public void Open(string n0494, PictureBox n0876)
+		public void Open(string path, PictureBox displayBox)
 		{
 			if (opened)
 			{
-				n0162();
+				Close();
 			}
-			string n877 = "open \"" + n0494 + "\" type mpegvideo alias " + alias + " style child parent " + n0876.Handle.ToInt32();
-			mciSendString(n877, null, 0, IntPtr.Zero);
-			n877 = "put " + alias + " window at 0 0 " + n0876.Width + " " + n0876.Height;
-			mciSendString(n877, null, 0, IntPtr.Zero);
+			string command = "open \"" + path + "\" type mpegvideo alias " + alias + " style child parent " + displayBox.Handle.ToInt32();
+			mciSendString(command, null, 0, IntPtr.Zero);
+			command = "put " + alias + " window at 0 0 " + displayBox.Width + " " + displayBox.Height;
+			mciSendString(command, null, 0, IntPtr.Zero);
 			opened = true;
 			playing = false;
 			paused = false;
-			fileName = n0494;
+			fileName = path;
 			isWaveAudio = false;
 		}
 
-		public void n0162()
+		public void Close()
 		{
 			if (opened)
 			{
-				n0230();
+				Stop();
 				string n69 = "close " + alias + " wait";
 				mciSendString(n69, null, 0, IntPtr.Zero);
 				opened = false;
@@ -95,13 +95,13 @@ namespace n0062
 			}
 		}
 
-		public void Play(bool loop, int n0860)
+		public void Play(bool loop, int start)
 		{
 			if (opened)
 			{
 				string text = "play " + alias;
 				loopEnabled = loop;
-				text = text + " from " + n0860;
+				text = text + " from " + start;
 				mciSendString(text, null, 0, IntPtr.Zero);
 				playing = true;
 				paused = false;
@@ -118,7 +118,7 @@ namespace n0062
 			Play(false, 0);
 		}
 
-		public void n0230()
+		public void Stop()
 		{
 			if (opened && playing)
 			{
@@ -129,7 +129,7 @@ namespace n0062
 			}
 		}
 
-		public void SetPaused()
+		public void Pause()
 		{
 			if (opened && playing && !paused)
 			{
@@ -139,7 +139,7 @@ namespace n0062
 			}
 		}
 
-		public void n0165()
+		public void Resume()
 		{
 			if (opened && playing && paused)
 			{
@@ -149,12 +149,12 @@ namespace n0062
 			}
 		}
 
-		public bool n0276()
+		public bool IsPlaying()
 		{
 			return playing && opened;
 		}
 
-		public int n0270()
+		public int GetLength()
 		{
 			if (opened)
 			{
@@ -174,7 +174,7 @@ namespace n0062
 			return 0;
 		}
 
-		public int n0269()
+		public int GetPosition()
 		{
 			if (!opened)
 			{
@@ -195,10 +195,10 @@ namespace n0062
 				}
 				return result;
 			}
-			return n0270();
+			return GetLength();
 		}
 
-		public int n0878()
+		public int GetVolume()
 		{
 			if (opened && playing && !paused)
 			{
@@ -210,15 +210,15 @@ namespace n0062
 			return 0;
 		}
 
-		public void SetVolume(int n0049)
+		public void SetVolume(int volume)
 		{
-			if (opened && playing && !paused && n0049 >= 0 && n0049 <= 1000)
+			if (opened && playing && !paused && volume >= 0 && volume <= 1000)
 			{
 				string n69;
 				if (isWaveAudio)
 				{
-					int num = n0269();
-					n0162();
+					int num = GetPosition();
+					Close();
 					n69 = "open \"" + fileName + "\" type mpegvideo alias " + alias;
 					mciSendString(n69, null, 0, IntPtr.Zero);
 					isWaveAudio = false;
@@ -228,27 +228,27 @@ namespace n0062
 					playing = true;
 					paused = false;
 				}
-				n69 = "setaudio " + alias + " volume to " + n0049;
+				n69 = "setaudio " + alias + " volume to " + volume;
 				mciSendString(n69, null, 0, IntPtr.Zero);
 			}
-			else if (n0049 < 0 && n0049 > 1000)
+			else if (volume < 0 && volume > 1000)
 			{
 				throw new ArgumentOutOfRangeException("Volume value must be 0 to 1000");
 			}
 		}
 
-		private void OnTimerTick(object n0035, EventArgs n0036)
+		private void OnTimerTick(object sender, EventArgs e)
 		{
-			if (playing && !paused && n0269() >= n0270())
+			if (playing && !paused && GetPosition() >= GetLength())
 			{
 				if (loopEnabled)
 				{
-					n0230();
+					Stop();
 					Play(true);
 				}
 				else
 				{
-					n0230();
+					Stop();
 				}
 			}
 		}

@@ -1,8 +1,8 @@
-namespace n0001
+namespace Yukihota
 {
 	public enum TextRevealMode
 	{
-		n0493,
-		n0487
+		Typewriter,
+		Fade
 	}
 }

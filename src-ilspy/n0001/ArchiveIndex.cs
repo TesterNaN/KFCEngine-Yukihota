@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.IO;
 
-namespace n0001
+namespace Yukihota
 {
 	public class ArchiveIndex
 	{
@@ -26,10 +26,10 @@ namespace n0001
 			cursor = 0;
 		}
 
-		public void n0500(Stream n0528)
+		public void Load(Stream stream)
 		{
 			byte[] array = new byte[8];
-			BinaryReader binaryReader = new BinaryReader(n0528);
+			BinaryReader binaryReader = new BinaryReader(stream);
 			binaryReader.BaseStream.Position = 0L;
 			int num = binaryReader.ReadInt32();
 			extension = "";
@@ -54,11 +54,11 @@ namespace n0001
 			}
 		}
 
-		public void n0508(Stream n0528)
+		public void Save(Stream stream)
 		{
-			int num = n0515();
+			int num = GetCount();
 			byte[] array = new byte[8];
-			BinaryWriter binaryWriter = new BinaryWriter(n0528);
+			BinaryWriter binaryWriter = new BinaryWriter(stream);
 			binaryWriter.BaseStream.Position = 0L;
 			binaryWriter.Write(num);
 			for (int i = 0; i < 3; i++)
@@ -89,34 +89,34 @@ namespace n0001
 			binaryWriter.Flush();
 		}
 
-		public void n0521(string n0494)
+		public void AddEntry(string name)
 		{
 			if (locked)
 			{
 				throw new AudioException();
 			}
-			n0524.Add(n0494);
+			n0524.Add(name);
 			lengths.Add(0);
 			offsets.Add(0);
 		}
 
-		public void n0532(string n0494)
+		public void RemoveEntry(string name)
 		{
 			if (locked)
 			{
 				throw new AudioException();
 			}
-			int num = n0524.IndexOf(n0494);
+			int num = n0524.IndexOf(name);
 			if (num == -1)
 			{
-				throw new FileNotFoundException(n0494 + " is not in the Package");
+				throw new FileNotFoundException(name + " is not in the Package");
 			}
 			n0524.RemoveAt(num);
 			lengths.RemoveAt(num);
 			offsets.RemoveAt(num);
 		}
 
-		public void AppendEntrySize(int n0533, out int n0534)
+		public void AppendEntrySize(int length, out int offset)
 		{
 			if (!locked)
 			{
@@ -126,20 +126,20 @@ namespace n0001
 			{
 				throw new IndexOutOfRangeException("End of the List");
 			}
-			lengths[cursor] = n0533;
+			lengths[cursor] = length;
 			if (cursor == 0)
 			{
-				offsets[cursor] = n0536();
+				offsets[cursor] = GetHeaderSize();
 			}
 			else
 			{
 				offsets[cursor] = (int)offsets[cursor - 1] + (int)lengths[cursor - 1];
 			}
-			n0534 = (int)offsets[cursor];
+			offset = (int)offsets[cursor];
 			cursor++;
 		}
 
-		public string n0517()
+		public string GetCurrentName()
 		{
 			if (!locked)
 			{
@@ -152,30 +152,30 @@ namespace n0001
 			return (string)n0524[cursor];
 		}
 
-		public void FindEntry(string n0494, out int n0534, out int n0533)
+		public void FindEntry(string name, out int offset, out int length)
 		{
-			int num = n0524.IndexOf(n0494);
+			int num = n0524.IndexOf(name);
 			if (num == -1)
 			{
-				n0534 = (n0533 = -1);
+				offset = (length = -1);
 				return;
 			}
-			n0534 = (int)offsets[num];
-			n0533 = (int)lengths[num];
+			offset = (int)offsets[num];
+			length = (int)lengths[num];
 		}
 
-		public void FindEntry(string n0494, out int index)
+		public void FindEntry(string name, out int index)
 		{
-			index = n0524.IndexOf(n0494);
+			index = n0524.IndexOf(name);
 		}
 
-		public void FindEntry(int index, out string n0494)
+		public void FindEntry(int index, out string name)
 		{
 			if (index >= n0524.Count || index < 0)
 			{
 				throw new ArgumentException("Invalid Index");
 			}
-			n0494 = (string)n0524[index];
+			name = (string)n0524[index];
 		}
 
 		public void Lock()
@@ -183,22 +183,22 @@ namespace n0001
 			locked = true;
 		}
 
-		public int n0515()
+		public int GetCount()
 		{
 			return n0524.Count;
 		}
 
-		public int n0536()
+		public int GetHeaderSize()
 		{
 			return n0524.Count * 16 + 8;
 		}
 
-		public void n0522(string n0049)
+		public void SetExtension(string extensionName)
 		{
-			extension = n0049;
+			extension = extensionName;
 		}
 
-		public string n0513()
+		public string GetExtension()
 		{
 			return extension;
 		}

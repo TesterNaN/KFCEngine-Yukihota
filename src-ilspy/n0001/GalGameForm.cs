@@ -10,9 +10,9 @@ using System.Xml;
 using Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX.DirectDraw;
 using Microsoft.DirectX.DirectInput;
-using n0062;
+using Yukihota.Audio;
 
-namespace n0001
+namespace Yukihota
 {
 	public class GalGameForm : Form
 	{
@@ -124,7 +124,7 @@ namespace n0001
 
 		private bool fullscreen = true;
 
-		private ButtonLayout language = ButtonLayout.n0041;
+		private ButtonLayout language = ButtonLayout.SimplifiedChinese;
 
 		private bool showOptionsOnStartup = true;
 
@@ -594,7 +594,7 @@ namespace n0001
 			fullscreen = n880.n0054();
 			language = n880.GetButtonLayout();
 			showOptionsOnStartup = n880.n0058();
-			ArchiveFile.n0129("Mullen");
+			ArchiveFile.VerifyKey("Mullen");
 			for (int i = 0; i < 8; i++)
 			{
 				joystickButtonStates[i] = false;
@@ -696,9 +696,9 @@ namespace n0001
 			suppressLostFocus = false;
 			try
 			{
-				systemArchive = new ArchiveFile("System", ArchiveMode.n0151);
-				bgmArchive = new ArchiveFile("Bgm", ArchiveMode.n0151);
-				bgArchive = new ArchiveFile("Bg", ArchiveMode.n0151);
+				systemArchive = new ArchiveFile("System", ArchiveMode.Read);
+				bgmArchive = new ArchiveFile("Bgm", ArchiveMode.Read);
+				bgArchive = new ArchiveFile("Bg", ArchiveMode.Read);
 			}
 			catch (Exception ex3)
 			{
@@ -722,13 +722,13 @@ namespace n0001
 			ApplyLanguage(language);
 			switch (language)
 			{
-			case ButtonLayout.n0041:
+			case ButtonLayout.SimplifiedChinese:
 				menuSimplifiedItem.Checked = true;
 				break;
-			case ButtonLayout.n0042:
+			case ButtonLayout.TraditionalChinese:
 				menuTraditionalItem.Checked = true;
 				break;
-			case ButtonLayout.n0043:
+			case ButtonLayout.Japanese:
 				menuJapaneseItem.Checked = true;
 				break;
 			}
@@ -780,7 +780,7 @@ namespace n0001
 				}
 			}
 			string tempPath = Path.GetTempPath();
-			menuBgmPlayer.n0162();
+			menuBgmPlayer.Close();
 			try
 			{
 				if (File.Exists(tempPath + "BGM12.wav"))
@@ -827,7 +827,7 @@ namespace n0001
 				break;
 			case 0:
 				menuTimer.Start();
-				menuBgmPlayer.n0165();
+				menuBgmPlayer.Resume();
 				break;
 			case 1:
 				scenarioTimer.Start();
@@ -835,13 +835,13 @@ namespace n0001
 				break;
 			case 2:
 				episodeTimer.Start();
-				menuBgmPlayer.n0165();
+				menuBgmPlayer.Resume();
 				break;
 			case 3:
 				optionsTimer.Start();
 				if (returnMode == 0)
 				{
-					menuBgmPlayer.n0165();
+					menuBgmPlayer.Resume();
 				}
 				else if (returnMode == 1)
 				{
@@ -850,7 +850,7 @@ namespace n0001
 				break;
 			case 4:
 				albumTimer.Start();
-				menuBgmPlayer.n0165();
+				menuBgmPlayer.Resume();
 				break;
 			}
 		}
@@ -876,7 +876,7 @@ namespace n0001
 			case -2:
 				if (openingMovie != null)
 				{
-					openingMovie.SetPaused();
+					openingMovie.Pause();
 				}
 				break;
 			case -1:
@@ -884,7 +884,7 @@ namespace n0001
 				break;
 			case 0:
 				menuTimer.Stop();
-				menuBgmPlayer.SetPaused();
+				menuBgmPlayer.Pause();
 				break;
 			case 1:
 				scenarioTimer.Stop();
@@ -892,13 +892,13 @@ namespace n0001
 				break;
 			case 2:
 				episodeTimer.Stop();
-				menuBgmPlayer.SetPaused();
+				menuBgmPlayer.Pause();
 				break;
 			case 3:
 				optionsTimer.Stop();
 				if (returnMode == 0)
 				{
-					menuBgmPlayer.SetPaused();
+					menuBgmPlayer.Pause();
 				}
 				else if (returnMode == 1)
 				{
@@ -907,7 +907,7 @@ namespace n0001
 				break;
 			case 4:
 				albumTimer.Stop();
-				menuBgmPlayer.SetPaused();
+				menuBgmPlayer.Pause();
 				break;
 			}
 		}
@@ -1126,13 +1126,13 @@ namespace n0001
 				if (gameMode == 1)
 				{
 					language++;
-					if (language == ButtonLayout.n0204)
+					if (language == ButtonLayout.LanguageCount)
 					{
-						language = ButtonLayout.n0041;
+						language = ButtonLayout.SimplifiedChinese;
 					}
-					if (!director.n0188() && language == ButtonLayout.n0043)
+					if (!director.n0188() && language == ButtonLayout.Japanese)
 					{
-						language = ButtonLayout.n0041;
+						language = ButtonLayout.SimplifiedChinese;
 					}
 					if (director.n0188())
 					{
@@ -1143,13 +1143,13 @@ namespace n0001
 					menuJapaneseItem.Checked = false;
 					switch (language)
 					{
-					case ButtonLayout.n0041:
+					case ButtonLayout.SimplifiedChinese:
 						menuSimplifiedItem.Checked = true;
 						break;
-					case ButtonLayout.n0042:
+					case ButtonLayout.TraditionalChinese:
 						menuTraditionalItem.Checked = true;
 						break;
-					case ButtonLayout.n0043:
+					case ButtonLayout.Japanese:
 						menuTraditionalItem.Checked = true;
 						break;
 					}
@@ -1341,9 +1341,9 @@ namespace n0001
 				}
 				break;
 			}
-			if (languageResetPending && language == ButtonLayout.n0043 && !director.n0188())
+			if (languageResetPending && language == ButtonLayout.Japanese && !director.n0188())
 			{
-				language = ButtonLayout.n0041;
+				language = ButtonLayout.SimplifiedChinese;
 				menuSimplifiedItem.Checked = true;
 				menuTraditionalItem.Checked = false;
 				menuJapaneseItem.Checked = false;
@@ -1395,9 +1395,9 @@ namespace n0001
 			menuSimplifiedItem.Checked = true;
 			menuTraditionalItem.Checked = false;
 			menuJapaneseItem.Checked = false;
-			language = ButtonLayout.n0041;
-			ApplyLanguage(ButtonLayout.n0041);
-			director.SetButtonLayout(ButtonLayout.n0041);
+			language = ButtonLayout.SimplifiedChinese;
+			ApplyLanguage(ButtonLayout.SimplifiedChinese);
+			director.SetButtonLayout(ButtonLayout.SimplifiedChinese);
 		}
 
 		private void n0107(object n0035, EventArgs n0036)
@@ -1405,9 +1405,9 @@ namespace n0001
 			menuSimplifiedItem.Checked = false;
 			menuTraditionalItem.Checked = true;
 			menuJapaneseItem.Checked = false;
-			language = ButtonLayout.n0042;
-			ApplyLanguage(ButtonLayout.n0042);
-			director.SetButtonLayout(ButtonLayout.n0042);
+			language = ButtonLayout.TraditionalChinese;
+			ApplyLanguage(ButtonLayout.TraditionalChinese);
+			director.SetButtonLayout(ButtonLayout.TraditionalChinese);
 		}
 
 		private void n0108(object n0035, EventArgs n0036)
@@ -1415,9 +1415,9 @@ namespace n0001
 			menuSimplifiedItem.Checked = false;
 			menuTraditionalItem.Checked = false;
 			menuJapaneseItem.Checked = true;
-			language = ButtonLayout.n0043;
-			ApplyLanguage(ButtonLayout.n0043);
-			director.SetButtonLayout(ButtonLayout.n0043);
+			language = ButtonLayout.Japanese;
+			ApplyLanguage(ButtonLayout.Japanese);
+			director.SetButtonLayout(ButtonLayout.Japanese);
 		}
 
 		private void n0109(object n0035, EventArgs n0036)
@@ -1436,7 +1436,7 @@ namespace n0001
 
 		private void n0111(object n0035, EventArgs n0036)
 		{
-			director.n0230();
+			director.Stop();
 			director.Dispose();
 			Close();
 			Application.Exit();
@@ -1470,13 +1470,13 @@ namespace n0001
 			switch (n880)
 			{
 			case "SC":
-				language = ButtonLayout.n0041;
+				language = ButtonLayout.SimplifiedChinese;
 				break;
 			case "TC":
-				language = ButtonLayout.n0042;
+				language = ButtonLayout.TraditionalChinese;
 				break;
 			case "JP":
-				language = ButtonLayout.n0043;
+				language = ButtonLayout.Japanese;
 				break;
 			}
 			ReadSetting(xmlDocument, "sys/win/show", ref showOptionsOnStartup);
@@ -1525,10 +1525,10 @@ namespace n0001
 			xmlDocument.SelectSingleNode("/sys/win").AppendChild(xmlDocument.CreateElement("mode")).InnerText = (fullscreen ? "Fullscreen" : "Windowed");
 			switch (language)
 			{
-			case ButtonLayout.n0041:
+			case ButtonLayout.SimplifiedChinese:
 				xmlDocument.SelectSingleNode("/sys/win").AppendChild(xmlDocument.CreateElement("language")).InnerText = "SC";
 				break;
-			case ButtonLayout.n0042:
+			case ButtonLayout.TraditionalChinese:
 				xmlDocument.SelectSingleNode("/sys/win").AppendChild(xmlDocument.CreateElement("language")).InnerText = "TC";
 				break;
 			default:
@@ -1682,7 +1682,7 @@ namespace n0001
 		{
 			switch (n0046)
 			{
-			case ButtonLayout.n0041:
+			case ButtonLayout.SimplifiedChinese:
 				menuCancelItem.Text = "取消(&C)";
 				menuOptionsItem.Text = "选项(&O)\tF8";
 				menuDisplayModeItem.Text = "显示模式(&M)\tAlt+Enter";
@@ -1695,7 +1695,7 @@ namespace n0001
 				menuExitItem.Text = "结束游戏(&E)\tAlt+F4";
 				Text = "秋之回忆 ～雪萤～";
 				break;
-			case ButtonLayout.n0042:
+			case ButtonLayout.TraditionalChinese:
 				menuCancelItem.Text = "取消(&C)";
 				menuOptionsItem.Text = "選項(&O)\tF8";
 				menuDisplayModeItem.Text = "顯示模式(&M)\tAlt+Enter";
@@ -1708,7 +1708,7 @@ namespace n0001
 				menuExitItem.Text = "結束遊戲(&E)\tAlt+F4";
 				Text = "秋之回憶 ～雪螢～";
 				break;
-			case ButtonLayout.n0043:
+			case ButtonLayout.Japanese:
 				menuCancelItem.Text = "戻る(&C)";
 				menuOptionsItem.Text = "オプション設定(&O)\tF8";
 				menuDisplayModeItem.Text = "画面モード(&M)\tAlt+Enter";
@@ -1818,7 +1818,7 @@ namespace n0001
 			n0220.Clear();
 			overlayText = null;
 			gameMode = 1;
-			menuBgmPlayer.n0230();
+			menuBgmPlayer.Stop();
 			n0255();
 			n0256();
 			n0257();
@@ -1838,7 +1838,7 @@ namespace n0001
 				unlockedAlbumCount = director.n0159();
 			}
 			scenarioTimer.Stop();
-			director.n0230();
+			director.Stop();
 			director.Dispose();
 			director = null;
 			GC.Collect();
@@ -1893,7 +1893,7 @@ namespace n0001
 		{
 			if (gameMode == -2 && !n0125)
 			{
-				if (openingMovie.n0269() < openingMovie.n0270() && openingMovie.n0270() != -1)
+				if (openingMovie.GetPosition() < openingMovie.GetLength() && openingMovie.GetLength() != -1)
 				{
 					return;
 				}
@@ -1901,7 +1901,7 @@ namespace n0001
 				gameMode = -1;
 				movieBox.Visible = false;
 				suppressLostFocus = true;
-				openingMovie.n0162();
+				openingMovie.Close();
 				suppressLostFocus = false;
 				openingMovie = null;
 			}
@@ -1987,7 +1987,7 @@ namespace n0001
 			array[0] = flag;
 			menuItemEnabled[1] = unlockedEpisodeCount > 0;
 			menuItemEnabled[3] = unlockedAlbumCount > 0;
-			if (!menuBgmPlayer.n0276())
+			if (!menuBgmPlayer.IsPlaying())
 			{
 				menuBgmPlayer.Play(true);
 			}

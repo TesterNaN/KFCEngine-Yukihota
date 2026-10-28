@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using System.Xml;
 using Microsoft.DirectX.Direct3D;
 
-namespace n0001
+namespace Yukihota
 {
 	public class ScenarioScript : IDisposable
 	{
@@ -23,17 +23,17 @@ namespace n0001
 
 		protected int maxAlbumIndex;
 
-		protected static ArchiveFile bgArchive = new ArchiveFile("Bg", ArchiveMode.n0151);
+		protected static ArchiveFile bgArchive = new ArchiveFile("Bg", ArchiveMode.Read);
 
-		protected static ArchiveFile bgmArchive = new ArchiveFile("Bgm", ArchiveMode.n0151);
+		protected static ArchiveFile bgmArchive = new ArchiveFile("Bgm", ArchiveMode.Read);
 
-		protected static ArchiveFile charaArchive = new ArchiveFile("Chara", ArchiveMode.n0151);
+		protected static ArchiveFile charaArchive = new ArchiveFile("Chara", ArchiveMode.Read);
 
-		protected static ArchiveFile scriptArchive = new ArchiveFile("Script", ArchiveMode.n0151);
+		protected static ArchiveFile scriptArchive = new ArchiveFile("Script", ArchiveMode.Read);
 
-		protected static ArchiveFile seArchive = new ArchiveFile("Se", ArchiveMode.n0151);
+		protected static ArchiveFile seArchive = new ArchiveFile("Se", ArchiveMode.Read);
 
-		protected static ArchiveFile voiceArchive = new ArchiveFile("Voice", ArchiveMode.n0151);
+		protected static ArchiveFile voiceArchive = new ArchiveFile("Voice", ArchiveMode.Read);
 
 		private static string tempDirectory = tempDirectory.Substring(0, tempDirectory.Length - 1);
 
@@ -115,7 +115,7 @@ namespace n0001
 			n0480 = null;
 			if (currentNodes[0] == null)
 			{
-				return ScenarioResult.finish;
+				return ScenarioResult.Error;
 			}
 			if (currentNodes[0].Name != "paragraph" && currentNodes[0].Name != "dialogue" && currentNodes[0].HasChildNodes)
 			{
@@ -124,7 +124,7 @@ namespace n0001
 					if (!currentNodes[i].HasChildNodes)
 					{
 						MessageBox.Show(errorMessage);
-						return ScenarioResult.finish;
+						return ScenarioResult.Error;
 					}
 					currentNodes[i] = currentNodes[i].FirstChild;
 				}
@@ -136,7 +136,7 @@ namespace n0001
 					if (currentNodes[j].NextSibling == null)
 					{
 						MessageBox.Show(errorMessage);
-						return ScenarioResult.finish;
+						return ScenarioResult.Error;
 					}
 					currentNodes[j] = currentNodes[j].NextSibling;
 				}
@@ -153,7 +153,7 @@ namespace n0001
 							if (currentNodes[k].ParentNode == null || currentNodes[k].ParentNode.NextSibling == null)
 							{
 								MessageBox.Show(errorMessage);
-								return ScenarioResult.finish;
+								return ScenarioResult.Error;
 							}
 							currentNodes[k] = currentNodes[k].ParentNode.NextSibling;
 						}
@@ -165,7 +165,7 @@ namespace n0001
 						if (currentNodes[l].ParentNode == null)
 						{
 							MessageBox.Show(errorMessage);
-							return ScenarioResult.finish;
+							return ScenarioResult.Error;
 						}
 						currentNodes[l] = currentNodes[l].ParentNode;
 					}
@@ -174,14 +174,14 @@ namespace n0001
 				{
 					if (currentNodes[0].ParentNode.NextSibling == null)
 					{
-						return ScenarioResult.finish;
+						return ScenarioResult.Error;
 					}
 					for (int m = 0; m < 3; m++)
 					{
 						if (currentNodes[m].ParentNode == null || currentNodes[m].ParentNode.NextSibling == null)
 						{
 							MessageBox.Show(errorMessage);
-							return ScenarioResult.finish;
+							return ScenarioResult.Error;
 						}
 						currentNodes[m] = currentNodes[m].ParentNode.NextSibling;
 						episodeNodes[m] = currentNodes[m];
@@ -199,7 +199,7 @@ namespace n0001
 				{
 					n0480 = false;
 				}
-				return ScenarioResult.waitClick;
+				return ScenarioResult.Click;
 			}
 			if (currentNodes[0].Name == "scene")
 			{
@@ -213,7 +213,7 @@ namespace n0001
 					catch (Exception ex)
 					{
 						MessageBox.Show(ex.Message);
-						return ScenarioResult.finish;
+						return ScenarioResult.Error;
 					}
 				}
 				else if (currentNodes[0].Attributes["backcolor"] != null)
@@ -225,7 +225,7 @@ namespace n0001
 					catch (Exception ex2)
 					{
 						MessageBox.Show(ex2.Message);
-						return ScenarioResult.finish;
+						return ScenarioResult.Error;
 					}
 				}
 				else
@@ -245,7 +245,7 @@ namespace n0001
 					if (!(currentNodes[0].Attributes["time"].Value == "no"))
 					{
 						MessageBox.Show(errorMessage);
-						return ScenarioResult.finish;
+						return ScenarioResult.Error;
 					}
 					n0480 = 0;
 				}
@@ -262,10 +262,10 @@ namespace n0001
 					catch (Exception ex3)
 					{
 						MessageBox.Show(ex3.Message);
-						return ScenarioResult.finish;
+						return ScenarioResult.Error;
 					}
 				}
-				return ScenarioResult.n0385;
+				return ScenarioResult.Scene;
 			}
 			if (currentNodes[0].Name == "music")
 			{
@@ -289,7 +289,7 @@ namespace n0001
 								if (num2 >= 3)
 								{
 									MessageBox.Show(ex4.Message);
-									return ScenarioResult.finish;
+									return ScenarioResult.Error;
 								}
 								flag2 = true;
 							}
@@ -307,48 +307,48 @@ namespace n0001
 					catch (Exception ex5)
 					{
 						MessageBox.Show(ex5.Message);
-						return ScenarioResult.finish;
+						return ScenarioResult.Error;
 					}
 					if (currentNodes[0].Attributes["position"] != null)
 					{
 						try
 						{
 							n0480 = double.Parse(currentNodes[0].Attributes["position"].Value);
-							return ScenarioResult.n0387;
+							return ScenarioResult.Bgm;
 						}
 						catch (Exception ex6)
 						{
 							MessageBox.Show(ex6.Message);
-							return ScenarioResult.finish;
+							return ScenarioResult.Error;
 						}
 					}
 					n0480 = 0.0;
-					return ScenarioResult.n0387;
+					return ScenarioResult.Bgm;
 				}
 				if (currentNodes[0].Attributes["mute"] != null && currentNodes[0].Attributes["mute"].Value == "true")
 				{
 					n0479 = null;
 					n0480 = 0.0;
-					return ScenarioResult.n0387;
+					return ScenarioResult.Bgm;
 				}
 				if (currentNodes[0].Attributes["volume"] == null)
 				{
 					MessageBox.Show(errorMessage);
-					return ScenarioResult.finish;
+					return ScenarioResult.Error;
 				}
 				n0479 = null;
 				if (currentNodes[0].Attributes["volume"].Value == "down")
 				{
 					n0480 = false;
-					return ScenarioResult.n0387;
+					return ScenarioResult.Bgm;
 				}
 				if (currentNodes[0].Attributes["volume"].Value == "up")
 				{
 					n0480 = true;
-					return ScenarioResult.n0387;
+					return ScenarioResult.Bgm;
 				}
 				MessageBox.Show(errorMessage);
-				return ScenarioResult.finish;
+				return ScenarioResult.Error;
 			}
 			if (currentNodes[0].Name == "chara")
 			{
@@ -361,18 +361,18 @@ namespace n0001
 				catch (Exception ex7)
 				{
 					MessageBox.Show(ex7.Message);
-					return ScenarioResult.finish;
+					return ScenarioResult.Error;
 				}
 				if (currentNodes[0].Attributes["action"] != null && !(currentNodes[0].Attributes["action"].Value == "show"))
 				{
 					n0479 = null;
 					if (currentNodes[0].Attributes["action"].Value == "hide")
 					{
-						((SpriteState)n0480).action = SpriteMode.n0394;
+						((SpriteState)n0480).action = SpriteMode.Static;
 					}
 					else if (currentNodes[0].Attributes["action"].Value == "shock")
 					{
-						((SpriteState)n0480).action = SpriteMode.n0400;
+						((SpriteState)n0480).action = SpriteMode.Shaking;
 						if (currentNodes[0].Attributes["level"] == null)
 						{
 							((SpriteState)n0480).level = 0;
@@ -386,7 +386,7 @@ namespace n0001
 							catch (Exception ex8)
 							{
 								MessageBox.Show(ex8.Message);
-								return ScenarioResult.finish;
+								return ScenarioResult.Error;
 							}
 						}
 					}
@@ -402,9 +402,9 @@ namespace n0001
 					catch (Exception ex9)
 					{
 						MessageBox.Show(ex9.Message);
-						return ScenarioResult.finish;
+						return ScenarioResult.Error;
 					}
-					((SpriteState)n0480).action = SpriteMode.n0394;
+					((SpriteState)n0480).action = SpriteMode.Static;
 				}
 				if (currentNodes[0].Attributes["location"] != null)
 				{
@@ -415,7 +415,7 @@ namespace n0001
 					catch (Exception ex10)
 					{
 						MessageBox.Show(ex10.Message);
-						return ScenarioResult.finish;
+						return ScenarioResult.Error;
 					}
 				}
 				else
@@ -431,7 +431,7 @@ namespace n0001
 					if (!(currentNodes[0].Attributes["transparent"].Value == "true"))
 					{
 						MessageBox.Show(errorMessage);
-						return ScenarioResult.finish;
+						return ScenarioResult.Error;
 					}
 					((SpriteState)n0480).isTransparent = true;
 				}
@@ -444,7 +444,7 @@ namespace n0001
 					if (!(currentNodes[0].Attributes["animation"].Value == "false"))
 					{
 						MessageBox.Show(errorMessage);
-						return ScenarioResult.finish;
+						return ScenarioResult.Error;
 					}
 					((SpriteState)n0480).n0399 = false;
 				}
@@ -461,11 +461,11 @@ namespace n0001
 					if (!(currentNodes[0].Attributes["synchro"].Value == "true"))
 					{
 						MessageBox.Show(errorMessage);
-						return ScenarioResult.finish;
+						return ScenarioResult.Error;
 					}
 					((SpriteState)n0480).sync = true;
 				}
-				return ScenarioResult.charaNames;
+				return ScenarioResult.Character;
 			}
 			if (!(currentNodes[0].Name == "paragraph") && !(currentNodes[0].Name == "dialogue"))
 			{
@@ -481,7 +481,7 @@ namespace n0001
 						if (!(currentNodes[0].Attributes["loop"].Value == "true"))
 						{
 							MessageBox.Show(errorMessage);
-							return ScenarioResult.finish;
+							return ScenarioResult.Error;
 						}
 						((InputState)n0480).loop = true;
 					}
@@ -494,7 +494,7 @@ namespace n0001
 						if (!(currentNodes[0].Attributes["animation"].Value == "false"))
 						{
 							MessageBox.Show(errorMessage);
-							return ScenarioResult.finish;
+							return ScenarioResult.Error;
 						}
 						((InputState)n0480).n0399 = false;
 					}
@@ -503,7 +503,7 @@ namespace n0001
 						if (currentNodes[0].Attributes["name"] == null)
 						{
 							MessageBox.Show(errorMessage);
-							return ScenarioResult.finish;
+							return ScenarioResult.Error;
 						}
 						try
 						{
@@ -523,7 +523,7 @@ namespace n0001
 									if (num3 >= 3)
 									{
 										MessageBox.Show(ex11.Message);
-										return ScenarioResult.finish;
+										return ScenarioResult.Error;
 									}
 									flag3 = true;
 								}
@@ -537,28 +537,28 @@ namespace n0001
 							GC.Collect();
 							n0479 = tempDirectory + "\\se" + seSlotIndex + ".wav";
 							seSlotIndex = (seSlotIndex + 1) % 4;
-							return ScenarioResult.n0421;
+							return ScenarioResult.Sound;
 						}
 						catch (Exception ex12)
 						{
 							MessageBox.Show(ex12.Message);
-							return ScenarioResult.finish;
+							return ScenarioResult.Error;
 						}
 					}
 					if (!(currentNodes[0].Attributes["mute"].Value == "true"))
 					{
 						MessageBox.Show(errorMessage);
-						return ScenarioResult.finish;
+						return ScenarioResult.Error;
 					}
 					n0479 = null;
-					return ScenarioResult.n0421;
+					return ScenarioResult.Sound;
 				}
 				if (currentNodes[0].Name == "wait")
 				{
 					if (currentNodes[0].Attributes["time"] == null)
 					{
 						MessageBox.Show(errorMessage);
-						return ScenarioResult.finish;
+						return ScenarioResult.Error;
 					}
 					if (currentNodes[0].Attributes["time"].Value == "no")
 					{
@@ -577,27 +577,27 @@ namespace n0001
 						if (!(currentNodes[0].Attributes["time"].Value == "long"))
 						{
 							MessageBox.Show(errorMessage);
-							return ScenarioResult.finish;
+							return ScenarioResult.Error;
 						}
 						n0480 = 3;
 					}
-					return ScenarioResult.n0425;
+					return ScenarioResult.Jump;
 				}
 				if (currentNodes[0].Name == "clear")
 				{
 					if (currentNodes[0].Attributes["animation"] == null || currentNodes[0].Attributes["animation"].Value == "false")
 					{
 						n0480 = false;
-						return ScenarioResult.n0426;
+						return ScenarioResult.Dismiss;
 					}
 					XmlNode[] array = currentNodes;
 					if (!(array[0].Attributes["animation"].Value == "true"))
 					{
 						MessageBox.Show(errorMessage);
-						return ScenarioResult.finish;
+						return ScenarioResult.Error;
 					}
 					n0480 = true;
-					return ScenarioResult.n0426;
+					return ScenarioResult.Dismiss;
 				}
 				if (currentNodes[0].Name == "title")
 				{
@@ -607,23 +607,23 @@ namespace n0001
 						if (episodeNodes[num4].Attributes["title"] == null)
 						{
 							MessageBox.Show(errorMessage);
-							return ScenarioResult.finish;
+							return ScenarioResult.Error;
 						}
 						((string[])n0479)[num4] = episodeNodes[num4].Attributes["title"].Value;
 					}
-					return ScenarioResult.n0428;
+					return ScenarioResult.Notice;
 				}
 				if (currentNodes[0].Name == "filter")
 				{
 					if (currentNodes[0].Attributes["type"] == null)
 					{
 						MessageBox.Show(errorMessage);
-						return ScenarioResult.finish;
+						return ScenarioResult.Error;
 					}
 					if (currentNodes[0].Attributes["type"].Value == "zoom")
 					{
 						n0480 = new AnimItem();
-						((AnimItem)n0480).type = DrawItemType.n0434;
+						((AnimItem)n0480).type = DrawItemType.Zoom;
 						if (currentNodes[0].Attributes["left"] == null)
 						{
 							((AnimItem)n0480).left = 0.0;
@@ -637,7 +637,7 @@ namespace n0001
 							catch (Exception ex13)
 							{
 								MessageBox.Show(ex13.Message);
-								return ScenarioResult.finish;
+								return ScenarioResult.Error;
 							}
 						}
 						if (currentNodes[0].Attributes["right"] == null)
@@ -653,7 +653,7 @@ namespace n0001
 							catch (Exception ex14)
 							{
 								MessageBox.Show(ex14.Message);
-								return ScenarioResult.finish;
+								return ScenarioResult.Error;
 							}
 						}
 						if (currentNodes[0].Attributes["top"] == null)
@@ -669,7 +669,7 @@ namespace n0001
 							catch (Exception ex15)
 							{
 								MessageBox.Show(ex15.Message);
-								return ScenarioResult.finish;
+								return ScenarioResult.Error;
 							}
 						}
 						if (currentNodes[0].Attributes["bottom"] != null)
@@ -681,7 +681,7 @@ namespace n0001
 							catch (Exception ex16)
 							{
 								MessageBox.Show(ex16.Message);
-								return ScenarioResult.finish;
+								return ScenarioResult.Error;
 							}
 						}
 						else
@@ -697,7 +697,7 @@ namespace n0001
 							if (!(currentNodes[0].Attributes["time"].Value == "long"))
 							{
 								MessageBox.Show(errorMessage);
-								return ScenarioResult.finish;
+								return ScenarioResult.Error;
 							}
 							((AnimItem)n0480).durationMode = 2;
 						}
@@ -705,32 +705,32 @@ namespace n0001
 					else if (currentNodes[0].Attributes["type"].Value == "dark")
 					{
 						n0480 = new DrawItem();
-						((DrawItem)n0480).type = DrawItemType.n0443;
+						((DrawItem)n0480).type = DrawItemType.Dim;
 					}
 					else if (currentNodes[0].Attributes["type"].Value == "think")
 					{
 						n0480 = new DrawItem();
-						((DrawItem)n0480).type = DrawItemType.n0451;
+						((DrawItem)n0480).type = DrawItemType.Think;
 					}
 					else if (currentNodes[0].Attributes["type"].Value == "sun")
 					{
 						n0480 = new DrawItem();
-						((DrawItem)n0480).type = DrawItemType.n0445;
+						((DrawItem)n0480).type = DrawItemType.Sun;
 					}
 					else if (currentNodes[0].Attributes["type"].Value == "sakura")
 					{
 						n0480 = new DrawItem();
-						((DrawItem)n0480).type = DrawItemType.n0447;
+						((DrawItem)n0480).type = DrawItemType.Petals;
 					}
 					else if (currentNodes[0].Attributes["type"].Value == "snow")
 					{
 						n0480 = new DrawItem();
-						((DrawItem)n0480).type = DrawItemType.n0449;
+						((DrawItem)n0480).type = DrawItemType.Snow;
 					}
 					else if (currentNodes[0].Attributes["type"].Value == "shock")
 					{
 						n0480 = new FlagItem();
-						((FlagItem)n0480).type = DrawItemType.n0400;
+						((FlagItem)n0480).type = DrawItemType.Shake;
 						if (currentNodes[0].Attributes["loop"] != null && !(currentNodes[0].Attributes["loop"].Value == "false"))
 						{
 							if (currentNodes[0].Attributes["loop"].Value == "true")
@@ -749,27 +749,27 @@ namespace n0001
 						{
 							n0479 = null;
 							n0480 = null;
-							return ScenarioResult.n0485;
+							return ScenarioResult.None;
 						}
 						n0480 = new TextureItem();
-						((TextureItem)n0480).type = DrawItemType.shadowColor;
+						((TextureItem)n0480).type = DrawItemType.Background;
 						((TextureItem)n0480).texture = TextureLoader.FromStream(device, bgArchive.ReadEntry(currentNodes[0].Attributes["ground"].Value), 0, 0, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 						if (currentNodes[0].Attributes["trans"] == null || currentNodes[0].Attributes["trans"].Value == "fade")
 						{
-							((TextureItem)n0480).blend = TextureBlend.n0487;
+							((TextureItem)n0480).blend = TextureBlend.Normal;
 						}
 						else if (currentNodes[0].Attributes["trans"].Value == "left")
 						{
-							((TextureItem)n0480).blend = TextureBlend.left;
+							((TextureItem)n0480).blend = TextureBlend.Left;
 						}
 						else
 						{
 							if (!(currentNodes[0].Attributes["trans"].Value == "right"))
 							{
 								MessageBox.Show(errorMessage);
-								return ScenarioResult.finish;
+								return ScenarioResult.Error;
 							}
-							((TextureItem)n0480).blend = TextureBlend.right;
+							((TextureItem)n0480).blend = TextureBlend.Right;
 						}
 						if (currentNodes[0].Attributes["time"] == null || currentNodes[0].Attributes["time"].Value == "short")
 						{
@@ -784,7 +784,7 @@ namespace n0001
 							if (!(currentNodes[0].Attributes["time"].Value == "no"))
 							{
 								MessageBox.Show(errorMessage);
-								return ScenarioResult.finish;
+								return ScenarioResult.Error;
 							}
 							((TextureItem)n0480).durationMode = 0;
 						}
@@ -801,7 +801,7 @@ namespace n0001
 							catch (Exception ex17)
 							{
 								MessageBox.Show(ex17.Message);
-								return ScenarioResult.finish;
+								return ScenarioResult.Error;
 							}
 						}
 					}
@@ -815,7 +815,7 @@ namespace n0001
 						if (!(currentNodes[0].Attributes["animation"].Value == "true"))
 						{
 							MessageBox.Show(errorMessage);
-							return ScenarioResult.finish;
+							return ScenarioResult.Error;
 						}
 						((DrawItem)n0480).n0399 = true;
 					}
@@ -832,7 +832,7 @@ namespace n0001
 						if (!(currentNodes[0].Attributes["synchro"].Value == "true"))
 						{
 							MessageBox.Show(errorMessage);
-							return ScenarioResult.finish;
+							return ScenarioResult.Error;
 						}
 						((DrawItem)n0480).sync = true;
 					}
@@ -845,11 +845,11 @@ namespace n0001
 						if (!(currentNodes[0].Attributes["finish"].Value == "true"))
 						{
 							MessageBox.Show(errorMessage);
-							return ScenarioResult.finish;
+							return ScenarioResult.Error;
 						}
 						((DrawItem)n0480).finish = true;
 					}
-					return ScenarioResult.n0430;
+					return ScenarioResult.Draw;
 				}
 				if (currentNodes[0].Name == "ed")
 				{
@@ -869,7 +869,7 @@ namespace n0001
 							if (num6 >= 3)
 							{
 								MessageBox.Show(ex18.Message);
-								return ScenarioResult.finish;
+								return ScenarioResult.Error;
 							}
 							flag4 = true;
 						}
@@ -893,9 +893,9 @@ namespace n0001
 					array2[2].Load(scriptArchive.ReadEntry("ED_JP"));
 					StaffRoll n537 = new StaffRoll(n536, charaArchive, bgArchive, array2);
 					n0479 = n537;
-					return ScenarioResult.n0459;
+					return ScenarioResult.StaffRoll;
 				}
-				return ScenarioResult.n0485;
+				return ScenarioResult.None;
 			}
 			if (!currentNodes[0].HasChildNodes)
 			{
@@ -929,7 +929,7 @@ namespace n0001
 								catch (Exception ex19)
 								{
 									MessageBox.Show(ex19.Message);
-									return ScenarioResult.finish;
+									return ScenarioResult.Error;
 								}
 								for (int num11 = 0; num11 < num10; num11++)
 								{
@@ -943,7 +943,7 @@ namespace n0001
 								if (currentNodes[num8].ChildNodes[num9].NodeType != XmlNodeType.Text)
 								{
 									MessageBox.Show(errorMessage);
-									return ScenarioResult.finish;
+									return ScenarioResult.Error;
 								}
 								string[] array6;
 								IntPtr intPtr3;
@@ -953,7 +953,7 @@ namespace n0001
 						continue;
 					}
 					MessageBox.Show(errorMessage);
-					return ScenarioResult.finish;
+					return ScenarioResult.Error;
 				}
 			}
 			string n538 = null;
@@ -984,7 +984,7 @@ namespace n0001
 								if (num12 >= 3)
 								{
 									MessageBox.Show(ex20.Message);
-									return ScenarioResult.finish;
+									return ScenarioResult.Error;
 								}
 								flag5 = true;
 							}
@@ -1001,7 +1001,7 @@ namespace n0001
 					catch (Exception ex21)
 					{
 						MessageBox.Show(ex21.Message);
-						return ScenarioResult.finish;
+						return ScenarioResult.Error;
 					}
 				}
 			}
@@ -1012,29 +1012,29 @@ namespace n0001
 				{
 					if (currentNodes[0].Attributes["align"].Value == "center")
 					{
-						((MessageCommand)n0480).align = HorizontalAlign.n0491;
+						((MessageCommand)n0480).align = HorizontalAlign.Center;
 					}
 					else
 					{
 						if (!(currentNodes[0].Attributes["align"].Value == "right"))
 						{
 							MessageBox.Show(errorMessage);
-							return ScenarioResult.finish;
+							return ScenarioResult.Error;
 						}
-						((MessageCommand)n0480).align = HorizontalAlign.right;
+						((MessageCommand)n0480).align = HorizontalAlign.Right;
 					}
 				}
 				else
 				{
-					((MessageCommand)n0480).align = HorizontalAlign.left;
+					((MessageCommand)n0480).align = HorizontalAlign.Left;
 				}
 				if (currentNodes[0].Attributes["show"] == null || currentNodes[0].Attributes["show"].Value == "print")
 				{
-					((MessageCommand)n0480).showMode = TextRevealMode.n0493;
+					((MessageCommand)n0480).showMode = TextRevealMode.Typewriter;
 				}
 				else if (currentNodes[0].Attributes["show"].Value == "fade")
 				{
-					((MessageCommand)n0480).showMode = TextRevealMode.n0487;
+					((MessageCommand)n0480).showMode = TextRevealMode.Fade;
 				}
 				if (currentNodes[0].Attributes["fore"] == null)
 				{
@@ -1049,7 +1049,7 @@ namespace n0001
 					catch (Exception ex22)
 					{
 						MessageBox.Show(ex22.Message);
-						return ScenarioResult.finish;
+						return ScenarioResult.Error;
 					}
 				}
 				if (currentNodes[0].Attributes["back"] != null)
@@ -1061,7 +1061,7 @@ namespace n0001
 					catch (Exception ex23)
 					{
 						MessageBox.Show(ex23.Message);
-						return ScenarioResult.finish;
+						return ScenarioResult.Error;
 					}
 				}
 				else
@@ -1083,7 +1083,7 @@ namespace n0001
 				}
 				((MessageCommand)n0480).voice = n538;
 				((MessageCommand)n0480).instant = n539;
-				return ScenarioResult.n0404;
+				return ScenarioResult.Message;
 			}
 			n0480 = new CaptionCommand();
 			if (currentNodes[0].Attributes["chara"] != null)
@@ -1093,7 +1093,7 @@ namespace n0001
 					if (currentNodes[num13].Attributes["chara"] == null)
 					{
 						MessageBox.Show(errorMessage);
-						return ScenarioResult.finish;
+						return ScenarioResult.Error;
 					}
 					((CaptionCommand)n0480).charaNames[num13] = currentNodes[num13].Attributes["chara"].Value;
 				}
@@ -1111,7 +1111,7 @@ namespace n0001
 				if (!(currentNodes[0].Attributes["disappear"].Value == "true"))
 				{
 					MessageBox.Show(errorMessage);
-					return ScenarioResult.finish;
+					return ScenarioResult.Error;
 				}
 				((CaptionCommand)n0480).disappear = true;
 			}
@@ -1124,7 +1124,7 @@ namespace n0001
 				if (!(currentNodes[0].Attributes["continue"].Value == "true"))
 				{
 					MessageBox.Show(errorMessage);
-					return ScenarioResult.finish;
+					return ScenarioResult.Error;
 				}
 				((CaptionCommand)n0480).isContinuous = true;
 			}
@@ -1150,7 +1150,7 @@ namespace n0001
 			}
 			((CaptionCommand)n0480).voice = n538;
 			((CaptionCommand)n0480).instant = n539;
-			return ScenarioResult.n0415;
+			return ScenarioResult.Caption;
 		}
 
 		public int n0157()

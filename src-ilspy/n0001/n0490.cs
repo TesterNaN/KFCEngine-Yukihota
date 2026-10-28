@@ -1,9 +1,9 @@
-namespace n0001
+namespace Yukihota
 {
 	public enum HorizontalAlign
 	{
-		left,
-		n0491,
-		right
+		Left,
+		Center,
+		Right
 	}
 }

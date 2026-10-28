@@ -2,9 +2,9 @@ using System;
 using System.Drawing;
 using System.Xml;
 using Microsoft.DirectX.Direct3D;
-using n0062;
+using Yukihota.Audio;
 
-namespace n0001
+namespace Yukihota
 {
 	public class StaffRoll : IDisposable
 	{
@@ -66,7 +66,7 @@ namespace n0001
 
 		private int backgroundIndex;
 
-		public StaffRoll(string n0387, ArchiveFile charaNames, ArchiveFile n0385, XmlNode[] n0348)
+		public StaffRoll(string Bgm, ArchiveFile charaNames, ArchiveFile Scene, XmlNode[] n0348)
 		{
 			titleLines = new string[3, 2]
 			{
@@ -108,9 +108,9 @@ namespace n0001
 			barPosition = new Point(0, 560);
 			characterNameSize = new Size(30, 40);
 			edPackage = new MediaPackage("ED");
-			edPackage.Open(n0387);
+			edPackage.Open(Bgm);
 			charaArchive = charaNames;
-			bgArchive = n0385;
+			bgArchive = Scene;
 			xmlDocuments = n0348;
 			for (int i = 0; i < 3; i++)
 			{
@@ -157,7 +157,7 @@ namespace n0001
 			graphicsDevice.Clear(ClearFlags.Target, Color.Black, 1f, 0);
 			graphicsDevice.BeginScene();
 			spriteBatch.Begin(SpriteFlags.AlphaBlend);
-			double num = (double)edPackage.n0269() / 1000.0;
+			double num = (double)edPackage.GetPosition() / 1000.0;
 			if (num < 8.0)
 			{
 				if (backgroundTexture != null)
@@ -291,7 +291,7 @@ namespace n0001
 					}
 				}
 			}
-			else if (num * 1000.0 < (double)edPackage.n0270())
+			else if (num * 1000.0 < (double)edPackage.GetLength())
 			{
 				if (characterTexture != null)
 				{
@@ -312,7 +312,7 @@ namespace n0001
 				{
 					backgroundTexture.Dispose();
 				}
-				edPackage.n0162();
+				edPackage.Close();
 				result = false;
 			}
 			spriteBatch.Draw2D(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, 0f, barPosition, Color.Black);
@@ -371,9 +371,9 @@ namespace n0001
 			return result;
 		}
 
-		public void n0230()
+		public void Stop()
 		{
-			edPackage.n0162();
+			edPackage.Close();
 			if (characterTexture != null)
 			{
 				characterTexture.Dispose();
@@ -388,11 +388,11 @@ namespace n0001
 		{
 			if (n0241)
 			{
-				edPackage.SetPaused();
+				edPackage.Pause();
 			}
 			else
 			{
-				edPackage.n0165();
+				edPackage.Resume();
 			}
 		}
 
@@ -403,7 +403,7 @@ namespace n0001
 
 		public void Dispose()
 		{
-			edPackage.n0162();
+			edPackage.Close();
 			GC.SuppressFinalize(this);
 		}
 	}

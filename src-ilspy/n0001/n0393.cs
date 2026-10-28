@@ -1,8 +1,8 @@
-namespace n0001
+namespace Yukihota
 {
 	public enum SpriteMode
 	{
-		n0394,
-		n0400
+		Static,
+		Shaking
 	}
 }

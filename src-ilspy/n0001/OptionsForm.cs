@@ -6,7 +6,7 @@ using System.Resources;
 using System.Windows.Forms;
 using Microsoft.DirectX.DirectInput;
 
-namespace n0001
+namespace Yukihota
 {
 	public class OptionsForm : Form
 	{
@@ -298,13 +298,13 @@ namespace n0001
 			}
 			switch (n0039)
 			{
-			case ButtonLayout.n0041:
+			case ButtonLayout.SimplifiedChinese:
 				n0022.Checked = true;
 				break;
-			case ButtonLayout.n0042:
+			case ButtonLayout.TraditionalChinese:
 				n0023.Checked = true;
 				break;
-			case ButtonLayout.n0043:
+			case ButtonLayout.Japanese:
 				n0024.Checked = true;
 				break;
 			}
@@ -326,15 +326,15 @@ namespace n0001
 			n0038 = n0019.Checked;
 			if (n0024.Checked)
 			{
-				n0039 = ButtonLayout.n0043;
+				n0039 = ButtonLayout.Japanese;
 			}
 			else if (n0023.Checked)
 			{
-				n0039 = ButtonLayout.n0042;
+				n0039 = ButtonLayout.TraditionalChinese;
 			}
 			else
 			{
-				n0039 = ButtonLayout.n0041;
+				n0039 = ButtonLayout.SimplifiedChinese;
 			}
 			n0045 = !n0025.Checked;
 		}
@@ -365,17 +365,17 @@ namespace n0001
 
 		private void n0030(object n0035, EventArgs n0036)
 		{
-			ApplyLanguage(ButtonLayout.n0041);
+			ApplyLanguage(ButtonLayout.SimplifiedChinese);
 		}
 
 		private void n0031(object n0035, EventArgs n0036)
 		{
-			ApplyLanguage(ButtonLayout.n0042);
+			ApplyLanguage(ButtonLayout.TraditionalChinese);
 		}
 
 		private void n0032(object n0035, EventArgs n0036)
 		{
-			ApplyLanguage(ButtonLayout.n0043);
+			ApplyLanguage(ButtonLayout.Japanese);
 		}
 
 		private void OnManualLinkClicked(object n0035, LinkLabelLinkClickedEventArgs n0036)
@@ -405,7 +405,7 @@ namespace n0001
 		{
 			switch (n0046)
 			{
-			case ButtonLayout.n0041:
+			case ButtonLayout.SimplifiedChinese:
 				n0012.Text = "确定(&O)";
 				n0013.Text = "取消(&C)";
 				n0016.Text = "字体(&F)";
@@ -419,7 +419,7 @@ namespace n0001
 				n0026.Text = "手册(&M)";
 				Text = "选项";
 				break;
-			case ButtonLayout.n0042:
+			case ButtonLayout.TraditionalChinese:
 				n0012.Text = "確定(&O)";
 				n0013.Text = "取消(&C)";
 				n0016.Text = "字體(&F)";
@@ -433,7 +433,7 @@ namespace n0001
 				n0026.Text = "手冊(&M)";
 				Text = "選項";
 				break;
-			case ButtonLayout.n0043:
+			case ButtonLayout.Japanese:
 				n0012.Text = "開始(&O)";
 				n0013.Text = "キャンセル(&C)";
 				n0016.Text = "フォント(&F)";
@@ -455,9 +455,9 @@ namespace n0001
 			return n0037;
 		}
 
-		public void SetFontName(Font n0049)
+		public void SetFontName(Font extensionName)
 		{
-			n0037 = n0049;
+			n0037 = extensionName;
 		}
 
 		public Device GetDevice()
@@ -465,9 +465,9 @@ namespace n0001
 			return n0006;
 		}
 
-		public void SetDevice(Device n0049)
+		public void SetDevice(Device extensionName)
 		{
-			n0006 = n0049;
+			n0006 = extensionName;
 		}
 
 		public bool n0052()
@@ -475,9 +475,9 @@ namespace n0001
 			return shakeEffect;
 		}
 
-		public void n0053(bool n0049)
+		public void n0053(bool extensionName)
 		{
-			shakeEffect = n0049;
+			shakeEffect = extensionName;
 		}
 
 		public bool n0054()
@@ -485,9 +485,9 @@ namespace n0001
 			return n0038;
 		}
 
-		public void n0055(bool n0049)
+		public void n0055(bool extensionName)
 		{
-			n0038 = n0049;
+			n0038 = extensionName;
 		}
 
 		public ButtonLayout GetButtonLayout()
@@ -495,9 +495,9 @@ namespace n0001
 			return n0039;
 		}
 
-		public void n0057(ButtonLayout n0049)
+		public void n0057(ButtonLayout extensionName)
 		{
-			n0039 = n0049;
+			n0039 = extensionName;
 		}
 
 		public bool n0058()
@@ -505,9 +505,9 @@ namespace n0001
 			return n0045;
 		}
 
-		public void n0059(bool n0049)
+		public void n0059(bool extensionName)
 		{
-			n0045 = n0049;
+			n0045 = extensionName;
 		}
 	}
 }

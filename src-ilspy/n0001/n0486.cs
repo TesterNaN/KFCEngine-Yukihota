@@ -1,9 +1,9 @@
-namespace n0001
+namespace Yukihota
 {
 	public enum TextureBlend
 	{
-		n0487,
-		left,
-		right
+		Normal,
+		Left,
+		Right
 	}
 }

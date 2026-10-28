@@ -1,6 +1,6 @@
 using System.Drawing;
 
-namespace n0001
+namespace Yukihota
 {
 	public class SpriteState
 	{

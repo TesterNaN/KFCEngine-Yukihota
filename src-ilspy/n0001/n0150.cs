@@ -1,8 +1,8 @@
-namespace n0001
+namespace Yukihota
 {
 	public enum ArchiveMode
 	{
-		n0496,
-		n0151
+		Write,
+		Read
 	}
 }

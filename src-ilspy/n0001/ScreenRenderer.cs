@@ -3,7 +3,7 @@ using System.Collections;
 using System.Drawing;
 using Microsoft.DirectX.Direct3D;
 
-namespace n0001
+namespace Yukihota
 {
 	public class ScreenRenderer : IDisposable
 	{
@@ -541,7 +541,7 @@ namespace n0001
 			audioManager = n0557;
 			dialogueHidden = false;
 			modeIconIndex = 0;
-			systemArchive = new ArchiveFile("System", ArchiveMode.n0151);
+			systemArchive = new ArchiveFile("System", ArchiveMode.Read);
 			n0561();
 			n0562();
 			n0563();
@@ -705,13 +705,13 @@ namespace n0001
 			{
 				switch (messageAlignMode)
 				{
-				case TextRevealMode.n0493:
+				case TextRevealMode.Typewriter:
 					if (messageProgress < (double)(messageLines[(int)layoutIndex].Length - messageStartIndexes[(int)layoutIndex] + 4))
 					{
 						return true;
 					}
 					break;
-				case TextRevealMode.n0487:
+				case TextRevealMode.Fade:
 					if (lineRevealCounter > 0)
 					{
 						return true;
@@ -818,10 +818,10 @@ namespace n0001
 					messageVisibleChars = messageLines[(int)layoutIndex].Length - messageStartIndexes[(int)layoutIndex];
 					switch (messageAlignMode)
 					{
-					case TextRevealMode.n0493:
+					case TextRevealMode.Typewriter:
 						messageProgress = messageLines[(int)layoutIndex].Length - messageStartIndexes[(int)layoutIndex] + 4;
 						break;
-					case TextRevealMode.n0487:
+					case TextRevealMode.Fade:
 						lineRevealCounter = 0;
 						break;
 					}
@@ -879,50 +879,50 @@ namespace n0001
 			GC.SuppressFinalize(this);
 		}
 
-		public void n0249(bool n0049)
+		public void n0249(bool extensionName)
 		{
-			if (fadeEnabled != n0049)
+			if (fadeEnabled != extensionName)
 			{
 				n0625();
 				n0626();
 				n0627();
 			}
-			fadeEnabled = n0049;
+			fadeEnabled = extensionName;
 		}
 
-		public void n0250(bool n0049)
+		public void n0250(bool extensionName)
 		{
-			sunEffectEnabled = n0049;
+			sunEffectEnabled = extensionName;
 		}
 
-		public void n0251(bool n0049)
+		public void n0251(bool extensionName)
 		{
-			effectEnabled = n0049;
+			effectEnabled = extensionName;
 		}
 
-		public void n0252(bool n0049)
+		public void n0252(bool extensionName)
 		{
-			shockEffectEnabled = n0049;
+			shockEffectEnabled = extensionName;
 		}
 
-		public void SetDialogueColor(Color n0049)
+		public void SetDialogueColor(Color extensionName)
 		{
-			dialogueColor = n0049;
+			dialogueColor = extensionName;
 		}
 
-		public void SetTextSpeed(int n0049)
+		public void SetTextSpeed(int extensionName)
 		{
-			if (n0049 > 0)
+			if (extensionName > 0)
 			{
-				messageSpeed = n0049;
+				messageSpeed = extensionName;
 				return;
 			}
 			throw new Exception("Invalid Speed");
 		}
 
-		public void n0254(bool n0049)
+		public void n0254(bool extensionName)
 		{
-			syncVoice = n0049;
+			syncVoice = extensionName;
 		}
 
 		private void n0561()
@@ -939,32 +939,32 @@ namespace n0001
 			indicatorPhase %= 32;
 		}
 
-		private Point DrawTextCore(string n0241, Point n0644, int n0645, int n0646, int n0534, Microsoft.DirectX.Direct3D.Font n0353, Color foreColor, Color shadowColor)
+		private Point DrawTextCore(string n0241, Point n0644, int n0645, int n0646, int offset, Microsoft.DirectX.Direct3D.Font n0353, Color foreColor, Color shadowColor)
 		{
-			return DrawTextCore(n0241, 0, n0241.Length, n0644, n0645, n0646, n0534, HorizontalAlign.left, 0, n0353, foreColor, shadowColor);
+			return DrawTextCore(n0241, 0, n0241.Length, n0644, n0645, n0646, offset, HorizontalAlign.Left, 0, n0353, foreColor, shadowColor);
 		}
 
-		private Point DrawTextCore(string n0241, int n0647, int n0648, Point n0644, int n0645, int n0646, int n0534, HorizontalAlign align, int n0649, Microsoft.DirectX.Direct3D.Font n0353, Color foreColor, Color shadowColor)
+		private Point DrawTextCore(string n0241, int n0647, int n0648, Point n0644, int n0645, int n0646, int offset, HorizontalAlign align, int n0649, Microsoft.DirectX.Direct3D.Font n0353, Color foreColor, Color shadowColor)
 		{
-			return DrawTextCore(n0241, n0647, n0648, n0644, n0645, n0646, n0534, align, n0649, n0353, false, 0, foreColor, shadowColor);
+			return DrawTextCore(n0241, n0647, n0648, n0644, n0645, n0646, offset, align, n0649, n0353, false, 0, foreColor, shadowColor);
 		}
 
-		private Point DrawTextCore(string n0241, double n0648, Point n0644, int n0645, int n0646, int n0534, Microsoft.DirectX.Direct3D.Font n0353, int n0204, Color foreColor, Color shadowColor)
+		private Point DrawTextCore(string n0241, double n0648, Point n0644, int n0645, int n0646, int offset, Microsoft.DirectX.Direct3D.Font n0353, int LanguageCount, Color foreColor, Color shadowColor)
 		{
-			return DrawTextCore(n0241, 0, n0648, n0644, n0645, n0646, n0534, HorizontalAlign.left, 0, n0353, true, n0204, foreColor, shadowColor);
+			return DrawTextCore(n0241, 0, n0648, n0644, n0645, n0646, offset, HorizontalAlign.Left, 0, n0353, true, LanguageCount, foreColor, shadowColor);
 		}
 
-		private Point DrawTextCore(string n0241, double n0648, Point n0644, int n0645, int n0646, int n0534, HorizontalAlign align, int n0649, Microsoft.DirectX.Direct3D.Font n0353, int n0204, Color foreColor, Color shadowColor)
+		private Point DrawTextCore(string n0241, double n0648, Point n0644, int n0645, int n0646, int offset, HorizontalAlign align, int n0649, Microsoft.DirectX.Direct3D.Font n0353, int LanguageCount, Color foreColor, Color shadowColor)
 		{
-			return DrawTextCore(n0241, 0, n0648, n0644, n0645, n0646, n0534, align, n0649, n0353, true, n0204, foreColor, shadowColor);
+			return DrawTextCore(n0241, 0, n0648, n0644, n0645, n0646, offset, align, n0649, n0353, true, LanguageCount, foreColor, shadowColor);
 		}
 
-		private Point DrawTextCore(string n0241, int n0647, double n0648, Point n0644, int n0645, int n0646, int n0534, HorizontalAlign align, int n0649, Microsoft.DirectX.Direct3D.Font n0353, bool n0493, int n0204, Color foreColor, Color shadowColor)
+		private Point DrawTextCore(string n0241, int n0647, double n0648, Point n0644, int n0645, int n0646, int offset, HorizontalAlign align, int n0649, Microsoft.DirectX.Direct3D.Font n0353, bool Typewriter, int LanguageCount, Color foreColor, Color shadowColor)
 		{
-			return DrawTextCore(n0241, n0647, n0648, n0644, n0645, n0646, n0534, align, n0649, n0353, n0493, n0204, foreColor, shadowColor, true);
+			return DrawTextCore(n0241, n0647, n0648, n0644, n0645, n0646, offset, align, n0649, n0353, Typewriter, LanguageCount, foreColor, shadowColor, true);
 		}
 
-		private Point DrawTextCore(string n0241, int n0647, double n0648, Point n0644, int n0645, int n0646, int n0534, HorizontalAlign align, int n0649, Microsoft.DirectX.Direct3D.Font n0353, bool n0493, int n0204, Color foreColor, Color shadowColor, bool n0650)
+		private Point DrawTextCore(string n0241, int n0647, double n0648, Point n0644, int n0645, int n0646, int offset, HorizontalAlign align, int n0649, Microsoft.DirectX.Direct3D.Font n0353, bool Typewriter, int LanguageCount, Color foreColor, Color shadowColor, bool n0650)
 		{
 			if (n0650)
 			{
@@ -979,21 +979,21 @@ namespace n0001
 				textPositionQueue.Add(n0644);
 				charWidthQueue.Add(n0645);
 				lineHeightQueue.Add(n0646);
-				shadowOffsetQueue.Add(n0534);
+				shadowOffsetQueue.Add(offset);
 				fontSizeModeQueue.Add(align);
 				lineWidthQueue.Add(n0649);
-				fadeOutQueue.Add(n0493);
-				fadeLengthQueue.Add(n0204);
+				fadeOutQueue.Add(Typewriter);
+				fadeLengthQueue.Add(LanguageCount);
 				textColorQueue.Add(foreColor);
 				shadowColorQueue.Add(shadowColor);
 			}
 			int num;
 			switch (align)
 			{
-			case HorizontalAlign.left:
+			case HorizontalAlign.Left:
 				num = n0644.X;
 				break;
-			case HorizontalAlign.n0491:
+			case HorizontalAlign.Center:
 			{
 				int num3 = n0241.IndexOf('\n');
 				if (num3 == -1)
@@ -1003,7 +1003,7 @@ namespace n0001
 				num = n0644.X + n0645 * (n0649 - num3) / 2;
 				break;
 			}
-			case HorizontalAlign.right:
+			case HorizontalAlign.Right:
 			{
 				int num2 = n0241.IndexOf('\n');
 				if (num2 == -1)
@@ -1024,10 +1024,10 @@ namespace n0001
 				{
 					switch (align)
 					{
-					case HorizontalAlign.left:
+					case HorizontalAlign.Left:
 						num = n0644.X;
 						break;
-					case HorizontalAlign.n0491:
+					case HorizontalAlign.Center:
 					{
 						int num7 = n0241.IndexOf('\n', i + 1);
 						if (num7 == -1)
@@ -1038,7 +1038,7 @@ namespace n0001
 						num = n0644.X + n0645 * (n0649 - num8) / 2;
 						break;
 					}
-					case HorizontalAlign.right:
+					case HorizontalAlign.Right:
 					{
 						int num5 = n0241.IndexOf('\n', i + 1);
 						if (num5 == -1)
@@ -1058,16 +1058,16 @@ namespace n0001
 					if (fadeEnabled)
 					{
 						Sprite spriteLocal = this.sprite;
-						n0353.DrawText(spriteLocal, n0241[i].ToString(), num + n0534, num4 + n0534, shadowColor);
+						n0353.DrawText(spriteLocal, n0241[i].ToString(), num + offset, num4 + offset, shadowColor);
 					}
 					Sprite sprite2 = sprite;
 					n0353.DrawText(sprite2, n0241[i].ToString(), num, num4, foreColor);
 				}
-				else if (n0493 && i >= n0647 && (double)i >= n0648 && (double)i < n0648 + (double)n0204 && fadeEnabled)
+				else if (Typewriter && i >= n0647 && (double)i >= n0648 && (double)i < n0648 + (double)LanguageCount && fadeEnabled)
 				{
-					int alpha = (int)(255.0 * ((double)(n0204 - i) + n0648) / (double)n0204);
+					int alpha = (int)(255.0 * ((double)(LanguageCount - i) + n0648) / (double)LanguageCount);
 					Sprite sprite3 = sprite;
-					n0353.DrawText(sprite3, n0241[i].ToString(), num + n0534, num4 + n0534, (shadowColor == Color.Transparent) ? Color.Transparent : Color.FromArgb(alpha, shadowColor));
+					n0353.DrawText(sprite3, n0241[i].ToString(), num + offset, num4 + offset, (shadowColor == Color.Transparent) ? Color.Transparent : Color.FromArgb(alpha, shadowColor));
 					Sprite sprite4 = sprite;
 					n0353.DrawText(sprite4, n0241[i].ToString(), num, num4, Color.FromArgb(alpha, foreColor));
 				}
@@ -1177,7 +1177,7 @@ namespace n0001
 						Point n880 = new Point(0, 0);
 						switch (backgroundWipeBlend)
 						{
-						case TextureBlend.n0487:
+						case TextureBlend.Normal:
 							if (zoomActive)
 							{
 								QueueDraw(backgroundTexture, zoomTargetRect, screenRect, Point.Empty, Color.FromArgb((int)(255.0 * (double)(backgroundFadeDurations[backgroundFadeSpeed] - backgroundFadeCounter) / (double)backgroundFadeDurations[backgroundFadeSpeed]), Color.White));
@@ -1187,7 +1187,7 @@ namespace n0001
 								QueueDraw(backgroundTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)(255.0 * (double)(backgroundFadeDurations[backgroundFadeSpeed] - backgroundFadeCounter) / (double)backgroundFadeDurations[backgroundFadeSpeed]), Color.White));
 							}
 							break;
-						case TextureBlend.left:
+						case TextureBlend.Left:
 						{
 							if (zoomActive)
 							{
@@ -1206,7 +1206,7 @@ namespace n0001
 							QueueDraw(backgroundTexture, n882, Rectangle.Empty, n880, Color.White);
 							break;
 						}
-						case TextureBlend.right:
+						case TextureBlend.Right:
 						{
 							if (zoomActive)
 							{
@@ -1393,7 +1393,7 @@ namespace n0001
 
 		private void n0667()
 		{
-			backgroundWipeBlend = TextureBlend.n0487;
+			backgroundWipeBlend = TextureBlend.Normal;
 		}
 
 		public void SetBackgroundWithWipe(Texture texture, TextureBlend blend, bool n0399, int durationMode)
@@ -2429,7 +2429,7 @@ namespace n0001
 				{
 					alpha = 255;
 				}
-				DrawTextCore(n0747[(int)layoutIndex], 0, n0747[(int)layoutIndex].Length, noticePosition, noticeCharSize.Width, noticeCharSize.Height, 2, HorizontalAlign.right, 15, n0593, Color.FromArgb(alpha, Color.White), Color.FromArgb(alpha, Color.Black));
+				DrawTextCore(n0747[(int)layoutIndex], 0, n0747[(int)layoutIndex].Length, noticePosition, noticeCharSize.Width, noticeCharSize.Height, 2, HorizontalAlign.Right, 15, n0593, Color.FromArgb(alpha, Color.White), Color.FromArgb(alpha, Color.Black));
 				fontIndexQueue.Add(1);
 				n0748--;
 			}
@@ -2438,8 +2438,8 @@ namespace n0001
 		private void n0566()
 		{
 			messageLines = null;
-			messageFontSizeMode = HorizontalAlign.left;
-			messageAlignMode = TextRevealMode.n0487;
+			messageFontSizeMode = HorizontalAlign.Left;
+			messageAlignMode = TextRevealMode.Fade;
 			messageProgress = 0.0;
 			lineRevealCounter = 0;
 			messageFadeCounter = 0;
@@ -2487,14 +2487,14 @@ namespace n0001
 			if (flag)
 			{
 				messageVisibleChars = messageLines[(int)layoutIndex].Length - messageStartIndexes[(int)layoutIndex];
-				if (messageAlignMode == TextRevealMode.n0493)
+				if (messageAlignMode == TextRevealMode.Typewriter)
 				{
 					messageProgress = messageLines[(int)layoutIndex].Length - messageStartIndexes[(int)layoutIndex] + 4;
 				}
 			}
 		}
 
-		public void SetMessage(string[] n0241, HorizontalAlign align, TextRevealMode showMode, bool n0758, Color foreColor, Color shadowColor, double n0533)
+		public void SetMessage(string[] n0241, HorizontalAlign align, TextRevealMode showMode, bool n0758, Color foreColor, Color shadowColor, double length)
 		{
 			if (n0241 == null)
 			{
@@ -2505,7 +2505,7 @@ namespace n0001
 			showNextIndicator = n0758;
 			messageTextColor = foreColor;
 			messageShadowColor = shadowColor;
-			messageVoiceLength = n0533;
+			messageVoiceLength = length;
 			if (messageLines == null)
 			{
 				messageLines = new string[3];
@@ -2524,10 +2524,10 @@ namespace n0001
 			messageVisibleChars = 0;
 			switch (messageAlignMode)
 			{
-			case TextRevealMode.n0493:
+			case TextRevealMode.Typewriter:
 				messageProgress = 0.0;
 				break;
-			case TextRevealMode.n0487:
+			case TextRevealMode.Fade:
 				lineRevealCounter = 10;
 				break;
 			}
@@ -2585,7 +2585,7 @@ namespace n0001
 			}
 			switch (messageAlignMode)
 			{
-			case TextRevealMode.n0493:
+			case TextRevealMode.Typewriter:
 				if (messageProgress < (double)(messageLines[(int)layoutIndex].Length - messageStartIndexes[(int)layoutIndex] + 4))
 				{
 					if (messageStartIndexes[(int)layoutIndex] > 0)
@@ -2597,7 +2597,7 @@ namespace n0001
 					{
 						try
 						{
-							double num = audioManager.n0760() / messageVoiceLength;
+							double num = audioManager.GetVoicePosition() / messageVoiceLength;
 							messageProgress = (double)(messageLines[(int)layoutIndex].Length - messageStartIndexes[(int)layoutIndex] + 4) * num;
 						}
 						catch (NullReferenceException)
@@ -2623,7 +2623,7 @@ namespace n0001
 					fontIndexQueue.Add(2);
 				}
 				break;
-			case TextRevealMode.n0487:
+			case TextRevealMode.Fade:
 				if (messageStartIndexes[(int)layoutIndex] + messageVisibleChars > 0)
 				{
 					lastTextPosition = DrawTextCore(messageLines[(int)layoutIndex], 0, messageStartIndexes[(int)layoutIndex] + messageVisibleChars, messagePosition, messageCharSize.Width, messageCharSize.Height, 2, messageFontSizeMode, 25, messageFont, messageTextColor, messageShadowColor);
@@ -2651,19 +2651,19 @@ namespace n0001
 				}
 				break;
 			}
-			if (!showNextIndicator || ((messageAlignMode != TextRevealMode.n0493 || !syncVoice) && audioManager.n0382()))
+			if (!showNextIndicator || ((messageAlignMode != TextRevealMode.Typewriter || !syncVoice) && audioManager.IsVoiceBlocking()))
 			{
 				return;
 			}
 			switch (messageAlignMode)
 			{
-			case TextRevealMode.n0493:
+			case TextRevealMode.Typewriter:
 				if (messageProgress >= (double)messageLines[(int)layoutIndex].Length - (double)messageStartIndexes[(int)layoutIndex] + 4.0)
 				{
 					n0637(lastTextPosition.X, lastTextPosition.Y);
 				}
 				break;
-			case TextRevealMode.n0487:
+			case TextRevealMode.Fade:
 				if (lineRevealCounter == 0)
 				{
 					n0637(lastTextPosition.X, lastTextPosition.Y);
@@ -2798,13 +2798,13 @@ namespace n0001
 			}
 		}
 
-		public void SetCaption(string[] n0241, string[] charaNames, double n0533, bool isContinuous, bool instant)
+		public void SetCaption(string[] n0241, string[] charaNames, double length, bool isContinuous, bool instant)
 		{
 			if (n0241 == null)
 			{
 				return;
 			}
-			captionVoiceLength = n0533;
+			captionVoiceLength = length;
 			captionOptionLines = charaNames;
 			captionLocked = isContinuous;
 			skipCaptionAnimation = instant;
@@ -2882,7 +2882,7 @@ namespace n0001
 					{
 						try
 						{
-							double num = audioManager.n0760() / captionVoiceLength;
+							double num = audioManager.GetVoicePosition() / captionVoiceLength;
 							captionProgress = (double)(captionLines[(int)layoutIndex].Length - captionStartIndexes[(int)layoutIndex] + 4) * num;
 						}
 						catch (NullReferenceException)
@@ -2907,7 +2907,7 @@ namespace n0001
 					captionLastPosition = DrawTextCore(captionLines[(int)layoutIndex], captionLines[(int)layoutIndex].Length, captionPosition, captionCharSize.Width, captionCharSize.Height, 2, captionFont, 4, Color.White, Color.Black);
 					fontIndexQueue.Add(3);
 				}
-				if ((syncVoice || !audioManager.n0382()) && captionProgress >= (double)captionLines[(int)layoutIndex].Length - (double)captionStartIndexes[(int)layoutIndex] + 4.0)
+				if ((syncVoice || !audioManager.IsVoiceBlocking()) && captionProgress >= (double)captionLines[(int)layoutIndex].Length - (double)captionStartIndexes[(int)layoutIndex] + 4.0)
 				{
 					n0637(captionLastPosition.X, captionLastPosition.Y);
 				}

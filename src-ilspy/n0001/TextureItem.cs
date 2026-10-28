@@ -1,6 +1,6 @@
 using Microsoft.DirectX.Direct3D;
 
-namespace n0001
+namespace Yukihota
 {
 	public class TextureItem : DrawItem
 	{

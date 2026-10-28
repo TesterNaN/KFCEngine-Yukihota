@@ -2,11 +2,11 @@ using System;
 using System.IO;
 using System.Security.Cryptography;
 
-namespace n0001
+namespace Yukihota
 {
 	public class ArchiveFile
 	{
-		private const int n0523 = 1024;
+		private const int BufferSize = 1024;
 
 		private static bool keyVerified = false;
 
@@ -20,19 +20,19 @@ namespace n0001
 
 		private ArchiveIndex index;
 
-		public ArchiveFile(string n0494, ArchiveMode type)
+		public ArchiveFile(string name, ArchiveMode type)
 		{
 			openMode = type;
-			if (openMode == ArchiveMode.n0496)
+			if (openMode == ArchiveMode.Write)
 			{
-				stream = new FileStream(n0494 + ".dat", FileMode.Create, FileAccess.Write);
+				stream = new FileStream(name + ".dat", FileMode.Create, FileAccess.Write);
 				return;
 			}
-			if (openMode == ArchiveMode.n0151)
+			if (openMode == ArchiveMode.Read)
 			{
-				stream = new FileStream(n0494 + ".dat", FileMode.Open, FileAccess.Read);
+				stream = new FileStream(name + ".dat", FileMode.Open, FileAccess.Read);
 				index = new ArchiveIndex();
-				index.n0500(stream);
+				index.Load(stream);
 				index.Lock();
 				return;
 			}
@@ -47,9 +47,9 @@ namespace n0001
 			}
 		}
 
-		public static void n0129(string n0502)
+		public static void VerifyKey(string key)
 		{
-			keyVerified = n0502 == keyMaterialA.Substring(0, 6);
+			keyVerified = key == keyMaterialA.Substring(0, 6);
 			if (!keyVerified)
 			{
 				throw new ArchiveException();
@@ -71,50 +71,50 @@ namespace n0001
 			{
 				throw new ArchiveException();
 			}
-			index.n0508(stream);
+			index.Save(stream);
 			index.Lock();
 		}
 
-		public void Extract(string n0494, Stream n0509)
+		public void Extract(string name, Stream dataStream)
 		{
 			if (!keyVerified)
 			{
 				throw new ArchiveException();
 			}
-			if (n0509 == null)
+			if (dataStream == null)
 			{
 				throw new ArgumentException("Null Stream");
 			}
-			if (!n0509.CanWrite)
+			if (!dataStream.CanWrite)
 			{
 				throw new ArgumentException("Stream cannot Write");
 			}
 			byte[] buffer = new byte[1024];
-			int n536;
-			int n537;
-			index.FindEntry(n0494, out n536, out n537);
-			if (n536 == -1)
+			int offset;
+			int length;
+			index.FindEntry(name, out offset, out length);
+			if (offset == -1)
 			{
-				throw new FileNotFoundException(n0494 + " is not in the Package");
+				throw new FileNotFoundException(name + " is not in the Package");
 			}
 			MemoryStream memoryStream;
 			try
 			{
 				memoryStream = new MemoryStream();
-				stream.Position = n536;
+				stream.Position = offset;
 				int i;
-				for (i = 0; i + 1024 < n537; i += 1024)
+				for (i = 0; i + 1024 < length; i += 1024)
 				{
 					stream.Read(buffer, 0, 1024);
 					memoryStream.Write(buffer, 0, 1024);
 				}
-				stream.Read(buffer, 0, n537 - i);
-				memoryStream.Write(buffer, 0, n537 - i);
+				stream.Read(buffer, 0, length - i);
+				memoryStream.Write(buffer, 0, length - i);
 				memoryStream.Flush();
 			}
 			catch (Exception)
 			{
-				throw new IOException("Error Decode " + n0494);
+				throw new IOException("Error Decode " + name);
 			}
 			try
 			{
@@ -130,82 +130,82 @@ namespace n0001
 				}
 				TripleDESCryptoServiceProvider tripleDESCryptoServiceProvider = new TripleDESCryptoServiceProvider();
 				memoryStream.Position = 0L;
-				n0509.Position = 0L;
+				dataStream.Position = 0L;
 				CryptoStream cryptoStream = new CryptoStream(memoryStream, tripleDESCryptoServiceProvider.CreateDecryptor(array, array2), CryptoStreamMode.Read);
 				int num;
 				do
 				{
 					num = cryptoStream.Read(buffer, 0, 1024);
-					n0509.Write(buffer, 0, num);
+					dataStream.Write(buffer, 0, num);
 				}
 				while (num == 1024);
-				n0509.Flush();
+				dataStream.Flush();
 				memoryStream.Close();
 				cryptoStream.Close();
 			}
 			catch (Exception)
 			{
-				throw new IOException("Error Decode " + n0494);
+				throw new IOException("Error Decode " + name);
 			}
 			memoryStream = null;
 			GC.Collect();
 		}
 
-		public void Extract(string n0494, string n0512)
+		public void Extract(string name, string directory)
 		{
 			if (!keyVerified)
 			{
 				throw new ArchiveException();
 			}
-			FileStream fileStream = new FileStream(n0512 + "\\" + n0494 + "." + index.n0513(), FileMode.Create, FileAccess.Write);
-			Extract(n0494, fileStream);
+			FileStream fileStream = new FileStream(directory + "\\" + name + "." + index.GetExtension(), FileMode.Create, FileAccess.Write);
+			Extract(name, fileStream);
 			fileStream.Close();
 			GC.Collect();
 		}
 
-		public void n0514(string n0512)
+		public void ExtractAll(string directory)
 		{
 			if (!keyVerified)
 			{
 				throw new ArchiveException();
 			}
-			int num = index.n0515();
+			int num = index.GetCount();
 			for (int i = 0; i < num; i++)
 			{
-				string n536;
-				index.FindEntry(i, out n536);
-				Extract(n536, n0512);
+				string offset;
+				index.FindEntry(i, out offset);
+				Extract(offset, directory);
 			}
 		}
 
-		public MemoryStream ReadEntry(string n0494)
+		public MemoryStream ReadEntry(string name)
 		{
 			if (!keyVerified)
 			{
 				throw new ArchiveException();
 			}
 			MemoryStream memoryStream = new MemoryStream();
-			Extract(n0494, memoryStream);
+			Extract(name, memoryStream);
 			memoryStream.Position = 0L;
 			return memoryStream;
 		}
 
-		public void AddEntry(Stream n0509)
+		public void AddEntry(Stream dataStream)
 		{
 			if (!keyVerified)
 			{
 				throw new ArchiveException();
 			}
-			if (n0509 == null)
+			if (dataStream == null)
 			{
 				throw new ArgumentException("Null Stream");
 			}
-			if (!n0509.CanRead)
+			if (!dataStream.CanRead)
 			{
 				throw new ArgumentException("Stream cannot Write");
 			}
 			byte[] buffer = new byte[1024];
-			string text = index.n0517();
+			string text = index.GetCurrentName();
 			int num2;
 			MemoryStream memoryStream;
 			CryptoStream cryptoStream;
@@ -223,12 +223,12 @@ namespace n0001
 					array2[j] = (byte)keyMaterialB[j];
 				}
 				TripleDESCryptoServiceProvider tripleDESCryptoServiceProvider = new TripleDESCryptoServiceProvider();
-				n0509.Position = 0L;
+				dataStream.Position = 0L;
 				cryptoStream = new CryptoStream(memoryStream, tripleDESCryptoServiceProvider.CreateEncryptor(array, array2), CryptoStreamMode.Write);
 				int num;
 				do
 				{
-					num = n0509.Read(buffer, 0, 1024);
+					num = dataStream.Read(buffer, 0, 1024);
 					cryptoStream.Write(buffer, 0, num);
 				}
 				while (num == 1024);
@@ -241,11 +241,11 @@ namespace n0001
 			{
 				throw new IOException("Error Encode " + text);
 			}
-			int n536;
-			index.AppendEntrySize(num2, out n536);
+			int offset;
+			index.AppendEntrySize(num2, out offset);
 			try
 			{
-				stream.Position = n536;
+				stream.Position = offset;
 				int k;
 				for (k = 0; k + 1024 < num2; k += 1024)
 				{
@@ -267,38 +267,38 @@ namespace n0001
 			GC.Collect();
 		}
 
-		public void AddEntry(string n0512)
+		public void AddEntry(string directory)
 		{
 			if (!keyVerified)
 			{
 				throw new ArchiveException();
 			}
-			string text = index.n0517();
-			FileStream fileStream = new FileStream(n0512 + "\\" + text + "." + index.n0513(), FileMode.Open, FileAccess.Read);
+			string text = index.GetCurrentName();
+			FileStream fileStream = new FileStream(directory + "\\" + text + "." + index.GetExtension(), FileMode.Open, FileAccess.Read);
 			AddEntry(fileStream);
 			fileStream.Close();
 			GC.Collect();
 		}
 
-		public void n0519(string n0512, string n0520)
+		public void BuildArchive(string directory, string extension)
 		{
 			if (!keyVerified)
 			{
 				throw new ArchiveException();
 			}
-			DirectoryInfo directoryInfo = new DirectoryInfo(n0512);
-			FileInfo[] files = directoryInfo.GetFiles("*." + n0520);
+			DirectoryInfo directoryInfo = new DirectoryInfo(directory);
+			FileInfo[] files = directoryInfo.GetFiles("*." + extension);
 			int num = files.Length;
 			index = new ArchiveIndex();
 			for (int i = 0; i < num; i++)
 			{
-				index.n0521(files[i].Name.Substring(0, files[i].Name.Length - files[i].Extension.Length));
+				index.AddEntry(files[i].Name.Substring(0, files[i].Name.Length - files[i].Extension.Length));
 			}
-			index.n0522(n0520);
+			index.SetExtension(extension);
 			SaveIndex();
 			for (int j = 0; j < num; j++)
 			{
-				AddEntry(n0512);
+				AddEntry(directory);
 			}
 			SaveIndex();
 		}

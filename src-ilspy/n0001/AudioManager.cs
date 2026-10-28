@@ -1,7 +1,7 @@
 using System;
-using n0062;
+using Yukihota.Audio;
 
-namespace n0001
+namespace Yukihota
 {
 	public class AudioManager : IDisposable
 	{
@@ -31,86 +31,86 @@ namespace n0001
 
 		public void Dispose()
 		{
-			voicePackage.n0162();
-			bgmPackage.n0162();
-			sePackage.n0162();
+			voicePackage.Close();
+			bgmPackage.Close();
+			sePackage.Close();
 			GC.SuppressFinalize(this);
 		}
 
-		public void PlayVoice(string n0241)
+		public void PlayVoice(string name)
 		{
 			voiceSkipped = false;
-			voicePackage.n0162();
-			if (n0241 != null)
+			voicePackage.Close();
+			if (name != null)
 			{
-				voicePackage.Open(n0241);
+				voicePackage.Open(name);
 				voicePackage.Play();
 			}
 		}
 
-		public void n0465()
+		public void StopVoice()
 		{
-			voicePackage.n0162();
+			voicePackage.Close();
 		}
 
-		public double n0414()
+		public double GetVoiceLength()
 		{
-			return voicePackage.n0270();
+			return voicePackage.GetLength();
 		}
 
-		public double n0760()
+		public double GetVoicePosition()
 		{
-			if (voicePackage.n0859())
+			if (voicePackage.IsOpen())
 			{
-				return voicePackage.n0269();
+				return voicePackage.GetPosition();
 			}
 			throw new NullReferenceException();
 		}
 
-		public bool n0382()
+		public bool IsVoiceBlocking()
 		{
-			return voicePackage.n0276() && !voiceSkipped;
+			return voicePackage.IsPlaying() && !voiceSkipped;
 		}
 
-		public void PlayBgm(string n0241, int n0860)
+		public void PlayBgm(string name, int start)
 		{
-			bgmPackage.n0162();
-			if (n0241 != null)
+			bgmPackage.Close();
+			if (name != null)
 			{
-				bgmPackage.Open(n0241);
-				bgmPackage.Play(true, n0860);
+				bgmPackage.Open(name);
+				bgmPackage.Play(true, start);
 			}
 		}
 
-		public void n0464()
+		public void StopBgm()
 		{
-			bgmPackage.n0162();
+			bgmPackage.Close();
 		}
 
-		public void SetBgmVolume(bool n0861)
+		public void SetBgmVolume(bool loud)
 		{
-			bgmPackage.SetVolume(n0861 ? 1000 : 200);
+			bgmPackage.SetVolume(loud ? 1000 : 200);
 		}
 
-		public void PlaySe(string n0241, bool loop, bool n0399)
+		public void PlaySe(string name, bool loop, bool waitForCompletion)
 		{
-			sePackage.n0162();
-			if (n0241 != null)
+			sePackage.Close();
+			if (name != null)
 			{
-				sePackage.Open(n0241);
+				sePackage.Open(name);
 				sePackage.Play(loop);
-				seBlocksScript = n0399 && !loop;
+				seBlocksScript = waitForCompletion && !loop;
 			}
 		}
 
-		public void n0466()
+		public void StopSe()
 		{
-			sePackage.n0162();
+			sePackage.Close();
 		}
 
-		public bool n0381()
+		public bool IsSeBlocking()
 		{
-			return sePackage.n0276() && seBlocksScript;
+			return sePackage.IsPlaying() && seBlocksScript;
 		}
 
 		public void instant()
@@ -119,36 +119,36 @@ namespace n0001
 			voiceSkipped = true;
 		}
 
-		public void SetPaused(bool n0241, bool n0469)
+		public void SetPaused(bool name, bool includeBgm)
 		{
-			if (n0241)
+			if (name)
 			{
-				if (voicePackage.n0859())
+				if (voicePackage.IsOpen())
 				{
-					voicePackage.SetPaused();
+					voicePackage.Pause();
 				}
-				if (sePackage.n0859())
+				if (sePackage.IsOpen())
 				{
-					sePackage.SetPaused();
+					sePackage.Pause();
 				}
-				if (n0469 && bgmPackage.n0859())
+				if (includeBgm && bgmPackage.IsOpen())
 				{
-					bgmPackage.SetPaused();
+					bgmPackage.Pause();
 				}
 			}
 			else
 			{
-				if (voicePackage.n0859())
+				if (voicePackage.IsOpen())
 				{
-					voicePackage.n0165();
+					voicePackage.Resume();
 				}
-				if (sePackage.n0859())
+				if (sePackage.IsOpen())
 				{
-					sePackage.n0165();
+					sePackage.Resume();
 				}
-				if (n0469 && bgmPackage.n0859())
+				if (includeBgm && bgmPackage.IsOpen())
 				{
-					bgmPackage.n0165();
+					bgmPackage.Resume();
 				}
 			}
 		}

@@ -1,6 +1,6 @@
 using System;
 
-namespace n0001
+namespace Yukihota
 {
 	public class AudioException : Exception
 	{

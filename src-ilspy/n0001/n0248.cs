@@ -1,4 +1,4 @@
-namespace n0001
+namespace Yukihota
 {
 	public delegate void FrameCallback();
 }
