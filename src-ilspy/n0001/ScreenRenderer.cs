@@ -542,15 +542,15 @@ namespace Yukihota
 			dialogueHidden = false;
 			modeIconIndex = 0;
 			systemArchive = new ArchiveFile("System", ArchiveMode.Read);
-			n0561();
-			n0562();
-			n0563();
-			n0564();
-			n0565();
-			n0566();
-			n0567();
-			n0568();
-			n0569();
+			InitNextIndicator();
+			InitBackground();
+			InitEffects();
+			InitCharacters();
+			InitNotice();
+			InitMessage();
+			InitDialogueFrame();
+			InitCaption();
+			InitModeIcon();
 		}
 
 		~ScreenRenderer()
@@ -576,7 +576,7 @@ namespace Yukihota
 			shadowColorQueue.Clear();
 		}
 
-		public void n0463()
+		public void Render()
 		{
 			device.Clear(ClearFlags.Target, Color.Black, 1f, 0);
 			n0216.Clear();
@@ -600,18 +600,18 @@ namespace Yukihota
 			shadowColorQueue.Clear();
 			device.BeginScene();
 			sprite.Begin(SpriteFlags.AlphaBlend);
-			n0584();
-			n0585();
-			n0586();
-			n0587();
-			n0588();
+			DrawBackground();
+			DrawBackgroundEffects();
+			DrawCharacters();
+			DrawForegroundEffects();
+			DrawMessage();
 			if (!dialogueHidden)
 			{
-				n0589();
+				DrawCaption();
 			}
-			n0590();
-			n0591();
-			n0592();
+			FadeOutBackground();
+			DrawNotice();
+			DrawModeIcon();
 			sprite.End();
 			device.EndScene();
 			try
@@ -634,7 +634,7 @@ namespace Yukihota
 			}
 		}
 
-		public void n0215()
+		public void Repaint()
 		{
 			device.Clear(ClearFlags.Target, Color.White, 1f, 0);
 			device.BeginScene();
@@ -722,7 +722,7 @@ namespace Yukihota
 			return captionLines != null && captionProgress < (double)(captionLines[(int)layoutIndex].Length - captionStartIndexes[(int)layoutIndex] + 4);
 		}
 
-		public void n0197(bool n0241)
+		public void HideDialogue(bool n0241)
 		{
 			dialogueHidden = n0241;
 			if (n0241 && captionLines != null)
@@ -732,7 +732,7 @@ namespace Yukihota
 			}
 		}
 
-		public void n0197()
+		public void HideDialogue()
 		{
 			dialogueHidden = !dialogueHidden;
 			if (dialogueHidden && captionLines != null && captionVoiceLength == 0.0)
@@ -839,9 +839,9 @@ namespace Yukihota
 			if (layoutIndex != n0046)
 			{
 				layoutIndex = n0046;
-				n0625();
-				n0626();
-				n0627();
+				RebuildNoticeFont();
+				RebuildMessageFont();
+				RebuildCaptionFont();
 			}
 		}
 
@@ -850,9 +850,9 @@ namespace Yukihota
 			if (baseFont != n0353)
 			{
 				baseFont = n0353;
-				n0625();
-				n0626();
-				n0627();
+				RebuildNoticeFont();
+				RebuildMessageFont();
+				RebuildCaptionFont();
 			}
 		}
 
@@ -868,39 +868,39 @@ namespace Yukihota
 
 		public void Dispose()
 		{
-			n0628();
-			n0629();
-			n0630();
-			n0631();
-			n0632();
-			n0633();
-			n0634();
-			n0635();
+			DisposeBackground();
+			DisposeEffects();
+			DisposeCharacters();
+			DisposeNoticeFont();
+			DisposeMessageFont();
+			DisposeDialogueFrame();
+			DisposeCaptionFont();
+			DisposeModeIcon();
 			GC.SuppressFinalize(this);
 		}
 
-		public void n0249(bool extensionName)
+		public void SetFadeEnabled(bool extensionName)
 		{
 			if (fadeEnabled != extensionName)
 			{
-				n0625();
-				n0626();
-				n0627();
+				RebuildNoticeFont();
+				RebuildMessageFont();
+				RebuildCaptionFont();
 			}
 			fadeEnabled = extensionName;
 		}
 
-		public void n0250(bool extensionName)
+		public void SetSunEffectEnabled(bool extensionName)
 		{
 			sunEffectEnabled = extensionName;
 		}
 
-		public void n0251(bool extensionName)
+		public void SetEffectEnabled(bool extensionName)
 		{
 			effectEnabled = extensionName;
 		}
 
-		public void n0252(bool extensionName)
+		public void SetShockEffectEnabled(bool extensionName)
 		{
 			shockEffectEnabled = extensionName;
 		}
@@ -920,17 +920,17 @@ namespace Yukihota
 			throw new Exception("Invalid Speed");
 		}
 
-		public void n0254(bool extensionName)
+		public void SetSyncVoice(bool extensionName)
 		{
 			syncVoice = extensionName;
 		}
 
-		private void n0561()
+		private void InitNextIndicator()
 		{
 			indicatorPhase = 0;
 		}
 
-		private void n0637(int n0638, int n0639)
+		private void DrawNextIndicator(int n0638, int n0639)
 		{
 			Rectangle n880 = new Rectangle(indicatorColumns[indicatorPhase % 16] * 32, 0, 32, 32);
 			Point n881 = new Point(n0638 + indicatorOffsetX[indicatorPhase], n0639 + indicatorOffsetY[indicatorPhase]);
@@ -1076,7 +1076,7 @@ namespace Yukihota
 			return new Point(num, num4);
 		}
 
-		private void n0562()
+		private void InitBackground()
 		{
 			backgroundFadeCounter = 0;
 			backgroundColor = (previousBackgroundColor = Color.White);
@@ -1087,7 +1087,7 @@ namespace Yukihota
 			backgroundRedrawPending = false;
 		}
 
-		private void n0628()
+		private void DisposeBackground()
 		{
 			if (backgroundTexture != null)
 			{
@@ -1120,7 +1120,7 @@ namespace Yukihota
 			backgroundWipeActive = false;
 			if (thinkActive)
 			{
-				n0660();
+				RebuildDesaturatedBackground();
 			}
 			else if (desaturatedBackgroundTexture != null)
 			{
@@ -1151,7 +1151,7 @@ namespace Yukihota
 			}
 		}
 
-		private void n0584()
+		private void DrawBackground()
 		{
 			if (backgroundFadeCounter > 0 || backgroundRedrawPending)
 			{
@@ -1317,7 +1317,7 @@ namespace Yukihota
 			backgroundDrawnAsColor = true;
 		}
 
-		private void n0590()
+		private void FadeOutBackground()
 		{
 			if (backgroundFadeCounter <= 0 || backgroundWipeActive)
 			{
@@ -1345,7 +1345,7 @@ namespace Yukihota
 			}
 		}
 
-		private void n0660()
+		private void RebuildDesaturatedBackground()
 		{
 			if (desaturatedBackgroundTexture != null)
 			{
@@ -1371,27 +1371,27 @@ namespace Yukihota
 			desaturatedBackgroundTexture.UnlockRectangle(0);
 		}
 
-		private void n0563()
+		private void InitEffects()
 		{
-			n0667();
-			n0668();
-			n0669();
-			n0670();
-			n0671();
-			n0672();
-			n0673();
-			n0674();
+			InitBackgroundWipe();
+			InitZoom();
+			InitShake();
+			InitSunEffect();
+			InitPetals();
+			InitSnow();
+			InitDimOverlay();
+			InitThinkOverlay();
 		}
 
-		private void n0629()
+		private void DisposeEffects()
 		{
-			n0675();
-			n0676();
-			n0677();
-			n0678();
+			DisposeSunEffect();
+			DisposePetals();
+			DisposeSnow();
+			DisposeThinkOverlay();
 		}
 
-		private void n0667()
+		private void InitBackgroundWipe()
 		{
 			backgroundWipeBlend = TextureBlend.Normal;
 		}
@@ -1421,7 +1421,7 @@ namespace Yukihota
 			backgroundWipeBlend = blend;
 		}
 
-		private void n0668()
+		private void InitZoom()
 		{
 			zoomActive = false;
 			zoomTargetRect = (zoomSourceRect = screenRect);
@@ -1459,7 +1459,7 @@ namespace Yukihota
 			}
 		}
 
-		public void n0682()
+		public void DrawZoomTransition()
 		{
 			if (!zoomActive || backgroundWipeActive)
 			{
@@ -1518,14 +1518,14 @@ namespace Yukihota
 			}
 		}
 
-		private void n0669()
+		private void InitShake()
 		{
 			shakeActive = false;
 			shakeLoop = false;
 			shakeFrame = 0;
 		}
 
-		public void n0458(bool loop, bool finish)
+		public void SetShake(bool loop, bool finish)
 		{
 			if (!finish)
 			{
@@ -1554,7 +1554,7 @@ namespace Yukihota
 			}
 		}
 
-		private void n0683()
+		private void DrawShake()
 		{
 			if (!shakeActive)
 			{
@@ -1617,7 +1617,7 @@ namespace Yukihota
 			}
 		}
 
-		private void n0670()
+		private void InitSunEffect()
 		{
 			sunTexture = TextureLoader.FromStream(device, systemArchive.ReadEntry("SUN"), 80, 80, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 			sunActive = false;
@@ -1631,12 +1631,12 @@ namespace Yukihota
 			sunRandom = new Random();
 		}
 
-		private void n0675()
+		private void DisposeSunEffect()
 		{
 			sunTexture.Dispose();
 		}
 
-		public void n0446(bool finish)
+		public void SetSunActive(bool finish)
 		{
 			if (!finish)
 			{
@@ -1649,7 +1649,7 @@ namespace Yukihota
 			}
 		}
 
-		private void n0695()
+		private void DrawSunEffect()
 		{
 			if (!sunActive || !sunEffectEnabled)
 			{
@@ -1709,7 +1709,7 @@ namespace Yukihota
 			QueueDraw(sunTexture, n880, n881, new Point(x, y), Color.FromArgb((int)(n0697 * durationMode * 255.0), Color.White));
 		}
 
-		private void n0671()
+		private void InitPetals()
 		{
 			petalTexture = TextureLoader.FromStream(device, systemArchive.ReadEntry("SAKURA"), petalFrameSize.Width, petalFrameSize.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 			petalActive = false;
@@ -1728,18 +1728,18 @@ namespace Yukihota
 			petalRandom = new Random();
 		}
 
-		private void n0676()
+		private void DisposePetals()
 		{
 			petalTexture.Dispose();
 		}
 
-		public void n0448(bool finish)
+		public void SetPetalsActive(bool finish)
 		{
 			if (!finish)
 			{
 				petalActive = true;
 				backgroundIsColor = false;
-				n0711();
+				ResetPetals();
 			}
 			else
 			{
@@ -1747,7 +1747,7 @@ namespace Yukihota
 			}
 		}
 
-		private void n0711()
+		private void ResetPetals()
 		{
 			petalActiveCount = petalRandom.Next(20, 30);
 			for (int i = 0; i < petalActiveCount; i++)
@@ -1774,7 +1774,7 @@ namespace Yukihota
 			}
 		}
 
-		private void n0712(bool n0713)
+		private void DrawPetals(bool n0713)
 		{
 			if (!petalActive || !effectEnabled)
 			{
@@ -1890,7 +1890,7 @@ namespace Yukihota
 			QueueDraw(petalTexture, n880, Rectangle.Empty, new Point((int)n0644.X, (int)n0644.Y), Color.White);
 		}
 
-		private void n0672()
+		private void InitSnow()
 		{
 			snowTexture = TextureLoader.FromStream(device, systemArchive.ReadEntry("SNOW"), snowFrameSize.Width, snowFrameSize.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 			snowActive = false;
@@ -1907,18 +1907,18 @@ namespace Yukihota
 			snowRandom = new Random();
 		}
 
-		private void n0677()
+		private void DisposeSnow()
 		{
 			snowTexture.Dispose();
 		}
 
-		public void n0450(bool finish)
+		public void SetSnowActive(bool finish)
 		{
 			if (!finish)
 			{
 				snowActive = true;
 				backgroundIsColor = false;
-				n0728();
+				ResetSnow();
 			}
 			else
 			{
@@ -1926,7 +1926,7 @@ namespace Yukihota
 			}
 		}
 
-		private void n0728()
+		private void ResetSnow()
 		{
 			snowActiveCount = snowRandom.Next(15, 25);
 			for (int i = 0; i < snowActiveCount; i++)
@@ -1949,7 +1949,7 @@ namespace Yukihota
 			}
 		}
 
-		private void n0729()
+		private void DrawSnow()
 		{
 			if (!snowActive || !effectEnabled)
 			{
@@ -2000,14 +2000,14 @@ namespace Yukihota
 			QueueDraw(snowTexture, n880, Rectangle.Empty, new Point((int)n0644.X, (int)n0644.Y), Color.White);
 		}
 
-		private void n0673()
+		private void InitDimOverlay()
 		{
 			dimActive = false;
 			dimReverse = false;
 			dimCounter = 0;
 		}
 
-		public void n0444(bool animate, bool finish)
+		public void SetDimActive(bool animate, bool finish)
 		{
 			if (!finish)
 			{
@@ -2036,7 +2036,7 @@ namespace Yukihota
 			}
 		}
 
-		private void n0731()
+		private void DrawDimOverlay()
 		{
 			if (!dimActive)
 			{
@@ -2066,7 +2066,7 @@ namespace Yukihota
 			}
 		}
 
-		private void n0674()
+		private void InitThinkOverlay()
 		{
 			thinkTexture = TextureLoader.FromStream(device, systemArchive.ReadEntry("THINK"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 			thinkActive = false;
@@ -2074,12 +2074,12 @@ namespace Yukihota
 			thinkCounter = 0;
 		}
 
-		private void n0678()
+		private void DisposeThinkOverlay()
 		{
 			thinkTexture.Dispose();
 		}
 
-		public void n0452(bool animate, bool finish)
+		public void SetThinkActive(bool animate, bool finish)
 		{
 			if (!finish)
 			{
@@ -2094,8 +2094,8 @@ namespace Yukihota
 				{
 					thinkCounter = 0;
 				}
-				n0660();
-				n0733();
+				RebuildDesaturatedBackground();
+				RebuildCharacterShadow();
 			}
 			else
 			{
@@ -2110,7 +2110,7 @@ namespace Yukihota
 			}
 		}
 
-		private void n0734()
+		private void DrawThinkOverlay()
 		{
 			if (!thinkActive)
 			{
@@ -2140,23 +2140,23 @@ namespace Yukihota
 			}
 		}
 
-		private void n0585()
+		private void DrawBackgroundEffects()
 		{
-			n0682();
-			n0683();
-			n0695();
-			n0712(false);
+			DrawZoomTransition();
+			DrawShake();
+			DrawSunEffect();
+			DrawPetals(false);
 		}
 
-		private void n0587()
+		private void DrawForegroundEffects()
 		{
-			n0712(true);
-			n0729();
-			n0731();
-			n0734();
+			DrawPetals(true);
+			DrawSnow();
+			DrawDimOverlay();
+			DrawThinkOverlay();
 		}
 
-		private void n0564()
+		private void InitCharacters()
 		{
 			characterShakeTableX = new int[3][];
 			characterShakeTableX[0] = new int[4] { 4, -4, 4, -4 };
@@ -2188,7 +2188,7 @@ namespace Yukihota
 			}
 		}
 
-		private void n0630()
+		private void DisposeCharacters()
 		{
 			for (int i = 0; i < 3; i++)
 			{
@@ -2232,7 +2232,7 @@ namespace Yukihota
 			}
 			if (thinkActive)
 			{
-				n0733();
+				RebuildCharacterShadow();
 				return;
 			}
 			for (int i = 0; i < 3; i++)
@@ -2245,13 +2245,13 @@ namespace Yukihota
 			}
 		}
 
-		public void n0403(int index, int level)
+		public void SetCharacterShake(int index, int level)
 		{
 			characterShakePatterns[index] = level;
 			characterShakeCounters[index] = characterShakePatternLengths[level];
 		}
 
-		private void n0586()
+		private void DrawCharacters()
 		{
 			for (int i = 0; i < 3; i++)
 			{
@@ -2344,7 +2344,7 @@ namespace Yukihota
 			}
 		}
 
-		private void n0733()
+		private void RebuildCharacterShadow()
 		{
 			for (int i = 0; i < 3; i++)
 			{
@@ -2374,14 +2374,14 @@ namespace Yukihota
 			}
 		}
 
-		private void n0565()
+		private void InitNotice()
 		{
 			n0747 = null;
 			n0748 = 0;
-			n0625();
+			RebuildNoticeFont();
 		}
 
-		private void n0631()
+		private void DisposeNoticeFont()
 		{
 			if (n0593 != null)
 			{
@@ -2389,7 +2389,7 @@ namespace Yukihota
 			}
 		}
 
-		private void n0625()
+		private void RebuildNoticeFont()
 		{
 			if (n0593 != null)
 			{
@@ -2404,7 +2404,7 @@ namespace Yukihota
 			n0748 = 70;
 		}
 
-		private void n0591()
+		private void DrawNotice()
 		{
 			if (n0747 != null)
 			{
@@ -2435,7 +2435,7 @@ namespace Yukihota
 			}
 		}
 
-		private void n0566()
+		private void InitMessage()
 		{
 			messageLines = null;
 			messageFontSizeMode = HorizontalAlign.Left;
@@ -2453,10 +2453,10 @@ namespace Yukihota
 			{
 				messageStartIndexes[i] = 0;
 			}
-			n0626();
+			RebuildMessageFont();
 		}
 
-		private void n0632()
+		private void DisposeMessageFont()
 		{
 			if (messageFont != null)
 			{
@@ -2464,7 +2464,7 @@ namespace Yukihota
 			}
 		}
 
-		private void n0626()
+		private void RebuildMessageFont()
 		{
 			if (messageFont != null)
 			{
@@ -2533,7 +2533,7 @@ namespace Yukihota
 			}
 		}
 
-		public void n0427(bool animate)
+		public void DismissMessage(bool animate)
 		{
 			if (animate)
 			{
@@ -2551,7 +2551,7 @@ namespace Yukihota
 			messageVisibleChars = 0;
 		}
 
-		private void n0588()
+		private void DrawMessage()
 		{
 			if (messageLines == null)
 			{
@@ -2660,19 +2660,19 @@ namespace Yukihota
 			case TextRevealMode.Typewriter:
 				if (messageProgress >= (double)messageLines[(int)layoutIndex].Length - (double)messageStartIndexes[(int)layoutIndex] + 4.0)
 				{
-					n0637(lastTextPosition.X, lastTextPosition.Y);
+					DrawNextIndicator(lastTextPosition.X, lastTextPosition.Y);
 				}
 				break;
 			case TextRevealMode.Fade:
 				if (lineRevealCounter == 0)
 				{
-					n0637(lastTextPosition.X, lastTextPosition.Y);
+					DrawNextIndicator(lastTextPosition.X, lastTextPosition.Y);
 				}
 				break;
 			}
 		}
 
-		private void n0567()
+		private void InitDialogueFrame()
 		{
 			dialogueTexture = TextureLoader.FromStream(device, systemArchive.ReadEntry("DIALOGUE"), dialogueRect.Width, dialogueRect.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 			characterPanelTexture = TextureLoader.FromStream(device, systemArchive.ReadEntry("CHARA"), characterPanelSize.Width, characterPanelSize.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
@@ -2682,7 +2682,7 @@ namespace Yukihota
 			characterPanelVisible = false;
 		}
 
-		private void n0633()
+		private void DisposeDialogueFrame()
 		{
 			dialogueTexture.Dispose();
 			characterPanelTexture.Dispose();
@@ -2747,7 +2747,7 @@ namespace Yukihota
 			return true;
 		}
 
-		private void n0568()
+		private void InitCaption()
 		{
 			captionLines = null;
 			captionOptionLines = null;
@@ -2760,10 +2760,10 @@ namespace Yukihota
 			{
 				captionStartIndexes[i] = 0;
 			}
-			n0627();
+			RebuildCaptionFont();
 		}
 
-		private void n0634()
+		private void DisposeCaptionFont()
 		{
 			if (captionFont != null)
 			{
@@ -2771,7 +2771,7 @@ namespace Yukihota
 			}
 		}
 
-		private void n0627()
+		private void RebuildCaptionFont()
 		{
 			if (captionFont != null)
 			{
@@ -2857,7 +2857,7 @@ namespace Yukihota
 			}
 		}
 
-		private void n0589()
+		private void DrawCaption()
 		{
 			if (captionLines == null)
 			{
@@ -2909,7 +2909,7 @@ namespace Yukihota
 				}
 				if ((syncVoice || !audioManager.IsVoiceBlocking()) && captionProgress >= (double)captionLines[(int)layoutIndex].Length - (double)captionStartIndexes[(int)layoutIndex] + 4.0)
 				{
-					n0637(captionLastPosition.X, captionLastPosition.Y);
+					DrawNextIndicator(captionLastPosition.X, captionLastPosition.Y);
 				}
 				if (captionOptionLines != null && DrawDialogueFrame(true))
 				{
@@ -2919,23 +2919,23 @@ namespace Yukihota
 			}
 		}
 
-		public void n0467(int n0241)
+		public void SetMessageSpeed(int n0241)
 		{
 			modeIconIndex = n0241;
 		}
 
-		private void n0569()
+		private void InitModeIcon()
 		{
 			modeIconTexture = TextureLoader.FromStream(device, systemArchive.ReadEntry("ICON"), modeIconTextureSize.Width, modeIconTextureSize.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 			modeIconFrame = 0;
 		}
 
-		private void n0635()
+		private void DisposeModeIcon()
 		{
 			modeIconTexture.Dispose();
 		}
 
-		private void n0592()
+		private void DrawModeIcon()
 		{
 			if (modeIconIndex > 0)
 			{

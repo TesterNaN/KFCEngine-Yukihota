@@ -63,19 +63,19 @@ namespace Yukihota
 
 		private ButtonLayout buttonLayout;
 
-		public SceneDirector(string n0348, int n0246, Microsoft.DirectX.Direct3D.Device n0349, Sprite n0350, FrameCallback n0225, Texture n0351, EffectObject n0352, System.Drawing.Font n0353, ButtonLayout n0046, Color n0266)
+		public SceneDirector(string scriptPath, int episode, Microsoft.DirectX.Direct3D.Device device, Sprite sprite, FrameCallback frameCallback, Texture overlayTexture, EffectObject n0352, System.Drawing.Font font, ButtonLayout layout, Color textColor)
 		{
-			scenario = new ScenarioScript(n0348, n0246, n0349);
+			scenario = new ScenarioScript(scriptPath, episode, device);
 			audio = new AudioManager();
-			renderer = new ScreenRenderer(n0349, n0350, n0225, n0351, n0353, n0046, n0266, audio);
-			renderer.SetFont(n0353);
-			renderer.SetButtonLayout(n0046);
-			graphicsDevice = n0349;
-			spriteBatch = n0350;
-			frameHandler = n0225;
-			whiteTexture = n0351;
-			uiFont = n0353;
-			buttonLayout = n0046;
+			renderer = new ScreenRenderer(device, sprite, frameCallback, overlayTexture, font, layout, textColor, audio);
+			renderer.SetFont(font);
+			renderer.SetButtonLayout(layout);
+			graphicsDevice = device;
+			spriteBatch = sprite;
+			frameHandler = frameCallback;
+			whiteTexture = overlayTexture;
+			uiFont = font;
+			buttonLayout = layout;
 			shakeEffect = n0352;
 			waitingForClick = false;
 			skipMode = false;
@@ -183,7 +183,7 @@ namespace Yukihota
 									shakeEffect.Start(1);
 									shockFramesLeft = shockFrames[((SpriteState)resultOption).level];
 								}
-								renderer.n0403(((SpriteState)resultOption).index - 1, ((SpriteState)resultOption).level);
+								renderer.SetCharacterShake(((SpriteState)resultOption).index - 1, ((SpriteState)resultOption).level);
 							}
 							goto default;
 						case ScenarioResult.Message:
@@ -221,7 +221,7 @@ namespace Yukihota
 							}
 							goto default;
 						case ScenarioResult.Dismiss:
-							renderer.n0427((bool)resultOption);
+							renderer.DismissMessage((bool)resultOption);
 							goto default;
 						case ScenarioResult.Notice:
 							renderer.ShowNotice((string[])resultData);
@@ -234,20 +234,20 @@ namespace Yukihota
 								finishingAnimation = false;
 								break;
 							case DrawItemType.Dim:
-								renderer.n0444(((DrawItem)resultOption).isAnimated, ((DrawItem)resultOption).finish);
+								renderer.SetDimActive(((DrawItem)resultOption).isAnimated, ((DrawItem)resultOption).finish);
 								finishingAnimation = false;
 								break;
 							case DrawItemType.Sun:
-								renderer.n0446(((DrawItem)resultOption).finish);
+								renderer.SetSunActive(((DrawItem)resultOption).finish);
 								break;
 							case DrawItemType.Petals:
-								renderer.n0448(((DrawItem)resultOption).finish);
+								renderer.SetPetalsActive(((DrawItem)resultOption).finish);
 								break;
 							case DrawItemType.Snow:
-								renderer.n0450(((DrawItem)resultOption).finish);
+								renderer.SetSnowActive(((DrawItem)resultOption).finish);
 								break;
 							case DrawItemType.Think:
-								renderer.n0452(((DrawItem)resultOption).isAnimated, ((DrawItem)resultOption).finish);
+								renderer.SetThinkActive(((DrawItem)resultOption).isAnimated, ((DrawItem)resultOption).finish);
 								finishingAnimation = false;
 								break;
 							case DrawItemType.Background:
@@ -271,7 +271,7 @@ namespace Yukihota
 										shockFramesLeft = 0;
 									}
 								}
-								renderer.n0458(((FlagItem)resultOption).loop, ((FlagItem)resultOption).finish);
+								renderer.SetShake(((FlagItem)resultOption).loop, ((FlagItem)resultOption).finish);
 								break;
 							}
 							goto default;
@@ -348,15 +348,15 @@ namespace Yukihota
 					shockFramesLeft = 1;
 				}
 			}
-			renderer.n0463();
+			renderer.Render();
 			return true;
 		}
 
-		public void n0215()
+		public void Repaint()
 		{
 			if (!staffRollPlaying)
 			{
-				renderer.n0215();
+				renderer.Repaint();
 			}
 			else
 			{
@@ -415,32 +415,32 @@ namespace Yukihota
 			}
 			skipMode = false;
 			autoMode = false;
-			renderer.n0197(false);
-			renderer.n0467(0);
+			renderer.HideDialogue(false);
+			renderer.SetMessageSpeed(0);
 		}
 
-		public void instant(bool n0241, bool n0468)
+		public void instant(bool enabled, bool isHold)
 		{
 			if (staffRollPlaying)
 			{
 				return;
 			}
 			audio.StopVoice();
-			if (n0241 && !n0468)
+			if (enabled && !isHold)
 			{
-				renderer.n0467(1);
+				renderer.SetMessageSpeed(1);
 			}
 			else
 			{
-				renderer.n0467(0);
+				renderer.SetMessageSpeed(0);
 			}
-			if (skipMode == n0241)
+			if (skipMode == enabled)
 			{
 				return;
 			}
-			skipMode = n0241;
+			skipMode = enabled;
 			autoMode = false;
-			renderer.n0197(false);
+			renderer.HideDialogue(false);
 			if (skipMode)
 			{
 				if (waitingForClick && captionCommitPending)
@@ -476,23 +476,23 @@ namespace Yukihota
 			}
 		}
 
-		public void n0200(bool n0241)
+		public void SetAutoMode(bool enabled)
 		{
 			if (staffRollPlaying)
 			{
 				return;
 			}
-			if (n0241)
+			if (enabled)
 			{
-				renderer.n0467(2);
+				renderer.SetMessageSpeed(2);
 			}
 			else
 			{
-				renderer.n0467(0);
+				renderer.SetMessageSpeed(0);
 			}
-			autoMode = n0241;
+			autoMode = enabled;
 			skipMode = false;
-			renderer.n0197(false);
+			renderer.HideDialogue(false);
 			if (autoMode && waitingForClick)
 			{
 				waitingForClick = false;
@@ -506,57 +506,57 @@ namespace Yukihota
 			}
 		}
 
-		public void n0200()
+		public void SetAutoMode()
 		{
 			if (autoMode)
 			{
-				n0200(false);
+				SetAutoMode(false);
 			}
 			else
 			{
-				n0200(true);
+				SetAutoMode(true);
 			}
 		}
 
-		public void n0197(bool n0241)
+		public void HideDialogue(bool enabled)
 		{
 			if (!staffRollPlaying)
 			{
 				autoMode = false;
 				skipMode = false;
-				renderer.n0197(n0241);
-				renderer.n0467(0);
+				renderer.HideDialogue(enabled);
+				renderer.SetMessageSpeed(0);
 			}
 		}
 
-		public void n0197()
+		public void HideDialogue()
 		{
 			if (!staffRollPlaying)
 			{
 				autoMode = false;
 				skipMode = false;
-				renderer.n0197();
-				renderer.n0467(0);
+				renderer.HideDialogue();
+				renderer.SetMessageSpeed(0);
 			}
 		}
 
-		public void SetFont(System.Drawing.Font n0353)
+		public void SetFont(System.Drawing.Font font)
 		{
 			if (!staffRollPlaying)
 			{
-				renderer.SetFont(n0353);
-				uiFont = n0353;
+				renderer.SetFont(font);
+				uiFont = font;
 			}
 		}
 
-		public void SetButtonLayout(ButtonLayout n0046)
+		public void SetButtonLayout(ButtonLayout layout)
 		{
 			if (staffRollPlaying)
 			{
-				staffRoll.SetButtonLayout(n0046);
+				staffRoll.SetButtonLayout(layout);
 			}
-			renderer.SetButtonLayout(n0046);
-			buttonLayout = n0046;
+			renderer.SetButtonLayout(layout);
+			buttonLayout = layout;
 		}
 
 		public int n0157()
@@ -569,15 +569,15 @@ namespace Yukihota
 			return scenario.n0159();
 		}
 
-		public void SetPaused(bool n0241, bool n0469)
+		public void SetPaused(bool enabled, bool n0469)
 		{
 			if (!staffRollPlaying)
 			{
-				audio.SetPaused(n0241, n0469);
+				audio.SetPaused(enabled, n0469);
 			}
 			else
 			{
-				staffRoll.SetPaused(n0241);
+				staffRoll.SetPaused(enabled);
 			}
 		}
 
@@ -586,24 +586,24 @@ namespace Yukihota
 			return staffRollPlaying;
 		}
 
-		public void n0249(bool extensionName)
+		public void SetFadeEnabled(bool extensionName)
 		{
-			renderer.n0249(extensionName);
+			renderer.SetFadeEnabled(extensionName);
 		}
 
-		public void n0250(bool extensionName)
+		public void SetSunEffectEnabled(bool extensionName)
 		{
-			renderer.n0250(extensionName);
+			renderer.SetSunEffectEnabled(extensionName);
 		}
 
-		public void n0251(bool extensionName)
+		public void SetEffectEnabled(bool extensionName)
 		{
-			renderer.n0251(extensionName);
+			renderer.SetEffectEnabled(extensionName);
 		}
 
-		public void n0252(bool extensionName)
+		public void SetShockEffectEnabled(bool extensionName)
 		{
-			renderer.n0252(extensionName);
+			renderer.SetShockEffectEnabled(extensionName);
 		}
 
 		public void SetDialogueColor(Color extensionName)
@@ -616,9 +616,9 @@ namespace Yukihota
 			renderer.SetTextSpeed(extensionName);
 		}
 
-		public void n0254(bool extensionName)
+		public void SetSyncVoice(bool extensionName)
 		{
-			renderer.n0254(extensionName);
+			renderer.SetSyncVoice(extensionName);
 		}
 	}
 }

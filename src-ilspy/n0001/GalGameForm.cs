@@ -1079,7 +1079,7 @@ namespace Yukihota
 					f2KeyDown = true;
 					if (gameMode == 1)
 					{
-						director.n0197();
+						director.HideDialogue();
 					}
 				}
 				break;
@@ -1099,7 +1099,7 @@ namespace Yukihota
 					f4KeyDown = true;
 					if (gameMode == 1)
 					{
-						director.n0200();
+						director.SetAutoMode();
 					}
 				}
 				break;
@@ -1109,7 +1109,7 @@ namespace Yukihota
 					f8KeyDown = true;
 					if (gameMode == 1 && !director.n0188())
 					{
-						director.n0200(false);
+						director.SetAutoMode(false);
 						director.SetPaused(true, false);
 						scenarioTimer.Stop();
 						n0140();
@@ -1256,7 +1256,7 @@ namespace Yukihota
 			}
 			if (gameMode == 1)
 			{
-				director.n0215();
+				director.Repaint();
 				return;
 			}
 			device.Clear(ClearFlags.Target, Color.White, 1f, 0);
@@ -1314,18 +1314,18 @@ namespace Yukihota
 				director.waitClick();
 				break;
 			case 1:
-				director.n0197();
+				director.HideDialogue();
 				break;
 			case 2:
 				director.instant();
 				break;
 			case 3:
-				director.n0200();
+				director.SetAutoMode();
 				break;
 			case 8:
 				if (!director.n0188())
 				{
-					director.n0200(false);
+					director.SetAutoMode(false);
 					director.SetPaused(true, false);
 					scenarioTimer.Stop();
 					n0140();
@@ -1363,7 +1363,7 @@ namespace Yukihota
 
 		private void n0101(object n0035, EventArgs n0036)
 		{
-			director.n0200(false);
+			director.SetAutoMode(false);
 			director.SetPaused(true, false);
 			scenarioTimer.Stop();
 			n0140();
@@ -1382,12 +1382,12 @@ namespace Yukihota
 
 		private void n0104(object n0035, EventArgs n0036)
 		{
-			director.n0200();
+			director.SetAutoMode();
 		}
 
 		private void n0105(object n0035, EventArgs n0036)
 		{
-			director.n0197();
+			director.HideDialogue();
 		}
 
 		private void n0106(object n0035, EventArgs n0036)
@@ -1799,12 +1799,12 @@ namespace Yukihota
 			try
 			{
 				director = new SceneDirector("Yukihota", n0246, device, sprite, new FrameCallback(n0225), n0135, forceFeedbackEffect, new System.Drawing.Font(fontName, 24f), language, textColor);
-				director.n0249(fadeEnabled);
-				director.n0250(sunEnabled);
-				director.n0251(envEnabled);
-				director.n0252(shockEnabled);
+				director.SetFadeEnabled(fadeEnabled);
+				director.SetSunEffectEnabled(sunEnabled);
+				director.SetEffectEnabled(envEnabled);
+				director.SetShockEffectEnabled(shockEnabled);
 				director.SetTextSpeed(textSpeed);
-				director.n0254(voiceSynchro);
+				director.SetSyncVoice(voiceSynchro);
 			}
 			catch (Exception ex)
 			{
@@ -2560,13 +2560,13 @@ namespace Yukihota
 						n0220.Clear();
 						overlayText = null;
 						gameMode = 1;
-						director.n0249(fadeEnabled);
-						director.n0250(sunEnabled);
-						director.n0251(envEnabled);
-						director.n0252(shockEnabled);
+						director.SetFadeEnabled(fadeEnabled);
+						director.SetSunEffectEnabled(sunEnabled);
+						director.SetEffectEnabled(envEnabled);
+						director.SetShockEffectEnabled(shockEnabled);
 						director.SetDialogueColor(textColor);
 						director.SetTextSpeed(textSpeed);
-						director.n0254(voiceSynchro);
+						director.SetSyncVoice(voiceSynchro);
 						director.SetPaused(false, false);
 						scenarioTimer.Start();
 						flag = true;
