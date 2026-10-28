@@ -33,9 +33,9 @@ namespace Yukihota
 
 		protected const int sunSpriteSize = 80;
 
-		protected const double n0791 = 0.5;
+		protected const double sunScaleMin = 0.5;
 
-		protected const double n0792 = 0.25;
+		protected const double sunSpawnChance = 0.25;
 
 		protected const int sunScaleMax = 450;
 
@@ -49,17 +49,17 @@ namespace Yukihota
 
 		protected const int petalMinCount = 20;
 
-		protected const float n0799 = 16f;
+		protected const float petalSpeedRange = 16f;
 
-		protected const float n0800 = 8f;
+		protected const float petalDriftRange = 8f;
 
-		protected const float n0801 = 0.1f;
+		protected const float petalDriftStep = 0.1f;
 
 		protected const int petalLifeMin = 40;
 
 		protected const int petalLifeMax = 200;
 
-		protected const double n0804 = 0.2;
+		protected const double petalSpawnChance = 0.2;
 
 		protected const int petalFrameSizePixels = 24;
 
@@ -73,21 +73,21 @@ namespace Yukihota
 
 		protected const int snowflakeMinCount = 15;
 
-		protected const float n0811 = 6f;
+		protected const float snowSpeedRange = 6f;
 
-		protected const float n0812 = 2f;
+		protected const float snowSpeedBase = 2f;
 
-		protected const float n0813 = 24f;
+		protected const float snowSwayRange = 24f;
 
-		protected const float n0814 = 8f;
+		protected const float snowSwayBase = 8f;
 
-		protected const float n0815 = 0.02f;
+		protected const float snowSwayFrequencyRange = 0.02f;
 
-		protected const float n0816 = 0.01f;
+		protected const float snowSwayFrequencyBase = 0.01f;
 
-		protected const double n0817 = Math.PI * 2.0;
+		protected const double twoPi = Math.PI * 2.0;
 
-		protected const double n0818 = 0.2;
+		protected const double snowSpawnChance = 0.2;
 
 		protected const int snowFrameSizePixels = 16;
 
