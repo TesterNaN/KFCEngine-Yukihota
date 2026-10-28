@@ -143,7 +143,7 @@ namespace Yukihota
 			}
 			else
 			{
-				bool flag = true;
+				bool found = true;
 				while (currentNodes[0].ParentNode != episodeNodes[0])
 				{
 					if (currentNodes[0].ParentNode.NextSibling != null)
@@ -157,7 +157,7 @@ namespace Yukihota
 							}
 							currentNodes[k] = currentNodes[k].ParentNode.NextSibling;
 						}
-						flag = false;
+						found = false;
 						break;
 					}
 					for (int l = 0; l < 3; l++)
@@ -170,7 +170,7 @@ namespace Yukihota
 						currentNodes[l] = currentNodes[l].ParentNode;
 					}
 				}
-				if (flag)
+				if (found)
 				{
 					if (currentNodes[0].ParentNode.NextSibling == null)
 					{
@@ -253,10 +253,10 @@ namespace Yukihota
 				{
 					try
 					{
-						int num = int.Parse(currentNodes[0].Attributes["album"].Value);
-						if (num > maxAlbumIndex)
+						int albumIndex = int.Parse(currentNodes[0].Attributes["album"].Value);
+						if (albumIndex > maxAlbumIndex)
 						{
-							maxAlbumIndex = num;
+							maxAlbumIndex = albumIndex;
 						}
 					}
 					catch (Exception ex3)
@@ -274,9 +274,9 @@ namespace Yukihota
 					try
 					{
 						bgmArchive.Extract(currentNodes[0].Attributes["name"].Value, tempDirectory);
-						for (int num2 = 0; num2 < 4; num2++)
+						for (int attempt = 0; attempt < 4; attempt++)
 						{
-							bool flag2 = false;
+							bool retry = false;
 							try
 							{
 								if (File.Exists(tempDirectory + "\\bgm" + bgmSlotIndex + ".wav"))
@@ -286,14 +286,14 @@ namespace Yukihota
 							}
 							catch (Exception ex4)
 							{
-								if (num2 >= 3)
+								if (attempt >= 3)
 								{
 									MessageBox.Show(ex4.Message);
 									return ScenarioResult.Error;
 								}
-								flag2 = true;
+								retry = true;
 							}
-							if (!flag2)
+							if (!retry)
 							{
 								break;
 							}
@@ -508,9 +508,9 @@ namespace Yukihota
 						try
 						{
 							seArchive.Extract(currentNodes[0].Attributes["name"].Value, tempDirectory);
-							for (int num3 = 0; num3 < 4; num3++)
+							for (int attempt = 0; attempt < 4; attempt++)
 							{
-								bool flag3 = false;
+								bool retry = false;
 								try
 								{
 									if (File.Exists(tempDirectory + "\\se" + seSlotIndex + ".wav"))
@@ -520,14 +520,14 @@ namespace Yukihota
 								}
 								catch (Exception ex11)
 								{
-									if (num3 >= 3)
+									if (attempt >= 3)
 									{
 										MessageBox.Show(ex11.Message);
 										return ScenarioResult.Error;
 									}
-									flag3 = true;
+									retry = true;
 								}
-								if (!flag3)
+								if (!retry)
 								{
 									break;
 								}
@@ -602,14 +602,14 @@ namespace Yukihota
 				if (currentNodes[0].Name == "title")
 				{
 					resultData = new string[3];
-					for (int num4 = 0; num4 < 3; num4++)
+					for (int languageIndex = 0; languageIndex < 3; languageIndex++)
 					{
-						if (episodeNodes[num4].Attributes["title"] == null)
+						if (episodeNodes[languageIndex].Attributes["title"] == null)
 						{
 							MessageBox.Show(errorMessage);
 							return ScenarioResult.Error;
 						}
-						((string[])resultData)[num4] = episodeNodes[num4].Attributes["title"].Value;
+						((string[])resultData)[languageIndex] = episodeNodes[languageIndex].Attributes["title"].Value;
 					}
 					return ScenarioResult.Notice;
 				}
@@ -792,10 +792,10 @@ namespace Yukihota
 						{
 							try
 							{
-								int num5 = int.Parse(currentNodes[0].Attributes["album"].Value);
-								if (num5 > maxAlbumIndex)
+								int albumIndex = int.Parse(currentNodes[0].Attributes["album"].Value);
+								if (albumIndex > maxAlbumIndex)
 								{
-									maxAlbumIndex = num5;
+									maxAlbumIndex = albumIndex;
 								}
 							}
 							catch (Exception ex17)
@@ -854,9 +854,9 @@ namespace Yukihota
 				if (currentNodes[0].Name == "ed")
 				{
 					bgmArchive.Extract("BGM37", tempDirectory);
-					for (int num6 = 0; num6 < 4; num6++)
+					for (int attempt = 0; attempt < 4; attempt++)
 					{
-						bool flag4 = false;
+						bool retry = false;
 						try
 						{
 							if (File.Exists(tempDirectory + "\\bgm" + bgmSlotIndex + ".wav"))
@@ -866,14 +866,14 @@ namespace Yukihota
 						}
 						catch (Exception ex18)
 						{
-							if (num6 >= 3)
+							if (attempt >= 3)
 							{
 								MessageBox.Show(ex18.Message);
 								return ScenarioResult.Error;
 							}
-							flag4 = true;
+							retry = true;
 						}
-						if (!flag4)
+						if (!retry)
 						{
 							break;
 						}
@@ -884,9 +884,9 @@ namespace Yukihota
 					string instance = tempDirectory + "\\bgm" + bgmSlotIndex + ".wav";
 					bgmSlotIndex = (bgmSlotIndex + 1) % 4;
 					XmlDocument[] array2 = new XmlDocument[3];
-					for (int num7 = 0; num7 < 3; num7++)
+					for (int languageIndex = 0; languageIndex < 3; languageIndex++)
 					{
-						array2[num7] = new XmlDocument();
+						array2[languageIndex] = new XmlDocument();
 					}
 					array2[0].Load(scriptArchive.ReadEntry("ED_SC"));
 					array2[1].Load(scriptArchive.ReadEntry("ED_TC"));
@@ -904,50 +904,50 @@ namespace Yukihota
 			else
 			{
 				resultData = new string[3];
-				for (int num8 = 0; num8 < 3; num8++)
+				for (int languageIndex = 0; languageIndex < 3; languageIndex++)
 				{
 					string[] array3 = (string[])resultData;
-					array3[num8] = "";
-					if (currentNodes[num8].HasChildNodes)
+					array3[languageIndex] = "";
+					if (currentNodes[languageIndex].HasChildNodes)
 					{
-						for (int num9 = 0; num9 < currentNodes[num8].ChildNodes.Count; num9++)
+						for (int childIndex = 0; childIndex < currentNodes[languageIndex].ChildNodes.Count; childIndex++)
 						{
-							if (currentNodes[num8].ChildNodes[num9].Name == "br")
+							if (currentNodes[languageIndex].ChildNodes[childIndex].Name == "br")
 							{
-								if (currentNodes[num8].ChildNodes[num9].Attributes["line"] == null)
+								if (currentNodes[languageIndex].ChildNodes[childIndex].Attributes["line"] == null)
 								{
 									string[] array4;
 									IntPtr intPtr;
-									(array4 = (string[])resultData)[(int)(intPtr = (IntPtr)num8)] = array4[(int)intPtr] + "\n";
+									(array4 = (string[])resultData)[(int)(intPtr = (IntPtr)languageIndex)] = array4[(int)intPtr] + "\n";
 									continue;
 								}
-								int num10 = 1;
+								int lineCount = 1;
 								try
 								{
-									num10 = int.Parse(currentNodes[num8].ChildNodes[num9].Attributes["line"].Value);
+									lineCount = int.Parse(currentNodes[languageIndex].ChildNodes[childIndex].Attributes["line"].Value);
 								}
 								catch (Exception ex19)
 								{
 									MessageBox.Show(ex19.Message);
 									return ScenarioResult.Error;
 								}
-								for (int num11 = 0; num11 < num10; num11++)
+								for (int lineIndex = 0; lineIndex < lineCount; lineIndex++)
 								{
 									string[] array5;
 									IntPtr intPtr2;
-									(array5 = (string[])resultData)[(int)(intPtr2 = (IntPtr)num8)] = array5[(int)intPtr2] + "\n";
+									(array5 = (string[])resultData)[(int)(intPtr2 = (IntPtr)languageIndex)] = array5[(int)intPtr2] + "\n";
 								}
 							}
 							else
 							{
-								if (currentNodes[num8].ChildNodes[num9].NodeType != XmlNodeType.Text)
+								if (currentNodes[languageIndex].ChildNodes[childIndex].NodeType != XmlNodeType.Text)
 								{
 									MessageBox.Show(errorMessage);
 									return ScenarioResult.Error;
 								}
 								string[] array6;
 								IntPtr intPtr3;
-								(array6 = (string[])resultData)[(int)(intPtr3 = (IntPtr)num8)] = array6[(int)intPtr3] + currentNodes[num8].ChildNodes[num9].Value;
+								(array6 = (string[])resultData)[(int)(intPtr3 = (IntPtr)languageIndex)] = array6[(int)intPtr3] + currentNodes[languageIndex].ChildNodes[childIndex].Value;
 							}
 						}
 						continue;
@@ -969,9 +969,9 @@ namespace Yukihota
 					try
 					{
 						voiceArchive.Extract(currentNodes[0].Attributes["voice"].Value, tempDirectory);
-						for (int num12 = 0; num12 < 4; num12++)
+						for (int attempt = 0; attempt < 4; attempt++)
 						{
-							bool flag5 = false;
+							bool retry = false;
 							try
 							{
 								if (File.Exists(tempDirectory + "\\voice" + voiceSlotIndex + ".wav"))
@@ -981,14 +981,14 @@ namespace Yukihota
 							}
 							catch (Exception ex20)
 							{
-								if (num12 >= 3)
+								if (attempt >= 3)
 								{
 									MessageBox.Show(ex20.Message);
 									return ScenarioResult.Error;
 								}
-								flag5 = true;
+								retry = true;
 							}
-							if (!flag5)
+							if (!retry)
 							{
 								break;
 							}
@@ -1088,14 +1088,14 @@ namespace Yukihota
 			resultOption = new CaptionCommand();
 			if (currentNodes[0].Attributes["chara"] != null)
 			{
-				for (int num13 = 0; num13 < 3; num13++)
+				for (int languageIndex = 0; languageIndex < 3; languageIndex++)
 				{
-					if (currentNodes[num13].Attributes["chara"] == null)
+					if (currentNodes[languageIndex].Attributes["chara"] == null)
 					{
 						MessageBox.Show(errorMessage);
 						return ScenarioResult.Error;
 					}
-					((CaptionCommand)resultOption).charaNames[num13] = currentNodes[num13].Attributes["chara"].Value;
+					((CaptionCommand)resultOption).charaNames[languageIndex] = currentNodes[languageIndex].Attributes["chara"].Value;
 				}
 			}
 			else

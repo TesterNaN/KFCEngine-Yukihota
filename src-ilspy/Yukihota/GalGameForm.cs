@@ -545,20 +545,20 @@ namespace Yukihota
 			{
 				MessageBox.Show(ex.Message);
 			}
-			bool flag = true;
+			bool showCopyright = true;
 			noOperationMode = false;
 			for (int i = 0; i < args.Length; i++)
 			{
 				if (args[i] == "/nocopyright")
 				{
-					flag = false;
+					showCopyright = false;
 				}
 				if (args[i] == "/noop")
 				{
 					noOperationMode = true;
 				}
 			}
-			if (flag)
+			if (showCopyright)
 			{
 				MessageBox.Show("本游戏为KID Fans Club特别创作组免费制作并发布。\n仅供广大KID Fans试玩，请于下载后24小时自觉删除，\n任何个人或组织不得将其用于任何形式的商业用途，\n违者如造成商业侵权，KID Fans Club将不负连带责任。\n相关说明见Readme.txt\n\n本遊戲為KID Fans Club特別創作組免費製作並發佈。\n僅供廣大KID Fans試玩，請於下載後24小時自覺刪除，\n任何個人或組織不得將其用於任何形式的商業用途，\n違者如造成商業侵權，KID Fans Club將不負連帶責任。\n相關說明見Readme.txt");
 			}
@@ -1273,14 +1273,14 @@ namespace Yukihota
 				{
 					Microsoft.DirectX.Direct3D.Font font = d3dFont;
 					Sprite spriteLocal = this.sprite;
-					string text = overlayText[j].ToString();
-					int num = textOrigin.X;
-					font.DrawText(spriteLocal, text, num + charCellSize.Width * j + 2, textOrigin.Y + 2, Color.Black);
+					string titleText = overlayText[j].ToString();
+					int titleX = textOrigin.X;
+					font.DrawText(spriteLocal, titleText, titleX + charCellSize.Width * j + 2, textOrigin.Y + 2, Color.Black);
 					Microsoft.DirectX.Direct3D.Font font2 = d3dFont;
 					Sprite sprite2 = spriteLocal;
-					string text2 = overlayText[j].ToString();
-					int num2 = textOrigin.X;
-					font2.DrawText(sprite2, text2, num2 + charCellSize.Width * j, textOrigin.Y, Color.White);
+					string outlineText = overlayText[j].ToString();
+					int outlineX = textOrigin.X;
+					font2.DrawText(sprite2, outlineText, outlineX + charCellSize.Width * j, textOrigin.Y, Color.White);
 				}
 			}
 			sprite.End();
@@ -1307,7 +1307,7 @@ namespace Yukihota
 
 		private void OnScenarioTimerTick(object sender, EventArgs e)
 		{
-			bool flag = false;
+			bool leftScenario = false;
 			switch (PollJoystick())
 			{
 			case 0:
@@ -1330,14 +1330,14 @@ namespace Yukihota
 					scenarioTimer.Stop();
 					LoadOptionsResources();
 					OpenOptions();
-					flag = true;
+					leftScenario = true;
 				}
 				break;
 			case 9:
 				if (!director.IsStaffRollPlaying())
 				{
 					ReturnToTitle();
-					flag = true;
+					leftScenario = true;
 				}
 				break;
 			}
@@ -1351,7 +1351,7 @@ namespace Yukihota
 				director.SetButtonLayout(language);
 				languageResetPending = false;
 			}
-			if (!flag && !director.Update())
+			if (!leftScenario && !director.Update())
 			{
 				ReturnToTitle();
 			}
@@ -1620,10 +1620,10 @@ namespace Yukihota
 			}
 			try
 			{
-				int num = int.Parse(xmlNode.InnerText);
-				if (num >= min && num <= max)
+				int parsedValue = int.Parse(xmlNode.InnerText);
+				if (parsedValue >= min && parsedValue <= max)
 				{
-					value = num;
+					value = parsedValue;
 				}
 			}
 			catch
@@ -1756,21 +1756,21 @@ namespace Yukihota
 					return -1;
 				}
 				byte[] buttons = currentJoystickState.GetButtons();
-				int num = currentJoystickState.X;
-				int num2 = currentJoystickState.Y;
-				if (num < -500 && num < -Math.Abs(num2))
+				int axisX = currentJoystickState.X;
+				int axisY = currentJoystickState.Y;
+				if (axisX < -500 && axisX < -Math.Abs(axisY))
 				{
 					buttons[4] = 128;
 				}
-				else if (num > 500 && num > Math.Abs(num2))
+				else if (axisX > 500 && axisX > Math.Abs(axisY))
 				{
 					buttons[5] = 128;
 				}
-				else if (num2 < -500 && num2 <= -Math.Abs(num))
+				else if (axisY < -500 && axisY <= -Math.Abs(axisX))
 				{
 					buttons[6] = 128;
 				}
-				else if (num2 > 500 && num2 >= Math.Abs(num))
+				else if (axisY > 500 && axisY >= Math.Abs(axisX))
 				{
 					buttons[7] = 128;
 				}
@@ -1982,9 +1982,9 @@ namespace Yukihota
 			menuFadeCounter = 10;
 			menuFadeIn = true;
 			bool[] array = menuItemEnabled;
-			bool flag;
-			menuItemEnabled[2] = (flag = (menuItemEnabled[4] = true));
-			array[0] = flag;
+			bool enabled;
+			menuItemEnabled[2] = (enabled = (menuItemEnabled[4] = true));
+			array[0] = enabled;
 			menuItemEnabled[1] = unlockedEpisodeCount > 0;
 			menuItemEnabled[3] = unlockedAlbumCount > 0;
 			if (!menuBgmPlayer.IsPlaying())
@@ -2038,8 +2038,8 @@ namespace Yukihota
 		private void OnMenuTimerTick(object sender, EventArgs e)
 		{
 			GC.Collect();
-			int num = PollJoystick();
-			if (num == 0)
+			int inputCode = PollJoystick();
+			if (inputCode == 0)
 			{
 				if (menuSelection > 0 && menuItemEnabled[menuSelection - 1])
 				{
@@ -2048,17 +2048,17 @@ namespace Yukihota
 			}
 			else
 			{
-				int num2 = num;
-				if (num2 == 6)
+				int heldCode = inputCode;
+				if (heldCode == 6)
 				{
 					MoveMenuSelection(0);
 				}
-				else if (num == 7)
+				else if (inputCode == 7)
 				{
 					MoveMenuSelection(1);
 				}
 			}
-			bool flag = false;
+			bool startGame = false;
 			device.Clear(ClearFlags.Target, Color.White, 1f, 0);
 			layerTextures.Clear();
 			layerSourceRects.Clear();
@@ -2085,7 +2085,7 @@ namespace Yukihota
 					switch (menuSelection)
 					{
 					case 1:
-						flag = true;
+						startGame = true;
 						break;
 					case 2:
 						OpenEpisodeSelect();
@@ -2124,7 +2124,7 @@ namespace Yukihota
 				{
 				}
 			}
-			if (flag)
+			if (startGame)
 			{
 				StartScenario(1);
 			}
@@ -2170,23 +2170,23 @@ namespace Yukihota
 			optionsBackTextures[1] = TextureLoader.FromStream(device, systemArchive.ReadEntry("OPT_BGTC"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 			optionsBackTextures[2] = TextureLoader.FromStream(device, systemArchive.ReadEntry("OPT_BGJP"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 			Texture[] array = optionsLabelTextures;
-			int num = 0;
+			int firstIndex = 0;
 			Microsoft.DirectX.Direct3D.Device deviceLocal = this.device;
 			Stream stream = systemArchive.ReadEntry("OPTIONSC");
-			int num2 = optionsLabelSize.Width;
-			array[num] = TextureLoader.FromStream(deviceLocal, stream, num2, optionsLabelSize.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			int firstWidth = optionsLabelSize.Width;
+			array[firstIndex] = TextureLoader.FromStream(deviceLocal, stream, firstWidth, optionsLabelSize.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 			Texture[] array2 = optionsLabelTextures;
-			int num3 = 1;
+			int secondIndex = 1;
 			Microsoft.DirectX.Direct3D.Device device2 = device;
 			Stream stream2 = systemArchive.ReadEntry("OPTIONTC");
-			int num4 = optionsLabelSize.Width;
-			array2[num3] = TextureLoader.FromStream(device2, stream2, num4, optionsLabelSize.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			int secondWidth = optionsLabelSize.Width;
+			array2[secondIndex] = TextureLoader.FromStream(device2, stream2, secondWidth, optionsLabelSize.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 			Texture[] array3 = optionsLabelTextures;
-			int num5 = 2;
+			int thirdIndex = 2;
 			Microsoft.DirectX.Direct3D.Device device3 = device;
 			Stream stream3 = systemArchive.ReadEntry("OPTIONJP");
-			int num6 = optionsLabelSize.Width;
-			array3[num5] = TextureLoader.FromStream(device3, stream3, num6, optionsLabelSize.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			int thirdWidth = optionsLabelSize.Width;
+			array3[thirdIndex] = TextureLoader.FromStream(device3, stream3, thirdWidth, optionsLabelSize.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 		}
 
 		private void FreeOptionsResources()
@@ -2418,8 +2418,8 @@ namespace Yukihota
 
 		private void OnOptionsTimerTick(object sender, EventArgs e)
 		{
-			int num = PollJoystick();
-			switch (num)
+			int inputCode = PollJoystick();
+			switch (inputCode)
 			{
 			case 0:
 				if (optionSelection > 0)
@@ -2431,9 +2431,9 @@ namespace Yukihota
 				CloseOptions();
 				break;
 			}
-			if (num >= 4 && num <= 7)
+			if (inputCode >= 4 && inputCode <= 7)
 			{
-				MoveOptionSelection(num - 4);
+				MoveOptionSelection(inputCode - 4);
 			}
 			device.Clear(ClearFlags.Target, Color.White, 1f, 0);
 			layerTextures.Clear();
@@ -2538,7 +2538,7 @@ namespace Yukihota
 					optionCursorFrame = 0;
 				}
 			}
-			bool flag = false;
+			bool episodeChoice = false;
 			if (optionsFadeCounter > 0)
 			{
 				int alpha = (int)((double)(optionsFadeIn ? optionsFadeCounter : (10 - optionsFadeCounter)) / 10.0 * 255.0);
@@ -2569,7 +2569,7 @@ namespace Yukihota
 						director.SetSyncVoice(voiceSynchro);
 						director.SetPaused(false, false);
 						scenarioTimer.Start();
-						flag = true;
+						episodeChoice = true;
 					}
 					optionSelection = 0;
 				}
@@ -2594,7 +2594,7 @@ namespace Yukihota
 				{
 				}
 			}
-			if (flag)
+			if (episodeChoice)
 			{
 				FreeOptionsResources();
 			}
@@ -2726,7 +2726,7 @@ namespace Yukihota
 				MoveEpisodeSelection(1);
 				break;
 			}
-			int num = 0;
+			int selection = 0;
 			device.Clear(ClearFlags.Target, Color.White, 1f, 0);
 			layerTextures.Clear();
 			layerSourceRects.Clear();
@@ -2762,7 +2762,7 @@ namespace Yukihota
 					}
 					else
 					{
-						num = episodeSelection;
+						selection = episodeSelection;
 					}
 					episodeSelection = 0;
 				}
@@ -2787,9 +2787,9 @@ namespace Yukihota
 				{
 				}
 			}
-			if (num > 0)
+			if (selection > 0)
 			{
-				StartScenario(num);
+				StartScenario(selection);
 			}
 		}
 
@@ -2998,14 +2998,14 @@ namespace Yukihota
 				}
 				if (albumSelection > 0 && unlockedAlbumCount >= albumSelection)
 				{
-					int num = 0;
-					while (num < albumTitles[albumSelection - 1].Length)
+					int charIndex = 0;
+					while (charIndex < albumTitles[albumSelection - 1].Length)
 					{
-						d3dFont.DrawText(sprite, albumTitles[albumSelection - 1][num].ToString(), textOrigin.X + charCellSize.Width * num + 2, textOrigin.Y + 2, Color.Black);
-						d3dFont.DrawText(sprite, albumTitles[albumSelection - 1][num].ToString(), textOrigin.X + charCellSize.Width * num, textOrigin.Y, Color.White);
-						int num2 = num;
-						int num3 = 1;
-						num = num2 + num3;
+						d3dFont.DrawText(sprite, albumTitles[albumSelection - 1][charIndex].ToString(), textOrigin.X + charCellSize.Width * charIndex + 2, textOrigin.Y + 2, Color.Black);
+						d3dFont.DrawText(sprite, albumTitles[albumSelection - 1][charIndex].ToString(), textOrigin.X + charCellSize.Width * charIndex, textOrigin.Y, Color.White);
+						int previousIndex = charIndex;
+						int advance = 1;
+						charIndex = previousIndex + advance;
 					}
 					layerTextures.Add(null);
 					layerSourceRects.Add(null);
