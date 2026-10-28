@@ -437,7 +437,7 @@ namespace Yukihota
 				}
 				if (currentNodes[0].Attributes["animation"] == null || currentNodes[0].Attributes["animation"].Value == "true")
 				{
-					((SpriteState)n0480).n0399 = true;
+					((SpriteState)n0480).isAnimated = true;
 				}
 				else
 				{
@@ -446,11 +446,11 @@ namespace Yukihota
 						MessageBox.Show(errorMessage);
 						return ScenarioResult.Error;
 					}
-					((SpriteState)n0480).n0399 = false;
+					((SpriteState)n0480).isAnimated = false;
 				}
 				if (currentNodes[0].Attributes["synchro"] == null)
 				{
-					((SpriteState)n0480).sync = !((SpriteState)n0480).n0399;
+					((SpriteState)n0480).sync = !((SpriteState)n0480).isAnimated;
 				}
 				else if (currentNodes[0].Attributes["synchro"].Value == "false")
 				{
@@ -487,7 +487,7 @@ namespace Yukihota
 					}
 					if (currentNodes[0].Attributes["animation"] == null || currentNodes[0].Attributes["animation"].Value == "true")
 					{
-						((InputState)n0480).n0399 = true;
+						((InputState)n0480).wait = true;
 					}
 					else
 					{
@@ -496,7 +496,7 @@ namespace Yukihota
 							MessageBox.Show(errorMessage);
 							return ScenarioResult.Error;
 						}
-						((InputState)n0480).n0399 = false;
+						((InputState)n0480).wait = false;
 					}
 					if (currentNodes[0].Attributes["mute"] == null || currentNodes[0].Attributes["mute"].Value == "false")
 					{
@@ -808,7 +808,7 @@ namespace Yukihota
 					if (currentNodes[0].Attributes["animation"] == null || currentNodes[0].Attributes["animation"].Value == "false")
 					{
 						object obj = n0480;
-						((DrawItem)obj).n0399 = false;
+						((DrawItem)obj).isAnimated = false;
 					}
 					else
 					{
@@ -817,11 +817,11 @@ namespace Yukihota
 							MessageBox.Show(errorMessage);
 							return ScenarioResult.Error;
 						}
-						((DrawItem)n0480).n0399 = true;
+						((DrawItem)n0480).isAnimated = true;
 					}
 					if (currentNodes[0].Attributes["synchro"] == null)
 					{
-						((DrawItem)n0480).sync = !((DrawItem)n0480).n0399;
+						((DrawItem)n0480).sync = !((DrawItem)n0480).isAnimated;
 					}
 					else if (currentNodes[0].Attributes["synchro"].Value == "false")
 					{

@@ -4,7 +4,7 @@ namespace Yukihota
 	{
 		public DrawItemType type;
 
-		public bool n0399;
+		public bool isAnimated;
 
 		public bool sync;
 

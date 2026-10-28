@@ -4,6 +4,6 @@ namespace Yukihota
 	{
 		public bool loop;
 
-		public bool n0399;
+		public bool wait;
 	}
 }

@@ -1396,7 +1396,7 @@ namespace Yukihota
 			backgroundWipeBlend = TextureBlend.Normal;
 		}
 
-		public void SetBackgroundWithWipe(Texture texture, TextureBlend blend, bool n0399, int durationMode)
+		public void SetBackgroundWithWipe(Texture texture, TextureBlend blend, bool animate, int durationMode)
 		{
 			if (previousBackgroundTexture != null)
 			{
@@ -1409,7 +1409,7 @@ namespace Yukihota
 			previousBackgroundIsColor = backgroundIsColor;
 			backgroundIsColor = false;
 			backgroundFadeSpeed = durationMode;
-			if (n0399)
+			if (animate)
 			{
 				backgroundFadeCounter = backgroundFadeDurations[durationMode];
 			}
@@ -1429,7 +1429,7 @@ namespace Yukihota
 			zoomSpeedIndex = 0;
 		}
 
-		public void ZoomBackground(double left, double right, double top, double bottom, int n0680, bool n0399, bool finish)
+		public void ZoomBackground(double left, double right, double top, double bottom, int n0680, bool animate, bool finish)
 		{
 			if (finish)
 			{
@@ -1449,7 +1449,7 @@ namespace Yukihota
 			zoomSourceRect = zoomTargetRect;
 			zoomTargetRect = new Rectangle((int)(left * 800.0), (int)(top * 600.0), (int)((right - left) * 800.0), (int)((bottom - top) * 600.0));
 			zoomSpeedIndex = n0680;
-			if (n0399)
+			if (animate)
 			{
 				zoomCounter = zoomDurations[zoomSpeedIndex];
 			}
@@ -2007,14 +2007,14 @@ namespace Yukihota
 			dimCounter = 0;
 		}
 
-		public void n0444(bool n0399, bool finish)
+		public void n0444(bool animate, bool finish)
 		{
 			if (!finish)
 			{
 				dimActive = true;
 				dimReverse = false;
 				backgroundIsColor = false;
-				if (n0399)
+				if (animate)
 				{
 					dimCounter = 10;
 				}
@@ -2026,7 +2026,7 @@ namespace Yukihota
 			else
 			{
 				dimReverse = true;
-				if (n0399)
+				if (animate)
 				{
 					dimCounter = 10;
 					return;
@@ -2079,14 +2079,14 @@ namespace Yukihota
 			thinkTexture.Dispose();
 		}
 
-		public void n0452(bool n0399, bool finish)
+		public void n0452(bool animate, bool finish)
 		{
 			if (!finish)
 			{
 				thinkActive = true;
 				thinkReverse = false;
 				backgroundIsColor = false;
-				if (n0399)
+				if (animate)
 				{
 					thinkCounter = 10;
 				}
@@ -2100,7 +2100,7 @@ namespace Yukihota
 			else
 			{
 				thinkReverse = true;
-				if (n0399)
+				if (animate)
 				{
 					thinkCounter = 10;
 					return;
@@ -2207,7 +2207,7 @@ namespace Yukihota
 			}
 		}
 
-		public void SetCharacter(Texture n0241, Size size, int index, int location, bool isTransparent, bool n0399)
+		public void SetCharacter(Texture n0241, Size size, int index, int location, bool isTransparent, bool animate)
 		{
 			if (previousCharacterTextures[index] != null)
 			{
@@ -2226,7 +2226,7 @@ namespace Yukihota
 			{
 				characterSemiTransparent[index] = isTransparent;
 			}
-			if (n0399)
+			if (animate)
 			{
 				characterAppearCounters[index] = 8;
 			}
@@ -2533,9 +2533,9 @@ namespace Yukihota
 			}
 		}
 
-		public void n0427(bool n0399)
+		public void n0427(bool animate)
 		{
-			if (n0399)
+			if (animate)
 			{
 				messageFadeCounter = 10;
 				return;

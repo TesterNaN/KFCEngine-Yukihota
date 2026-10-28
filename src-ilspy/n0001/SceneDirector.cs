@@ -174,7 +174,7 @@ namespace Yukihota
 						case ScenarioResult.Character:
 							if (((SpriteState)resultOption).action == SpriteMode.Static)
 							{
-								renderer.SetCharacter((Texture)resultData, ((SpriteState)resultOption).size, ((SpriteState)resultOption).index - 1, ((SpriteState)resultOption).location, ((SpriteState)resultOption).isTransparent, ((SpriteState)resultOption).n0399);
+								renderer.SetCharacter((Texture)resultData, ((SpriteState)resultOption).size, ((SpriteState)resultOption).index - 1, ((SpriteState)resultOption).location, ((SpriteState)resultOption).isTransparent, ((SpriteState)resultOption).isAnimated);
 							}
 							else if (((SpriteState)resultOption).action == SpriteMode.Shaking)
 							{
@@ -212,7 +212,7 @@ namespace Yukihota
 							}
 							goto default;
 						case ScenarioResult.Sound:
-							audio.PlaySe((string)resultData, ((InputState)resultOption).loop, ((InputState)resultOption).n0399);
+							audio.PlaySe((string)resultData, ((InputState)resultOption).loop, ((InputState)resultOption).wait);
 							goto default;
 						case ScenarioResult.Jump:
 							if ((int)resultOption > 0)
@@ -230,11 +230,11 @@ namespace Yukihota
 							switch (((DrawItem)resultOption).type)
 							{
 							case DrawItemType.Zoom:
-								renderer.ZoomBackground(((AnimItem)resultOption).left, ((AnimItem)resultOption).right, ((AnimItem)resultOption).top, ((AnimItem)resultOption).bottom, ((AnimItem)resultOption).durationMode, ((AnimItem)resultOption).n0399, ((AnimItem)resultOption).finish);
+								renderer.ZoomBackground(((AnimItem)resultOption).left, ((AnimItem)resultOption).right, ((AnimItem)resultOption).top, ((AnimItem)resultOption).bottom, ((AnimItem)resultOption).durationMode, ((AnimItem)resultOption).isAnimated, ((AnimItem)resultOption).finish);
 								finishingAnimation = false;
 								break;
 							case DrawItemType.Dim:
-								renderer.n0444(((DrawItem)resultOption).n0399, ((DrawItem)resultOption).finish);
+								renderer.n0444(((DrawItem)resultOption).isAnimated, ((DrawItem)resultOption).finish);
 								finishingAnimation = false;
 								break;
 							case DrawItemType.Sun:
@@ -247,11 +247,11 @@ namespace Yukihota
 								renderer.n0450(((DrawItem)resultOption).finish);
 								break;
 							case DrawItemType.Think:
-								renderer.n0452(((DrawItem)resultOption).n0399, ((DrawItem)resultOption).finish);
+								renderer.n0452(((DrawItem)resultOption).isAnimated, ((DrawItem)resultOption).finish);
 								finishingAnimation = false;
 								break;
 							case DrawItemType.Background:
-								renderer.SetBackgroundWithWipe(((TextureItem)resultOption).texture, ((TextureItem)resultOption).blend, ((TextureItem)resultOption).n0399, ((TextureItem)resultOption).durationMode);
+								renderer.SetBackgroundWithWipe(((TextureItem)resultOption).texture, ((TextureItem)resultOption).blend, ((TextureItem)resultOption).isAnimated, ((TextureItem)resultOption).durationMode);
 								finishingAnimation = false;
 								break;
 							case DrawItemType.Shake:
@@ -281,7 +281,7 @@ namespace Yukihota
 							staffRollPlaying = true;
 							goto default;
 						default:
-							if (currentResult == ScenarioResult.Click || currentResult == ScenarioResult.Scene || currentResult == ScenarioResult.Character || (currentResult == ScenarioResult.Sound && ((InputState)resultOption).n0399) || currentResult == ScenarioResult.Notice || (currentResult == ScenarioResult.Draw && ((DrawItem)resultOption).n0399) || currentResult == ScenarioResult.StaffRoll || currentResult == ScenarioResult.Error)
+							if (currentResult == ScenarioResult.Click || currentResult == ScenarioResult.Scene || currentResult == ScenarioResult.Character || (currentResult == ScenarioResult.Sound && ((InputState)resultOption).wait) || currentResult == ScenarioResult.Notice || (currentResult == ScenarioResult.Draw && ((DrawItem)resultOption).isAnimated) || currentResult == ScenarioResult.StaffRoll || currentResult == ScenarioResult.Error)
 							{
 								finishingAnimation = false;
 							}
@@ -298,7 +298,7 @@ namespace Yukihota
 								}
 								else if (currentResult == ScenarioResult.Sound)
 								{
-									flag = ((InputState)resultOption).n0399;
+									flag = ((InputState)resultOption).wait;
 								}
 								else if (currentResult == ScenarioResult.Dismiss)
 								{

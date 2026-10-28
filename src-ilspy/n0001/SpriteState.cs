@@ -16,7 +16,7 @@ namespace Yukihota
 
 		public int index;
 
-		public bool n0399;
+		public bool isAnimated;
 
 		public bool sync;
 	}
