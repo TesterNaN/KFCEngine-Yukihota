@@ -138,7 +138,7 @@ namespace Yukihota
 				}
 				else if (!renderer.IsBusy() && !audio.IsSeBlocking() && !audio.IsVoiceBlocking())
 				{
-					bool flag = false;
+					bool waiting = false;
 					do
 					{
 						switch (currentResult)
@@ -149,7 +149,7 @@ namespace Yukihota
 								waitFramesLeft = (((bool)resultOption) ? waitFrames[0] : waitFrames[2]);
 							}
 							waitingForClick = true;
-							flag = true;
+							waiting = true;
 							goto default;
 						case ScenarioResult.Scene:
 							if (resultData.GetType().Equals(Color.Transparent.GetType()))
@@ -286,7 +286,7 @@ namespace Yukihota
 								finishingAnimation = false;
 							}
 							currentResult = scenario.Advance(out resultData, out resultOption, skipMode);
-							if (flag)
+							if (waiting)
 							{
 								break;
 							}
@@ -294,24 +294,24 @@ namespace Yukihota
 							{
 								if (currentResult == ScenarioResult.Character)
 								{
-									flag = !((SpriteState)resultOption).sync;
+									waiting = !((SpriteState)resultOption).sync;
 								}
 								else if (currentResult == ScenarioResult.Sound)
 								{
-									flag = ((InputState)resultOption).wait;
+									waiting = ((InputState)resultOption).wait;
 								}
 								else if (currentResult == ScenarioResult.Dismiss)
 								{
-									flag = (bool)resultOption;
+									waiting = (bool)resultOption;
 								}
 								else if (currentResult == ScenarioResult.Draw)
 								{
-									flag = !((DrawItem)resultOption).sync;
+									waiting = !((DrawItem)resultOption).sync;
 								}
 							}
 							else
 							{
-								flag = true;
+								waiting = true;
 							}
 							if (finishingAnimation || skipMode)
 							{
@@ -332,7 +332,7 @@ namespace Yukihota
 							return false;
 						}
 					}
-					while (!flag);
+					while (!waiting);
 				}
 			}
 			if (finishingAnimation || skipMode)

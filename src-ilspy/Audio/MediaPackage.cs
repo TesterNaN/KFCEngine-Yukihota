@@ -87,8 +87,8 @@ namespace Yukihota.Audio
 			if (opened)
 			{
 				Stop();
-				string n69 = "close " + alias + " wait";
-				mciSendString(n69, null, 0, IntPtr.Zero);
+				string command = "close " + alias + " wait";
+				mciSendString(command, null, 0, IntPtr.Zero);
 				opened = false;
 				playing = false;
 				paused = false;
@@ -99,10 +99,10 @@ namespace Yukihota.Audio
 		{
 			if (opened)
 			{
-				string text = "play " + alias;
+				string command = "play " + alias;
 				loopEnabled = loop;
-				text = text + " from " + start;
-				mciSendString(text, null, 0, IntPtr.Zero);
+				command = command + " from " + start;
+				mciSendString(command, null, 0, IntPtr.Zero);
 				playing = true;
 				paused = false;
 			}
@@ -122,8 +122,8 @@ namespace Yukihota.Audio
 		{
 			if (opened && playing)
 			{
-				string n69 = "stop " + alias;
-				mciSendString(n69, null, 0, IntPtr.Zero);
+				string command = "stop " + alias;
+				mciSendString(command, null, 0, IntPtr.Zero);
 				playing = false;
 				paused = false;
 			}
@@ -133,8 +133,8 @@ namespace Yukihota.Audio
 		{
 			if (opened && playing && !paused)
 			{
-				string n69 = "pause " + alias;
-				mciSendString(n69, null, 0, IntPtr.Zero);
+				string command = "pause " + alias;
+				mciSendString(command, null, 0, IntPtr.Zero);
 				paused = true;
 			}
 		}
@@ -143,8 +143,8 @@ namespace Yukihota.Audio
 		{
 			if (opened && playing && paused)
 			{
-				string n69 = "resume " + alias;
-				mciSendString(n69, null, 0, IntPtr.Zero);
+				string command = "resume " + alias;
+				mciSendString(command, null, 0, IntPtr.Zero);
 				paused = false;
 			}
 		}
@@ -158,9 +158,9 @@ namespace Yukihota.Audio
 		{
 			if (opened)
 			{
-				string n69 = "status " + alias + " length";
+				string command = "status " + alias + " length";
 				StringBuilder stringBuilder = new StringBuilder(128);
-				mciSendString(n69, stringBuilder, stringBuilder.Capacity, IntPtr.Zero);
+				mciSendString(command, stringBuilder, stringBuilder.Capacity, IntPtr.Zero);
 				int result = -1;
 				try
 				{
@@ -182,9 +182,9 @@ namespace Yukihota.Audio
 			}
 			if (playing)
 			{
-				string n69 = "status " + alias + " position";
+				string command = "status " + alias + " position";
 				StringBuilder stringBuilder = new StringBuilder(128);
-				mciSendString(n69, stringBuilder, stringBuilder.Capacity, IntPtr.Zero);
+				mciSendString(command, stringBuilder, stringBuilder.Capacity, IntPtr.Zero);
 				int result = -1;
 				try
 				{
@@ -202,9 +202,9 @@ namespace Yukihota.Audio
 		{
 			if (opened && playing && !paused)
 			{
-				string n69 = "status " + alias + " volume";
+				string command = "status " + alias + " volume";
 				StringBuilder stringBuilder = new StringBuilder(128);
-				mciSendString(n69, stringBuilder, stringBuilder.Capacity, IntPtr.Zero);
+				mciSendString(command, stringBuilder, stringBuilder.Capacity, IntPtr.Zero);
 				return int.Parse(stringBuilder.ToString());
 			}
 			return 0;
@@ -214,22 +214,22 @@ namespace Yukihota.Audio
 		{
 			if (opened && playing && !paused && volume >= 0 && volume <= 1000)
 			{
-				string n69;
+				string command;
 				if (isWaveAudio)
 				{
-					int num = GetPosition();
+					int startPosition = GetPosition();
 					Close();
-					n69 = "open \"" + fileName + "\" type mpegvideo alias " + alias;
-					mciSendString(n69, null, 0, IntPtr.Zero);
+					command = "open \"" + fileName + "\" type mpegvideo alias " + alias;
+					mciSendString(command, null, 0, IntPtr.Zero);
 					isWaveAudio = false;
-					n69 = "play " + alias + " from " + num;
-					mciSendString(n69, null, 0, IntPtr.Zero);
+					command = "play " + alias + " from " + startPosition;
+					mciSendString(command, null, 0, IntPtr.Zero);
 					opened = true;
 					playing = true;
 					paused = false;
 				}
-				n69 = "setaudio " + alias + " volume to " + volume;
-				mciSendString(n69, null, 0, IntPtr.Zero);
+				command = "setaudio " + alias + " volume to " + volume;
+				mciSendString(command, null, 0, IntPtr.Zero);
 			}
 			else if (volume < 0 && volume > 1000)
 			{

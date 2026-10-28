@@ -31,51 +31,51 @@ namespace Yukihota
 			byte[] array = new byte[8];
 			BinaryReader binaryReader = new BinaryReader(stream);
 			binaryReader.BaseStream.Position = 0L;
-			int num = binaryReader.ReadInt32();
+			int entryCount = binaryReader.ReadInt32();
 			extension = "";
 			array = binaryReader.ReadBytes(4);
 			for (int i = 0; i < 3; i++)
 			{
 				extension += (char)array[i];
 			}
-			for (int j = 0; j < num; j++)
+			for (int j = 0; j < entryCount; j++)
 			{
-				string text = "";
+				string entryName = "";
 				array = binaryReader.ReadBytes(8);
 				for (int k = 0; k < 8 && array[k] != 0; k++)
 				{
-					text += (char)array[k];
+					entryName += (char)array[k];
 				}
-				int num2 = binaryReader.ReadInt32();
-				int num3 = binaryReader.ReadInt32();
-				names.Add(text);
-				lengths.Add(num2);
-				offsets.Add(num3);
+				int entryLength = binaryReader.ReadInt32();
+				int entryOffset = binaryReader.ReadInt32();
+				names.Add(entryName);
+				lengths.Add(entryLength);
+				offsets.Add(entryOffset);
 			}
 		}
 
 		public void Save(Stream stream)
 		{
-			int num = GetCount();
+			int entryCount = GetCount();
 			byte[] array = new byte[8];
 			BinaryWriter binaryWriter = new BinaryWriter(stream);
 			binaryWriter.BaseStream.Position = 0L;
-			binaryWriter.Write(num);
+			binaryWriter.Write(entryCount);
 			for (int i = 0; i < 3; i++)
 			{
 				array[i] = (byte)extension[i];
 			}
 			binaryWriter.Write(array, 0, 4);
-			for (int j = 0; j < num; j++)
+			for (int j = 0; j < entryCount; j++)
 			{
-				string text = (string)names[j];
+				string entryName = (string)names[j];
 				int value = (int)lengths[j];
 				int value2 = (int)offsets[j];
 				for (int k = 0; k < 8; k++)
 				{
-					if (k < text.Length)
+					if (k < entryName.Length)
 					{
-						array[k] = (byte)text[k];
+						array[k] = (byte)entryName[k];
 					}
 					else
 					{
@@ -106,14 +106,14 @@ namespace Yukihota
 			{
 				throw new AudioException();
 			}
-			int num = names.IndexOf(name);
-			if (num == -1)
+			int entryIndex = names.IndexOf(name);
+			if (entryIndex == -1)
 			{
 				throw new FileNotFoundException(name + " is not in the Package");
 			}
-			names.RemoveAt(num);
-			lengths.RemoveAt(num);
-			offsets.RemoveAt(num);
+			names.RemoveAt(entryIndex);
+			lengths.RemoveAt(entryIndex);
+			offsets.RemoveAt(entryIndex);
 		}
 
 		public void AppendEntrySize(int length, out int offset)
@@ -154,14 +154,14 @@ namespace Yukihota
 
 		public void FindEntry(string name, out int offset, out int length)
 		{
-			int num = names.IndexOf(name);
-			if (num == -1)
+			int entryIndex = names.IndexOf(name);
+			if (entryIndex == -1)
 			{
 				offset = (length = -1);
 				return;
 			}
-			offset = (int)offsets[num];
-			length = (int)lengths[num];
+			offset = (int)offsets[entryIndex];
+			length = (int)lengths[entryIndex];
 		}
 
 		public void FindEntry(string name, out int index)

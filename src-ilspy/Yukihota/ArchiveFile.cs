@@ -132,13 +132,13 @@ namespace Yukihota
 				memoryStream.Position = 0L;
 				dataStream.Position = 0L;
 				CryptoStream cryptoStream = new CryptoStream(memoryStream, tripleDESCryptoServiceProvider.CreateDecryptor(array, array2), CryptoStreamMode.Read);
-				int num;
+				int bytesRead;
 				do
 				{
-					num = cryptoStream.Read(buffer, 0, 1024);
-					dataStream.Write(buffer, 0, num);
+					bytesRead = cryptoStream.Read(buffer, 0, 1024);
+					dataStream.Write(buffer, 0, bytesRead);
 				}
-				while (num == 1024);
+				while (bytesRead == 1024);
 				dataStream.Flush();
 				memoryStream.Close();
 				cryptoStream.Close();
@@ -169,8 +169,8 @@ namespace Yukihota
 			{
 				throw new ArchiveException();
 			}
-			int num = index.GetCount();
-			for (int i = 0; i < num; i++)
+			int entryCount = index.GetCount();
+			for (int i = 0; i < entryCount; i++)
 			{
 				string offset;
 				index.FindEntry(i, out offset);
@@ -205,8 +205,8 @@ namespace Yukihota
 				throw new ArgumentException("Stream cannot Write");
 			}
 			byte[] buffer = new byte[1024];
-			string text = index.GetCurrentName();
-			int num2;
+			string entryName = index.GetCurrentName();
+			int encodedLength;
 			MemoryStream memoryStream;
 			CryptoStream cryptoStream;
 			try
@@ -225,42 +225,42 @@ namespace Yukihota
 				TripleDESCryptoServiceProvider tripleDESCryptoServiceProvider = new TripleDESCryptoServiceProvider();
 				dataStream.Position = 0L;
 				cryptoStream = new CryptoStream(memoryStream, tripleDESCryptoServiceProvider.CreateEncryptor(array, array2), CryptoStreamMode.Write);
-				int num;
+				int bytesRead;
 				do
 				{
-					num = dataStream.Read(buffer, 0, 1024);
-					cryptoStream.Write(buffer, 0, num);
+					bytesRead = dataStream.Read(buffer, 0, 1024);
+					cryptoStream.Write(buffer, 0, bytesRead);
 				}
-				while (num == 1024);
+				while (bytesRead == 1024);
 				cryptoStream.Flush();
 				cryptoStream.FlushFinalBlock();
 				memoryStream.Position = 0L;
-				num2 = (int)memoryStream.Length;
+				encodedLength = (int)memoryStream.Length;
 			}
 			catch (Exception)
 			{
-				throw new IOException("Error Encode " + text);
+				throw new IOException("Error Encode " + entryName);
 			}
 			int offset;
-			index.AppendEntrySize(num2, out offset);
+			index.AppendEntrySize(encodedLength, out offset);
 			try
 			{
 				stream.Position = offset;
 				int k;
-				for (k = 0; k + 1024 < num2; k += 1024)
+				for (k = 0; k + 1024 < encodedLength; k += 1024)
 				{
 					memoryStream.Read(buffer, 0, 1024);
 					stream.Write(buffer, 0, 1024);
 				}
-				memoryStream.Read(buffer, 0, num2 - k);
-				stream.Write(buffer, 0, num2 - k);
+				memoryStream.Read(buffer, 0, encodedLength - k);
+				stream.Write(buffer, 0, encodedLength - k);
 				stream.Flush();
 				cryptoStream.Close();
 				memoryStream.Close();
 			}
 			catch (Exception)
 			{
-				throw new IOException("Error Encode " + text);
+				throw new IOException("Error Encode " + entryName);
 			}
 			memoryStream = null;
 			cryptoStream = null;
@@ -273,8 +273,8 @@ namespace Yukihota
 			{
 				throw new ArchiveException();
 			}
-			string text = index.GetCurrentName();
-			FileStream fileStream = new FileStream(directory + "\\" + text + "." + index.GetExtension(), FileMode.Open, FileAccess.Read);
+			string entryName = index.GetCurrentName();
+			FileStream fileStream = new FileStream(directory + "\\" + entryName + "." + index.GetExtension(), FileMode.Open, FileAccess.Read);
 			AddEntry(fileStream);
 			fileStream.Close();
 			GC.Collect();
@@ -288,15 +288,15 @@ namespace Yukihota
 			}
 			DirectoryInfo directoryInfo = new DirectoryInfo(directory);
 			FileInfo[] files = directoryInfo.GetFiles("*." + extension);
-			int num = files.Length;
+			int fileCount = files.Length;
 			index = new ArchiveIndex();
-			for (int i = 0; i < num; i++)
+			for (int i = 0; i < fileCount; i++)
 			{
 				index.AddEntry(files[i].Name.Substring(0, files[i].Name.Length - files[i].Extension.Length));
 			}
 			index.SetExtension(extension);
 			SaveIndex();
-			for (int j = 0; j < num; j++)
+			for (int j = 0; j < fileCount; j++)
 			{
 				AddEntry(directory);
 			}
