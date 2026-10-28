@@ -8,9 +8,9 @@ namespace Yukihota
 {
 	public class StaffRoll : IDisposable
 	{
-		protected const int n0315 = 24;
+		protected const int fontSize = 24;
 
-		protected const int n0556 = 15;
+		protected const int charWidth = 15;
 
 		private MediaPackage edPackage;
 
@@ -40,7 +40,7 @@ namespace Yukihota
 
 		private ButtonLayout layout;
 
-		protected Texture n0135;
+		protected Texture overlayTexture;
 
 		protected readonly string[,] titleLines;
 
@@ -66,7 +66,7 @@ namespace Yukihota
 
 		private int backgroundIndex;
 
-		public StaffRoll(string Bgm, ArchiveFile charaNames, ArchiveFile Scene, XmlNode[] n0348)
+		public StaffRoll(string musicPath, ArchiveFile characterArchive, ArchiveFile backgroundArchive, XmlNode[] edNodes)
 		{
 			titleLines = new string[3, 2]
 			{
@@ -108,10 +108,10 @@ namespace Yukihota
 			barPosition = new Point(0, 560);
 			characterNameSize = new Size(30, 40);
 			edPackage = new MediaPackage("ED");
-			edPackage.Open(Bgm);
-			charaArchive = charaNames;
-			bgArchive = Scene;
-			xmlDocuments = n0348;
+			edPackage.Open(musicPath);
+			charaArchive = characterArchive;
+			bgArchive = backgroundArchive;
+			xmlDocuments = edNodes;
 			for (int i = 0; i < 3; i++)
 			{
 				staffNodes[i] = xmlDocuments[i].SelectSingleNode("ed/staff");
@@ -124,14 +124,14 @@ namespace Yukihota
 			characterTexture = null;
 		}
 
-		public void Initialize(Device n0349, Sprite n0350, FrameCallback n0225, Texture n0351, System.Drawing.Font n0353, ButtonLayout n0046)
+		public void Initialize(Device device, Sprite sprite, FrameCallback frameCallback, Texture whiteTexture, System.Drawing.Font font, ButtonLayout buttonLayout)
 		{
-			graphicsDevice = n0349;
-			spriteBatch = n0350;
-			deviceResetHandler = n0225;
-			n0135 = n0351;
-			textFont = new Microsoft.DirectX.Direct3D.Font(graphicsDevice, new System.Drawing.Font(n0353.FontFamily, 24f));
-			layout = n0046;
+			graphicsDevice = device;
+			spriteBatch = sprite;
+			deviceResetHandler = frameCallback;
+			overlayTexture = whiteTexture;
+			textFont = new Microsoft.DirectX.Direct3D.Font(graphicsDevice, new System.Drawing.Font(font.FontFamily, 24f));
+			layout = buttonLayout;
 		}
 
 		public bool Update()
@@ -274,7 +274,7 @@ namespace Yukihota
 					{
 						spriteBatch.Draw2D(backgroundTexture, Rectangle.Empty, backgroundSourceRect, Point.Empty, 0f, backgroundPosition, Color.FromArgb(num10, Color.White));
 					}
-					spriteBatch.Draw2D(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, 0f, Point.Empty, Color.Transparent);
+					spriteBatch.Draw2D(overlayTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, 0f, Point.Empty, Color.Transparent);
 				}
 				if (num < 163.0)
 				{
@@ -315,7 +315,7 @@ namespace Yukihota
 				edPackage.Close();
 				result = false;
 			}
-			spriteBatch.Draw2D(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, 0f, barPosition, Color.Black);
+			spriteBatch.Draw2D(overlayTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, 0f, barPosition, Color.Black);
 			for (int j = 0; j < musicNodes[(int)layout].ChildNodes.Count - 1; j++)
 			{
 				double num13 = double.Parse(musicNodes[(int)layout].ChildNodes[j].Attributes["start"].Value);
@@ -384,9 +384,9 @@ namespace Yukihota
 			}
 		}
 
-		public void SetPaused(bool n0241)
+		public void SetPaused(bool paused)
 		{
-			if (n0241)
+			if (paused)
 			{
 				edPackage.Pause();
 			}
@@ -396,9 +396,9 @@ namespace Yukihota
 			}
 		}
 
-		public void SetButtonLayout(ButtonLayout n0046)
+		public void SetButtonLayout(ButtonLayout buttonLayout)
 		{
-			layout = n0046;
+			layout = buttonLayout;
 		}
 
 		public void Dispose()

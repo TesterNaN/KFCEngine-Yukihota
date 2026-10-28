@@ -8,7 +8,7 @@ namespace Yukihota
 	{
 		private string extension;
 
-		private ArrayList n0524;
+		private ArrayList names;
 
 		private ArrayList offsets;
 
@@ -20,7 +20,7 @@ namespace Yukihota
 
 		public ArchiveIndex()
 		{
-			n0524 = new ArrayList();
+			names = new ArrayList();
 			offsets = new ArrayList();
 			lengths = new ArrayList();
 			cursor = 0;
@@ -48,7 +48,7 @@ namespace Yukihota
 				}
 				int num2 = binaryReader.ReadInt32();
 				int num3 = binaryReader.ReadInt32();
-				n0524.Add(text);
+				names.Add(text);
 				lengths.Add(num2);
 				offsets.Add(num3);
 			}
@@ -68,7 +68,7 @@ namespace Yukihota
 			binaryWriter.Write(array, 0, 4);
 			for (int j = 0; j < num; j++)
 			{
-				string text = (string)n0524[j];
+				string text = (string)names[j];
 				int value = (int)lengths[j];
 				int value2 = (int)offsets[j];
 				for (int k = 0; k < 8; k++)
@@ -95,7 +95,7 @@ namespace Yukihota
 			{
 				throw new AudioException();
 			}
-			n0524.Add(name);
+			names.Add(name);
 			lengths.Add(0);
 			offsets.Add(0);
 		}
@@ -106,12 +106,12 @@ namespace Yukihota
 			{
 				throw new AudioException();
 			}
-			int num = n0524.IndexOf(name);
+			int num = names.IndexOf(name);
 			if (num == -1)
 			{
 				throw new FileNotFoundException(name + " is not in the Package");
 			}
-			n0524.RemoveAt(num);
+			names.RemoveAt(num);
 			lengths.RemoveAt(num);
 			offsets.RemoveAt(num);
 		}
@@ -122,7 +122,7 @@ namespace Yukihota
 			{
 				throw new ScriptException();
 			}
-			if (cursor >= n0524.Count)
+			if (cursor >= names.Count)
 			{
 				throw new IndexOutOfRangeException("End of the List");
 			}
@@ -145,16 +145,16 @@ namespace Yukihota
 			{
 				throw new ScriptException();
 			}
-			if (cursor >= n0524.Count)
+			if (cursor >= names.Count)
 			{
 				throw new IndexOutOfRangeException("End of the List");
 			}
-			return (string)n0524[cursor];
+			return (string)names[cursor];
 		}
 
 		public void FindEntry(string name, out int offset, out int length)
 		{
-			int num = n0524.IndexOf(name);
+			int num = names.IndexOf(name);
 			if (num == -1)
 			{
 				offset = (length = -1);
@@ -166,16 +166,16 @@ namespace Yukihota
 
 		public void FindEntry(string name, out int index)
 		{
-			index = n0524.IndexOf(name);
+			index = names.IndexOf(name);
 		}
 
 		public void FindEntry(int index, out string name)
 		{
-			if (index >= n0524.Count || index < 0)
+			if (index >= names.Count || index < 0)
 			{
 				throw new ArgumentException("Invalid Index");
 			}
-			name = (string)n0524[index];
+			name = (string)names[index];
 		}
 
 		public void Lock()
@@ -185,12 +185,12 @@ namespace Yukihota
 
 		public int GetCount()
 		{
-			return n0524.Count;
+			return names.Count;
 		}
 
 		public int GetHeaderSize()
 		{
-			return n0524.Count * 16 + 8;
+			return names.Count * 16 + 8;
 		}
 
 		public void SetExtension(string extensionName)
