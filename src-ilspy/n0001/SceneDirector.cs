@@ -37,31 +37,31 @@ namespace n0001
 
 		protected readonly int[] n0401 = new int[3] { 4, 6, 16 };
 
-		private int n0368;
+		private int waitFramesLeft;
 
-		private int n0369;
+		private int shockFramesLeft;
 
-		private bool n0370;
+		private bool captionCommitPending;
 
-		private bool n0371;
+		private bool captionDisappear;
 
-		private bool n0372;
+		private bool captionHideName;
 
-		private bool n0374;
+		private bool staffRollPlaying;
 
-		private StaffRoll n0373;
+		private StaffRoll staffRoll;
 
-		private Microsoft.DirectX.Direct3D.Device n0133;
+		private Microsoft.DirectX.Direct3D.Device graphicsDevice;
 
-		private Sprite n0360;
+		private Sprite spriteBatch;
 
-		private FrameCallback n0361;
+		private FrameCallback frameHandler;
 
-		private Texture n0135;
+		private Texture whiteTexture;
 
-		private System.Drawing.Font n0362;
+		private System.Drawing.Font uiFont;
 
-		private ButtonLayout n0363;
+		private ButtonLayout buttonLayout;
 
 		public SceneDirector(string n0348, int n0246, Microsoft.DirectX.Direct3D.Device n0349, Sprite n0350, FrameCallback n0225, Texture n0351, EffectObject n0352, System.Drawing.Font n0353, ButtonLayout n0046, Color n0266)
 		{
@@ -70,24 +70,24 @@ namespace n0001
 			n0358 = new ScreenRenderer(n0349, n0350, n0225, n0351, n0353, n0046, n0266, n0356);
 			n0358.SetFont(n0353);
 			n0358.SetButtonLayout(n0046);
-			n0133 = n0349;
-			n0360 = n0350;
-			n0361 = n0225;
-			n0135 = n0351;
-			n0362 = n0353;
-			n0363 = n0046;
+			graphicsDevice = n0349;
+			spriteBatch = n0350;
+			frameHandler = n0225;
+			whiteTexture = n0351;
+			uiFont = n0353;
+			buttonLayout = n0046;
 			n0009 = n0352;
 			n0364 = false;
 			n0365 = false;
 			n0366 = false;
 			n0367 = false;
-			n0368 = 0;
-			n0369 = 0;
-			n0370 = false;
-			n0371 = false;
-			n0372 = false;
-			n0373 = null;
-			n0374 = false;
+			waitFramesLeft = 0;
+			shockFramesLeft = 0;
+			captionCommitPending = false;
+			captionDisappear = false;
+			captionHideName = false;
+			staffRoll = null;
+			staffRollPlaying = false;
 			n0375 = n0354.Advance(out n0377, out n0378, false);
 		}
 
@@ -101,40 +101,40 @@ namespace n0001
 
 		public bool Update()
 		{
-			if (n0374)
+			if (staffRollPlaying)
 			{
-				if (!n0373.Update())
+				if (!staffRoll.Update())
 				{
-					n0373.Dispose();
-					n0373 = null;
-					n0374 = false;
+					staffRoll.Dispose();
+					staffRoll = null;
+					staffRollPlaying = false;
 				}
 				return true;
 			}
-			if ((n0365 && n0364) || (n0366 && n0364 && n0368 == 0))
+			if ((n0365 && n0364) || (n0366 && n0364 && waitFramesLeft == 0))
 			{
 				n0364 = false;
-				if (n0370)
+				if (captionCommitPending)
 				{
-					n0358.CloseDialogue(n0371, n0372, n0365);
-					n0370 = false;
-					n0371 = false;
-					n0372 = false;
+					n0358.CloseDialogue(captionDisappear, captionHideName, n0365);
+					captionCommitPending = false;
+					captionDisappear = false;
+					captionHideName = false;
 				}
 			}
 			if (n0366 || !n0364)
 			{
-				if (n0369 > 0)
+				if (shockFramesLeft > 0)
 				{
-					n0369--;
-					if (n0369 == 0)
+					shockFramesLeft--;
+					if (shockFramesLeft == 0)
 					{
 						n0009.Stop();
 					}
 				}
-				if (n0368 > 0)
+				if (waitFramesLeft > 0)
 				{
-					n0368--;
+					waitFramesLeft--;
 				}
 				else if (!n0358.IsBusy() && !n0356.n0381() && !n0356.n0382())
 				{
@@ -146,7 +146,7 @@ namespace n0001
 						case ScenarioResult.n0174:
 							if (n0366)
 							{
-								n0368 = (((bool)n0378) ? n0384[0] : n0384[2]);
+								waitFramesLeft = (((bool)n0378) ? n0384[0] : n0384[2]);
 							}
 							n0364 = true;
 							flag = true;
@@ -181,7 +181,7 @@ namespace n0001
 								if (n0009 != null)
 								{
 									n0009.Start(1);
-									n0369 = n0401[((SpriteState)n0378).n0402];
+									shockFramesLeft = n0401[((SpriteState)n0378).n0402];
 								}
 								n0358.n0403(((SpriteState)n0378).n0309 - 1, ((SpriteState)n0378).n0402);
 							}
@@ -198,9 +198,9 @@ namespace n0001
 							}
 							goto default;
 						case ScenarioResult.n0415:
-							n0370 = true;
-							n0371 = ((CaptionCommand)n0378).n0417;
-							n0372 = ((CaptionCommand)n0378).n0418;
+							captionCommitPending = true;
+							captionDisappear = ((CaptionCommand)n0378).n0417;
+							captionHideName = ((CaptionCommand)n0378).n0418;
 							if (!n0365)
 							{
 								n0356.PlayVoice(((ScriptCommand)n0378).n0407);
@@ -217,7 +217,7 @@ namespace n0001
 						case ScenarioResult.n0425:
 							if ((int)n0378 > 0)
 							{
-								n0368 = n0384[(int)n0378 - 1];
+								waitFramesLeft = n0384[(int)n0378 - 1];
 							}
 							goto default;
 						case ScenarioResult.n0426:
@@ -260,15 +260,15 @@ namespace n0001
 									n0009.Start(1);
 									if (!((FlagItem)n0378).n0424)
 									{
-										n0369 = n0401[2];
+										shockFramesLeft = n0401[2];
 									}
 									else if (!((FlagItem)n0378).n0442)
 									{
-										n0369 = int.MaxValue;
+										shockFramesLeft = int.MaxValue;
 									}
 									else
 									{
-										n0369 = 0;
+										shockFramesLeft = 0;
 									}
 								}
 								n0358.n0458(((FlagItem)n0378).n0424, ((FlagItem)n0378).n0442);
@@ -276,9 +276,9 @@ namespace n0001
 							}
 							goto default;
 						case ScenarioResult.n0459:
-							n0373 = (StaffRoll)n0377;
-							n0373.Initialize(n0133, n0360, new FrameCallback(n0361), n0135, new System.Drawing.Font(n0362.FontFamily, 24f), n0363);
-							n0374 = true;
+							staffRoll = (StaffRoll)n0377;
+							staffRoll.Initialize(graphicsDevice, spriteBatch, new FrameCallback(frameHandler), whiteTexture, new System.Drawing.Font(uiFont.FontFamily, 24f), buttonLayout);
+							staffRollPlaying = true;
 							goto default;
 						default:
 							if (n0375 == ScenarioResult.n0174 || n0375 == ScenarioResult.n0385 || n0375 == ScenarioResult.n0390 || (n0375 == ScenarioResult.n0421 && ((InputState)n0378).n0399) || n0375 == ScenarioResult.n0428 || (n0375 == ScenarioResult.n0430 && ((DrawItem)n0378).n0399) || n0375 == ScenarioResult.n0459 || n0375 == ScenarioResult.n0442)
@@ -317,13 +317,13 @@ namespace n0001
 							{
 								n0358.n0168();
 								n0356.n0168();
-								if (n0368 > 0)
+								if (waitFramesLeft > 0)
 								{
-									n0368 = 0;
+									waitFramesLeft = 0;
 								}
-								if (n0369 > 0)
+								if (shockFramesLeft > 0)
 								{
-									n0369 = 1;
+									shockFramesLeft = 1;
 								}
 							}
 							break;
@@ -339,13 +339,13 @@ namespace n0001
 			{
 				n0358.n0168();
 				n0356.n0168();
-				if (n0368 > 0)
+				if (waitFramesLeft > 0)
 				{
-					n0368 = 0;
+					waitFramesLeft = 0;
 				}
-				if (n0369 > 0)
+				if (shockFramesLeft > 0)
 				{
-					n0369 = 1;
+					shockFramesLeft = 1;
 				}
 			}
 			n0358.n0463();
@@ -354,19 +354,19 @@ namespace n0001
 
 		public void n0215()
 		{
-			if (!n0374)
+			if (!staffRollPlaying)
 			{
 				n0358.n0215();
 			}
 			else
 			{
-				n0373.Update();
+				staffRoll.Update();
 			}
 		}
 
 		public void n0230()
 		{
-			if (!n0374)
+			if (!staffRollPlaying)
 			{
 				n0356.n0464();
 				n0356.n0465();
@@ -374,16 +374,16 @@ namespace n0001
 			}
 			else
 			{
-				n0373.n0230();
-				n0373.Dispose();
-				n0373 = null;
-				n0374 = false;
+				staffRoll.n0230();
+				staffRoll.Dispose();
+				staffRoll = null;
+				staffRollPlaying = false;
 			}
 		}
 
 		public void n0174()
 		{
-			if (n0374)
+			if (staffRollPlaying)
 			{
 				return;
 			}
@@ -391,25 +391,25 @@ namespace n0001
 			{
 				n0364 = false;
 				n0356.n0465();
-				if (n0370)
+				if (captionCommitPending)
 				{
-					n0358.CloseDialogue(n0371, n0372, false);
-					n0370 = false;
-					n0371 = false;
-					n0372 = false;
+					n0358.CloseDialogue(captionDisappear, captionHideName, false);
+					captionCommitPending = false;
+					captionDisappear = false;
+					captionHideName = false;
 				}
 			}
 			else
 			{
 				n0358.n0168();
 				n0356.n0168();
-				if (n0368 > 0)
+				if (waitFramesLeft > 0)
 				{
-					n0368 = 0;
+					waitFramesLeft = 0;
 				}
-				if (n0369 > 0)
+				if (shockFramesLeft > 0)
 				{
-					n0369 = 1;
+					shockFramesLeft = 1;
 				}
 				n0367 = true;
 			}
@@ -421,7 +421,7 @@ namespace n0001
 
 		public void n0168(bool n0241, bool n0468)
 		{
-			if (n0374)
+			if (staffRollPlaying)
 			{
 				return;
 			}
@@ -443,22 +443,22 @@ namespace n0001
 			n0358.n0197(false);
 			if (n0365)
 			{
-				if (n0364 && n0370)
+				if (n0364 && captionCommitPending)
 				{
-					n0358.CloseDialogue(n0371, n0372, true);
-					n0370 = false;
-					n0371 = false;
-					n0372 = false;
+					n0358.CloseDialogue(captionDisappear, captionHideName, true);
+					captionCommitPending = false;
+					captionDisappear = false;
+					captionHideName = false;
 				}
 				n0358.n0168();
 				n0356.n0168();
-				if (n0368 > 0)
+				if (waitFramesLeft > 0)
 				{
-					n0368 = 0;
+					waitFramesLeft = 0;
 				}
-				if (n0369 > 0)
+				if (shockFramesLeft > 0)
 				{
-					n0369 = 1;
+					shockFramesLeft = 1;
 				}
 				n0364 = false;
 			}
@@ -478,7 +478,7 @@ namespace n0001
 
 		public void n0200(bool n0241)
 		{
-			if (n0374)
+			if (staffRollPlaying)
 			{
 				return;
 			}
@@ -496,12 +496,12 @@ namespace n0001
 			if (n0366 && n0364)
 			{
 				n0364 = false;
-				if (n0370)
+				if (captionCommitPending)
 				{
-					n0358.CloseDialogue(n0371, n0372, false);
-					n0370 = false;
-					n0371 = false;
-					n0372 = false;
+					n0358.CloseDialogue(captionDisappear, captionHideName, false);
+					captionCommitPending = false;
+					captionDisappear = false;
+					captionHideName = false;
 				}
 			}
 		}
@@ -520,7 +520,7 @@ namespace n0001
 
 		public void n0197(bool n0241)
 		{
-			if (!n0374)
+			if (!staffRollPlaying)
 			{
 				n0366 = false;
 				n0365 = false;
@@ -531,7 +531,7 @@ namespace n0001
 
 		public void n0197()
 		{
-			if (!n0374)
+			if (!staffRollPlaying)
 			{
 				n0366 = false;
 				n0365 = false;
@@ -542,21 +542,21 @@ namespace n0001
 
 		public void SetFont(System.Drawing.Font n0353)
 		{
-			if (!n0374)
+			if (!staffRollPlaying)
 			{
 				n0358.SetFont(n0353);
-				n0362 = n0353;
+				uiFont = n0353;
 			}
 		}
 
 		public void SetButtonLayout(ButtonLayout n0046)
 		{
-			if (n0374)
+			if (staffRollPlaying)
 			{
-				n0373.SetButtonLayout(n0046);
+				staffRoll.SetButtonLayout(n0046);
 			}
 			n0358.SetButtonLayout(n0046);
-			n0363 = n0046;
+			buttonLayout = n0046;
 		}
 
 		public int n0157()
@@ -571,19 +571,19 @@ namespace n0001
 
 		public void SetPaused(bool n0241, bool n0469)
 		{
-			if (!n0374)
+			if (!staffRollPlaying)
 			{
 				n0356.SetPaused(n0241, n0469);
 			}
 			else
 			{
-				n0373.SetPaused(n0241);
+				staffRoll.SetPaused(n0241);
 			}
 		}
 
 		public bool n0188()
 		{
-			return n0374;
+			return staffRollPlaying;
 		}
 
 		public void n0249(bool n0049)

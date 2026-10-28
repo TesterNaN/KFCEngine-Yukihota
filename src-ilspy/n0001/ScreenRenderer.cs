@@ -159,23 +159,23 @@ namespace n0001
 
 		protected ArchiveFile n0136;
 
-		private ButtonLayout n0363;
+		private ButtonLayout layoutIndex;
 
-		private System.Drawing.Font n0362;
+		private System.Drawing.Font baseFont;
 
-		private bool n0559;
+		private bool dialogueHidden;
 
-		private AudioManager n0558;
+		private AudioManager audioManager;
 
-		private Texture n0643;
+		private Texture modeIconTexture;
 
-		private int n0560;
+		private int modeIconIndex;
 
-		private Device n0006;
+		private Device device;
 
-		private Sprite n0144;
+		private Sprite sprite;
 
-		private FrameCallback n0552;
+		private FrameCallback resetCallback;
 
 		protected readonly Rectangle n0663 = new Rectangle(0, 0, 800, 600);
 
@@ -219,21 +219,21 @@ namespace n0001
 
 		protected ArrayList n0583 = new ArrayList();
 
-		private bool n0232;
+		private bool fadeEnabled;
 
-		private bool n0234;
+		private bool sunEffectEnabled;
 
-		private bool n0233;
+		private bool effectEnabled;
 
-		private bool n0235;
+		private bool shockEffectEnabled;
 
-		private Color n0236;
+		private Color dialogueColor;
 
-		private int n0237 = 1;
+		private int messageSpeed = 1;
 
-		private bool n0238;
+		private bool syncVoice;
 
-		private int n0636;
+		private int indicatorPhase;
 
 		protected readonly int[] n0640 = new int[16]
 		{
@@ -257,51 +257,51 @@ namespace n0001
 			-1, -1
 		};
 
-		private Texture n0551;
+		private Texture backgroundTexture;
 
-		private Texture n0654;
+		private Texture desaturatedBackgroundTexture;
 
-		private Color n0651;
+		private Color backgroundColor;
 
-		private Texture n0653;
+		private Texture previousBackgroundTexture;
 
-		private Color n0652;
+		private Color previousBackgroundColor;
 
-		private bool n0615;
+		private bool backgroundWipeActive;
 
-		private bool n0655;
+		private bool backgroundIsColor;
 
-		private bool n0656;
+		private bool previousBackgroundIsColor;
 
-		private bool n0657;
+		private bool backgroundDrawnAsColor;
 
-		private int n0597;
+		private int backgroundFadeCounter;
 
-		private int n0658;
+		private int backgroundFadeSpeed;
 
 		protected readonly int[] n0659 = new int[3] { 1, 10, 40 };
 
-		private bool n0616;
+		private bool backgroundRedrawPending;
 
-		private TextureBlend n0664;
+		private TextureBlend backgroundWipeBlend;
 
-		private bool n0661;
+		private bool zoomActive;
 
-		private Rectangle n0665;
+		private Rectangle zoomTargetRect;
 
-		private Rectangle n0662;
+		private Rectangle zoomSourceRect;
 
-		private int n0598;
+		private int zoomCounter;
 
-		private int n0679;
+		private int zoomSpeedIndex;
 
 		protected readonly int[] n0681 = new int[3] { 1, 10, 40 };
 
-		private bool n0666;
+		private bool shakeActive;
 
-		private bool n0602;
+		private bool shakeLoop;
 
-		private int n0369;
+		private int shakeFrame;
 
 		protected readonly int[] n0684 = new int[16]
 		{
@@ -327,103 +327,103 @@ namespace n0001
 			0, 2, 4, 2, 0, -2
 		};
 
-		private bool n0689;
+		private bool sunActive;
 
-		private Texture n0688;
+		private Texture sunTexture;
 
-		private int[] n0690 = new int[5];
+		private int[] sunLifeCounters = new int[5];
 
-		private int[] n0691 = new int[5];
+		private int[] sunLifeTotals = new int[5];
 
-		private double[] n0692 = new double[5];
+		private double[] sunScales = new double[5];
 
-		private int[] n0693 = new int[5];
+		private int[] sunOffsets = new int[5];
 
-		private Random n0694;
+		private Random sunRandom;
 
-		private bool n0700;
+		private bool petalActive;
 
-		private Texture n0698;
+		private Texture petalTexture;
 
-		private int[] n0701 = new int[30];
+		private int[] petalFrames = new int[30];
 
-		private PointF[] n0702 = new PointF[30];
+		private PointF[] petalPositions = new PointF[30];
 
-		private float[] n0703 = new float[30];
+		private float[] petalVelocitiesY = new float[30];
 
-		private float[] n0704 = new float[30];
+		private float[] petalVelocitiesX = new float[30];
 
-		private float[] n0705 = new float[30];
+		private float[] petalTargetVelocitiesY = new float[30];
 
-		private float[] n0706 = new float[30];
+		private float[] petalTargetVelocitiesX = new float[30];
 
-		private int[] n0707 = new int[30];
+		private int[] petalTurnTimers = new int[30];
 
-		private int[] n0708 = new int[30];
+		private int[] petalLifeCounters = new int[30];
 
-		private Random n0710;
+		private Random petalRandom;
 
-		private int n0709;
+		private int petalActiveCount;
 
 		protected readonly Size n0699 = new Size(96, 192);
 
-		private bool n0719;
+		private bool snowActive;
 
-		private Texture n0717;
+		private Texture snowTexture;
 
-		private PointF[] n0720 = new PointF[25];
+		private PointF[] snowPositions = new PointF[25];
 
-		private float[] n0721 = new float[25];
+		private float[] snowSpeeds = new float[25];
 
-		private float[] n0722 = new float[25];
+		private float[] snowSwayAmplitudes = new float[25];
 
-		private float[] n0723 = new float[25];
+		private float[] snowSwayFrequencies = new float[25];
 
-		private float[] n0724 = new float[25];
+		private float[] snowSwayPhases = new float[25];
 
-		private int[] n0725 = new int[25];
+		private int[] snowLifeCounters = new int[25];
 
-		private Random n0727;
+		private Random snowRandom;
 
-		private int n0726;
+		private int snowActiveCount;
 
 		protected readonly Size n0718 = new Size(64, 16);
 
-		private bool n0618;
+		private bool dimActive;
 
-		private bool n0617;
+		private bool dimReverse;
 
-		private int n0599;
+		private int dimCounter;
 
-		private bool n0621;
+		private bool thinkActive;
 
-		private bool n0620;
+		private bool thinkReverse;
 
-		private int n0619;
+		private int thinkCounter;
 
-		private Texture n0732;
+		private Texture thinkTexture;
 
-		private Texture[] n0550 = new Texture[3];
+		private Texture[] characterTextures = new Texture[3];
 
-		private Texture[] n0737 = new Texture[3];
+		private Texture[] previousCharacterTextures = new Texture[3];
 
-		private Texture[] n0738 = new Texture[3];
+		private Texture[] characterShadowTextures = new Texture[3];
 
-		private Size[] n0741 = new Size[3];
+		private Size[] characterSizes = new Size[3];
 
-		private Size[] n0742 = new Size[3];
+		private Size[] previousCharacterSizes = new Size[3];
 
-		private int[] n0603 = new int[3];
+		private int[] characterAppearCounters = new int[3];
 
-		private int[] n0739 = new int[3];
+		private int[] characterOffsets = new int[3];
 
-		private int[] n0740 = new int[3];
+		private int[] previousCharacterOffsets = new int[3];
 
-		private bool[] n0743 = new bool[3];
+		private bool[] characterSemiTransparent = new bool[3];
 
-		private int[] n0604 = new int[3];
+		private int[] characterShakeCounters = new int[3];
 
-		private int[] n0744 = new int[3];
+		private int[] characterShakePatterns = new int[3];
 
 		protected readonly int[] n0745 = new int[3] { 4, 6, 16 };
 
@@ -443,49 +443,49 @@ namespace n0001
 
 		private Microsoft.DirectX.Direct3D.Font n0593;
 
-		private string[] n0605;
+		private string[] messageLines;
 
-		private int[] n0608 = new int[3];
+		private int[] messageStartIndexes = new int[3];
 
-		private int n0624;
+		private int messageVisibleChars;
 
-		private double n0607;
+		private double messageProgress;
 
-		private int n0609;
+		private int lineRevealCounter;
 
-		private int n0600;
+		private int messageFadeCounter;
 
-		private HorizontalAlign n0751;
+		private HorizontalAlign messageFontSizeMode;
 
-		private TextRevealMode n0606;
+		private TextRevealMode messageAlignMode;
 
-		private bool n0752;
+		private bool showNextIndicator;
 
-		private Color n0753;
+		private Color messageTextColor;
 
-		private Color n0754;
+		private Color messageShadowColor;
 
-		private double n0755;
+		private double messageVoiceLength;
 
-		private Point n0756;
+		private Point lastTextPosition;
 
 		protected readonly Point n0757 = new Point(20, 60);
 
 		protected readonly Size n0759 = new Size(30, 40);
 
-		private Microsoft.DirectX.Direct3D.Font n0594;
+		private Microsoft.DirectX.Direct3D.Font messageFont;
 
-		private bool n0623;
+		private bool dialogueActive;
 
-		private bool n0765;
+		private bool characterPanelVisible;
 
 		protected Texture n0761;
 
 		protected Texture n0763;
 
-		private bool n0622;
+		private bool dialogueClosing;
 
-		private int n0601;
+		private int dialogueCounter;
 
 		protected readonly Rectangle n0762 = new Rectangle(10, 440, 780, 150);
 
@@ -497,23 +497,23 @@ namespace n0001
 
 		protected readonly Size n0764 = new Size(200, 60);
 
-		private string[] n0610;
+		private string[] captionLines;
 
-		private string[] n0769;
+		private string[] captionOptionLines;
 
-		private int[] n0612 = new int[3];
+		private int[] captionStartIndexes = new int[3];
 
-		private int n0613;
+		private int captionVisibleChars;
 
-		private double n0611;
+		private double captionProgress;
 
-		private double n0614;
+		private double captionVoiceLength;
 
-		private bool n0770;
+		private bool captionLocked;
 
-		private Point n0771;
+		private Point captionLastPosition;
 
-		private bool n0768;
+		private bool skipCaptionAnimation;
 
 		protected readonly Point n0772 = new Point(25, 455);
 
@@ -521,9 +521,9 @@ namespace n0001
 
 		protected readonly Point n0775 = new Point(110, 390);
 
-		private Microsoft.DirectX.Direct3D.Font n0595;
+		private Microsoft.DirectX.Direct3D.Font captionFont;
 
-		private int n0777;
+		private int modeIconFrame;
 
 		protected readonly Point n0778 = new Point(40, 20);
 
@@ -531,16 +531,16 @@ namespace n0001
 
 		public ScreenRenderer(Device n0349, Sprite n0350, FrameCallback n0225, Texture n0351, System.Drawing.Font n0353, ButtonLayout n0046, Color n0266, AudioManager n0557)
 		{
-			n0006 = n0349;
-			n0144 = n0350;
-			n0552 = n0225;
+			device = n0349;
+			sprite = n0350;
+			resetCallback = n0225;
 			n0135 = n0351;
-			n0236 = n0266;
-			n0362 = n0353;
-			n0363 = n0046;
-			n0558 = n0557;
-			n0559 = false;
-			n0560 = 0;
+			dialogueColor = n0266;
+			baseFont = n0353;
+			layoutIndex = n0046;
+			audioManager = n0557;
+			dialogueHidden = false;
+			modeIconIndex = 0;
 			n0136 = new ArchiveFile("System", ArchiveMode.n0151);
 			n0561();
 			n0562();
@@ -578,7 +578,7 @@ namespace n0001
 
 		public void n0463()
 		{
-			n0006.Clear(ClearFlags.Target, Color.Black, 1f, 0);
+			device.Clear(ClearFlags.Target, Color.Black, 1f, 0);
 			n0216.Clear();
 			n0217.Clear();
 			n0218.Clear();
@@ -598,35 +598,35 @@ namespace n0001
 			n0581.Clear();
 			n0582.Clear();
 			n0583.Clear();
-			n0006.BeginScene();
-			n0144.Begin(SpriteFlags.AlphaBlend);
+			device.BeginScene();
+			sprite.Begin(SpriteFlags.AlphaBlend);
 			n0584();
 			n0585();
 			n0586();
 			n0587();
 			n0588();
-			if (!n0559)
+			if (!dialogueHidden)
 			{
 				n0589();
 			}
 			n0590();
 			n0591();
 			n0592();
-			n0144.End();
-			n0006.EndScene();
+			sprite.End();
+			device.EndScene();
 			try
 			{
-				n0006.Present();
+				device.Present();
 			}
 			catch (DeviceLostException)
 			{
 				try
 				{
-					n0006.TestCooperativeLevel();
+					device.TestCooperativeLevel();
 				}
 				catch (DeviceNotResetException)
 				{
-					n0552();
+					resetCallback();
 				}
 				catch
 				{
@@ -636,15 +636,15 @@ namespace n0001
 
 		public void n0215()
 		{
-			n0006.Clear(ClearFlags.Target, Color.White, 1f, 0);
-			n0006.BeginScene();
-			n0144.Begin(SpriteFlags.AlphaBlend);
+			device.Clear(ClearFlags.Target, Color.White, 1f, 0);
+			device.BeginScene();
+			sprite.Begin(SpriteFlags.AlphaBlend);
 			int num = 0;
 			for (int i = 0; i < n0216.Count; i++)
 			{
 				if (n0216[i] != null)
 				{
-					n0144.Draw2D((Texture)n0216[i], (Rectangle)n0217[i], (Rectangle)n0218[i], Point.Empty, 0f, (Point)n0219[i], (Color)n0220[i]);
+					sprite.Draw2D((Texture)n0216[i], (Rectangle)n0217[i], (Rectangle)n0218[i], Point.Empty, 0f, (Point)n0219[i], (Color)n0220[i]);
 					continue;
 				}
 				Microsoft.DirectX.Direct3D.Font n880;
@@ -654,10 +654,10 @@ namespace n0001
 					n880 = n0593;
 					break;
 				case 2:
-					n880 = n0594;
+					n880 = messageFont;
 					break;
 				case 3:
-					n880 = n0595;
+					n880 = captionFont;
 					break;
 				default:
 					n880 = n0593;
@@ -666,21 +666,21 @@ namespace n0001
 				DrawTextCore((string)n0570[num], (int)n0571[num], (double)n0572[num], (Point)n0573[num], (int)n0574[num], (int)n0575[num], (int)n0576[num], (HorizontalAlign)n0577[num], (int)n0578[num], n880, (bool)n0580[num], (int)n0581[num], (Color)n0582[num], (Color)n0583[num], false);
 				num++;
 			}
-			n0144.End();
-			n0006.EndScene();
+			sprite.End();
+			device.EndScene();
 			try
 			{
-				n0006.Present();
+				device.Present();
 			}
 			catch (DeviceLostException)
 			{
 				try
 				{
-					n0006.TestCooperativeLevel();
+					device.TestCooperativeLevel();
 				}
 				catch (DeviceNotResetException)
 				{
-					n0552();
+					resetCallback();
 				}
 				catch
 				{
@@ -690,155 +690,155 @@ namespace n0001
 
 		public bool IsBusy()
 		{
-			if (n0597 > 0 || n0598 > 0 || n0599 > 0 || n0600 > 0 || n0601 > 0 || (n0369 > 0 && !n0602))
+			if (backgroundFadeCounter > 0 || zoomCounter > 0 || dimCounter > 0 || messageFadeCounter > 0 || dialogueCounter > 0 || (shakeFrame > 0 && !shakeLoop))
 			{
 				return true;
 			}
 			for (int i = 0; i < 3; i++)
 			{
-				if (n0603[i] > 0 || n0604[i] > 0)
+				if (characterAppearCounters[i] > 0 || characterShakeCounters[i] > 0)
 				{
 					return true;
 				}
 			}
-			if (n0605 != null)
+			if (messageLines != null)
 			{
-				switch (n0606)
+				switch (messageAlignMode)
 				{
 				case TextRevealMode.n0493:
-					if (n0607 < (double)(n0605[(int)n0363].Length - n0608[(int)n0363] + 4))
+					if (messageProgress < (double)(messageLines[(int)layoutIndex].Length - messageStartIndexes[(int)layoutIndex] + 4))
 					{
 						return true;
 					}
 					break;
 				case TextRevealMode.n0487:
-					if (n0609 > 0)
+					if (lineRevealCounter > 0)
 					{
 						return true;
 					}
 					break;
 				}
 			}
-			return n0610 != null && n0611 < (double)(n0610[(int)n0363].Length - n0612[(int)n0363] + 4);
+			return captionLines != null && captionProgress < (double)(captionLines[(int)layoutIndex].Length - captionStartIndexes[(int)layoutIndex] + 4);
 		}
 
 		public void n0197(bool n0241)
 		{
-			n0559 = n0241;
-			if (n0241 && n0610 != null)
+			dialogueHidden = n0241;
+			if (n0241 && captionLines != null)
 			{
-				n0611 = n0610[(int)n0363].Length - n0612[(int)n0363] + 4;
-				n0613 = n0610[(int)n0363].Length - n0612[(int)n0363];
+				captionProgress = captionLines[(int)layoutIndex].Length - captionStartIndexes[(int)layoutIndex] + 4;
+				captionVisibleChars = captionLines[(int)layoutIndex].Length - captionStartIndexes[(int)layoutIndex];
 			}
 		}
 
 		public void n0197()
 		{
-			n0559 = !n0559;
-			if (n0559 && n0610 != null && n0614 == 0.0)
+			dialogueHidden = !dialogueHidden;
+			if (dialogueHidden && captionLines != null && captionVoiceLength == 0.0)
 			{
-				n0611 = n0610[(int)n0363].Length - n0612[(int)n0363] + 4;
-				n0613 = n0610[(int)n0363].Length - n0612[(int)n0363];
+				captionProgress = captionLines[(int)layoutIndex].Length - captionStartIndexes[(int)layoutIndex] + 4;
+				captionVisibleChars = captionLines[(int)layoutIndex].Length - captionStartIndexes[(int)layoutIndex];
 			}
 		}
 
 		public void n0168()
 		{
-			if (n0597 > 0)
+			if (backgroundFadeCounter > 0)
 			{
-				n0597 = 0;
-				if (n0615)
+				backgroundFadeCounter = 0;
+				if (backgroundWipeActive)
 				{
-					n0615 = false;
+					backgroundWipeActive = false;
 				}
 				else
 				{
-					n0616 = true;
+					backgroundRedrawPending = true;
 				}
 			}
-			if (n0598 > 0)
+			if (zoomCounter > 0)
 			{
-				n0598 = 0;
+				zoomCounter = 0;
 			}
-			if (n0599 > 0)
+			if (dimCounter > 0)
 			{
-				n0599 = 0;
-				if (n0617)
+				dimCounter = 0;
+				if (dimReverse)
 				{
-					n0618 = false;
+					dimActive = false;
 				}
 			}
-			if (n0619 > 0)
+			if (thinkCounter > 0)
 			{
-				n0619 = 0;
-				if (n0620)
+				thinkCounter = 0;
+				if (thinkReverse)
 				{
-					n0621 = false;
+					thinkActive = false;
 				}
 			}
-			if (n0601 > 0)
+			if (dialogueCounter > 0)
 			{
-				n0601 = 0;
-				if (n0622)
+				dialogueCounter = 0;
+				if (dialogueClosing)
 				{
-					n0623 = false;
+					dialogueActive = false;
 				}
 			}
-			if (n0369 > 0 && !n0602)
+			if (shakeFrame > 0 && !shakeLoop)
 			{
-				n0369 = 1;
+				shakeFrame = 1;
 			}
 			for (int i = 0; i < 3; i++)
 			{
-				if (n0603[i] > 0)
+				if (characterAppearCounters[i] > 0)
 				{
-					n0603[i] = 0;
+					characterAppearCounters[i] = 0;
 				}
-				if (n0604[i] > 0)
+				if (characterShakeCounters[i] > 0)
 				{
-					n0604[i] = 1;
+					characterShakeCounters[i] = 1;
 				}
 			}
-			if (n0605 != null)
+			if (messageLines != null)
 			{
-				if (n0600 > 0)
+				if (messageFadeCounter > 0)
 				{
-					n0600 = 0;
-					n0607 = 0.0;
-					n0609 = 0;
-					n0605 = null;
+					messageFadeCounter = 0;
+					messageProgress = 0.0;
+					lineRevealCounter = 0;
+					messageLines = null;
 					for (int j = 0; j < 3; j++)
 					{
-						n0608[j] = 0;
+						messageStartIndexes[j] = 0;
 					}
-					n0624 = 0;
+					messageVisibleChars = 0;
 				}
 				else
 				{
-					n0624 = n0605[(int)n0363].Length - n0608[(int)n0363];
-					switch (n0606)
+					messageVisibleChars = messageLines[(int)layoutIndex].Length - messageStartIndexes[(int)layoutIndex];
+					switch (messageAlignMode)
 					{
 					case TextRevealMode.n0493:
-						n0607 = n0605[(int)n0363].Length - n0608[(int)n0363] + 4;
+						messageProgress = messageLines[(int)layoutIndex].Length - messageStartIndexes[(int)layoutIndex] + 4;
 						break;
 					case TextRevealMode.n0487:
-						n0609 = 0;
+						lineRevealCounter = 0;
 						break;
 					}
 				}
 			}
-			if (n0610 != null)
+			if (captionLines != null)
 			{
-				n0611 = n0610[(int)n0363].Length - n0612[(int)n0363] + 4;
-				n0613 = n0610[(int)n0363].Length - n0612[(int)n0363];
+				captionProgress = captionLines[(int)layoutIndex].Length - captionStartIndexes[(int)layoutIndex] + 4;
+				captionVisibleChars = captionLines[(int)layoutIndex].Length - captionStartIndexes[(int)layoutIndex];
 			}
 		}
 
 		public void SetButtonLayout(ButtonLayout n0046)
 		{
-			if (n0363 != n0046)
+			if (layoutIndex != n0046)
 			{
-				n0363 = n0046;
+				layoutIndex = n0046;
 				n0625();
 				n0626();
 				n0627();
@@ -847,9 +847,9 @@ namespace n0001
 
 		public void SetFont(System.Drawing.Font n0353)
 		{
-			if (n0362 != n0353)
+			if (baseFont != n0353)
 			{
-				n0362 = n0353;
+				baseFont = n0353;
 				n0625();
 				n0626();
 				n0627();
@@ -858,7 +858,7 @@ namespace n0001
 
 		private void QueueDraw(Texture n0262, Rectangle n0263, Rectangle n0264, Point n0265, Color n0266)
 		{
-			n0144.Draw2D(n0262, n0263, n0264, Point.Empty, 0f, n0265, n0266);
+			sprite.Draw2D(n0262, n0263, n0264, Point.Empty, 0f, n0265, n0266);
 			n0216.Add(n0262);
 			n0217.Add(n0263);
 			n0218.Add(n0264);
@@ -881,40 +881,40 @@ namespace n0001
 
 		public void n0249(bool n0049)
 		{
-			if (n0232 != n0049)
+			if (fadeEnabled != n0049)
 			{
 				n0625();
 				n0626();
 				n0627();
 			}
-			n0232 = n0049;
+			fadeEnabled = n0049;
 		}
 
 		public void n0250(bool n0049)
 		{
-			n0234 = n0049;
+			sunEffectEnabled = n0049;
 		}
 
 		public void n0251(bool n0049)
 		{
-			n0233 = n0049;
+			effectEnabled = n0049;
 		}
 
 		public void n0252(bool n0049)
 		{
-			n0235 = n0049;
+			shockEffectEnabled = n0049;
 		}
 
 		public void SetDialogueColor(Color n0049)
 		{
-			n0236 = n0049;
+			dialogueColor = n0049;
 		}
 
 		public void SetTextSpeed(int n0049)
 		{
 			if (n0049 > 0)
 			{
-				n0237 = n0049;
+				messageSpeed = n0049;
 				return;
 			}
 			throw new Exception("Invalid Speed");
@@ -922,21 +922,21 @@ namespace n0001
 
 		public void n0254(bool n0049)
 		{
-			n0238 = n0049;
+			syncVoice = n0049;
 		}
 
 		private void n0561()
 		{
-			n0636 = 0;
+			indicatorPhase = 0;
 		}
 
 		private void n0637(int n0638, int n0639)
 		{
-			Rectangle n880 = new Rectangle(n0640[n0636 % 16] * 32, 0, 32, 32);
-			Point n881 = new Point(n0638 + n0641[n0636], n0639 + n0642[n0636]);
-			QueueDraw(n0643, n880, Rectangle.Empty, n881, Color.White);
-			n0636++;
-			n0636 %= 32;
+			Rectangle n880 = new Rectangle(n0640[indicatorPhase % 16] * 32, 0, 32, 32);
+			Point n881 = new Point(n0638 + n0641[indicatorPhase], n0639 + n0642[indicatorPhase]);
+			QueueDraw(modeIconTexture, n880, Rectangle.Empty, n881, Color.White);
+			indicatorPhase++;
+			indicatorPhase %= 32;
 		}
 
 		private Point DrawTextCore(string n0241, Point n0644, int n0645, int n0646, int n0534, Microsoft.DirectX.Direct3D.Font n0353, Color n0412, Color n0413)
@@ -1055,20 +1055,20 @@ namespace n0001
 				}
 				if (i >= n0647 && (double)i < n0648)
 				{
-					if (n0232)
+					if (fadeEnabled)
 					{
-						Sprite sprite = n0144;
-						n0353.DrawText(sprite, n0241[i].ToString(), num + n0534, num4 + n0534, n0413);
+						Sprite spriteLocal = this.sprite;
+						n0353.DrawText(spriteLocal, n0241[i].ToString(), num + n0534, num4 + n0534, n0413);
 					}
-					Sprite sprite2 = n0144;
+					Sprite sprite2 = sprite;
 					n0353.DrawText(sprite2, n0241[i].ToString(), num, num4, n0412);
 				}
-				else if (n0493 && i >= n0647 && (double)i >= n0648 && (double)i < n0648 + (double)n0204 && n0232)
+				else if (n0493 && i >= n0647 && (double)i >= n0648 && (double)i < n0648 + (double)n0204 && fadeEnabled)
 				{
 					int alpha = (int)(255.0 * ((double)(n0204 - i) + n0648) / (double)n0204);
-					Sprite sprite3 = n0144;
+					Sprite sprite3 = sprite;
 					n0353.DrawText(sprite3, n0241[i].ToString(), num + n0534, num4 + n0534, (n0413 == Color.Transparent) ? Color.Transparent : Color.FromArgb(alpha, n0413));
-					Sprite sprite4 = n0144;
+					Sprite sprite4 = sprite;
 					n0353.DrawText(sprite4, n0241[i].ToString(), num, num4, Color.FromArgb(alpha, n0412));
 				}
 				num += n0645;
@@ -1078,286 +1078,286 @@ namespace n0001
 
 		private void n0562()
 		{
-			n0597 = 0;
-			n0651 = (n0652 = Color.White);
-			n0551 = (n0653 = (n0654 = null));
-			n0655 = (n0656 = true);
-			n0615 = false;
-			n0657 = false;
-			n0616 = false;
+			backgroundFadeCounter = 0;
+			backgroundColor = (previousBackgroundColor = Color.White);
+			backgroundTexture = (previousBackgroundTexture = (desaturatedBackgroundTexture = null));
+			backgroundIsColor = (previousBackgroundIsColor = true);
+			backgroundWipeActive = false;
+			backgroundDrawnAsColor = false;
+			backgroundRedrawPending = false;
 		}
 
 		private void n0628()
 		{
-			if (n0551 != null)
+			if (backgroundTexture != null)
 			{
-				n0551.Dispose();
+				backgroundTexture.Dispose();
 			}
-			if (n0653 != null)
+			if (previousBackgroundTexture != null)
 			{
-				n0653.Dispose();
+				previousBackgroundTexture.Dispose();
 			}
-			if (n0654 != null)
+			if (desaturatedBackgroundTexture != null)
 			{
-				n0654.Dispose();
+				desaturatedBackgroundTexture.Dispose();
 			}
 		}
 
 		public void SetBackground(Texture n0241, int n0441)
 		{
-			if (n0653 != null)
+			if (previousBackgroundTexture != null)
 			{
-				n0653.Dispose();
+				previousBackgroundTexture.Dispose();
 			}
-			n0653 = n0551;
-			n0652 = n0651;
-			n0551 = n0241;
-			n0651 = Color.White;
-			n0656 = n0655;
-			n0655 = false;
-			n0658 = n0441;
-			n0597 = n0659[n0441];
-			n0615 = false;
-			if (n0621)
+			previousBackgroundTexture = backgroundTexture;
+			previousBackgroundColor = backgroundColor;
+			backgroundTexture = n0241;
+			backgroundColor = Color.White;
+			previousBackgroundIsColor = backgroundIsColor;
+			backgroundIsColor = false;
+			backgroundFadeSpeed = n0441;
+			backgroundFadeCounter = n0659[n0441];
+			backgroundWipeActive = false;
+			if (thinkActive)
 			{
 				n0660();
 			}
-			else if (n0654 != null)
+			else if (desaturatedBackgroundTexture != null)
 			{
-				n0654.Dispose();
-				n0654 = null;
+				desaturatedBackgroundTexture.Dispose();
+				desaturatedBackgroundTexture = null;
 			}
 		}
 
 		public void SetBackground(Color n0241, int n0441)
 		{
-			if (n0653 != null)
+			if (previousBackgroundTexture != null)
 			{
-				n0653.Dispose();
+				previousBackgroundTexture.Dispose();
 			}
-			n0653 = n0551;
-			n0652 = n0651;
-			n0651 = n0241;
-			n0551 = null;
-			n0656 = n0655;
-			n0655 = true;
-			n0658 = n0441;
-			n0597 = n0659[n0441];
-			n0615 = false;
-			if (!n0621 && n0654 != null)
+			previousBackgroundTexture = backgroundTexture;
+			previousBackgroundColor = backgroundColor;
+			backgroundColor = n0241;
+			backgroundTexture = null;
+			previousBackgroundIsColor = backgroundIsColor;
+			backgroundIsColor = true;
+			backgroundFadeSpeed = n0441;
+			backgroundFadeCounter = n0659[n0441];
+			backgroundWipeActive = false;
+			if (!thinkActive && desaturatedBackgroundTexture != null)
 			{
-				n0654.Dispose();
-				n0654 = null;
+				desaturatedBackgroundTexture.Dispose();
+				desaturatedBackgroundTexture = null;
 			}
 		}
 
 		private void n0584()
 		{
-			if (n0597 > 0 || n0616)
+			if (backgroundFadeCounter > 0 || backgroundRedrawPending)
 			{
-				if (n0615)
+				if (backgroundWipeActive)
 				{
-					if (n0653 != null)
+					if (previousBackgroundTexture != null)
 					{
-						if (n0661)
+						if (zoomActive)
 						{
-							QueueDraw(n0653, n0662, n0663, Point.Empty, Color.White);
+							QueueDraw(previousBackgroundTexture, zoomSourceRect, n0663, Point.Empty, Color.White);
 						}
 						else
 						{
-							QueueDraw(n0653, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
+							QueueDraw(previousBackgroundTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
 						}
 					}
 					else
 					{
-						QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, n0652);
+						QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, previousBackgroundColor);
 					}
-					if (n0232)
+					if (fadeEnabled)
 					{
 						Point n880 = new Point(0, 0);
-						switch (n0664)
+						switch (backgroundWipeBlend)
 						{
 						case TextureBlend.n0487:
-							if (n0661)
+							if (zoomActive)
 							{
-								QueueDraw(n0551, n0665, n0663, Point.Empty, Color.FromArgb((int)(255.0 * (double)(n0659[n0658] - n0597) / (double)n0659[n0658]), Color.White));
+								QueueDraw(backgroundTexture, zoomTargetRect, n0663, Point.Empty, Color.FromArgb((int)(255.0 * (double)(n0659[backgroundFadeSpeed] - backgroundFadeCounter) / (double)n0659[backgroundFadeSpeed]), Color.White));
 							}
 							else
 							{
-								QueueDraw(n0551, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)(255.0 * (double)(n0659[n0658] - n0597) / (double)n0659[n0658]), Color.White));
+								QueueDraw(backgroundTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)(255.0 * (double)(n0659[backgroundFadeSpeed] - backgroundFadeCounter) / (double)n0659[backgroundFadeSpeed]), Color.White));
 							}
 							break;
 						case TextureBlend.n0437:
 						{
-							if (n0661)
+							if (zoomActive)
 							{
 								throw new Exception("Not Implement Yet");
 							}
 							Rectangle n882;
 							for (int j = 0; j < 16; j++)
 							{
-								n880.X = 832 * (n0659[n0658] - n0597) / n0659[n0658] + (-j - 1) * 2;
+								n880.X = 832 * (n0659[backgroundFadeSpeed] - backgroundFadeCounter) / n0659[backgroundFadeSpeed] + (-j - 1) * 2;
 								n882 = new Rectangle(n880.X, 0, 2, 600);
 								int alpha2 = (int)((double)(j + 1) / 17.0 * 255.0);
-								QueueDraw(n0551, n882, Rectangle.Empty, n880, Color.FromArgb(alpha2, Color.White));
+								QueueDraw(backgroundTexture, n882, Rectangle.Empty, n880, Color.FromArgb(alpha2, Color.White));
 							}
 							n880.X = 0;
-							n882 = new Rectangle(n880.X, 0, 832 * (n0659[n0658] - n0597) / n0659[n0658] - 32, 600);
-							QueueDraw(n0551, n882, Rectangle.Empty, n880, Color.White);
+							n882 = new Rectangle(n880.X, 0, 832 * (n0659[backgroundFadeSpeed] - backgroundFadeCounter) / n0659[backgroundFadeSpeed] - 32, 600);
+							QueueDraw(backgroundTexture, n882, Rectangle.Empty, n880, Color.White);
 							break;
 						}
 						case TextureBlend.n0438:
 						{
-							if (n0661)
+							if (zoomActive)
 							{
 								throw new Exception("Not Implement Yet");
 							}
 							Rectangle n881;
 							for (int i = 0; i < 16; i++)
 							{
-								n880.X = 832 * n0597 / n0659[n0658] + (i - 16) * 2;
+								n880.X = 832 * backgroundFadeCounter / n0659[backgroundFadeSpeed] + (i - 16) * 2;
 								n881 = new Rectangle(n880.X, 0, 2, 600);
 								int alpha = (int)((double)(i + 1) / 17.0 * 255.0);
-								QueueDraw(n0551, n881, Rectangle.Empty, n880, Color.FromArgb(alpha, Color.White));
+								QueueDraw(backgroundTexture, n881, Rectangle.Empty, n880, Color.FromArgb(alpha, Color.White));
 							}
-							n880.X = 832 * n0597 / n0659[n0658];
+							n880.X = 832 * backgroundFadeCounter / n0659[backgroundFadeSpeed];
 							n881 = new Rectangle(n880.X, 0, 800 - n880.X, 600);
-							QueueDraw(n0551, n881, Rectangle.Empty, n880, Color.White);
+							QueueDraw(backgroundTexture, n881, Rectangle.Empty, n880, Color.White);
 							break;
 						}
 						}
-						n0597--;
+						backgroundFadeCounter--;
 					}
 					else
 					{
-						n0597 = 0;
+						backgroundFadeCounter = 0;
 					}
-					if (n0597 == 0)
+					if (backgroundFadeCounter == 0)
 					{
-						n0615 = false;
+						backgroundWipeActive = false;
 					}
 				}
-				else if (!n0656)
+				else if (!previousBackgroundIsColor)
 				{
-					if (!n0661 && (!n0666 || !n0602))
+					if (!zoomActive && (!shakeActive || !shakeLoop))
 					{
-						if (n0653 != null)
+						if (previousBackgroundTexture != null)
 						{
-							if (n0621)
+							if (thinkActive)
 							{
-								QueueDraw(n0654, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
+								QueueDraw(desaturatedBackgroundTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
 							}
 							else
 							{
-								QueueDraw(n0653, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
+								QueueDraw(previousBackgroundTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
 							}
 						}
 						else
 						{
-							QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, n0652);
+							QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, previousBackgroundColor);
 						}
 					}
-					n0657 = false;
+					backgroundDrawnAsColor = false;
 				}
 				else
 				{
-					if (!n0661 && (!n0666 || !n0602))
+					if (!zoomActive && (!shakeActive || !shakeLoop))
 					{
-						if (n0551 != null)
+						if (backgroundTexture != null)
 						{
-							if (n0621)
+							if (thinkActive)
 							{
-								QueueDraw(n0654, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
+								QueueDraw(desaturatedBackgroundTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
 							}
 							else
 							{
-								QueueDraw(n0551, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
+								QueueDraw(backgroundTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
 							}
 						}
 						else
 						{
-							QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, n0651);
+							QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, backgroundColor);
 						}
 					}
-					n0657 = true;
+					backgroundDrawnAsColor = true;
 				}
-				if (n0616)
+				if (backgroundRedrawPending)
 				{
-					n0616 = false;
+					backgroundRedrawPending = false;
 				}
 				return;
 			}
-			if (!n0661 && (!n0666 || !n0602))
+			if (!zoomActive && (!shakeActive || !shakeLoop))
 			{
-				if (n0551 != null)
+				if (backgroundTexture != null)
 				{
-					if (n0621)
+					if (thinkActive)
 					{
-						if (n0619 > 0)
+						if (thinkCounter > 0)
 						{
-							float num = (n0620 ? ((float)n0619 / 10f) : ((float)(10 - n0619) / 10f));
-							QueueDraw(n0551, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
-							QueueDraw(n0654, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)(255f * num), Color.White));
+							float num = (thinkReverse ? ((float)thinkCounter / 10f) : ((float)(10 - thinkCounter) / 10f));
+							QueueDraw(backgroundTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
+							QueueDraw(desaturatedBackgroundTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)(255f * num), Color.White));
 						}
 						else
 						{
-							QueueDraw(n0654, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
+							QueueDraw(desaturatedBackgroundTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
 						}
 					}
 					else
 					{
-						QueueDraw(n0551, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
+						QueueDraw(backgroundTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
 					}
 				}
 				else
 				{
-					QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, n0651);
+					QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, backgroundColor);
 				}
 			}
-			n0657 = true;
+			backgroundDrawnAsColor = true;
 		}
 
 		private void n0590()
 		{
-			if (n0597 <= 0 || n0615)
+			if (backgroundFadeCounter <= 0 || backgroundWipeActive)
 			{
 				return;
 			}
-			if (n0232)
+			if (fadeEnabled)
 			{
-				if (n0657 && n0656)
+				if (backgroundDrawnAsColor && previousBackgroundIsColor)
 				{
-					QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)(255.0 * (double)n0597 / (double)n0659[n0658]), n0652));
+					QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)(255.0 * (double)backgroundFadeCounter / (double)n0659[backgroundFadeSpeed]), previousBackgroundColor));
 				}
 				else
 				{
-					if (n0657 || !n0655)
+					if (backgroundDrawnAsColor || !backgroundIsColor)
 					{
 						throw new Exception("Not Implement Yet");
 					}
-					QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)(255.0 * (double)(n0659[n0658] - n0597) / (double)n0659[n0658]), n0651));
+					QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)(255.0 * (double)(n0659[backgroundFadeSpeed] - backgroundFadeCounter) / (double)n0659[backgroundFadeSpeed]), backgroundColor));
 				}
-				n0597--;
+				backgroundFadeCounter--;
 			}
 			else
 			{
-				n0597 = 0;
+				backgroundFadeCounter = 0;
 			}
 		}
 
 		private void n0660()
 		{
-			if (n0654 != null)
+			if (desaturatedBackgroundTexture != null)
 			{
-				n0654.Dispose();
+				desaturatedBackgroundTexture.Dispose();
 			}
-			if (!(n0551 != null))
+			if (!(backgroundTexture != null))
 			{
 				return;
 			}
-			n0654 = TextureLoader.FromStream(n0006, n0136.ReadEntry("WHITE"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
-			uint[,] array = (uint[,])n0551.LockRectangle(typeof(uint), 0, LockFlags.None, 800, 600);
-			uint[,] array2 = (uint[,])n0654.LockRectangle(typeof(uint), 0, LockFlags.None, 800, 600);
+			desaturatedBackgroundTexture = TextureLoader.FromStream(device, n0136.ReadEntry("WHITE"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			uint[,] array = (uint[,])backgroundTexture.LockRectangle(typeof(uint), 0, LockFlags.None, 800, 600);
+			uint[,] array2 = (uint[,])desaturatedBackgroundTexture.LockRectangle(typeof(uint), 0, LockFlags.None, 800, 600);
 			for (int i = 0; i < 800; i++)
 			{
 				for (int j = 0; j < 600; j++)
@@ -1367,8 +1367,8 @@ namespace n0001
 					array2[i, j] = (uint)(-16777216 + (int)(num2 << 16) + (int)(num2 << 8)) + num2;
 				}
 			}
-			n0551.UnlockRectangle(0);
-			n0654.UnlockRectangle(0);
+			backgroundTexture.UnlockRectangle(0);
+			desaturatedBackgroundTexture.UnlockRectangle(0);
 		}
 
 		private void n0563()
@@ -1393,126 +1393,126 @@ namespace n0001
 
 		private void n0667()
 		{
-			n0664 = TextureBlend.n0487;
+			backgroundWipeBlend = TextureBlend.n0487;
 		}
 
 		public void SetBackgroundWithWipe(Texture n0455, TextureBlend n0456, bool n0399, int n0441)
 		{
-			if (n0653 != null)
+			if (previousBackgroundTexture != null)
 			{
-				n0653.Dispose();
+				previousBackgroundTexture.Dispose();
 			}
-			n0653 = n0551;
-			n0652 = n0651;
-			n0551 = n0455;
-			n0651 = Color.White;
-			n0656 = n0655;
-			n0655 = false;
-			n0658 = n0441;
+			previousBackgroundTexture = backgroundTexture;
+			previousBackgroundColor = backgroundColor;
+			backgroundTexture = n0455;
+			backgroundColor = Color.White;
+			previousBackgroundIsColor = backgroundIsColor;
+			backgroundIsColor = false;
+			backgroundFadeSpeed = n0441;
 			if (n0399)
 			{
-				n0597 = n0659[n0441];
+				backgroundFadeCounter = n0659[n0441];
 			}
 			else
 			{
-				n0597 = 0;
+				backgroundFadeCounter = 0;
 			}
-			n0615 = true;
-			n0664 = n0456;
+			backgroundWipeActive = true;
+			backgroundWipeBlend = n0456;
 		}
 
 		private void n0668()
 		{
-			n0661 = false;
-			n0665 = (n0662 = n0663);
-			n0598 = 0;
-			n0679 = 0;
+			zoomActive = false;
+			zoomTargetRect = (zoomSourceRect = n0663);
+			zoomCounter = 0;
+			zoomSpeedIndex = 0;
 		}
 
 		public void ZoomBackground(double n0437, double n0438, double n0439, double n0440, int n0680, bool n0399, bool n0442)
 		{
 			if (n0442)
 			{
-				n0661 = false;
-				n0662 = (n0665 = n0663);
+				zoomActive = false;
+				zoomSourceRect = (zoomTargetRect = n0663);
 				return;
 			}
-			n0661 = true;
-			if (n0551 != null)
+			zoomActive = true;
+			if (backgroundTexture != null)
 			{
-				n0655 = false;
+				backgroundIsColor = false;
 			}
-			else if (n0653 != null)
+			else if (previousBackgroundTexture != null)
 			{
-				n0656 = false;
+				previousBackgroundIsColor = false;
 			}
-			n0662 = n0665;
-			n0665 = new Rectangle((int)(n0437 * 800.0), (int)(n0439 * 600.0), (int)((n0438 - n0437) * 800.0), (int)((n0440 - n0439) * 600.0));
-			n0679 = n0680;
+			zoomSourceRect = zoomTargetRect;
+			zoomTargetRect = new Rectangle((int)(n0437 * 800.0), (int)(n0439 * 600.0), (int)((n0438 - n0437) * 800.0), (int)((n0440 - n0439) * 600.0));
+			zoomSpeedIndex = n0680;
 			if (n0399)
 			{
-				n0598 = n0681[n0679];
+				zoomCounter = n0681[zoomSpeedIndex];
 			}
 			else
 			{
-				n0598 = 0;
+				zoomCounter = 0;
 			}
 		}
 
 		public void n0682()
 		{
-			if (!n0661 || n0615)
+			if (!zoomActive || backgroundWipeActive)
 			{
 				return;
 			}
-			if (n0598 > 0)
+			if (zoomCounter > 0)
 			{
-				if (n0232)
+				if (fadeEnabled)
 				{
-					if (!n0666 || !n0602)
+					if (!shakeActive || !shakeLoop)
 					{
-						double num = (double)n0598 / (double)n0681[n0679];
+						double num = (double)zoomCounter / (double)n0681[zoomSpeedIndex];
 						double num2 = 1.0 - num;
-						Rectangle n880 = new Rectangle((int)(num * (double)n0662.Left + num2 * (double)n0665.Left), (int)(num * (double)n0662.Top + num2 * (double)n0665.Top), (int)(num * (double)n0662.Width + num2 * (double)n0665.Width), (int)(num * (double)n0662.Height + num2 * (double)n0665.Height));
-						if (n0551 != null)
+						Rectangle n880 = new Rectangle((int)(num * (double)zoomSourceRect.Left + num2 * (double)zoomTargetRect.Left), (int)(num * (double)zoomSourceRect.Top + num2 * (double)zoomTargetRect.Top), (int)(num * (double)zoomSourceRect.Width + num2 * (double)zoomTargetRect.Width), (int)(num * (double)zoomSourceRect.Height + num2 * (double)zoomTargetRect.Height));
+						if (backgroundTexture != null)
 						{
-							QueueDraw(n0551, n880, n0663, Point.Empty, Color.White);
+							QueueDraw(backgroundTexture, n880, n0663, Point.Empty, Color.White);
 						}
-						else if (n0653 != null)
+						else if (previousBackgroundTexture != null)
 						{
-							QueueDraw(n0653, n880, n0663, Point.Empty, Color.White);
+							QueueDraw(previousBackgroundTexture, n880, n0663, Point.Empty, Color.White);
 						}
 					}
-					n0598--;
+					zoomCounter--;
 				}
 				else
 				{
-					if (!n0666 || !n0602)
+					if (!shakeActive || !shakeLoop)
 					{
-						if (n0551 != null)
+						if (backgroundTexture != null)
 						{
-							QueueDraw(n0551, n0665, n0663, Point.Empty, Color.White);
+							QueueDraw(backgroundTexture, zoomTargetRect, n0663, Point.Empty, Color.White);
 						}
-						else if (n0653 != null)
+						else if (previousBackgroundTexture != null)
 						{
-							QueueDraw(n0653, n0665, n0663, Point.Empty, Color.White);
+							QueueDraw(previousBackgroundTexture, zoomTargetRect, n0663, Point.Empty, Color.White);
 						}
 					}
-					n0598 = 0;
+					zoomCounter = 0;
 				}
 			}
-			else if (!n0666 || !n0602)
+			else if (!shakeActive || !shakeLoop)
 			{
-				if (n0551 != null)
+				if (backgroundTexture != null)
 				{
-					QueueDraw(n0551, n0665, n0663, Point.Empty, Color.White);
+					QueueDraw(backgroundTexture, zoomTargetRect, n0663, Point.Empty, Color.White);
 				}
-				else if (n0653 != null)
+				else if (previousBackgroundTexture != null)
 				{
-					QueueDraw(n0653, n0665, n0663, Point.Empty, Color.White);
+					QueueDraw(previousBackgroundTexture, zoomTargetRect, n0663, Point.Empty, Color.White);
 				}
 			}
-			if (!n0666 || !n0602)
+			if (!shakeActive || !shakeLoop)
 			{
 				QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.Transparent);
 			}
@@ -1520,96 +1520,96 @@ namespace n0001
 
 		private void n0669()
 		{
-			n0666 = false;
-			n0602 = false;
-			n0369 = 0;
+			shakeActive = false;
+			shakeLoop = false;
+			shakeFrame = 0;
 		}
 
 		public void n0458(bool n0424, bool n0442)
 		{
 			if (!n0442)
 			{
-				n0666 = true;
-				n0602 = n0424;
+				shakeActive = true;
+				shakeLoop = n0424;
 				if (n0424)
 				{
-					n0369 = 0;
+					shakeFrame = 0;
 				}
 				else
 				{
-					n0369 = 16;
+					shakeFrame = 16;
 				}
-				if (n0551 != null)
+				if (backgroundTexture != null)
 				{
-					n0655 = false;
+					backgroundIsColor = false;
 				}
-				else if (n0653 != null)
+				else if (previousBackgroundTexture != null)
 				{
-					n0656 = false;
+					previousBackgroundIsColor = false;
 				}
 			}
 			else
 			{
-				n0666 = false;
+				shakeActive = false;
 			}
 		}
 
 		private void n0683()
 		{
-			if (!n0666)
+			if (!shakeActive)
 			{
 				return;
 			}
-			if (!n0602)
+			if (!shakeLoop)
 			{
-				if (n0235)
+				if (shockEffectEnabled)
 				{
-					if (n0551 != null)
+					if (backgroundTexture != null)
 					{
-						QueueDraw(n0551, Rectangle.Empty, Rectangle.Empty, new Point(n0684[16 - n0369], n0685[16 - n0369]), Color.FromArgb(128, Color.White));
+						QueueDraw(backgroundTexture, Rectangle.Empty, Rectangle.Empty, new Point(n0684[16 - shakeFrame], n0685[16 - shakeFrame]), Color.FromArgb(128, Color.White));
 					}
-					else if (n0653 != null)
+					else if (previousBackgroundTexture != null)
 					{
-						QueueDraw(n0653, Rectangle.Empty, Rectangle.Empty, new Point(n0684[16 - n0369], n0685[16 - n0369]), Color.FromArgb(128, Color.White));
+						QueueDraw(previousBackgroundTexture, Rectangle.Empty, Rectangle.Empty, new Point(n0684[16 - shakeFrame], n0685[16 - shakeFrame]), Color.FromArgb(128, Color.White));
 					}
 				}
-				n0369--;
-				if (n0369 == 0)
+				shakeFrame--;
+				if (shakeFrame == 0)
 				{
-					n0666 = false;
+					shakeActive = false;
 				}
 				return;
 			}
 			Rectangle rectangle;
-			if (n0661 && !n0615)
+			if (zoomActive && !backgroundWipeActive)
 			{
-				if (n0598 > 0 && n0232)
+				if (zoomCounter > 0 && fadeEnabled)
 				{
-					double num = (double)n0598 / (double)n0681[n0679];
+					double num = (double)zoomCounter / (double)n0681[zoomSpeedIndex];
 					double num2 = 1.0 - num;
-					rectangle = new Rectangle((int)(num * (double)n0662.Left + num2 * (double)n0665.Left), (int)(num * (double)n0662.Top + num2 * (double)n0665.Top), (int)(num * (double)n0662.Width + num2 * (double)n0665.Width), (int)(num * (double)n0662.Height + num2 * (double)n0665.Height));
+					rectangle = new Rectangle((int)(num * (double)zoomSourceRect.Left + num2 * (double)zoomTargetRect.Left), (int)(num * (double)zoomSourceRect.Top + num2 * (double)zoomTargetRect.Top), (int)(num * (double)zoomSourceRect.Width + num2 * (double)zoomTargetRect.Width), (int)(num * (double)zoomSourceRect.Height + num2 * (double)zoomTargetRect.Height));
 				}
 				else
 				{
-					rectangle = n0665;
+					rectangle = zoomTargetRect;
 				}
 			}
 			else
 			{
 				rectangle = Rectangle.Empty;
 			}
-			if (n0551 != null)
+			if (backgroundTexture != null)
 			{
-				QueueDraw(n0551, rectangle, n0663, new Point(n0686[n0369], n0687[n0369]), Color.White);
+				QueueDraw(backgroundTexture, rectangle, n0663, new Point(n0686[shakeFrame], n0687[shakeFrame]), Color.White);
 			}
-			else if (n0653 != null)
+			else if (previousBackgroundTexture != null)
 			{
-				QueueDraw(n0653, rectangle, n0663, new Point(n0686[n0369], n0687[n0369]), Color.White);
+				QueueDraw(previousBackgroundTexture, rectangle, n0663, new Point(n0686[shakeFrame], n0687[shakeFrame]), Color.White);
 			}
-			n0369++;
-			if (n0369 == 16)
+			shakeFrame++;
+			if (shakeFrame == 16)
 			{
-				n0369 = 0;
+				shakeFrame = 0;
 			}
 			if (rectangle != Rectangle.Empty)
 			{
@@ -1619,82 +1619,82 @@ namespace n0001
 
 		private void n0670()
 		{
-			n0688 = TextureLoader.FromStream(n0006, n0136.ReadEntry("SUN"), 80, 80, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
-			n0689 = false;
+			sunTexture = TextureLoader.FromStream(device, n0136.ReadEntry("SUN"), 80, 80, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			sunActive = false;
 			for (int i = 0; i < 5; i++)
 			{
-				n0690[i] = 0;
-				n0691[i] = 0;
-				n0692[i] = 0.0;
-				n0693[i] = 0;
+				sunLifeCounters[i] = 0;
+				sunLifeTotals[i] = 0;
+				sunScales[i] = 0.0;
+				sunOffsets[i] = 0;
 			}
-			n0694 = new Random();
+			sunRandom = new Random();
 		}
 
 		private void n0675()
 		{
-			n0688.Dispose();
+			sunTexture.Dispose();
 		}
 
 		public void n0446(bool n0442)
 		{
 			if (!n0442)
 			{
-				n0689 = true;
-				n0655 = false;
+				sunActive = true;
+				backgroundIsColor = false;
 			}
 			else
 			{
-				n0689 = false;
+				sunActive = false;
 			}
 		}
 
 		private void n0695()
 		{
-			if (!n0689 || !n0234)
+			if (!sunActive || !sunEffectEnabled)
 			{
 				return;
 			}
 			int num = -1;
 			for (int i = 0; i < 5; i++)
 			{
-				if (n0691[i] == 0)
+				if (sunLifeTotals[i] == 0)
 				{
 					num = i;
 					break;
 				}
 			}
-			if (num >= 0 && n0694.NextDouble() < 0.25)
+			if (num >= 0 && sunRandom.NextDouble() < 0.25)
 			{
-				n0690[num] = 0;
-				n0691[num] = (int)(20.0 + 60.0 * n0694.NextDouble());
-				n0692[num] = 0.5 + 0.5 * n0694.NextDouble();
-				n0693[num] = (int)(-75.0 + 150.0 * n0694.NextDouble());
+				sunLifeCounters[num] = 0;
+				sunLifeTotals[num] = (int)(20.0 + 60.0 * sunRandom.NextDouble());
+				sunScales[num] = 0.5 + 0.5 * sunRandom.NextDouble();
+				sunOffsets[num] = (int)(-75.0 + 150.0 * sunRandom.NextDouble());
 			}
 			for (int j = 0; j < 5; j++)
 			{
-				if (n0691[j] > 0)
+				if (sunLifeTotals[j] > 0)
 				{
-					if ((double)n0690[j] < (double)n0691[j] / 2.0)
+					if ((double)sunLifeCounters[j] < (double)sunLifeTotals[j] / 2.0)
 					{
-						DrawSunSprite(n0693[j], n0692[j], (double)n0690[j] / ((double)n0691[j] / 2.0));
+						DrawSunSprite(sunOffsets[j], sunScales[j], (double)sunLifeCounters[j] / ((double)sunLifeTotals[j] / 2.0));
 						int[] array;
 						IntPtr intPtr;
-						(array = n0690)[(int)(intPtr = (IntPtr)j)] = array[(int)intPtr] + 1;
+						(array = sunLifeCounters)[(int)(intPtr = (IntPtr)j)] = array[(int)intPtr] + 1;
 						continue;
 					}
-					if (n0690[j] < n0691[j])
+					if (sunLifeCounters[j] < sunLifeTotals[j])
 					{
-						DrawSunSprite(n0693[j], n0692[j], (double)(n0691[j] - n0690[j]) / ((double)n0691[j] / 2.0));
+						DrawSunSprite(sunOffsets[j], sunScales[j], (double)(sunLifeTotals[j] - sunLifeCounters[j]) / ((double)sunLifeTotals[j] / 2.0));
 						int[] array2;
 						IntPtr intPtr2;
-						(array2 = n0690)[(int)(intPtr2 = (IntPtr)j)] = array2[(int)intPtr2] + 1;
+						(array2 = sunLifeCounters)[(int)(intPtr2 = (IntPtr)j)] = array2[(int)intPtr2] + 1;
 						continue;
 					}
-					n0690[j] = 0;
-					n0691[j] = 0;
-					n0692[j] = 0.0;
-					n0693[j] = 0;
+					sunLifeCounters[j] = 0;
+					sunLifeTotals[j] = 0;
+					sunScales[j] = 0.0;
+					sunOffsets[j] = 0;
 				}
 			}
 			QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.Transparent);
@@ -1706,180 +1706,180 @@ namespace n0001
 			int y = (-n0644 - 18) * 80 / (int)(450.0 * n0697);
 			Rectangle n880 = new Rectangle(0, 0, 80, 80);
 			Rectangle n881 = new Rectangle(0, 0, (int)(450.0 * n0697), (int)(450.0 * n0697));
-			QueueDraw(n0688, n880, n881, new Point(x, y), Color.FromArgb((int)(n0697 * n0441 * 255.0), Color.White));
+			QueueDraw(sunTexture, n880, n881, new Point(x, y), Color.FromArgb((int)(n0697 * n0441 * 255.0), Color.White));
 		}
 
 		private void n0671()
 		{
-			n0698 = TextureLoader.FromStream(n0006, n0136.ReadEntry("SAKURA"), n0699.Width, n0699.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
-			n0700 = false;
+			petalTexture = TextureLoader.FromStream(device, n0136.ReadEntry("SAKURA"), n0699.Width, n0699.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			petalActive = false;
 			for (int i = 0; i < 30; i++)
 			{
-				n0701[i] = 0;
-				n0702[i] = Point.Empty;
-				n0703[i] = 0f;
-				n0704[i] = 0f;
-				n0705[i] = 0f;
-				n0706[i] = 0f;
-				n0707[i] = 0;
-				n0708[i] = 0;
+				petalFrames[i] = 0;
+				petalPositions[i] = Point.Empty;
+				petalVelocitiesY[i] = 0f;
+				petalVelocitiesX[i] = 0f;
+				petalTargetVelocitiesY[i] = 0f;
+				petalTargetVelocitiesX[i] = 0f;
+				petalTurnTimers[i] = 0;
+				petalLifeCounters[i] = 0;
 			}
-			n0709 = 0;
-			n0710 = new Random();
+			petalActiveCount = 0;
+			petalRandom = new Random();
 		}
 
 		private void n0676()
 		{
-			n0698.Dispose();
+			petalTexture.Dispose();
 		}
 
 		public void n0448(bool n0442)
 		{
 			if (!n0442)
 			{
-				n0700 = true;
-				n0655 = false;
+				petalActive = true;
+				backgroundIsColor = false;
 				n0711();
 			}
 			else
 			{
-				n0700 = false;
+				petalActive = false;
 			}
 		}
 
 		private void n0711()
 		{
-			n0709 = n0710.Next(20, 30);
-			for (int i = 0; i < n0709; i++)
+			petalActiveCount = petalRandom.Next(20, 30);
+			for (int i = 0; i < petalActiveCount; i++)
 			{
-				n0701[i] = n0710.Next(4);
-				n0702[i] = new PointF(n0710.Next(-24, 800), n0710.Next(-24, 600));
-				n0703[i] = (float)(n0710.NextDouble() * 16.0);
-				n0704[i] = (float)(n0710.NextDouble() * 8.0 * 2.0 - 8.0);
-				n0705[i] = n0703[i];
-				n0706[i] = n0704[i];
-				n0707[i] = n0710.Next(200);
-				n0708[i] = n0710.Next(1, 9);
+				petalFrames[i] = petalRandom.Next(4);
+				petalPositions[i] = new PointF(petalRandom.Next(-24, 800), petalRandom.Next(-24, 600));
+				petalVelocitiesY[i] = (float)(petalRandom.NextDouble() * 16.0);
+				petalVelocitiesX[i] = (float)(petalRandom.NextDouble() * 8.0 * 2.0 - 8.0);
+				petalTargetVelocitiesY[i] = petalVelocitiesY[i];
+				petalTargetVelocitiesX[i] = petalVelocitiesX[i];
+				petalTurnTimers[i] = petalRandom.Next(200);
+				petalLifeCounters[i] = petalRandom.Next(1, 9);
 			}
-			for (int j = n0709; j < 30; j++)
+			for (int j = petalActiveCount; j < 30; j++)
 			{
-				n0701[j] = 0;
-				n0702[j] = PointF.Empty;
-				n0703[j] = 0f;
-				n0704[j] = 0f;
-				n0705[j] = 0f;
-				n0706[j] = 0f;
-				n0707[j] = 0;
-				n0708[j] = 0;
+				petalFrames[j] = 0;
+				petalPositions[j] = PointF.Empty;
+				petalVelocitiesY[j] = 0f;
+				petalVelocitiesX[j] = 0f;
+				petalTargetVelocitiesY[j] = 0f;
+				petalTargetVelocitiesX[j] = 0f;
+				petalTurnTimers[j] = 0;
+				petalLifeCounters[j] = 0;
 			}
 		}
 
 		private void n0712(bool n0713)
 		{
-			if (!n0700 || !n0233)
+			if (!petalActive || !effectEnabled)
 			{
 				return;
 			}
 			int num = -1;
 			for (int i = ((!n0713) ? 1 : 0); i < 30; i += 2)
 			{
-				if (n0708[i] == 0)
+				if (petalLifeCounters[i] == 0)
 				{
 					num = i;
 					break;
 				}
 			}
-			if (num >= 0 && (n0709 < 20 || !(n0710.NextDouble() >= 0.2)))
+			if (num >= 0 && (petalActiveCount < 20 || !(petalRandom.NextDouble() >= 0.2)))
 			{
-				n0701[num] = n0710.Next(4);
-				int num2 = n0710.Next(-3297, 624);
-				n0703[num] = (float)(n0710.NextDouble() * 16.0);
-				n0704[num] = (float)(n0710.NextDouble() * 8.0 * 2.0 - 8.0);
-				n0705[num] = n0703[num];
-				n0706[num] = n0704[num];
+				petalFrames[num] = petalRandom.Next(4);
+				int num2 = petalRandom.Next(-3297, 624);
+				petalVelocitiesY[num] = (float)(petalRandom.NextDouble() * 16.0);
+				petalVelocitiesX[num] = (float)(petalRandom.NextDouble() * 8.0 * 2.0 - 8.0);
+				petalTargetVelocitiesY[num] = petalVelocitiesY[num];
+				petalTargetVelocitiesX[num] = petalVelocitiesX[num];
 				if (num2 < 0)
 				{
-					n0702[num] = new PointF((0f - (float)num2 - 1f) % 824f - 24f, -24f);
+					petalPositions[num] = new PointF((0f - (float)num2 - 1f) % 824f - 24f, -24f);
 				}
-				else if (n0704[num] > 0f)
+				else if (petalVelocitiesX[num] > 0f)
 				{
-					n0702[num] = new PointF(-24f, num2 - 24);
+					petalPositions[num] = new PointF(-24f, num2 - 24);
 				}
 				else
 				{
-					n0702[num] = new PointF(800f, num2 - 24);
+					petalPositions[num] = new PointF(800f, num2 - 24);
 				}
-				n0707[num] = n0710.Next(40, 200);
-				n0708[num] = n0710.Next(1, 9);
-				n0709++;
+				petalTurnTimers[num] = petalRandom.Next(40, 200);
+				petalLifeCounters[num] = petalRandom.Next(1, 9);
+				petalActiveCount++;
 			}
 			for (int j = ((!n0713) ? 1 : 0); j < 30; j += 2)
 			{
-				if (n0708[j] <= 0)
+				if (petalLifeCounters[j] <= 0)
 				{
 					continue;
 				}
-				DrawPetal(n0701[j], n0708[j], n0702[j]);
+				DrawPetal(petalFrames[j], petalLifeCounters[j], petalPositions[j]);
 				int[] array;
 				IntPtr intPtr;
-				(array = n0701)[(int)(intPtr = (IntPtr)j)] = array[(int)intPtr] + 1;
-				if (n0701[j] == 4)
+				(array = petalFrames)[(int)(intPtr = (IntPtr)j)] = array[(int)intPtr] + 1;
+				if (petalFrames[j] == 4)
 				{
-					n0701[j] = 0;
+					petalFrames[j] = 0;
 				}
-				(array = n0707)[(int)(intPtr = (IntPtr)j)] = array[(int)intPtr] - 1;
-				if (n0707[j] == 0)
+				(array = petalTurnTimers)[(int)(intPtr = (IntPtr)j)] = array[(int)intPtr] - 1;
+				if (petalTurnTimers[j] == 0)
 				{
-					n0705[j] = (float)(n0710.NextDouble() * 16.0);
-					n0706[j] = (float)(n0710.NextDouble() * 8.0 * 2.0 - 8.0);
-					n0707[j] = n0710.Next(40, 200);
+					petalTargetVelocitiesY[j] = (float)(petalRandom.NextDouble() * 16.0);
+					petalTargetVelocitiesX[j] = (float)(petalRandom.NextDouble() * 8.0 * 2.0 - 8.0);
+					petalTurnTimers[j] = petalRandom.Next(40, 200);
 				}
-				if (n0704[j] != n0706[j] || n0703[j] != n0705[j])
+				if (petalVelocitiesX[j] != petalTargetVelocitiesX[j] || petalVelocitiesY[j] != petalTargetVelocitiesY[j])
 				{
-					float num3 = n0705[j] - n0703[j];
-					float num4 = n0706[j] - n0704[j];
+					float num3 = petalTargetVelocitiesY[j] - petalVelocitiesY[j];
+					float num4 = petalTargetVelocitiesX[j] - petalVelocitiesX[j];
 					float num5 = ((num3 == 0f) ? float.NaN : Math.Abs(num4 / num3));
 					if (Math.Abs(num4) > Math.Abs(num3))
 					{
 						if (Math.Abs(num4) > 0.1f)
 						{
 							float[] array2;
-							(array2 = n0704)[(int)(intPtr = (IntPtr)j)] = array2[(int)intPtr] + ((num4 > 0f) ? 0.1f : (-0.1f));
+							(array2 = petalVelocitiesX)[(int)(intPtr = (IntPtr)j)] = array2[(int)intPtr] + ((num4 > 0f) ? 0.1f : (-0.1f));
 							if (!float.IsNaN(num5))
 							{
-								(array2 = n0703)[(int)(intPtr = (IntPtr)j)] = array2[(int)intPtr] + ((num3 > 0f) ? 0.1f : (-0.1f)) / num5;
+								(array2 = petalVelocitiesY)[(int)(intPtr = (IntPtr)j)] = array2[(int)intPtr] + ((num3 > 0f) ? 0.1f : (-0.1f)) / num5;
 							}
 						}
 						else
 						{
-							n0704[j] = n0706[j];
-							n0703[j] = n0705[j];
+							petalVelocitiesX[j] = petalTargetVelocitiesX[j];
+							petalVelocitiesY[j] = petalTargetVelocitiesY[j];
 						}
 					}
 					else if (Math.Abs(num3) > 0.1f)
 					{
 						float[] array3;
-						(array3 = n0703)[(int)(intPtr = (IntPtr)j)] = array3[(int)intPtr] + ((num3 > 0f) ? 0.1f : (-0.1f));
-						(array3 = n0704)[(int)(intPtr = (IntPtr)j)] = array3[(int)intPtr] + ((num4 > 0f) ? 0.1f : (-0.1f)) * num5;
+						(array3 = petalVelocitiesY)[(int)(intPtr = (IntPtr)j)] = array3[(int)intPtr] + ((num3 > 0f) ? 0.1f : (-0.1f));
+						(array3 = petalVelocitiesX)[(int)(intPtr = (IntPtr)j)] = array3[(int)intPtr] + ((num4 > 0f) ? 0.1f : (-0.1f)) * num5;
 					}
 					else
 					{
-						n0703[j] = n0705[j];
-						n0704[j] = n0706[j];
+						petalVelocitiesY[j] = petalTargetVelocitiesY[j];
+						petalVelocitiesX[j] = petalTargetVelocitiesX[j];
 					}
 				}
-				n0702[j] = new PointF(n0702[j].X + n0704[j], n0702[j].Y + n0703[j]);
-				if (n0702[j].X < -24f || n0702[j].X > 800f || n0702[j].Y > 600f)
+				petalPositions[j] = new PointF(petalPositions[j].X + petalVelocitiesX[j], petalPositions[j].Y + petalVelocitiesY[j]);
+				if (petalPositions[j].X < -24f || petalPositions[j].X > 800f || petalPositions[j].Y > 600f)
 				{
-					n0701[j] = 0;
-					n0702[j] = PointF.Empty;
-					n0703[j] = 0f;
-					n0704[j] = 0f;
-					n0705[j] = 0f;
-					n0706[j] = 0f;
-					n0707[j] = 0;
-					n0708[j] = 0;
-					n0709--;
+					petalFrames[j] = 0;
+					petalPositions[j] = PointF.Empty;
+					petalVelocitiesY[j] = 0f;
+					petalVelocitiesX[j] = 0f;
+					petalTargetVelocitiesY[j] = 0f;
+					petalTargetVelocitiesX[j] = 0f;
+					petalTurnTimers[j] = 0;
+					petalLifeCounters[j] = 0;
+					petalActiveCount--;
 				}
 			}
 		}
@@ -1887,108 +1887,108 @@ namespace n0001
 		private void DrawPetal(int n0715, int n0716, PointF n0644)
 		{
 			Rectangle n880 = new Rectangle(n0715 * 24, (n0716 - 1) * 24, 24, 24);
-			QueueDraw(n0698, n880, Rectangle.Empty, new Point((int)n0644.X, (int)n0644.Y), Color.White);
+			QueueDraw(petalTexture, n880, Rectangle.Empty, new Point((int)n0644.X, (int)n0644.Y), Color.White);
 		}
 
 		private void n0672()
 		{
-			n0717 = TextureLoader.FromStream(n0006, n0136.ReadEntry("SNOW"), n0718.Width, n0718.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
-			n0719 = false;
+			snowTexture = TextureLoader.FromStream(device, n0136.ReadEntry("SNOW"), n0718.Width, n0718.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			snowActive = false;
 			for (int i = 0; i < 25; i++)
 			{
-				n0720[i] = Point.Empty;
-				n0721[i] = 0f;
-				n0722[i] = 0f;
-				n0723[i] = 0f;
-				n0724[i] = 0f;
-				n0725[i] = 0;
+				snowPositions[i] = Point.Empty;
+				snowSpeeds[i] = 0f;
+				snowSwayAmplitudes[i] = 0f;
+				snowSwayFrequencies[i] = 0f;
+				snowSwayPhases[i] = 0f;
+				snowLifeCounters[i] = 0;
 			}
-			n0726 = 0;
-			n0727 = new Random();
+			snowActiveCount = 0;
+			snowRandom = new Random();
 		}
 
 		private void n0677()
 		{
-			n0717.Dispose();
+			snowTexture.Dispose();
 		}
 
 		public void n0450(bool n0442)
 		{
 			if (!n0442)
 			{
-				n0719 = true;
-				n0655 = false;
+				snowActive = true;
+				backgroundIsColor = false;
 				n0728();
 			}
 			else
 			{
-				n0719 = false;
+				snowActive = false;
 			}
 		}
 
 		private void n0728()
 		{
-			n0726 = n0727.Next(15, 25);
-			for (int i = 0; i < n0726; i++)
+			snowActiveCount = snowRandom.Next(15, 25);
+			for (int i = 0; i < snowActiveCount; i++)
 			{
-				n0720[i] = new PointF(n0727.Next(-16, 800), n0727.Next(-16, 600));
-				n0721[i] = (float)(n0727.NextDouble() * 4.0 + 2.0);
-				n0722[i] = (float)(n0727.NextDouble() * 16.0 + 8.0);
-				n0723[i] = (float)(n0727.NextDouble() * 0.009999999776482582 + 0.009999999776482582);
-				n0724[i] = (float)(n0727.NextDouble() * (Math.PI * 2.0));
-				n0725[i] = n0727.Next(1, 5);
+				snowPositions[i] = new PointF(snowRandom.Next(-16, 800), snowRandom.Next(-16, 600));
+				snowSpeeds[i] = (float)(snowRandom.NextDouble() * 4.0 + 2.0);
+				snowSwayAmplitudes[i] = (float)(snowRandom.NextDouble() * 16.0 + 8.0);
+				snowSwayFrequencies[i] = (float)(snowRandom.NextDouble() * 0.009999999776482582 + 0.009999999776482582);
+				snowSwayPhases[i] = (float)(snowRandom.NextDouble() * (Math.PI * 2.0));
+				snowLifeCounters[i] = snowRandom.Next(1, 5);
 			}
-			for (int j = n0726; j < 25; j++)
+			for (int j = snowActiveCount; j < 25; j++)
 			{
-				n0720[j] = PointF.Empty;
-				n0721[j] = 0f;
-				n0722[j] = 0f;
-				n0723[j] = 0f;
-				n0724[j] = 0f;
-				n0725[j] = 0;
+				snowPositions[j] = PointF.Empty;
+				snowSpeeds[j] = 0f;
+				snowSwayAmplitudes[j] = 0f;
+				snowSwayFrequencies[j] = 0f;
+				snowSwayPhases[j] = 0f;
+				snowLifeCounters[j] = 0;
 			}
 		}
 
 		private void n0729()
 		{
-			if (!n0719 || !n0233)
+			if (!snowActive || !effectEnabled)
 			{
 				return;
 			}
 			int num = -1;
 			for (int i = 0; i < 25; i++)
 			{
-				if (n0725[i] == 0)
+				if (snowLifeCounters[i] == 0)
 				{
 					num = i;
 					break;
 				}
 			}
-			if (num >= 0 && (n0726 < 15 || n0727.NextDouble() < 0.2))
+			if (num >= 0 && (snowActiveCount < 15 || snowRandom.NextDouble() < 0.2))
 			{
-				n0720[num] = new PointF(n0727.Next(-16, 800), -16f);
-				n0721[num] = (float)(n0727.NextDouble() * 4.0 + 2.0);
-				n0722[num] = (float)(n0727.NextDouble() * 16.0 + 8.0);
-				n0723[num] = (float)(n0727.NextDouble() * 0.009999999776482582 + 0.009999999776482582);
-				n0724[num] = (float)(n0727.NextDouble() * (Math.PI * 2.0));
-				n0725[num] = n0727.Next(1, 5);
-				n0726++;
+				snowPositions[num] = new PointF(snowRandom.Next(-16, 800), -16f);
+				snowSpeeds[num] = (float)(snowRandom.NextDouble() * 4.0 + 2.0);
+				snowSwayAmplitudes[num] = (float)(snowRandom.NextDouble() * 16.0 + 8.0);
+				snowSwayFrequencies[num] = (float)(snowRandom.NextDouble() * 0.009999999776482582 + 0.009999999776482582);
+				snowSwayPhases[num] = (float)(snowRandom.NextDouble() * (Math.PI * 2.0));
+				snowLifeCounters[num] = snowRandom.Next(1, 5);
+				snowActiveCount++;
 			}
 			for (int j = 0; j < 25; j++)
 			{
-				if (n0725[j] > 0)
+				if (snowLifeCounters[j] > 0)
 				{
-					DrawSnowflake(n0725[j], new PointF((float)((double)n0720[j].X + (double)n0722[j] * Math.Sin(n0723[j] * n0720[j].Y + n0724[j])), n0720[j].Y));
-					n0720[j] = new PointF(n0720[j].X, n0720[j].Y + n0721[j]);
-					if (n0720[j].Y > 600f)
+					DrawSnowflake(snowLifeCounters[j], new PointF((float)((double)snowPositions[j].X + (double)snowSwayAmplitudes[j] * Math.Sin(snowSwayFrequencies[j] * snowPositions[j].Y + snowSwayPhases[j])), snowPositions[j].Y));
+					snowPositions[j] = new PointF(snowPositions[j].X, snowPositions[j].Y + snowSpeeds[j]);
+					if (snowPositions[j].Y > 600f)
 					{
-						n0720[j] = PointF.Empty;
-						n0721[j] = 0f;
-						n0722[j] = 0f;
-						n0723[j] = 0f;
-						n0724[j] = 0f;
-						n0725[j] = 0;
-						n0726--;
+						snowPositions[j] = PointF.Empty;
+						snowSpeeds[j] = 0f;
+						snowSwayAmplitudes[j] = 0f;
+						snowSwayFrequencies[j] = 0f;
+						snowSwayPhases[j] = 0f;
+						snowLifeCounters[j] = 0;
+						snowActiveCount--;
 					}
 				}
 			}
@@ -1997,67 +1997,67 @@ namespace n0001
 		private void DrawSnowflake(int n0716, PointF n0644)
 		{
 			Rectangle n880 = new Rectangle((n0716 - 1) * 16, 0, 16, 16);
-			QueueDraw(n0717, n880, Rectangle.Empty, new Point((int)n0644.X, (int)n0644.Y), Color.White);
+			QueueDraw(snowTexture, n880, Rectangle.Empty, new Point((int)n0644.X, (int)n0644.Y), Color.White);
 		}
 
 		private void n0673()
 		{
-			n0618 = false;
-			n0617 = false;
-			n0599 = 0;
+			dimActive = false;
+			dimReverse = false;
+			dimCounter = 0;
 		}
 
 		public void n0444(bool n0399, bool n0442)
 		{
 			if (!n0442)
 			{
-				n0618 = true;
-				n0617 = false;
-				n0655 = false;
+				dimActive = true;
+				dimReverse = false;
+				backgroundIsColor = false;
 				if (n0399)
 				{
-					n0599 = 10;
+					dimCounter = 10;
 				}
 				else
 				{
-					n0599 = 0;
+					dimCounter = 0;
 				}
 			}
 			else
 			{
-				n0617 = true;
+				dimReverse = true;
 				if (n0399)
 				{
-					n0599 = 10;
+					dimCounter = 10;
 					return;
 				}
-				n0599 = 0;
-				n0618 = false;
+				dimCounter = 0;
+				dimActive = false;
 			}
 		}
 
 		private void n0731()
 		{
-			if (!n0618)
+			if (!dimActive)
 			{
 				return;
 			}
-			if (n0599 > 0)
+			if (dimCounter > 0)
 			{
-				if (n0232)
+				if (fadeEnabled)
 				{
-					float num = (n0617 ? ((float)n0599 / 10f) : ((float)(10 - n0599) / 10f));
+					float num = (dimReverse ? ((float)dimCounter / 10f) : ((float)(10 - dimCounter) / 10f));
 					QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)(128f * num), Color.Black));
-					n0599--;
+					dimCounter--;
 				}
 				else
 				{
 					QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb(128, Color.Black));
-					n0599 = 0;
+					dimCounter = 0;
 				}
-				if (n0617 && n0599 == 0)
+				if (dimReverse && dimCounter == 0)
 				{
-					n0618 = false;
+					dimActive = false;
 				}
 			}
 			else
@@ -2068,75 +2068,75 @@ namespace n0001
 
 		private void n0674()
 		{
-			n0732 = TextureLoader.FromStream(n0006, n0136.ReadEntry("THINK"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
-			n0621 = false;
-			n0620 = false;
-			n0619 = 0;
+			thinkTexture = TextureLoader.FromStream(device, n0136.ReadEntry("THINK"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			thinkActive = false;
+			thinkReverse = false;
+			thinkCounter = 0;
 		}
 
 		private void n0678()
 		{
-			n0732.Dispose();
+			thinkTexture.Dispose();
 		}
 
 		public void n0452(bool n0399, bool n0442)
 		{
 			if (!n0442)
 			{
-				n0621 = true;
-				n0620 = false;
-				n0655 = false;
+				thinkActive = true;
+				thinkReverse = false;
+				backgroundIsColor = false;
 				if (n0399)
 				{
-					n0619 = 10;
+					thinkCounter = 10;
 				}
 				else
 				{
-					n0619 = 0;
+					thinkCounter = 0;
 				}
 				n0660();
 				n0733();
 			}
 			else
 			{
-				n0620 = true;
+				thinkReverse = true;
 				if (n0399)
 				{
-					n0619 = 10;
+					thinkCounter = 10;
 					return;
 				}
-				n0619 = 0;
-				n0621 = false;
+				thinkCounter = 0;
+				thinkActive = false;
 			}
 		}
 
 		private void n0734()
 		{
-			if (!n0621)
+			if (!thinkActive)
 			{
 				return;
 			}
-			if (n0619 > 0)
+			if (thinkCounter > 0)
 			{
-				if (n0232)
+				if (fadeEnabled)
 				{
-					float num = (n0620 ? ((float)n0619 / 10f) : ((float)(10 - n0619) / 10f));
-					QueueDraw(n0732, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)(255f * num), Color.White));
-					n0619--;
+					float num = (thinkReverse ? ((float)thinkCounter / 10f) : ((float)(10 - thinkCounter) / 10f));
+					QueueDraw(thinkTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)(255f * num), Color.White));
+					thinkCounter--;
 				}
 				else
 				{
-					QueueDraw(n0732, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
-					n0619 = 0;
+					QueueDraw(thinkTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
+					thinkCounter = 0;
 				}
-				if (n0620 && n0619 == 0)
+				if (thinkReverse && thinkCounter == 0)
 				{
-					n0621 = false;
+					thinkActive = false;
 				}
 			}
 			else
 			{
-				QueueDraw(n0732, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
+				QueueDraw(thinkTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
 			}
 		}
 
@@ -2176,15 +2176,15 @@ namespace n0001
 			};
 			for (int i = 0; i < 3; i++)
 			{
-				n0550[i] = null;
-				n0737[i] = null;
-				n0738[i] = null;
-				n0603[i] = 0;
-				n0604[i] = 0;
-				n0739[i] = 0;
-				n0740[i] = 0;
-				n0741[i] = Size.Empty;
-				n0742[i] = Size.Empty;
+				characterTextures[i] = null;
+				previousCharacterTextures[i] = null;
+				characterShadowTextures[i] = null;
+				characterAppearCounters[i] = 0;
+				characterShakeCounters[i] = 0;
+				characterOffsets[i] = 0;
+				previousCharacterOffsets[i] = 0;
+				characterSizes[i] = Size.Empty;
+				previousCharacterSizes[i] = Size.Empty;
 			}
 		}
 
@@ -2192,153 +2192,153 @@ namespace n0001
 		{
 			for (int i = 0; i < 3; i++)
 			{
-				if (n0550[i] != null)
+				if (characterTextures[i] != null)
 				{
-					n0550[i].Dispose();
+					characterTextures[i].Dispose();
 				}
-				if (n0737[i] != null)
+				if (previousCharacterTextures[i] != null)
 				{
-					n0737[i].Dispose();
+					previousCharacterTextures[i].Dispose();
 				}
-				if (n0738[i] != null)
+				if (characterShadowTextures[i] != null)
 				{
-					n0738[i].Dispose();
+					characterShadowTextures[i].Dispose();
 				}
 			}
 		}
 
 		public void SetCharacter(Texture n0241, Size n0396, int n0309, int n0397, bool n0398, bool n0399)
 		{
-			if (n0737[n0309] != null)
+			if (previousCharacterTextures[n0309] != null)
 			{
-				n0737[n0309].Dispose();
+				previousCharacterTextures[n0309].Dispose();
 			}
-			n0737[n0309] = n0550[n0309];
-			n0742[n0309] = n0741[n0309];
-			n0550[n0309] = n0241;
-			n0741[n0309] = n0396;
-			n0740[n0309] = n0739[n0309];
+			previousCharacterTextures[n0309] = characterTextures[n0309];
+			previousCharacterSizes[n0309] = characterSizes[n0309];
+			characterTextures[n0309] = n0241;
+			characterSizes[n0309] = n0396;
+			previousCharacterOffsets[n0309] = characterOffsets[n0309];
 			if (n0397 != int.MaxValue)
 			{
-				n0739[n0309] = n0397;
+				characterOffsets[n0309] = n0397;
 			}
 			if (n0241 != null)
 			{
-				n0743[n0309] = n0398;
+				characterSemiTransparent[n0309] = n0398;
 			}
 			if (n0399)
 			{
-				n0603[n0309] = 8;
+				characterAppearCounters[n0309] = 8;
 			}
-			if (n0621)
+			if (thinkActive)
 			{
 				n0733();
 				return;
 			}
 			for (int i = 0; i < 3; i++)
 			{
-				if (n0738[i] != null)
+				if (characterShadowTextures[i] != null)
 				{
-					n0738[i].Dispose();
-					n0738[i] = null;
+					characterShadowTextures[i].Dispose();
+					characterShadowTextures[i] = null;
 				}
 			}
 		}
 
 		public void n0403(int n0309, int n0402)
 		{
-			n0744[n0309] = n0402;
-			n0604[n0309] = n0745[n0402];
+			characterShakePatterns[n0309] = n0402;
+			characterShakeCounters[n0309] = n0745[n0402];
 		}
 
 		private void n0586()
 		{
 			for (int i = 0; i < 3; i++)
 			{
-				if (n0603[i] > 0)
+				if (characterAppearCounters[i] > 0)
 				{
-					if (n0232)
+					if (fadeEnabled)
 					{
-						if (n0737[i] != null && n0550[i] != null)
+						if (previousCharacterTextures[i] != null && characterTextures[i] != null)
 						{
-							if (n0603[i] > 2)
+							if (characterAppearCounters[i] > 2)
 							{
-								int alpha = (int)(Math.Pow((double)(8 - n0603[i]) / 6.0, 2.0) * 255.0 / (double)((!n0743[i]) ? 1 : 2));
-								QueueDraw(n0737[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + n0740[i] * 15 - n0742[i].Width / 2, 600 - n0742[i].Height), n0743[i] ? Color.FromArgb(128, Color.White) : Color.White);
-								QueueDraw(n0550[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + n0739[i] * 15 - n0741[i].Width / 2, 600 - n0741[i].Height), Color.FromArgb(alpha, Color.White));
+								int alpha = (int)(Math.Pow((double)(8 - characterAppearCounters[i]) / 6.0, 2.0) * 255.0 / (double)((!characterSemiTransparent[i]) ? 1 : 2));
+								QueueDraw(previousCharacterTextures[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + previousCharacterOffsets[i] * 15 - previousCharacterSizes[i].Width / 2, 600 - previousCharacterSizes[i].Height), characterSemiTransparent[i] ? Color.FromArgb(128, Color.White) : Color.White);
+								QueueDraw(characterTextures[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + characterOffsets[i] * 15 - characterSizes[i].Width / 2, 600 - characterSizes[i].Height), Color.FromArgb(alpha, Color.White));
 							}
 							else
 							{
-								int alpha2 = (int)(Math.Pow((double)n0603[i] / 2.0, 2.0) * 255.0 / (double)((!n0743[i]) ? 1 : 2));
-								QueueDraw(n0737[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + n0739[i] * 15 - n0742[i].Width / 2, 600 - n0742[i].Height), Color.FromArgb(alpha2, Color.White));
-								QueueDraw(n0550[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + n0739[i] * 15 - n0741[i].Width / 2, 600 - n0741[i].Height), n0743[i] ? Color.FromArgb(128, Color.White) : Color.White);
+								int alpha2 = (int)(Math.Pow((double)characterAppearCounters[i] / 2.0, 2.0) * 255.0 / (double)((!characterSemiTransparent[i]) ? 1 : 2));
+								QueueDraw(previousCharacterTextures[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + characterOffsets[i] * 15 - previousCharacterSizes[i].Width / 2, 600 - previousCharacterSizes[i].Height), Color.FromArgb(alpha2, Color.White));
+								QueueDraw(characterTextures[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + characterOffsets[i] * 15 - characterSizes[i].Width / 2, 600 - characterSizes[i].Height), characterSemiTransparent[i] ? Color.FromArgb(128, Color.White) : Color.White);
 							}
 						}
-						else if (n0737[i] != null)
+						else if (previousCharacterTextures[i] != null)
 						{
-							QueueDraw(n0737[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + n0740[i] * 15 - n0742[i].Width / 2, 600 - n0742[i].Height), Color.FromArgb((int)((float)n0603[i] / 8f * 255f / (float)((!n0743[i]) ? 1 : 2)), Color.White));
+							QueueDraw(previousCharacterTextures[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + previousCharacterOffsets[i] * 15 - previousCharacterSizes[i].Width / 2, 600 - previousCharacterSizes[i].Height), Color.FromArgb((int)((float)characterAppearCounters[i] / 8f * 255f / (float)((!characterSemiTransparent[i]) ? 1 : 2)), Color.White));
 						}
 						else
 						{
-							if (!(n0550[i] != null))
+							if (!(characterTextures[i] != null))
 							{
 								throw new Exception("No Chara");
 							}
-							QueueDraw(n0550[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + n0739[i] * 15 - n0741[i].Width / 2, 600 - n0741[i].Height), Color.FromArgb((int)((float)(8 - n0603[i]) / 8f * 255f / (float)((!n0743[i]) ? 1 : 2)), Color.White));
+							QueueDraw(characterTextures[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + characterOffsets[i] * 15 - characterSizes[i].Width / 2, 600 - characterSizes[i].Height), Color.FromArgb((int)((float)(8 - characterAppearCounters[i]) / 8f * 255f / (float)((!characterSemiTransparent[i]) ? 1 : 2)), Color.White));
 						}
 						int[] array;
 						IntPtr intPtr;
-						(array = n0603)[(int)(intPtr = (IntPtr)i)] = array[(int)intPtr] - 1;
+						(array = characterAppearCounters)[(int)(intPtr = (IntPtr)i)] = array[(int)intPtr] - 1;
 					}
 					else
 					{
-						if (n0550[i] != null)
+						if (characterTextures[i] != null)
 						{
-							QueueDraw(n0550[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + n0739[i] * 15 - n0741[i].Width / 2, 600 - n0741[i].Height), Color.White);
+							QueueDraw(characterTextures[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + characterOffsets[i] * 15 - characterSizes[i].Width / 2, 600 - characterSizes[i].Height), Color.White);
 						}
-						n0603[i] = 0;
+						characterAppearCounters[i] = 0;
 					}
 				}
 				else
 				{
-					if (!(n0550[i] != null))
+					if (!(characterTextures[i] != null))
 					{
 						continue;
 					}
-					if (n0604[i] > 0)
+					if (characterShakeCounters[i] > 0)
 					{
-						if (n0232 && n0743[i])
+						if (fadeEnabled && characterSemiTransparent[i])
 						{
-							QueueDraw(n0550[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + n0739[i] * 15 - n0741[i].Width / 2 + n0735[n0744[i]][n0745[n0744[i]] - n0604[i]], 600 - n0741[i].Height + n0736[n0744[i]][n0745[n0744[i]] - n0604[i]]), n0746);
+							QueueDraw(characterTextures[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + characterOffsets[i] * 15 - characterSizes[i].Width / 2 + n0735[characterShakePatterns[i]][n0745[characterShakePatterns[i]] - characterShakeCounters[i]], 600 - characterSizes[i].Height + n0736[characterShakePatterns[i]][n0745[characterShakePatterns[i]] - characterShakeCounters[i]]), n0746);
 						}
 						else
 						{
-							QueueDraw(n0550[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + n0739[i] * 15 - n0741[i].Width / 2 + n0735[n0744[i]][n0745[n0744[i]] - n0604[i]], 600 - n0741[i].Height + n0736[n0744[i]][n0745[n0744[i]] - n0604[i]]), Color.White);
+							QueueDraw(characterTextures[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + characterOffsets[i] * 15 - characterSizes[i].Width / 2 + n0735[characterShakePatterns[i]][n0745[characterShakePatterns[i]] - characterShakeCounters[i]], 600 - characterSizes[i].Height + n0736[characterShakePatterns[i]][n0745[characterShakePatterns[i]] - characterShakeCounters[i]]), Color.White);
 						}
 						int[] array2;
 						IntPtr intPtr2;
-						(array2 = n0604)[(int)(intPtr2 = (IntPtr)i)] = array2[(int)intPtr2] - 1;
+						(array2 = characterShakeCounters)[(int)(intPtr2 = (IntPtr)i)] = array2[(int)intPtr2] - 1;
 					}
-					else if (n0232 && n0743[i])
+					else if (fadeEnabled && characterSemiTransparent[i])
 					{
-						QueueDraw(n0550[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + n0739[i] * 15 - n0741[i].Width / 2, 600 - n0741[i].Height), n0746);
+						QueueDraw(characterTextures[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + characterOffsets[i] * 15 - characterSizes[i].Width / 2, 600 - characterSizes[i].Height), n0746);
 					}
-					else if (n0621)
+					else if (thinkActive)
 					{
-						if (n0619 > 0)
+						if (thinkCounter > 0)
 						{
-							float num = (n0620 ? ((float)n0619 / 10f) : ((float)(10 - n0619) / 10f));
-							QueueDraw(n0550[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + n0739[i] * 15 - n0741[i].Width / 2, 600 - n0741[i].Height), Color.White);
-							QueueDraw(n0738[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + n0739[i] * 15 - n0741[i].Width / 2, 600 - n0741[i].Height), Color.FromArgb((int)(255f * num), Color.White));
+							float num = (thinkReverse ? ((float)thinkCounter / 10f) : ((float)(10 - thinkCounter) / 10f));
+							QueueDraw(characterTextures[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + characterOffsets[i] * 15 - characterSizes[i].Width / 2, 600 - characterSizes[i].Height), Color.White);
+							QueueDraw(characterShadowTextures[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + characterOffsets[i] * 15 - characterSizes[i].Width / 2, 600 - characterSizes[i].Height), Color.FromArgb((int)(255f * num), Color.White));
 						}
 						else
 						{
-							QueueDraw(n0738[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + n0739[i] * 15 - n0741[i].Width / 2, 600 - n0741[i].Height), Color.White);
+							QueueDraw(characterShadowTextures[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + characterOffsets[i] * 15 - characterSizes[i].Width / 2, 600 - characterSizes[i].Height), Color.White);
 						}
 					}
 					else
 					{
-						QueueDraw(n0550[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + n0739[i] * 15 - n0741[i].Width / 2, 600 - n0741[i].Height), Color.White);
+						QueueDraw(characterTextures[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + characterOffsets[i] * 15 - characterSizes[i].Width / 2, 600 - characterSizes[i].Height), Color.White);
 					}
 				}
 			}
@@ -2348,20 +2348,20 @@ namespace n0001
 		{
 			for (int i = 0; i < 3; i++)
 			{
-				if (n0738[i] != null)
+				if (characterShadowTextures[i] != null)
 				{
-					n0738[i].Dispose();
+					characterShadowTextures[i].Dispose();
 				}
-				if (!(n0550[i] != null))
+				if (!(characterTextures[i] != null))
 				{
 					continue;
 				}
-				n0738[i] = TextureLoader.FromStream(n0006, n0136.ReadEntry("WHITE"), n0741[i].Width, n0741[i].Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
-				uint[,] array = (uint[,])n0550[i].LockRectangle(typeof(uint), 0, LockFlags.None, n0741[i].Width, n0741[i].Height);
-				uint[,] array2 = (uint[,])n0738[i].LockRectangle(typeof(uint), 0, LockFlags.None, n0741[i].Width, n0741[i].Height);
-				for (int j = 0; j < n0741[i].Width; j++)
+				characterShadowTextures[i] = TextureLoader.FromStream(device, n0136.ReadEntry("WHITE"), characterSizes[i].Width, characterSizes[i].Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+				uint[,] array = (uint[,])characterTextures[i].LockRectangle(typeof(uint), 0, LockFlags.None, characterSizes[i].Width, characterSizes[i].Height);
+				uint[,] array2 = (uint[,])characterShadowTextures[i].LockRectangle(typeof(uint), 0, LockFlags.None, characterSizes[i].Width, characterSizes[i].Height);
+				for (int j = 0; j < characterSizes[i].Width; j++)
 				{
-					for (int k = 0; k < n0741[i].Height; k++)
+					for (int k = 0; k < characterSizes[i].Height; k++)
 					{
 						uint num = array[j, k];
 						uint num2 = ((num & 0xFF) + ((num >> 8) & 0xFF) + ((num >> 16) & 0xFF)) / 3;
@@ -2369,8 +2369,8 @@ namespace n0001
 						array2[j, k] = (num3 << 24) + (num2 << 16) + (num2 << 8) + num2;
 					}
 				}
-				n0550[i].UnlockRectangle(0);
-				n0738[i].UnlockRectangle(0);
+				characterTextures[i].UnlockRectangle(0);
+				characterShadowTextures[i].UnlockRectangle(0);
 			}
 		}
 
@@ -2395,7 +2395,7 @@ namespace n0001
 			{
 				n0593.Dispose();
 			}
-			n0593 = new Microsoft.DirectX.Direct3D.Font(n0006, new System.Drawing.Font(n0362.FontFamily, 24f));
+			n0593 = new Microsoft.DirectX.Direct3D.Font(device, new System.Drawing.Font(baseFont.FontFamily, 24f));
 		}
 
 		public void ShowNotice(string[] n0241)
@@ -2414,7 +2414,7 @@ namespace n0001
 					return;
 				}
 				int alpha;
-				if (n0232)
+				if (fadeEnabled)
 				{
 					if (n0748 <= 10)
 					{
@@ -2429,7 +2429,7 @@ namespace n0001
 				{
 					alpha = 255;
 				}
-				DrawTextCore(n0747[(int)n0363], 0, n0747[(int)n0363].Length, n0749, n0750.Width, n0750.Height, 2, HorizontalAlign.n0438, 15, n0593, Color.FromArgb(alpha, Color.White), Color.FromArgb(alpha, Color.Black));
+				DrawTextCore(n0747[(int)layoutIndex], 0, n0747[(int)layoutIndex].Length, n0749, n0750.Width, n0750.Height, 2, HorizontalAlign.n0438, 15, n0593, Color.FromArgb(alpha, Color.White), Color.FromArgb(alpha, Color.Black));
 				n0579.Add(1);
 				n0748--;
 			}
@@ -2437,48 +2437,48 @@ namespace n0001
 
 		private void n0566()
 		{
-			n0605 = null;
-			n0751 = HorizontalAlign.n0437;
-			n0606 = TextRevealMode.n0487;
-			n0607 = 0.0;
-			n0609 = 0;
-			n0600 = 0;
-			n0624 = 0;
-			n0752 = false;
-			n0753 = Color.White;
-			n0754 = Color.Black;
-			n0755 = 0.0;
-			n0756 = n0757;
+			messageLines = null;
+			messageFontSizeMode = HorizontalAlign.n0437;
+			messageAlignMode = TextRevealMode.n0487;
+			messageProgress = 0.0;
+			lineRevealCounter = 0;
+			messageFadeCounter = 0;
+			messageVisibleChars = 0;
+			showNextIndicator = false;
+			messageTextColor = Color.White;
+			messageShadowColor = Color.Black;
+			messageVoiceLength = 0.0;
+			lastTextPosition = n0757;
 			for (int i = 0; i < 3; i++)
 			{
-				n0608[i] = 0;
+				messageStartIndexes[i] = 0;
 			}
 			n0626();
 		}
 
 		private void n0632()
 		{
-			if (n0594 != null)
+			if (messageFont != null)
 			{
-				n0594.Dispose();
+				messageFont.Dispose();
 			}
 		}
 
 		private void n0626()
 		{
-			if (n0594 != null)
+			if (messageFont != null)
 			{
-				n0594.Dispose();
+				messageFont.Dispose();
 			}
-			n0594 = new Microsoft.DirectX.Direct3D.Font(n0006, new System.Drawing.Font(n0362.FontFamily, 24f));
-			if (n0605 == null || n0608[(int)n0363] + n0624 <= 0 || n0624 <= 0)
+			messageFont = new Microsoft.DirectX.Direct3D.Font(device, new System.Drawing.Font(baseFont.FontFamily, 24f));
+			if (messageLines == null || messageStartIndexes[(int)layoutIndex] + messageVisibleChars <= 0 || messageVisibleChars <= 0)
 			{
 				return;
 			}
 			bool flag = false;
 			for (int i = 0; i < 3; i++)
 			{
-				if (n0608[i] + n0624 >= n0605[i].Length)
+				if (messageStartIndexes[i] + messageVisibleChars >= messageLines[i].Length)
 				{
 					flag = true;
 					break;
@@ -2486,10 +2486,10 @@ namespace n0001
 			}
 			if (flag)
 			{
-				n0624 = n0605[(int)n0363].Length - n0608[(int)n0363];
-				if (n0606 == TextRevealMode.n0493)
+				messageVisibleChars = messageLines[(int)layoutIndex].Length - messageStartIndexes[(int)layoutIndex];
+				if (messageAlignMode == TextRevealMode.n0493)
 				{
-					n0607 = n0605[(int)n0363].Length - n0608[(int)n0363] + 4;
+					messageProgress = messageLines[(int)layoutIndex].Length - messageStartIndexes[(int)layoutIndex] + 4;
 				}
 			}
 		}
@@ -2500,35 +2500,35 @@ namespace n0001
 			{
 				return;
 			}
-			n0751 = n0410;
-			n0606 = n0411;
-			n0752 = n0758;
-			n0753 = n0412;
-			n0754 = n0413;
-			n0755 = n0533;
-			if (n0605 == null)
+			messageFontSizeMode = n0410;
+			messageAlignMode = n0411;
+			showNextIndicator = n0758;
+			messageTextColor = n0412;
+			messageShadowColor = n0413;
+			messageVoiceLength = n0533;
+			if (messageLines == null)
 			{
-				n0605 = new string[3];
+				messageLines = new string[3];
 				for (int i = 0; i < 3; i++)
 				{
-					n0605[i] = "";
+					messageLines[i] = "";
 				}
 			}
 			for (int j = 0; j < 3; j++)
 			{
-				n0608[j] = n0605[j].Length;
+				messageStartIndexes[j] = messageLines[j].Length;
 				string[] array;
 				IntPtr intPtr;
-				(array = n0605)[(int)(intPtr = (IntPtr)j)] = array[(int)intPtr] + n0241[j];
+				(array = messageLines)[(int)(intPtr = (IntPtr)j)] = array[(int)intPtr] + n0241[j];
 			}
-			n0624 = 0;
-			switch (n0606)
+			messageVisibleChars = 0;
+			switch (messageAlignMode)
 			{
 			case TextRevealMode.n0493:
-				n0607 = 0.0;
+				messageProgress = 0.0;
 				break;
 			case TextRevealMode.n0487:
-				n0609 = 10;
+				lineRevealCounter = 10;
 				break;
 			}
 		}
@@ -2537,136 +2537,136 @@ namespace n0001
 		{
 			if (n0399)
 			{
-				n0600 = 10;
+				messageFadeCounter = 10;
 				return;
 			}
-			n0600 = 0;
-			n0607 = 0.0;
-			n0609 = 0;
-			n0605 = null;
+			messageFadeCounter = 0;
+			messageProgress = 0.0;
+			lineRevealCounter = 0;
+			messageLines = null;
 			for (int i = 0; i < 3; i++)
 			{
-				n0608[i] = 0;
+				messageStartIndexes[i] = 0;
 			}
-			n0624 = 0;
+			messageVisibleChars = 0;
 		}
 
 		private void n0588()
 		{
-			if (n0605 == null)
+			if (messageLines == null)
 			{
 				return;
 			}
-			if (n0600 > 0)
+			if (messageFadeCounter > 0)
 			{
-				if (n0232)
+				if (fadeEnabled)
 				{
-					int alpha = (int)((float)n0600 / 10f * 255f);
-					DrawTextCore(n0605[(int)n0363], 0, n0605[(int)n0363].Length, n0757, n0759.Width, n0759.Height, 2, n0751, 25, n0594, Color.FromArgb(alpha, n0753), (n0754 == Color.Transparent) ? Color.Transparent : Color.FromArgb(alpha, n0754));
+					int alpha = (int)((float)messageFadeCounter / 10f * 255f);
+					DrawTextCore(messageLines[(int)layoutIndex], 0, messageLines[(int)layoutIndex].Length, n0757, n0759.Width, n0759.Height, 2, messageFontSizeMode, 25, messageFont, Color.FromArgb(alpha, messageTextColor), (messageShadowColor == Color.Transparent) ? Color.Transparent : Color.FromArgb(alpha, messageShadowColor));
 					n0579.Add(2);
-					n0600--;
+					messageFadeCounter--;
 				}
 				else
 				{
-					n0600 = 0;
+					messageFadeCounter = 0;
 				}
-				if (n0600 == 0)
+				if (messageFadeCounter == 0)
 				{
-					n0607 = 0.0;
-					n0609 = 0;
-					n0605 = null;
+					messageProgress = 0.0;
+					lineRevealCounter = 0;
+					messageLines = null;
 					for (int i = 0; i < 3; i++)
 					{
-						n0608[i] = 0;
+						messageStartIndexes[i] = 0;
 					}
-					n0624 = 0;
+					messageVisibleChars = 0;
 				}
 				return;
 			}
-			switch (n0606)
+			switch (messageAlignMode)
 			{
 			case TextRevealMode.n0493:
-				if (n0607 < (double)(n0605[(int)n0363].Length - n0608[(int)n0363] + 4))
+				if (messageProgress < (double)(messageLines[(int)layoutIndex].Length - messageStartIndexes[(int)layoutIndex] + 4))
 				{
-					if (n0608[(int)n0363] > 0)
+					if (messageStartIndexes[(int)layoutIndex] > 0)
 					{
-						n0756 = DrawTextCore(n0605[(int)n0363], 0, n0608[(int)n0363], n0757, n0759.Width, n0759.Height, 2, n0751, 25, n0594, n0753, n0754);
+						lastTextPosition = DrawTextCore(messageLines[(int)layoutIndex], 0, messageStartIndexes[(int)layoutIndex], n0757, n0759.Width, n0759.Height, 2, messageFontSizeMode, 25, messageFont, messageTextColor, messageShadowColor);
 						n0579.Add(2);
 					}
-					if (n0755 > 0.0 && n0238)
+					if (messageVoiceLength > 0.0 && syncVoice)
 					{
 						try
 						{
-							double num = n0558.n0760() / n0755;
-							n0607 = (double)(n0605[(int)n0363].Length - n0608[(int)n0363] + 4) * num;
+							double num = audioManager.n0760() / messageVoiceLength;
+							messageProgress = (double)(messageLines[(int)layoutIndex].Length - messageStartIndexes[(int)layoutIndex] + 4) * num;
 						}
 						catch (NullReferenceException)
 						{
-							n0607 = n0605[(int)n0363].Length - n0608[(int)n0363] + 4;
+							messageProgress = messageLines[(int)layoutIndex].Length - messageStartIndexes[(int)layoutIndex] + 4;
 						}
 					}
 					else
 					{
-						n0607 += (double)n0237 / 6.0;
+						messageProgress += (double)messageSpeed / 6.0;
 					}
-					n0756 = DrawTextCore(n0605[(int)n0363], n0608[(int)n0363], (double)n0608[(int)n0363] + n0607 - 4.0, n0757, n0759.Width, n0759.Height, 2, n0751, 25, n0594, true, 4, n0753, n0754);
+					lastTextPosition = DrawTextCore(messageLines[(int)layoutIndex], messageStartIndexes[(int)layoutIndex], (double)messageStartIndexes[(int)layoutIndex] + messageProgress - 4.0, n0757, n0759.Width, n0759.Height, 2, messageFontSizeMode, 25, messageFont, true, 4, messageTextColor, messageShadowColor);
 					n0579.Add(2);
-					n0624 = (int)(n0607 - 4.0);
-					if (n0624 < 0)
+					messageVisibleChars = (int)(messageProgress - 4.0);
+					if (messageVisibleChars < 0)
 					{
-						n0624 = 0;
+						messageVisibleChars = 0;
 					}
 				}
 				else
 				{
-					n0756 = DrawTextCore(n0605[(int)n0363], n0605[(int)n0363].Length, n0757, n0759.Width, n0759.Height, 2, n0751, 25, n0594, 4, n0753, n0754);
+					lastTextPosition = DrawTextCore(messageLines[(int)layoutIndex], messageLines[(int)layoutIndex].Length, n0757, n0759.Width, n0759.Height, 2, messageFontSizeMode, 25, messageFont, 4, messageTextColor, messageShadowColor);
 					n0579.Add(2);
 				}
 				break;
 			case TextRevealMode.n0487:
-				if (n0608[(int)n0363] + n0624 > 0)
+				if (messageStartIndexes[(int)layoutIndex] + messageVisibleChars > 0)
 				{
-					n0756 = DrawTextCore(n0605[(int)n0363], 0, n0608[(int)n0363] + n0624, n0757, n0759.Width, n0759.Height, 2, n0751, 25, n0594, n0753, n0754);
+					lastTextPosition = DrawTextCore(messageLines[(int)layoutIndex], 0, messageStartIndexes[(int)layoutIndex] + messageVisibleChars, n0757, n0759.Width, n0759.Height, 2, messageFontSizeMode, 25, messageFont, messageTextColor, messageShadowColor);
 					n0579.Add(2);
 				}
-				if (n0609 > 0)
+				if (lineRevealCounter > 0)
 				{
-					if (n0232)
+					if (fadeEnabled)
 					{
-						int alpha2 = (int)((float)(10 - n0609) / 10f * 255f);
-						n0756 = DrawTextCore(n0605[(int)n0363], n0608[(int)n0363], n0605[(int)n0363].Length, n0757, n0759.Width, n0759.Height, 2, n0751, 25, n0594, Color.FromArgb(alpha2, n0753), (n0754 == Color.Transparent) ? Color.Transparent : Color.FromArgb(alpha2, n0754));
+						int alpha2 = (int)((float)(10 - lineRevealCounter) / 10f * 255f);
+						lastTextPosition = DrawTextCore(messageLines[(int)layoutIndex], messageStartIndexes[(int)layoutIndex], messageLines[(int)layoutIndex].Length, n0757, n0759.Width, n0759.Height, 2, messageFontSizeMode, 25, messageFont, Color.FromArgb(alpha2, messageTextColor), (messageShadowColor == Color.Transparent) ? Color.Transparent : Color.FromArgb(alpha2, messageShadowColor));
 						n0579.Add(2);
-						n0609--;
+						lineRevealCounter--;
 					}
 					else
 					{
-						n0756 = DrawTextCore(n0605[(int)n0363], n0608[(int)n0363], n0605[(int)n0363].Length, n0757, n0759.Width, n0759.Height, 2, n0751, 25, n0594, n0753, n0754);
+						lastTextPosition = DrawTextCore(messageLines[(int)layoutIndex], messageStartIndexes[(int)layoutIndex], messageLines[(int)layoutIndex].Length, n0757, n0759.Width, n0759.Height, 2, messageFontSizeMode, 25, messageFont, messageTextColor, messageShadowColor);
 						n0579.Add(2);
-						n0609 = 0;
+						lineRevealCounter = 0;
 					}
-					if (n0609 == 0)
+					if (lineRevealCounter == 0)
 					{
-						n0624 = n0605[(int)n0363].Length - n0608[(int)n0363];
+						messageVisibleChars = messageLines[(int)layoutIndex].Length - messageStartIndexes[(int)layoutIndex];
 					}
 				}
 				break;
 			}
-			if (!n0752 || ((n0606 != TextRevealMode.n0493 || !n0238) && n0558.n0382()))
+			if (!showNextIndicator || ((messageAlignMode != TextRevealMode.n0493 || !syncVoice) && audioManager.n0382()))
 			{
 				return;
 			}
-			switch (n0606)
+			switch (messageAlignMode)
 			{
 			case TextRevealMode.n0493:
-				if (n0607 >= (double)n0605[(int)n0363].Length - (double)n0608[(int)n0363] + 4.0)
+				if (messageProgress >= (double)messageLines[(int)layoutIndex].Length - (double)messageStartIndexes[(int)layoutIndex] + 4.0)
 				{
-					n0637(n0756.X, n0756.Y);
+					n0637(lastTextPosition.X, lastTextPosition.Y);
 				}
 				break;
 			case TextRevealMode.n0487:
-				if (n0609 == 0)
+				if (lineRevealCounter == 0)
 				{
-					n0637(n0756.X, n0756.Y);
+					n0637(lastTextPosition.X, lastTextPosition.Y);
 				}
 				break;
 			}
@@ -2674,12 +2674,12 @@ namespace n0001
 
 		private void n0567()
 		{
-			n0761 = TextureLoader.FromStream(n0006, n0136.ReadEntry("DIALOGUE"), n0762.Width, n0762.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
-			n0763 = TextureLoader.FromStream(n0006, n0136.ReadEntry("CHARA"), n0764.Width, n0764.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
-			n0601 = 0;
-			n0622 = false;
-			n0623 = false;
-			n0765 = false;
+			n0761 = TextureLoader.FromStream(device, n0136.ReadEntry("DIALOGUE"), n0762.Width, n0762.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			n0763 = TextureLoader.FromStream(device, n0136.ReadEntry("CHARA"), n0764.Width, n0764.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			dialogueCounter = 0;
+			dialogueClosing = false;
+			dialogueActive = false;
+			characterPanelVisible = false;
 		}
 
 		private void n0633()
@@ -2692,100 +2692,100 @@ namespace n0001
 		{
 			if (n0390)
 			{
-				n0765 = true;
-				QueueDraw(n0763, Rectangle.Empty, Rectangle.Empty, n0767, n0236);
+				characterPanelVisible = true;
+				QueueDraw(n0763, Rectangle.Empty, Rectangle.Empty, n0767, dialogueColor);
 				return true;
 			}
-			if (!n0623)
+			if (!dialogueActive)
 			{
-				n0623 = true;
-				n0601 = ((!n0768) ? 3 : 0);
-				n0622 = false;
+				dialogueActive = true;
+				dialogueCounter = ((!skipCaptionAnimation) ? 3 : 0);
+				dialogueClosing = false;
 			}
-			if (n0768)
+			if (skipCaptionAnimation)
 			{
-				n0768 = false;
+				skipCaptionAnimation = false;
 			}
-			if (n0601 > 0)
+			if (dialogueCounter > 0)
 			{
-				if (n0232)
+				if (fadeEnabled)
 				{
-					if (!n0622 && n0601 < 3)
+					if (!dialogueClosing && dialogueCounter < 3)
 					{
-						float num = (float)(3 - n0601) / 3f;
+						float num = (float)(3 - dialogueCounter) / 3f;
 						float num2 = ((float)n0762.X + (1f - num) / 2f * (float)n0762.Width) / num;
 						float num3 = ((float)n0762.Y + (1f - num) / 2f * (float)n0762.Height) / num;
 						float num4 = num * (float)n0762.Width;
 						float num5 = num * (float)n0762.Height;
-						QueueDraw(n0761, new Rectangle(0, 0, n0762.Width, n0762.Height), new Rectangle(0, 0, (int)num4, (int)num5), new Point((int)num2, (int)num3), n0236);
+						QueueDraw(n0761, new Rectangle(0, 0, n0762.Width, n0762.Height), new Rectangle(0, 0, (int)num4, (int)num5), new Point((int)num2, (int)num3), dialogueColor);
 						QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.Transparent);
 					}
-					else if (n0622 && n0601 > 0)
+					else if (dialogueClosing && dialogueCounter > 0)
 					{
-						float num6 = (float)n0601 / 3f;
+						float num6 = (float)dialogueCounter / 3f;
 						float num7 = ((float)n0762.X + (1f - num6) / 2f * (float)n0762.Width) / num6;
 						float num8 = ((float)n0762.Y + (1f - num6) / 2f * (float)n0762.Height) / num6;
 						float num9 = num6 * (float)n0762.Width;
 						float num10 = num6 * (float)n0762.Height;
-						QueueDraw(n0761, new Rectangle(0, 0, n0762.Width, n0762.Height), new Rectangle(0, 0, (int)num9, (int)num10), new Point((int)num7, (int)num8), n0236);
+						QueueDraw(n0761, new Rectangle(0, 0, n0762.Width, n0762.Height), new Rectangle(0, 0, (int)num9, (int)num10), new Point((int)num7, (int)num8), dialogueColor);
 						QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.Transparent);
 					}
-					n0601--;
+					dialogueCounter--;
 				}
 				else
 				{
-					QueueDraw(n0761, Rectangle.Empty, Rectangle.Empty, n0762.Location, n0236);
-					n0601 = 0;
+					QueueDraw(n0761, Rectangle.Empty, Rectangle.Empty, n0762.Location, dialogueColor);
+					dialogueCounter = 0;
 				}
-				if (n0622 && n0601 == 0)
+				if (dialogueClosing && dialogueCounter == 0)
 				{
-					n0623 = false;
+					dialogueActive = false;
 				}
 				return false;
 			}
-			QueueDraw(n0761, Rectangle.Empty, Rectangle.Empty, n0762.Location, n0236);
+			QueueDraw(n0761, Rectangle.Empty, Rectangle.Empty, n0762.Location, dialogueColor);
 			return true;
 		}
 
 		private void n0568()
 		{
-			n0610 = null;
-			n0769 = null;
-			n0611 = 0.0;
-			n0613 = 0;
-			n0614 = 0.0;
-			n0770 = false;
-			n0771 = n0772;
+			captionLines = null;
+			captionOptionLines = null;
+			captionProgress = 0.0;
+			captionVisibleChars = 0;
+			captionVoiceLength = 0.0;
+			captionLocked = false;
+			captionLastPosition = n0772;
 			for (int i = 0; i < 3; i++)
 			{
-				n0612[i] = 0;
+				captionStartIndexes[i] = 0;
 			}
 			n0627();
 		}
 
 		private void n0634()
 		{
-			if (n0595 != null)
+			if (captionFont != null)
 			{
-				n0595.Dispose();
+				captionFont.Dispose();
 			}
 		}
 
 		private void n0627()
 		{
-			if (n0595 != null)
+			if (captionFont != null)
 			{
-				n0595.Dispose();
+				captionFont.Dispose();
 			}
-			n0595 = new Microsoft.DirectX.Direct3D.Font(n0006, new System.Drawing.Font(n0362.FontFamily, 24f));
-			if (n0610 == null || n0612[(int)n0363] + n0613 <= 0 || n0613 <= 0)
+			captionFont = new Microsoft.DirectX.Direct3D.Font(device, new System.Drawing.Font(baseFont.FontFamily, 24f));
+			if (captionLines == null || captionStartIndexes[(int)layoutIndex] + captionVisibleChars <= 0 || captionVisibleChars <= 0)
 			{
 				return;
 			}
 			bool flag = false;
 			for (int i = 0; i < 3; i++)
 			{
-				if (n0612[i] + n0613 >= n0610[i].Length)
+				if (captionStartIndexes[i] + captionVisibleChars >= captionLines[i].Length)
 				{
 					flag = true;
 					break;
@@ -2793,8 +2793,8 @@ namespace n0001
 			}
 			if (flag)
 			{
-				n0613 = n0610[(int)n0363].Length - n0612[(int)n0363];
-				n0611 = n0610[(int)n0363].Length - n0612[(int)n0363] + 4;
+				captionVisibleChars = captionLines[(int)layoutIndex].Length - captionStartIndexes[(int)layoutIndex];
+				captionProgress = captionLines[(int)layoutIndex].Length - captionStartIndexes[(int)layoutIndex] + 4;
 			}
 		}
 
@@ -2804,68 +2804,68 @@ namespace n0001
 			{
 				return;
 			}
-			n0614 = n0533;
-			n0769 = n0390;
-			n0770 = n0420;
-			n0768 = n0168;
-			if (n0610 == null)
+			captionVoiceLength = n0533;
+			captionOptionLines = n0390;
+			captionLocked = n0420;
+			skipCaptionAnimation = n0168;
+			if (captionLines == null)
 			{
-				n0610 = new string[3];
+				captionLines = new string[3];
 				for (int i = 0; i < 3; i++)
 				{
-					n0610[i] = "";
+					captionLines[i] = "";
 				}
 			}
 			for (int j = 0; j < 3; j++)
 			{
-				n0612[j] = n0610[j].Length;
+				captionStartIndexes[j] = captionLines[j].Length;
 				string[] array;
 				IntPtr intPtr;
-				(array = n0610)[(int)(intPtr = (IntPtr)j)] = array[(int)intPtr] + n0241[j];
+				(array = captionLines)[(int)(intPtr = (IntPtr)j)] = array[(int)intPtr] + n0241[j];
 			}
-			n0613 = 0;
-			n0611 = 0.0;
+			captionVisibleChars = 0;
+			captionProgress = 0.0;
 		}
 
 		public void CloseDialogue(bool n0413, bool n0773, bool n0168)
 		{
-			if (n0770)
+			if (captionLocked)
 			{
 				return;
 			}
-			n0611 = 0.0;
-			n0610 = null;
-			n0769 = null;
-			n0768 = n0168 && n0413;
+			captionProgress = 0.0;
+			captionLines = null;
+			captionOptionLines = null;
+			skipCaptionAnimation = n0168 && n0413;
 			for (int i = 0; i < 3; i++)
 			{
-				n0612[i] = 0;
+				captionStartIndexes[i] = 0;
 			}
-			n0613 = 0;
+			captionVisibleChars = 0;
 			if (n0413)
 			{
-				n0601 = ((!n0768) ? 3 : 0);
-				if (n0768)
+				dialogueCounter = ((!skipCaptionAnimation) ? 3 : 0);
+				if (skipCaptionAnimation)
 				{
-					n0623 = false;
+					dialogueActive = false;
 				}
-				n0622 = true;
+				dialogueClosing = true;
 			}
 			if (n0773)
 			{
-				n0765 = false;
+				characterPanelVisible = false;
 			}
 		}
 
 		private void n0589()
 		{
-			if (n0610 == null)
+			if (captionLines == null)
 			{
-				if (n0623)
+				if (dialogueActive)
 				{
 					DrawDialogueFrame(false);
 				}
-				if (n0765)
+				if (characterPanelVisible)
 				{
 					DrawDialogueFrame(true);
 				}
@@ -2876,44 +2876,44 @@ namespace n0001
 				{
 					return;
 				}
-				if (n0611 < (double)(n0610[(int)n0363].Length - n0612[(int)n0363] + 4))
+				if (captionProgress < (double)(captionLines[(int)layoutIndex].Length - captionStartIndexes[(int)layoutIndex] + 4))
 				{
-					if (n0614 > 0.0 && n0238)
+					if (captionVoiceLength > 0.0 && syncVoice)
 					{
 						try
 						{
-							double num = n0558.n0760() / n0614;
-							n0611 = (double)(n0610[(int)n0363].Length - n0612[(int)n0363] + 4) * num;
+							double num = audioManager.n0760() / captionVoiceLength;
+							captionProgress = (double)(captionLines[(int)layoutIndex].Length - captionStartIndexes[(int)layoutIndex] + 4) * num;
 						}
 						catch (NullReferenceException)
 						{
-							n0611 = n0610[(int)n0363].Length - n0612[(int)n0363] + 4;
+							captionProgress = captionLines[(int)layoutIndex].Length - captionStartIndexes[(int)layoutIndex] + 4;
 						}
 					}
 					else
 					{
-						n0611 += (double)n0237 / 6.0;
+						captionProgress += (double)messageSpeed / 6.0;
 					}
-					n0771 = DrawTextCore(n0610[(int)n0363], (double)n0612[(int)n0363] + n0611 - 4.0, n0772, n0774.Width, n0774.Height, 2, n0595, 4, Color.White, Color.Black);
+					captionLastPosition = DrawTextCore(captionLines[(int)layoutIndex], (double)captionStartIndexes[(int)layoutIndex] + captionProgress - 4.0, n0772, n0774.Width, n0774.Height, 2, captionFont, 4, Color.White, Color.Black);
 					n0579.Add(3);
-					n0613 = (int)(n0611 - 4.0);
-					if (n0613 < 0)
+					captionVisibleChars = (int)(captionProgress - 4.0);
+					if (captionVisibleChars < 0)
 					{
-						n0613 = 0;
+						captionVisibleChars = 0;
 					}
 				}
 				else
 				{
-					n0771 = DrawTextCore(n0610[(int)n0363], n0610[(int)n0363].Length, n0772, n0774.Width, n0774.Height, 2, n0595, 4, Color.White, Color.Black);
+					captionLastPosition = DrawTextCore(captionLines[(int)layoutIndex], captionLines[(int)layoutIndex].Length, n0772, n0774.Width, n0774.Height, 2, captionFont, 4, Color.White, Color.Black);
 					n0579.Add(3);
 				}
-				if ((n0238 || !n0558.n0382()) && n0611 >= (double)n0610[(int)n0363].Length - (double)n0612[(int)n0363] + 4.0)
+				if ((syncVoice || !audioManager.n0382()) && captionProgress >= (double)captionLines[(int)layoutIndex].Length - (double)captionStartIndexes[(int)layoutIndex] + 4.0)
 				{
-					n0637(n0771.X, n0771.Y);
+					n0637(captionLastPosition.X, captionLastPosition.Y);
 				}
-				if (n0769 != null && DrawDialogueFrame(true))
+				if (captionOptionLines != null && DrawDialogueFrame(true))
 				{
-					DrawTextCore(n0769[(int)n0363], new Point(n0775.X - n0774.Width * n0769[(int)n0363].Length / 2, n0775.Y), n0774.Width, n0774.Height, 2, n0595, Color.White, Color.Black);
+					DrawTextCore(captionOptionLines[(int)layoutIndex], new Point(n0775.X - n0774.Width * captionOptionLines[(int)layoutIndex].Length / 2, n0775.Y), n0774.Width, n0774.Height, 2, captionFont, Color.White, Color.Black);
 					n0579.Add(3);
 				}
 			}
@@ -2921,30 +2921,30 @@ namespace n0001
 
 		public void n0467(int n0241)
 		{
-			n0560 = n0241;
+			modeIconIndex = n0241;
 		}
 
 		private void n0569()
 		{
-			n0643 = TextureLoader.FromStream(n0006, n0136.ReadEntry("ICON"), n0776.Width, n0776.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
-			n0777 = 0;
+			modeIconTexture = TextureLoader.FromStream(device, n0136.ReadEntry("ICON"), n0776.Width, n0776.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			modeIconFrame = 0;
 		}
 
 		private void n0635()
 		{
-			n0643.Dispose();
+			modeIconTexture.Dispose();
 		}
 
 		private void n0592()
 		{
-			if (n0560 > 0)
+			if (modeIconIndex > 0)
 			{
-				Rectangle n880 = new Rectangle(n0777 / 3 * 32, n0560 * 32, 32, 32);
-				QueueDraw(n0643, n880, Rectangle.Empty, n0778, Color.White);
-				n0777++;
-				if (n0777 == 9)
+				Rectangle n880 = new Rectangle(modeIconFrame / 3 * 32, modeIconIndex * 32, 32, 32);
+				QueueDraw(modeIconTexture, n880, Rectangle.Empty, n0778, Color.White);
+				modeIconFrame++;
+				if (modeIconFrame == 9)
 				{
-					n0777 = 0;
+					modeIconFrame = 0;
 				}
 			}
 		}

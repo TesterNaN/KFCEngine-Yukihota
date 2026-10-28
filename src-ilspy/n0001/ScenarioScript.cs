@@ -35,13 +35,13 @@ namespace n0001
 
 		protected static ArchiveFile n0488 = new ArchiveFile("Voice", ArchiveMode.n0151);
 
-		private static string n0478 = n0478.Substring(0, n0478.Length - 1);
+		private static string tempDirectory = tempDirectory.Substring(0, tempDirectory.Length - 1);
 
-		private static int n0481 = 0;
+		private static int bgmSlotIndex = 0;
 
-		private static int n0489 = 0;
+		private static int voiceSlotIndex = 0;
 
-		private static int n0484 = 0;
+		private static int seSlotIndex = 0;
 
 		public ScenarioScript(string n0348, int n0246, Device n0349)
 		{
@@ -77,9 +77,9 @@ namespace n0001
 			{
 				try
 				{
-					if (File.Exists(n0478 + "\\bgm" + i + ".wav"))
+					if (File.Exists(tempDirectory + "\\bgm" + i + ".wav"))
 					{
-						File.Delete(n0478 + "\\bgm" + i + ".wav");
+						File.Delete(tempDirectory + "\\bgm" + i + ".wav");
 					}
 				}
 				catch
@@ -87,9 +87,9 @@ namespace n0001
 				}
 				try
 				{
-					if (File.Exists(n0478 + "\\voice" + i + ".wav"))
+					if (File.Exists(tempDirectory + "\\voice" + i + ".wav"))
 					{
-						File.Delete(n0478 + "\\voice" + i + ".wav");
+						File.Delete(tempDirectory + "\\voice" + i + ".wav");
 					}
 				}
 				catch
@@ -97,9 +97,9 @@ namespace n0001
 				}
 				try
 				{
-					if (File.Exists(n0478 + "\\se" + i + ".wav"))
+					if (File.Exists(tempDirectory + "\\se" + i + ".wav"))
 					{
-						File.Delete(n0478 + "\\se" + i + ".wav");
+						File.Delete(tempDirectory + "\\se" + i + ".wav");
 					}
 				}
 				catch
@@ -273,15 +273,15 @@ namespace n0001
 				{
 					try
 					{
-						n0152.Extract(n0475[0].Attributes["name"].Value, n0478);
+						n0152.Extract(n0475[0].Attributes["name"].Value, tempDirectory);
 						for (int num2 = 0; num2 < 4; num2++)
 						{
 							bool flag2 = false;
 							try
 							{
-								if (File.Exists(n0478 + "\\bgm" + n0481 + ".wav"))
+								if (File.Exists(tempDirectory + "\\bgm" + bgmSlotIndex + ".wav"))
 								{
-									File.Delete(n0478 + "\\bgm" + n0481 + ".wav");
+									File.Delete(tempDirectory + "\\bgm" + bgmSlotIndex + ".wav");
 								}
 							}
 							catch (Exception ex4)
@@ -297,12 +297,12 @@ namespace n0001
 							{
 								break;
 							}
-							n0481 = (n0481 + 1) % 4;
+							bgmSlotIndex = (bgmSlotIndex + 1) % 4;
 						}
-						File.Move(n0478 + "\\" + n0475[0].Attributes["name"].Value + ".wav", n0478 + "\\bgm" + n0481 + ".wav");
+						File.Move(tempDirectory + "\\" + n0475[0].Attributes["name"].Value + ".wav", tempDirectory + "\\bgm" + bgmSlotIndex + ".wav");
 						GC.Collect();
-						n0479 = n0478 + "\\bgm" + n0481 + ".wav";
-						n0481 = (n0481 + 1) % 4;
+						n0479 = tempDirectory + "\\bgm" + bgmSlotIndex + ".wav";
+						bgmSlotIndex = (bgmSlotIndex + 1) % 4;
 					}
 					catch (Exception ex5)
 					{
@@ -507,15 +507,15 @@ namespace n0001
 						}
 						try
 						{
-							n0483.Extract(n0475[0].Attributes["name"].Value, n0478);
+							n0483.Extract(n0475[0].Attributes["name"].Value, tempDirectory);
 							for (int num3 = 0; num3 < 4; num3++)
 							{
 								bool flag3 = false;
 								try
 								{
-									if (File.Exists(n0478 + "\\se" + n0484 + ".wav"))
+									if (File.Exists(tempDirectory + "\\se" + seSlotIndex + ".wav"))
 									{
-										File.Delete(n0478 + "\\se" + n0484 + ".wav");
+										File.Delete(tempDirectory + "\\se" + seSlotIndex + ".wav");
 									}
 								}
 								catch (Exception ex11)
@@ -531,12 +531,12 @@ namespace n0001
 								{
 									break;
 								}
-								n0484 = (n0484 + 1) % 4;
+								seSlotIndex = (seSlotIndex + 1) % 4;
 							}
-							File.Move(n0478 + "\\" + n0475[0].Attributes["name"].Value + ".wav", n0478 + "\\Se" + n0484 + ".wav");
+							File.Move(tempDirectory + "\\" + n0475[0].Attributes["name"].Value + ".wav", tempDirectory + "\\Se" + seSlotIndex + ".wav");
 							GC.Collect();
-							n0479 = n0478 + "\\se" + n0484 + ".wav";
-							n0484 = (n0484 + 1) % 4;
+							n0479 = tempDirectory + "\\se" + seSlotIndex + ".wav";
+							seSlotIndex = (seSlotIndex + 1) % 4;
 							return ScenarioResult.n0421;
 						}
 						catch (Exception ex12)
@@ -853,15 +853,15 @@ namespace n0001
 				}
 				if (n0475[0].Name == "ed")
 				{
-					n0152.Extract("BGM37", n0478);
+					n0152.Extract("BGM37", tempDirectory);
 					for (int num6 = 0; num6 < 4; num6++)
 					{
 						bool flag4 = false;
 						try
 						{
-							if (File.Exists(n0478 + "\\bgm" + n0481 + ".wav"))
+							if (File.Exists(tempDirectory + "\\bgm" + bgmSlotIndex + ".wav"))
 							{
-								File.Delete(n0478 + "\\bgm" + n0481 + ".wav");
+								File.Delete(tempDirectory + "\\bgm" + bgmSlotIndex + ".wav");
 							}
 						}
 						catch (Exception ex18)
@@ -877,12 +877,12 @@ namespace n0001
 						{
 							break;
 						}
-						n0481 = (n0481 + 1) % 4;
+						bgmSlotIndex = (bgmSlotIndex + 1) % 4;
 					}
-					File.Move(n0478 + "\\BGM37.wav", n0478 + "\\bgm" + n0481 + ".wav");
+					File.Move(tempDirectory + "\\BGM37.wav", tempDirectory + "\\bgm" + bgmSlotIndex + ".wav");
 					GC.Collect();
-					string n536 = n0478 + "\\bgm" + n0481 + ".wav";
-					n0481 = (n0481 + 1) % 4;
+					string n536 = tempDirectory + "\\bgm" + bgmSlotIndex + ".wav";
+					bgmSlotIndex = (bgmSlotIndex + 1) % 4;
 					XmlDocument[] array2 = new XmlDocument[3];
 					for (int num7 = 0; num7 < 3; num7++)
 					{
@@ -968,15 +968,15 @@ namespace n0001
 				{
 					try
 					{
-						n0488.Extract(n0475[0].Attributes["voice"].Value, n0478);
+						n0488.Extract(n0475[0].Attributes["voice"].Value, tempDirectory);
 						for (int num12 = 0; num12 < 4; num12++)
 						{
 							bool flag5 = false;
 							try
 							{
-								if (File.Exists(n0478 + "\\voice" + n0489 + ".wav"))
+								if (File.Exists(tempDirectory + "\\voice" + voiceSlotIndex + ".wav"))
 								{
-									File.Delete(n0478 + "\\voice" + n0489 + ".wav");
+									File.Delete(tempDirectory + "\\voice" + voiceSlotIndex + ".wav");
 								}
 							}
 							catch (Exception ex20)
@@ -992,11 +992,11 @@ namespace n0001
 							{
 								break;
 							}
-							n0489 = (n0489 + 1) % 4;
+							voiceSlotIndex = (voiceSlotIndex + 1) % 4;
 						}
-						File.Move(n0478 + "\\" + n0475[0].Attributes["voice"].Value + ".wav", n0478 + "\\voice" + n0489 + ".wav");
-						n538 = n0478 + "\\voice" + n0489 + ".wav";
-						n0489 = (n0489 + 1) % 4;
+						File.Move(tempDirectory + "\\" + n0475[0].Attributes["voice"].Value + ".wav", tempDirectory + "\\voice" + voiceSlotIndex + ".wav");
+						n538 = tempDirectory + "\\voice" + voiceSlotIndex + ".wav";
+						voiceSlotIndex = (voiceSlotIndex + 1) % 4;
 					}
 					catch (Exception ex21)
 					{

@@ -82,143 +82,143 @@ namespace n0001
 
 		protected const int n0347 = 24;
 
-		private Microsoft.DirectX.DirectInput.Device n0131;
+		private Microsoft.DirectX.DirectInput.Device joystick;
 
-		private bool[] n0130 = new bool[10];
+		private bool[] joystickButtonStates = new bool[10];
 
-		private EffectObject n0132;
+		private EffectObject forceFeedbackEffect;
 
-		private Point n0145;
+		private Point windowedLocation;
 
-		private int n0066;
+		private int gameMode;
 
-		private SceneDirector n0156;
+		private SceneDirector director;
 
-		private Point n0134;
+		private Point lastCursorPosition;
 
-		private MediaPackage n0067;
+		private MediaPackage menuBgmPlayer;
 
-		private Microsoft.DirectX.Direct3D.Device n0133;
+		private Microsoft.DirectX.Direct3D.Device device;
 
-		private Microsoft.DirectX.DirectDraw.Device n0146;
+		private Microsoft.DirectX.DirectDraw.Device displayDevice;
 
-		private bool n0148;
+		private bool isBorderless;
 
-		private bool n0149;
+		private bool suppressLostFocus;
 
-		private Sprite n0144;
+		private Sprite sprite;
 
 		protected Texture n0135;
 
 		private static bool n0125;
 
-		private bool n0205 = false;
+		private bool languageResetPending = false;
 
-		private ArchiveFile n0136;
+		private ArchiveFile systemArchive;
 
-		private ArchiveFile n0152;
+		private ArchiveFile bgmArchive;
 
-		private ArchiveFile n0153;
+		private ArchiveFile bgArchive;
 
-		private string n0037 = "黑体";
+		private string fontName = "黑体";
 
-		private bool n0038 = true;
+		private bool fullscreen = true;
 
-		private ButtonLayout n0039 = ButtonLayout.n0041;
+		private ButtonLayout language = ButtonLayout.n0041;
 
-		private bool n0045 = true;
+		private bool showOptionsOnStartup = true;
 
-		private bool n0232 = true;
+		private bool fadeEnabled = true;
 
-		private bool n0233 = true;
+		private bool envEnabled = true;
 
-		private bool n0234 = true;
+		private bool sunEnabled = true;
 
-		private bool n0235 = true;
+		private bool shockEnabled = true;
 
-		private Color n0236 = Color.FromArgb(128, 128, 255);
+		private Color textColor = Color.FromArgb(128, 128, 255);
 
-		private int n0237 = 4;
+		private int textSpeed = 4;
 
-		private bool n0238 = true;
+		private bool voiceSynchro = true;
 
-		private int n0158 = 0;
+		private int unlockedEpisodeCount = 0;
 
-		private int n0160 = 0;
+		private int unlockedAlbumCount = 0;
 
-		private IContainer n0011;
+		private IContainer components;
 
-		private Timer n0069;
+		private Timer scenarioTimer;
 
-		private Timer n0070;
+		private Timer menuTimer;
 
-		private Timer n0071;
+		private Timer optionsTimer;
 
-		private ContextMenu n0072;
+		private ContextMenu contextMenu;
 
-		private MenuItem n0073;
+		private MenuItem menuCancelItem;
 
-		private MenuItem n0074;
+		private MenuItem menuSeparator1;
 
-		private MenuItem n0075;
+		private MenuItem menuOptionsItem;
 
-		private MenuItem n0076;
+		private MenuItem menuSeparator2;
 
-		private MenuItem n0077;
+		private MenuItem menuDisplayModeItem;
 
-		private MenuItem n0078;
+		private MenuItem menuSeparator3;
 
-		private MenuItem n0079;
+		private MenuItem menuSkipItem;
 
-		private MenuItem n0080;
+		private MenuItem menuAutoItem;
 
-		private MenuItem n0081;
+		private MenuItem menuHideWindowItem;
 
-		private MenuItem n0082;
+		private MenuItem menuSeparator4;
 
-		private MenuItem n0083;
+		private MenuItem menuLanguageItem;
 
-		private MenuItem n0084;
+		private MenuItem menuSimplifiedItem;
 
-		private MenuItem n0085;
+		private MenuItem menuTraditionalItem;
 
-		private MenuItem n0086;
+		private MenuItem menuJapaneseItem;
 
-		private MenuItem n0087;
+		private MenuItem menuSeparator5;
 
-		private MenuItem n0088;
+		private MenuItem menuFontItem;
 
-		private MenuItem n0089;
+		private MenuItem menuSeparator6;
 
-		private MenuItem n0090;
+		private MenuItem menuBackToTitleItem;
 
-		private MenuItem n0091;
+		private MenuItem menuSeparator7;
 
-		private MenuItem n0092;
+		private MenuItem menuExitItem;
 
-		private Timer n0093;
+		private Timer logoFadeTimer;
 
-		private Timer n0094;
+		private Timer episodeTimer;
 
-		private Timer n0095;
+		private Timer albumTimer;
 
-		private PictureBox n0096;
+		private PictureBox movieBox;
 
-		private FontDialog n0017;
+		private FontDialog fontDialog;
 
-		private bool n0169 = false;
+		private bool enterKeyDown = false;
 
-		private bool n0187 = false;
+		private bool spaceKeyDown = false;
 
-		private bool n0196 = false;
+		private bool f2KeyDown = false;
 
-		private bool n0198 = false;
+		private bool f3KeyDown = false;
 
-		private bool n0199 = false;
+		private bool f4KeyDown = false;
 
-		private bool n0201 = false;
+		private bool f8KeyDown = false;
 
-		private bool n0203 = false;
+		private bool f12KeyDown = false;
 
 		protected ArrayList n0216 = new ArrayList();
 
@@ -234,33 +234,33 @@ namespace n0001
 
 		protected readonly int[] n0271 = new int[3] { 5, 15, 20 };
 
-		private int n0268;
+		private int logoFrame;
 
-		private Texture n0267;
+		private Texture logoTexture;
 
-		private MediaPackage n0163;
+		private MediaPackage openingMovie;
 
-		private int n0170;
+		private int menuFadeCounter;
 
-		private bool n0275;
+		private bool menuFadeIn;
 
-		private Texture[] n0272 = new Texture[3];
+		private Texture[] titleTextures = new Texture[3];
 
-		private Texture n0273;
+		private Texture menuButtonTexture;
 
-		private int n0171;
+		private int menuSelection;
 
 		protected readonly Size n0274 = new Size(360, 192);
 
-		private bool[] n0172 = new bool[5];
+		private bool[] menuItemEnabled = new bool[5];
 
-		private int n0178;
+		private int optionsFadeCounter;
 
-		private bool n0286;
+		private bool optionsFadeIn;
 
-		private Texture[] n0281 = new Texture[3];
+		private Texture[] optionsBackTextures = new Texture[3];
 
-		private Texture[] n0282 = new Texture[3];
+		private Texture[] optionsLabelTextures = new Texture[3];
 
 		protected readonly int[] n0293 = new int[23]
 		{
@@ -304,41 +304,41 @@ namespace n0001
 			25, 25, 25
 		};
 
-		private int n0280;
+		private int optionCursorFrame;
 
 		protected readonly int[] n0295 = new int[6] { 0, 1, 2, 2, 1, 0 };
 
 		protected readonly Size n0283 = new Size(345, 50);
 
-		private bool[] n0288 = new bool[23];
+		private bool[] optionItemVisible = new bool[23];
 
-		private int n0179;
+		private int optionSelection;
 
-		private int n0167;
+		private int returnMode;
 
-		private int n0175;
+		private int episodeFadeCounter;
 
-		private bool n0300;
+		private bool episodeFadeIn;
 
-		private Texture n0297;
+		private Texture episodeBackTexture;
 
-		private Texture n0298;
+		private Texture episodeMenuTexture;
 
-		private int n0176;
+		private int episodeSelection;
 
 		protected readonly int[] n0301 = new int[2] { 100, 420 };
 
 		protected readonly Size n0299 = new Size(560, 476);
 
-		private int n0181;
+		private int albumFadeCounter;
 
-		private bool n0305;
+		private bool albumFadeIn;
 
-		private Texture n0302;
+		private Texture albumBackTexture;
 
-		private Texture n0303;
+		private Texture albumPictureTexture;
 
-		private int n0186;
+		private int albumSelection;
 
 		protected readonly int[] n0311 = new int[7] { 360, 500, 640, 500, 640, 500, 640 };
 
@@ -352,165 +352,165 @@ namespace n0001
 
 		protected readonly Size n0224 = new Size(30, 38);
 
-		private Microsoft.DirectX.Direct3D.Font n0222;
+		private Microsoft.DirectX.Direct3D.Font d3dFont;
 
-		private int n0183;
+		private int albumGroup;
 
-		private int n0185;
+		private int albumImageIndex;
 
-		private int n0182;
+		private int albumImageTransition;
 
-		private Texture n0307;
+		private Texture albumCurrentTexture;
 
-		private Texture n0306;
+		private Texture albumPrevTexture;
 
 		protected readonly int[] n0310 = new int[7] { 3, 2, 1, 1, 1, 1, 2 };
 
-		private readonly Size n0304 = new Size(120, 720);
+		private readonly Size albumPictureSize = new Size(120, 720);
 
 		public GalGameForm()
 		{
 			InitializeComponent();
 			base.GotFocus += new EventHandler(this.n0064);
 			base.LostFocus += new EventHandler(this.n0065);
-			n0066 = -2;
-			n0067 = new MediaPackage("MENU");
+			gameMode = -2;
+			menuBgmPlayer = new MediaPackage("MENU");
 		}
 
 		protected override void Dispose(bool n0010)
 		{
-			if (n0010 && n0011 != null)
+			if (n0010 && components != null)
 			{
-				n0011.Dispose();
+				components.Dispose();
 			}
 			base.Dispose(n0010);
 		}
 
 		private void InitializeComponent()
 		{
-			n0011 = new Container();
+			components = new Container();
 			System.Resources.ResourceManager resourceManager = new System.Resources.ResourceManager(typeof(GalGameForm));
-			n0069 = new Timer(n0011);
-			n0070 = new Timer(n0011);
-			n0071 = new Timer(n0011);
-			n0072 = new ContextMenu();
-			n0073 = new MenuItem();
-			n0074 = new MenuItem();
-			n0075 = new MenuItem();
-			n0076 = new MenuItem();
-			n0077 = new MenuItem();
-			n0078 = new MenuItem();
-			n0079 = new MenuItem();
-			n0080 = new MenuItem();
-			n0081 = new MenuItem();
-			n0082 = new MenuItem();
-			n0083 = new MenuItem();
-			n0084 = new MenuItem();
-			n0085 = new MenuItem();
-			n0086 = new MenuItem();
-			n0087 = new MenuItem();
-			n0088 = new MenuItem();
-			n0089 = new MenuItem();
-			n0090 = new MenuItem();
-			n0091 = new MenuItem();
-			n0092 = new MenuItem();
-			n0017 = new FontDialog();
-			n0093 = new Timer(n0011);
-			n0094 = new Timer(n0011);
-			n0095 = new Timer(n0011);
-			n0096 = new PictureBox();
+			scenarioTimer = new Timer(components);
+			menuTimer = new Timer(components);
+			optionsTimer = new Timer(components);
+			contextMenu = new ContextMenu();
+			menuCancelItem = new MenuItem();
+			menuSeparator1 = new MenuItem();
+			menuOptionsItem = new MenuItem();
+			menuSeparator2 = new MenuItem();
+			menuDisplayModeItem = new MenuItem();
+			menuSeparator3 = new MenuItem();
+			menuSkipItem = new MenuItem();
+			menuAutoItem = new MenuItem();
+			menuHideWindowItem = new MenuItem();
+			menuSeparator4 = new MenuItem();
+			menuLanguageItem = new MenuItem();
+			menuSimplifiedItem = new MenuItem();
+			menuTraditionalItem = new MenuItem();
+			menuJapaneseItem = new MenuItem();
+			menuSeparator5 = new MenuItem();
+			menuFontItem = new MenuItem();
+			menuSeparator6 = new MenuItem();
+			menuBackToTitleItem = new MenuItem();
+			menuSeparator7 = new MenuItem();
+			menuExitItem = new MenuItem();
+			fontDialog = new FontDialog();
+			logoFadeTimer = new Timer(components);
+			episodeTimer = new Timer(components);
+			albumTimer = new Timer(components);
+			movieBox = new PictureBox();
 			base.SuspendLayout();
-			n0069.Interval = 50;
-			n0069.Tick += new EventHandler(this.n0097);
-			n0070.Interval = 50;
-			n0070.Tick += new EventHandler(this.n0098);
-			n0071.Interval = 50;
-			n0071.Tick += new EventHandler(this.n0099);
-			n0072.MenuItems.AddRange(new MenuItem[17]
+			scenarioTimer.Interval = 50;
+			scenarioTimer.Tick += new EventHandler(this.n0097);
+			menuTimer.Interval = 50;
+			menuTimer.Tick += new EventHandler(this.n0098);
+			optionsTimer.Interval = 50;
+			optionsTimer.Tick += new EventHandler(this.n0099);
+			contextMenu.MenuItems.AddRange(new MenuItem[17]
 			{
-				n0073, n0074, n0075, n0076, n0077, n0078, n0079, n0080, n0081, n0082,
-				n0083, n0087, n0088, n0089, n0090, n0091, n0092
+				menuCancelItem, menuSeparator1, menuOptionsItem, menuSeparator2, menuDisplayModeItem, menuSeparator3, menuSkipItem, menuAutoItem, menuHideWindowItem, menuSeparator4,
+				menuLanguageItem, menuSeparator5, menuFontItem, menuSeparator6, menuBackToTitleItem, menuSeparator7, menuExitItem
 			});
-			n0073.Index = 0;
-			n0073.Text = "取消(&C)";
-			n0073.Click += new EventHandler(this.n0100);
-			n0074.Index = 1;
-			n0074.Text = "-";
-			n0075.Index = 2;
-			n0075.Text = "选项(&O)\tF8";
-			n0075.Click += new EventHandler(this.n0101);
-			n0076.Index = 3;
-			n0076.Text = "-";
-			n0077.Index = 4;
-			n0077.Text = "显示模式(&M)\tAlt+Enter";
-			n0077.Click += new EventHandler(this.n0102);
-			n0078.Index = 5;
-			n0078.Text = "-";
-			n0079.Index = 6;
-			n0079.Text = "快进(&Q)\tF3";
-			n0079.Click += new EventHandler(this.n0103);
-			n0080.Index = 7;
-			n0080.Text = "自动播放(&A)\tF4";
-			n0080.Click += new EventHandler(this.n0104);
-			n0081.Index = 8;
-			n0081.Text = "隐藏对话(&H)\tF2";
-			n0081.Click += new EventHandler(this.n0105);
-			n0082.Index = 9;
-			n0082.Text = "-";
-			n0083.Index = 10;
-			n0083.MenuItems.AddRange(new MenuItem[3] { n0084, n0085, n0086 });
-			n0083.Text = "语言(&L)\tF12";
-			n0084.Index = 0;
-			n0084.RadioCheck = true;
-			n0084.Text = "简体中文(&S)";
-			n0084.Click += new EventHandler(this.n0106);
-			n0085.Index = 1;
-			n0085.RadioCheck = true;
-			n0085.Text = "繁體中文(&T)";
-			n0085.Click += new EventHandler(this.n0107);
-			n0086.Enabled = false;
-			n0086.Index = 2;
-			n0086.RadioCheck = true;
-			n0086.Text = "日本語(&J)";
-			n0086.Click += new EventHandler(this.n0108);
-			n0087.Index = 11;
-			n0087.Text = "-";
-			n0088.Index = 12;
-			n0088.Text = "字体(&F)";
-			n0088.Click += new EventHandler(this.n0109);
-			n0089.Index = 13;
-			n0089.Text = "-";
-			n0090.Index = 14;
-			n0090.Text = "返回主菜单(&B)";
-			n0090.Click += new EventHandler(this.n0110);
-			n0091.Index = 15;
-			n0091.Text = "-";
-			n0092.Index = 16;
-			n0092.Text = "结束游戏(&E)\tAlt+F4";
-			n0092.Click += new EventHandler(this.n0111);
-			n0017.AllowVerticalFonts = false;
-			n0017.Font = new System.Drawing.Font("黑体", 24f, FontStyle.Regular, GraphicsUnit.Point, 134);
-			n0017.FontMustExist = true;
-			n0017.MaxSize = 24;
-			n0017.MinSize = 24;
-			n0017.ShowEffects = false;
-			n0093.Interval = 50;
-			n0093.Tick += new EventHandler(this.n0112);
-			n0094.Interval = 50;
-			n0094.Tick += new EventHandler(this.n0113);
-			n0095.Interval = 50;
-			n0095.Tick += new EventHandler(this.n0114);
-			n0096.BackColor = Color.White;
-			n0096.Location = new Point(0, 0);
-			n0096.Name = "ptbMovie";
-			n0096.Size = new Size(800, 600);
-			n0096.TabIndex = 0;
-			n0096.TabStop = false;
-			n0096.Visible = false;
+			menuCancelItem.Index = 0;
+			menuCancelItem.Text = "取消(&C)";
+			menuCancelItem.Click += new EventHandler(this.n0100);
+			menuSeparator1.Index = 1;
+			menuSeparator1.Text = "-";
+			menuOptionsItem.Index = 2;
+			menuOptionsItem.Text = "选项(&O)\tF8";
+			menuOptionsItem.Click += new EventHandler(this.n0101);
+			menuSeparator2.Index = 3;
+			menuSeparator2.Text = "-";
+			menuDisplayModeItem.Index = 4;
+			menuDisplayModeItem.Text = "显示模式(&M)\tAlt+Enter";
+			menuDisplayModeItem.Click += new EventHandler(this.n0102);
+			menuSeparator3.Index = 5;
+			menuSeparator3.Text = "-";
+			menuSkipItem.Index = 6;
+			menuSkipItem.Text = "快进(&Q)\tF3";
+			menuSkipItem.Click += new EventHandler(this.n0103);
+			menuAutoItem.Index = 7;
+			menuAutoItem.Text = "自动播放(&A)\tF4";
+			menuAutoItem.Click += new EventHandler(this.n0104);
+			menuHideWindowItem.Index = 8;
+			menuHideWindowItem.Text = "隐藏对话(&H)\tF2";
+			menuHideWindowItem.Click += new EventHandler(this.n0105);
+			menuSeparator4.Index = 9;
+			menuSeparator4.Text = "-";
+			menuLanguageItem.Index = 10;
+			menuLanguageItem.MenuItems.AddRange(new MenuItem[3] { menuSimplifiedItem, menuTraditionalItem, menuJapaneseItem });
+			menuLanguageItem.Text = "语言(&L)\tF12";
+			menuSimplifiedItem.Index = 0;
+			menuSimplifiedItem.RadioCheck = true;
+			menuSimplifiedItem.Text = "简体中文(&S)";
+			menuSimplifiedItem.Click += new EventHandler(this.n0106);
+			menuTraditionalItem.Index = 1;
+			menuTraditionalItem.RadioCheck = true;
+			menuTraditionalItem.Text = "繁體中文(&T)";
+			menuTraditionalItem.Click += new EventHandler(this.n0107);
+			menuJapaneseItem.Enabled = false;
+			menuJapaneseItem.Index = 2;
+			menuJapaneseItem.RadioCheck = true;
+			menuJapaneseItem.Text = "日本語(&J)";
+			menuJapaneseItem.Click += new EventHandler(this.n0108);
+			menuSeparator5.Index = 11;
+			menuSeparator5.Text = "-";
+			menuFontItem.Index = 12;
+			menuFontItem.Text = "字体(&F)";
+			menuFontItem.Click += new EventHandler(this.n0109);
+			menuSeparator6.Index = 13;
+			menuSeparator6.Text = "-";
+			menuBackToTitleItem.Index = 14;
+			menuBackToTitleItem.Text = "返回主菜单(&B)";
+			menuBackToTitleItem.Click += new EventHandler(this.n0110);
+			menuSeparator7.Index = 15;
+			menuSeparator7.Text = "-";
+			menuExitItem.Index = 16;
+			menuExitItem.Text = "结束游戏(&E)\tAlt+F4";
+			menuExitItem.Click += new EventHandler(this.n0111);
+			fontDialog.AllowVerticalFonts = false;
+			fontDialog.Font = new System.Drawing.Font("黑体", 24f, FontStyle.Regular, GraphicsUnit.Point, 134);
+			fontDialog.FontMustExist = true;
+			fontDialog.MaxSize = 24;
+			fontDialog.MinSize = 24;
+			fontDialog.ShowEffects = false;
+			logoFadeTimer.Interval = 50;
+			logoFadeTimer.Tick += new EventHandler(this.n0112);
+			episodeTimer.Interval = 50;
+			episodeTimer.Tick += new EventHandler(this.n0113);
+			albumTimer.Interval = 50;
+			albumTimer.Tick += new EventHandler(this.n0114);
+			movieBox.BackColor = Color.White;
+			movieBox.Location = new Point(0, 0);
+			movieBox.Name = "ptbMovie";
+			movieBox.Size = new Size(800, 600);
+			movieBox.TabIndex = 0;
+			movieBox.TabStop = false;
+			movieBox.Visible = false;
 			AutoScaleBaseSize = new Size(6, 14);
 			BackColor = Color.White;
 			ClientSize = new Size(800, 600);
-			base.Controls.Add(n0096);
+			base.Controls.Add(movieBox);
 			Font = new System.Drawing.Font("黑体", 9f, FontStyle.Regular, GraphicsUnit.Point, 134);
 			FormBorderStyle = FormBorderStyle.FixedSingle;
 			Icon = (Icon)resourceManager.GetObject("$this.Icon");
@@ -581,43 +581,43 @@ namespace n0001
 		{
 			n0127();
 			OptionsForm n880 = new OptionsForm();
-			n880.SetFontName(new System.Drawing.Font(n0037, 24f));
-			n880.n0055(n0038);
-			n880.n0057(n0039);
-			n880.n0059(n0045);
-			if (n0045 && n880.ShowDialog() == DialogResult.Cancel)
+			n880.SetFontName(new System.Drawing.Font(fontName, 24f));
+			n880.n0055(fullscreen);
+			n880.n0057(language);
+			n880.n0059(showOptionsOnStartup);
+			if (showOptionsOnStartup && n880.ShowDialog() == DialogResult.Cancel)
 			{
 				Application.Exit();
 				return;
 			}
-			n0037 = n880.GetFontName().Name;
-			n0038 = n880.n0054();
-			n0039 = n880.GetButtonLayout();
-			n0045 = n880.n0058();
+			fontName = n880.GetFontName().Name;
+			fullscreen = n880.n0054();
+			language = n880.GetButtonLayout();
+			showOptionsOnStartup = n880.n0058();
 			ArchiveFile.n0129("Mullen");
 			for (int i = 0; i < 8; i++)
 			{
-				n0130[i] = false;
+				joystickButtonStates[i] = false;
 			}
-			n0131 = n880.GetDevice();
-			if (n0131 != null)
+			joystick = n880.GetDevice();
+			if (joystick != null)
 			{
 				try
 				{
-					n0131.SetDataFormat(DeviceDataFormat.Joystick);
-					n0131.SetCooperativeLevel(this, Microsoft.DirectX.DirectInput.CooperativeLevelFlags.Foreground | Microsoft.DirectX.DirectInput.CooperativeLevelFlags.Exclusive);
-					foreach (object @object in n0131.Objects)
+					joystick.SetDataFormat(DeviceDataFormat.Joystick);
+					joystick.SetCooperativeLevel(this, Microsoft.DirectX.DirectInput.CooperativeLevelFlags.Foreground | Microsoft.DirectX.DirectInput.CooperativeLevelFlags.Exclusive);
+					foreach (object @object in joystick.Objects)
 					{
 						DeviceObjectInstance deviceObjectInstance = (DeviceObjectInstance)@object;
 						if ((deviceObjectInstance.ObjectId & 3) != 0)
 						{
-							n0131.Properties.SetRange(ParameterHow.ById, deviceObjectInstance.ObjectId, new InputRange(-1000, 1000));
+							joystick.Properties.SetRange(ParameterHow.ById, deviceObjectInstance.ObjectId, new InputRange(-1000, 1000));
 						}
 					}
 					if (n880.n0052())
 					{
 						int[] array = null;
-						foreach (object object2 in n0131.GetObjects(DeviceObjectTypeFlags.Axis))
+						foreach (object object2 in joystick.GetObjects(DeviceObjectTypeFlags.Axis))
 						{
 							DeviceObjectInstance deviceObjectInstance2 = (DeviceObjectInstance)object2;
 							if ((deviceObjectInstance2.Flags & 1) != 0)
@@ -639,7 +639,7 @@ namespace n0001
 								}
 							}
 						}
-						IEnumerator enumerator2 = n0131.GetEffects(EffectType.All).GetEnumerator();
+						IEnumerator enumerator2 = joystick.GetEffects(EffectType.All).GetEnumerator();
 						while (enumerator2.MoveNext())
 						{
 							object current3 = enumerator2.Current;
@@ -659,13 +659,13 @@ namespace n0001
 								die.Flags = EffectFlags.Cartesian | EffectFlags.ObjectOffsets;
 								die.Constant.Magnitude = 5000;
 								die.SetAxes(array);
-								n0132 = new EffectObject(effectInformation.EffectGuid, die, n0131);
+								forceFeedbackEffect = new EffectObject(effectInformation.EffectGuid, die, joystick);
 							}
 						}
 					}
 					else
 					{
-						n0132 = null;
+						forceFeedbackEffect = null;
 					}
 				}
 				catch (Exception ex)
@@ -680,7 +680,7 @@ namespace n0001
 			presentParameters.Windowed = true;
 			try
 			{
-				n0133 = new Microsoft.DirectX.Direct3D.Device(0, Microsoft.DirectX.Direct3D.DeviceType.Hardware, this, Microsoft.DirectX.Direct3D.CreateFlags.SoftwareVertexProcessing, presentParameters);
+				device = new Microsoft.DirectX.Direct3D.Device(0, Microsoft.DirectX.Direct3D.DeviceType.Hardware, this, Microsoft.DirectX.Direct3D.CreateFlags.SoftwareVertexProcessing, presentParameters);
 			}
 			catch (Exception ex2)
 			{
@@ -688,17 +688,17 @@ namespace n0001
 				Application.Exit();
 				return;
 			}
-			n0144 = new Sprite(n0133);
-			n0145 = base.Location;
-			n0146 = new Microsoft.DirectX.DirectDraw.Device();
+			sprite = new Sprite(device);
+			windowedLocation = base.Location;
+			displayDevice = new Microsoft.DirectX.DirectDraw.Device();
 			n0147(n880.n0054());
-			n0148 = false;
-			n0149 = false;
+			isBorderless = false;
+			suppressLostFocus = false;
 			try
 			{
-				n0136 = new ArchiveFile("System", ArchiveMode.n0151);
-				n0152 = new ArchiveFile("Bgm", ArchiveMode.n0151);
-				n0153 = new ArchiveFile("Bg", ArchiveMode.n0151);
+				systemArchive = new ArchiveFile("System", ArchiveMode.n0151);
+				bgmArchive = new ArchiveFile("Bgm", ArchiveMode.n0151);
+				bgArchive = new ArchiveFile("Bg", ArchiveMode.n0151);
 			}
 			catch (Exception ex3)
 			{
@@ -710,8 +710,8 @@ namespace n0001
 			{
 				string tempPath = Path.GetTempPath();
 				tempPath = tempPath.Substring(0, tempPath.Length - 1);
-				n0152.Extract("BGM12", tempPath);
-				n0067.Open(tempPath + "\\BGM12.wav");
+				bgmArchive.Extract("BGM12", tempPath);
+				menuBgmPlayer.Open(tempPath + "\\BGM12.wav");
 			}
 			catch (Exception ex4)
 			{
@@ -719,21 +719,21 @@ namespace n0001
 				Application.Exit();
 				return;
 			}
-			ApplyLanguage(n0039);
-			switch (n0039)
+			ApplyLanguage(language);
+			switch (language)
 			{
 			case ButtonLayout.n0041:
-				n0084.Checked = true;
+				menuSimplifiedItem.Checked = true;
 				break;
 			case ButtonLayout.n0042:
-				n0085.Checked = true;
+				menuTraditionalItem.Checked = true;
 				break;
 			case ButtonLayout.n0043:
-				n0086.Checked = true;
+				menuJapaneseItem.Checked = true;
 				break;
 			}
-			n0134 = Cursor.Position;
-			n0135 = TextureLoader.FromStream(n0133, n0136.ReadEntry("WHITE"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			lastCursorPosition = Cursor.Position;
+			n0135 = TextureLoader.FromStream(device, systemArchive.ReadEntry("WHITE"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 			try
 			{
 				n0138();
@@ -752,35 +752,35 @@ namespace n0001
 
 		private void OnClosing(object n0035, CancelEventArgs n0036)
 		{
-			if (n0066 == 1)
+			if (gameMode == 1)
 			{
-				if (n0156.n0157() > n0158)
+				if (director.n0157() > unlockedEpisodeCount)
 				{
-					n0158 = n0156.n0157();
+					unlockedEpisodeCount = director.n0157();
 				}
-				if (n0156.n0159() > n0160)
+				if (director.n0159() > unlockedAlbumCount)
 				{
-					n0160 = n0156.n0159();
+					unlockedAlbumCount = director.n0159();
 				}
 			}
 			n0161();
-			if (n0131 != null)
+			if (joystick != null)
 			{
 				try
 				{
-					if (null != n0132)
+					if (null != forceFeedbackEffect)
 					{
-						n0132.Stop();
+						forceFeedbackEffect.Stop();
 					}
-					n0131.Unacquire();
-					n0131.Properties.AutoCenter = true;
+					joystick.Unacquire();
+					joystick.Properties.AutoCenter = true;
 				}
 				catch (InputException)
 				{
 				}
 			}
 			string tempPath = Path.GetTempPath();
-			n0067.n0162();
+			menuBgmPlayer.n0162();
 			try
 			{
 				if (File.Exists(tempPath + "BGM12.wav"))
@@ -795,11 +795,11 @@ namespace n0001
 
 		private void n0120(object n0035, EventArgs n0036)
 		{
-			if (n0131 != null)
+			if (joystick != null)
 			{
 				try
 				{
-					n0131.Acquire();
+					joystick.Acquire();
 				}
 				catch (InputException)
 				{
@@ -809,55 +809,55 @@ namespace n0001
 
 		private void n0064(object n0035, EventArgs n0036)
 		{
-			if (n0148)
+			if (isBorderless)
 			{
 				n0147(true);
 				WindowState = FormWindowState.Normal;
 			}
-			switch (n0066)
+			switch (gameMode)
 			{
 			case -2:
-				if (n0163 != null)
+				if (openingMovie != null)
 				{
-					n0163.Play();
+					openingMovie.Play();
 				}
 				break;
 			case -1:
-				n0093.Start();
+				logoFadeTimer.Start();
 				break;
 			case 0:
-				n0070.Start();
-				n0067.n0165();
+				menuTimer.Start();
+				menuBgmPlayer.n0165();
 				break;
 			case 1:
-				n0069.Start();
-				n0156.SetPaused(false, true);
+				scenarioTimer.Start();
+				director.SetPaused(false, true);
 				break;
 			case 2:
-				n0094.Start();
-				n0067.n0165();
+				episodeTimer.Start();
+				menuBgmPlayer.n0165();
 				break;
 			case 3:
-				n0071.Start();
-				if (n0167 == 0)
+				optionsTimer.Start();
+				if (returnMode == 0)
 				{
-					n0067.n0165();
+					menuBgmPlayer.n0165();
 				}
-				else if (n0167 == 1)
+				else if (returnMode == 1)
 				{
-					n0156.SetPaused(false, true);
+					director.SetPaused(false, true);
 				}
 				break;
 			case 4:
-				n0095.Start();
-				n0067.n0165();
+				albumTimer.Start();
+				menuBgmPlayer.n0165();
 				break;
 			}
 		}
 
 		protected override void OnLostFocus(EventArgs n0036)
 		{
-			if (!n0149)
+			if (!suppressLostFocus)
 			{
 				base.OnLostFocus(n0036);
 			}
@@ -865,49 +865,49 @@ namespace n0001
 
 		private void n0065(object n0035, EventArgs n0036)
 		{
-			n0148 = FormBorderStyle == FormBorderStyle.None;
-			if (n0148)
+			isBorderless = FormBorderStyle == FormBorderStyle.None;
+			if (isBorderless)
 			{
 				n0147(false);
 				WindowState = FormWindowState.Minimized;
 			}
-			switch (n0066)
+			switch (gameMode)
 			{
 			case -2:
-				if (n0163 != null)
+				if (openingMovie != null)
 				{
-					n0163.SetPaused();
+					openingMovie.SetPaused();
 				}
 				break;
 			case -1:
-				n0093.Stop();
+				logoFadeTimer.Stop();
 				break;
 			case 0:
-				n0070.Stop();
-				n0067.SetPaused();
+				menuTimer.Stop();
+				menuBgmPlayer.SetPaused();
 				break;
 			case 1:
-				n0069.Stop();
-				n0156.SetPaused(true, true);
+				scenarioTimer.Stop();
+				director.SetPaused(true, true);
 				break;
 			case 2:
-				n0094.Stop();
-				n0067.SetPaused();
+				episodeTimer.Stop();
+				menuBgmPlayer.SetPaused();
 				break;
 			case 3:
-				n0071.Stop();
-				if (n0167 == 0)
+				optionsTimer.Stop();
+				if (returnMode == 0)
 				{
-					n0067.SetPaused();
+					menuBgmPlayer.SetPaused();
 				}
-				else if (n0167 == 1)
+				else if (returnMode == 1)
 				{
-					n0156.SetPaused(true, true);
+					director.SetPaused(true, true);
 				}
 				break;
 			case 4:
-				n0095.Stop();
-				n0067.SetPaused();
+				albumTimer.Stop();
+				menuBgmPlayer.SetPaused();
 				break;
 			}
 		}
@@ -917,91 +917,91 @@ namespace n0001
 			switch (n0036.KeyCode)
 			{
 			case Keys.ControlKey:
-				if (n0066 == 1)
+				if (gameMode == 1)
 				{
-					n0156.n0168(true, true);
+					director.n0168(true, true);
 				}
 				break;
 			case Keys.Return:
-				if (n0169)
+				if (enterKeyDown)
 				{
 					break;
 				}
-				n0169 = true;
+				enterKeyDown = true;
 				if (n0036.Alt)
 				{
 					n0147();
 					break;
 				}
-				switch (n0066)
+				switch (gameMode)
 				{
 				case 0:
-					if (n0170 == 0 && n0171 > 0 && n0172[n0171 - 1])
+					if (menuFadeCounter == 0 && menuSelection > 0 && menuItemEnabled[menuSelection - 1])
 					{
 						n0173();
 					}
 					break;
 				case 1:
-					n0156.n0174();
+					director.n0174();
 					break;
 				case 2:
-					if (n0175 == 0 && n0176 > 0 && n0158 >= n0176)
+					if (episodeFadeCounter == 0 && episodeSelection > 0 && unlockedEpisodeCount >= episodeSelection)
 					{
 						n0177();
 					}
 					break;
 				case 3:
-					if (n0178 == 0 && n0179 > 0)
+					if (optionsFadeCounter == 0 && optionSelection > 0)
 					{
-						n0180(n0179 - 1);
+						n0180(optionSelection - 1);
 					}
 					break;
 				case 4:
-					if (n0181 == 0 && n0182 == 0)
+					if (albumFadeCounter == 0 && albumImageTransition == 0)
 					{
-						if (n0183 != 0)
+						if (albumGroup != 0)
 						{
-							ShowAlbumImage(n0183, n0185 + 1);
+							ShowAlbumImage(albumGroup, albumImageIndex + 1);
 						}
-						else if (n0186 > 0 && n0160 >= n0186)
+						else if (albumSelection > 0 && unlockedAlbumCount >= albumSelection)
 						{
-							ShowAlbumImage(n0186, 0);
+							ShowAlbumImage(albumSelection, 0);
 						}
 					}
 					break;
 				}
 				break;
 			case Keys.Space:
-				if (n0187)
+				if (spaceKeyDown)
 				{
 					break;
 				}
-				n0187 = true;
-				switch (n0066)
+				spaceKeyDown = true;
+				switch (gameMode)
 				{
 				case 1:
-					if (!n0156.n0188())
+					if (!director.n0188())
 					{
-						n0072.Show(this, new Point(400, 300));
+						contextMenu.Show(this, new Point(400, 300));
 					}
 					break;
 				case 2:
-					if (n0175 == 0)
+					if (episodeFadeCounter == 0)
 					{
-						n0176 = 0;
+						episodeSelection = 0;
 						n0177();
 					}
 					break;
 				case 3:
-					if (n0178 == 0)
+					if (optionsFadeCounter == 0)
 					{
 						n0189();
 					}
 					break;
 				case 4:
-					if (n0181 == 0 && n0182 == 0)
+					if (albumFadeCounter == 0 && albumImageTransition == 0)
 					{
-						if (n0183 == 0)
+						if (albumGroup == 0)
 						{
 							n0190();
 						}
@@ -1014,13 +1014,13 @@ namespace n0001
 				}
 				break;
 			case Keys.Left:
-				switch (n0066)
+				switch (gameMode)
 				{
 				case 3:
 					n0192(0);
 					break;
 				case 4:
-					if (n0183 == 0)
+					if (albumGroup == 0)
 					{
 						n0193(0);
 					}
@@ -1028,7 +1028,7 @@ namespace n0001
 				}
 				break;
 			case Keys.Up:
-				switch (n0066)
+				switch (gameMode)
 				{
 				case 0:
 					n0194(0);
@@ -1044,13 +1044,13 @@ namespace n0001
 				}
 				break;
 			case Keys.Right:
-				switch (n0066)
+				switch (gameMode)
 				{
 				case 3:
 					n0192(1);
 					break;
 				case 4:
-					if (n0183 == 0)
+					if (albumGroup == 0)
 					{
 						n0193(1);
 					}
@@ -1058,7 +1058,7 @@ namespace n0001
 				}
 				break;
 			case Keys.Down:
-				switch (n0066)
+				switch (gameMode)
 				{
 				case 0:
 					n0194(1);
@@ -1074,87 +1074,87 @@ namespace n0001
 				}
 				break;
 			case Keys.F2:
-				if (!n0196)
+				if (!f2KeyDown)
 				{
-					n0196 = true;
-					if (n0066 == 1)
+					f2KeyDown = true;
+					if (gameMode == 1)
 					{
-						n0156.n0197();
+						director.n0197();
 					}
 				}
 				break;
 			case Keys.F3:
-				if (!n0198)
+				if (!f3KeyDown)
 				{
-					n0198 = true;
-					if (n0066 == 1)
+					f3KeyDown = true;
+					if (gameMode == 1)
 					{
-						n0156.n0168();
+						director.n0168();
 					}
 				}
 				break;
 			case Keys.F4:
-				if (!n0199)
+				if (!f4KeyDown)
 				{
-					n0199 = true;
-					if (n0066 == 1)
+					f4KeyDown = true;
+					if (gameMode == 1)
 					{
-						n0156.n0200();
+						director.n0200();
 					}
 				}
 				break;
 			case Keys.F8:
-				if (!n0201)
+				if (!f8KeyDown)
 				{
-					n0201 = true;
-					if (n0066 == 1 && !n0156.n0188())
+					f8KeyDown = true;
+					if (gameMode == 1 && !director.n0188())
 					{
-						n0156.n0200(false);
-						n0156.SetPaused(true, false);
-						n0069.Stop();
+						director.n0200(false);
+						director.SetPaused(true, false);
+						scenarioTimer.Stop();
 						n0140();
 						n0202();
 					}
 				}
 				break;
 			case Keys.F12:
-				if (n0203)
+				if (f12KeyDown)
 				{
 					break;
 				}
-				n0203 = true;
-				if (n0066 == 1)
+				f12KeyDown = true;
+				if (gameMode == 1)
 				{
-					n0039++;
-					if (n0039 == ButtonLayout.n0204)
+					language++;
+					if (language == ButtonLayout.n0204)
 					{
-						n0039 = ButtonLayout.n0041;
+						language = ButtonLayout.n0041;
 					}
-					if (!n0156.n0188() && n0039 == ButtonLayout.n0043)
+					if (!director.n0188() && language == ButtonLayout.n0043)
 					{
-						n0039 = ButtonLayout.n0041;
+						language = ButtonLayout.n0041;
 					}
-					if (n0156.n0188())
+					if (director.n0188())
 					{
-						n0205 = true;
+						languageResetPending = true;
 					}
-					n0084.Checked = false;
-					n0085.Checked = false;
-					n0086.Checked = false;
-					switch (n0039)
+					menuSimplifiedItem.Checked = false;
+					menuTraditionalItem.Checked = false;
+					menuJapaneseItem.Checked = false;
+					switch (language)
 					{
 					case ButtonLayout.n0041:
-						n0084.Checked = true;
+						menuSimplifiedItem.Checked = true;
 						break;
 					case ButtonLayout.n0042:
-						n0085.Checked = true;
+						menuTraditionalItem.Checked = true;
 						break;
 					case ButtonLayout.n0043:
-						n0085.Checked = true;
+						menuTraditionalItem.Checked = true;
 						break;
 					}
-					ApplyLanguage(n0039);
-					n0156.SetButtonLayout(n0039);
+					ApplyLanguage(language);
+					director.SetButtonLayout(language);
 				}
 				break;
 			}
@@ -1165,38 +1165,38 @@ namespace n0001
 			switch (n0036.KeyCode)
 			{
 			case Keys.Return:
-				n0169 = false;
+				enterKeyDown = false;
 				break;
 			case Keys.ControlKey:
-				if (n0066 == 1)
+				if (gameMode == 1)
 				{
-					n0156.n0168(false, true);
+					director.n0168(false, true);
 				}
 				break;
 			case Keys.Space:
-				n0187 = false;
+				spaceKeyDown = false;
 				break;
 			case Keys.F2:
-				n0196 = false;
+				f2KeyDown = false;
 				break;
 			case Keys.F3:
-				n0198 = false;
+				f3KeyDown = false;
 				break;
 			case Keys.F4:
-				n0199 = false;
+				f4KeyDown = false;
 				break;
 			case Keys.F8:
-				n0201 = false;
+				f8KeyDown = false;
 				break;
 			case Keys.F12:
-				n0203 = false;
+				f12KeyDown = false;
 				break;
 			}
 		}
 
 		private void n0116(object n0035, MouseEventArgs n0036)
 		{
-			switch (n0066)
+			switch (gameMode)
 			{
 			case 0:
 				n0207(n0035, n0036);
@@ -1204,15 +1204,15 @@ namespace n0001
 			case 1:
 				if (n0036.Button == MouseButtons.Left)
 				{
-					n0156.n0174();
+					director.n0174();
 				}
-				else if (n0036.Button == MouseButtons.Right && !n0156.n0188())
+				else if (n0036.Button == MouseButtons.Right && !director.n0188())
 				{
-					n0156.SetPaused(true, false);
-					n0069.Stop();
-					n0072.Show((Control)n0035, new Point(n0036.X, n0036.Y));
-					n0156.SetPaused(false, false);
-					n0069.Start();
+					director.SetPaused(true, false);
+					scenarioTimer.Stop();
+					contextMenu.Show((Control)n0035, new Point(n0036.X, n0036.Y));
+					director.SetPaused(false, false);
+					scenarioTimer.Start();
 				}
 				break;
 			case 2:
@@ -1229,7 +1229,7 @@ namespace n0001
 
 		private void n0122(object n0035, MouseEventArgs n0036)
 		{
-			switch (n0066)
+			switch (gameMode)
 			{
 			case 0:
 				n0211(n0035, n0036);
@@ -1250,50 +1250,50 @@ namespace n0001
 
 		private void OnPaint(object n0035, PaintEventArgs n0036)
 		{
-			if (n0066 == -2)
+			if (gameMode == -2)
 			{
 				return;
 			}
-			if (n0066 == 1)
+			if (gameMode == 1)
 			{
-				n0156.n0215();
+				director.n0215();
 				return;
 			}
-			n0133.Clear(ClearFlags.Target, Color.White, 1f, 0);
-			n0133.BeginScene();
-			n0144.Begin(SpriteFlags.AlphaBlend);
+			device.Clear(ClearFlags.Target, Color.White, 1f, 0);
+			device.BeginScene();
+			sprite.Begin(SpriteFlags.AlphaBlend);
 			for (int i = 0; i < n0216.Count; i++)
 			{
 				if (n0216[i] != null)
 				{
-					n0144.Draw2D((Texture)n0216[i], (Rectangle)n0217[i], (Rectangle)n0218[i], Point.Empty, 0f, (Point)n0219[i], (Color)n0220[i]);
+					sprite.Draw2D((Texture)n0216[i], (Rectangle)n0217[i], (Rectangle)n0218[i], Point.Empty, 0f, (Point)n0219[i], (Color)n0220[i]);
 					continue;
 				}
 				for (int j = 0; j < n0221.Length; j++)
 				{
-					Microsoft.DirectX.Direct3D.Font font = n0222;
-					Sprite sprite = n0144;
+					Microsoft.DirectX.Direct3D.Font font = d3dFont;
+					Sprite spriteLocal = this.sprite;
 					string text = n0221[j].ToString();
 					int num = n0223.X;
-					font.DrawText(sprite, text, num + n0224.Width * j + 2, n0223.Y + 2, Color.Black);
-					Microsoft.DirectX.Direct3D.Font font2 = n0222;
-					Sprite sprite2 = n0144;
+					font.DrawText(spriteLocal, text, num + n0224.Width * j + 2, n0223.Y + 2, Color.Black);
+					Microsoft.DirectX.Direct3D.Font font2 = d3dFont;
+					Sprite sprite2 = spriteLocal;
 					string text2 = n0221[j].ToString();
 					int num2 = n0223.X;
 					font2.DrawText(sprite2, text2, num2 + n0224.Width * j, n0223.Y, Color.White);
 				}
 			}
-			n0144.End();
-			n0133.EndScene();
+			sprite.End();
+			device.EndScene();
 			try
 			{
-				n0133.Present();
+				device.Present();
 			}
 			catch (DeviceLostException)
 			{
 				try
 				{
-					n0133.TestCooperativeLevel();
+					device.TestCooperativeLevel();
 				}
 				catch (DeviceNotResetException)
 				{
@@ -1311,47 +1311,47 @@ namespace n0001
 			switch (PollJoystick())
 			{
 			case 0:
-				n0156.n0174();
+				director.n0174();
 				break;
 			case 1:
-				n0156.n0197();
+				director.n0197();
 				break;
 			case 2:
-				n0156.n0168();
+				director.n0168();
 				break;
 			case 3:
-				n0156.n0200();
+				director.n0200();
 				break;
 			case 8:
-				if (!n0156.n0188())
+				if (!director.n0188())
 				{
-					n0156.n0200(false);
-					n0156.SetPaused(true, false);
-					n0069.Stop();
+					director.n0200(false);
+					director.SetPaused(true, false);
+					scenarioTimer.Stop();
 					n0140();
 					n0202();
 					flag = true;
 				}
 				break;
 			case 9:
-				if (!n0156.n0188())
+				if (!director.n0188())
 				{
 					n0227();
 					flag = true;
 				}
 				break;
 			}
-			if (n0205 && n0039 == ButtonLayout.n0043 && !n0156.n0188())
+			if (languageResetPending && language == ButtonLayout.n0043 && !director.n0188())
 			{
-				n0039 = ButtonLayout.n0041;
-				n0084.Checked = true;
-				n0085.Checked = false;
-				n0086.Checked = false;
-				ApplyLanguage(n0039);
-				n0156.SetButtonLayout(n0039);
-				n0205 = false;
+				language = ButtonLayout.n0041;
+				menuSimplifiedItem.Checked = true;
+				menuTraditionalItem.Checked = false;
+				menuJapaneseItem.Checked = false;
+				ApplyLanguage(language);
+				director.SetButtonLayout(language);
+				languageResetPending = false;
 			}
-			if (!flag && !n0156.Update())
+			if (!flag && !director.Update())
 			{
 				n0227();
 			}
@@ -1363,9 +1363,9 @@ namespace n0001
 
 		private void n0101(object n0035, EventArgs n0036)
 		{
-			n0156.n0200(false);
-			n0156.SetPaused(true, false);
-			n0069.Stop();
+			director.n0200(false);
+			director.SetPaused(true, false);
+			scenarioTimer.Stop();
 			n0140();
 			n0202();
 		}
@@ -1377,55 +1377,55 @@ namespace n0001
 
 		private void n0103(object n0035, EventArgs n0036)
 		{
-			n0156.n0168();
+			director.n0168();
 		}
 
 		private void n0104(object n0035, EventArgs n0036)
 		{
-			n0156.n0200();
+			director.n0200();
 		}
 
 		private void n0105(object n0035, EventArgs n0036)
 		{
-			n0156.n0197();
+			director.n0197();
 		}
 
 		private void n0106(object n0035, EventArgs n0036)
 		{
-			n0084.Checked = true;
-			n0085.Checked = false;
-			n0086.Checked = false;
-			n0039 = ButtonLayout.n0041;
+			menuSimplifiedItem.Checked = true;
+			menuTraditionalItem.Checked = false;
+			menuJapaneseItem.Checked = false;
+			language = ButtonLayout.n0041;
 			ApplyLanguage(ButtonLayout.n0041);
-			n0156.SetButtonLayout(ButtonLayout.n0041);
+			director.SetButtonLayout(ButtonLayout.n0041);
 		}
 
 		private void n0107(object n0035, EventArgs n0036)
 		{
-			n0084.Checked = false;
-			n0085.Checked = true;
-			n0086.Checked = false;
-			n0039 = ButtonLayout.n0042;
+			menuSimplifiedItem.Checked = false;
+			menuTraditionalItem.Checked = true;
+			menuJapaneseItem.Checked = false;
+			language = ButtonLayout.n0042;
 			ApplyLanguage(ButtonLayout.n0042);
-			n0156.SetButtonLayout(ButtonLayout.n0042);
+			director.SetButtonLayout(ButtonLayout.n0042);
 		}
 
 		private void n0108(object n0035, EventArgs n0036)
 		{
-			n0084.Checked = false;
-			n0085.Checked = false;
-			n0086.Checked = true;
-			n0039 = ButtonLayout.n0043;
+			menuSimplifiedItem.Checked = false;
+			menuTraditionalItem.Checked = false;
+			menuJapaneseItem.Checked = true;
+			language = ButtonLayout.n0043;
 			ApplyLanguage(ButtonLayout.n0043);
-			n0156.SetButtonLayout(ButtonLayout.n0043);
+			director.SetButtonLayout(ButtonLayout.n0043);
 		}
 
 		private void n0109(object n0035, EventArgs n0036)
 		{
-			if (n0017.ShowDialog() == DialogResult.OK)
+			if (fontDialog.ShowDialog() == DialogResult.OK)
 			{
-				n0156.SetFont(n0017.Font);
-				n0037 = n0017.Font.Name;
+				director.SetFont(fontDialog.Font);
+				fontName = fontDialog.Font.Name;
 			}
 		}
 
@@ -1436,8 +1436,8 @@ namespace n0001
 
 		private void n0111(object n0035, EventArgs n0036)
 		{
-			n0156.n0230();
-			n0156.Dispose();
+			director.n0230();
+			director.Dispose();
 			Close();
 			Application.Exit();
 		}
@@ -1453,16 +1453,16 @@ namespace n0001
 			{
 				return;
 			}
-			ReadSetting(xmlDocument, "sys/win/font", ref n0037);
+			ReadSetting(xmlDocument, "sys/win/font", ref fontName);
 			string n880 = null;
 			ReadSetting(xmlDocument, "sys/win/mode", ref n880);
 			switch (n880)
 			{
 			case "Fullscreen":
-				n0038 = true;
+				fullscreen = true;
 				break;
 			case "Windowed":
-				n0038 = false;
+				fullscreen = false;
 				break;
 			}
 			n880 = null;
@@ -1470,50 +1470,50 @@ namespace n0001
 			switch (n880)
 			{
 			case "SC":
-				n0039 = ButtonLayout.n0041;
+				language = ButtonLayout.n0041;
 				break;
 			case "TC":
-				n0039 = ButtonLayout.n0042;
+				language = ButtonLayout.n0042;
 				break;
 			case "JP":
-				n0039 = ButtonLayout.n0043;
+				language = ButtonLayout.n0043;
 				break;
 			}
-			ReadSetting(xmlDocument, "sys/win/show", ref n0045);
-			ReadSetting(xmlDocument, "sys/options/fade", ref n0232);
-			ReadSetting(xmlDocument, "sys/options/env", ref n0233);
-			ReadSetting(xmlDocument, "sys/options/sun", ref n0234);
-			ReadSetting(xmlDocument, "sys/options/shock", ref n0235);
+			ReadSetting(xmlDocument, "sys/win/show", ref showOptionsOnStartup);
+			ReadSetting(xmlDocument, "sys/options/fade", ref fadeEnabled);
+			ReadSetting(xmlDocument, "sys/options/env", ref envEnabled);
+			ReadSetting(xmlDocument, "sys/options/sun", ref sunEnabled);
+			ReadSetting(xmlDocument, "sys/options/shock", ref shockEnabled);
 			n880 = null;
 			ReadSetting(xmlDocument, "sys/options/color", ref n880);
 			switch (n880)
 			{
 			case "Green":
-				n0236 = Color.FromArgb(128, 255, 128);
+				textColor = Color.FromArgb(128, 255, 128);
 				break;
 			case "Blue":
-				n0236 = Color.FromArgb(128, 128, 255);
+				textColor = Color.FromArgb(128, 128, 255);
 				break;
 			case "Red":
-				n0236 = Color.FromArgb(255, 128, 128);
+				textColor = Color.FromArgb(255, 128, 128);
 				break;
 			case "Yellow":
-				n0236 = Color.FromArgb(255, 255, 128);
+				textColor = Color.FromArgb(255, 255, 128);
 				break;
 			case "Purple":
-				n0236 = Color.FromArgb(255, 128, 255);
+				textColor = Color.FromArgb(255, 128, 255);
 				break;
 			case "Cyan":
-				n0236 = Color.FromArgb(128, 255, 255);
+				textColor = Color.FromArgb(128, 255, 255);
 				break;
 			case "Black":
-				n0236 = Color.FromArgb(128, 128, 128);
+				textColor = Color.FromArgb(128, 128, 128);
 				break;
 			}
-			ReadSetting(xmlDocument, "sys/options/speed", 1, 6, ref n0237);
-			ReadSetting(xmlDocument, "sys/options/synchro", ref n0238);
-			ReadSetting(xmlDocument, "sys/save/episode", 0, 16, ref n0158);
-			ReadSetting(xmlDocument, "sys/save/album", 0, 7, ref n0160);
+			ReadSetting(xmlDocument, "sys/options/speed", 1, 6, ref textSpeed);
+			ReadSetting(xmlDocument, "sys/options/synchro", ref voiceSynchro);
+			ReadSetting(xmlDocument, "sys/save/episode", 0, 16, ref unlockedEpisodeCount);
+			ReadSetting(xmlDocument, "sys/save/album", 0, 7, ref unlockedAlbumCount);
 		}
 
 		private void n0161()
@@ -1521,9 +1521,9 @@ namespace n0001
 			XmlDocument xmlDocument = new XmlDocument();
 			xmlDocument.AppendChild(xmlDocument.CreateElement("sys"));
 			xmlDocument.DocumentElement.AppendChild(xmlDocument.CreateElement("win"));
-			xmlDocument.SelectSingleNode("/sys/win").AppendChild(xmlDocument.CreateElement("font")).InnerText = n0037;
-			xmlDocument.SelectSingleNode("/sys/win").AppendChild(xmlDocument.CreateElement("mode")).InnerText = (n0038 ? "Fullscreen" : "Windowed");
-			switch (n0039)
+			xmlDocument.SelectSingleNode("/sys/win").AppendChild(xmlDocument.CreateElement("font")).InnerText = fontName;
+			xmlDocument.SelectSingleNode("/sys/win").AppendChild(xmlDocument.CreateElement("mode")).InnerText = (fullscreen ? "Fullscreen" : "Windowed");
+			switch (language)
 			{
 			case ButtonLayout.n0041:
 				xmlDocument.SelectSingleNode("/sys/win").AppendChild(xmlDocument.CreateElement("language")).InnerText = "SC";
@@ -1535,47 +1535,47 @@ namespace n0001
 				xmlDocument.SelectSingleNode("/sys/win").AppendChild(xmlDocument.CreateElement("language")).InnerText = "SC";
 				break;
 			}
-			xmlDocument.SelectSingleNode("/sys/win").AppendChild(xmlDocument.CreateElement("show")).InnerText = n0045.ToString();
+			xmlDocument.SelectSingleNode("/sys/win").AppendChild(xmlDocument.CreateElement("show")).InnerText = showOptionsOnStartup.ToString();
 			xmlDocument.DocumentElement.AppendChild(xmlDocument.CreateElement("options"));
-			xmlDocument.SelectSingleNode("/sys/options").AppendChild(xmlDocument.CreateElement("fade")).InnerText = n0232.ToString();
-			xmlDocument.SelectSingleNode("/sys/options").AppendChild(xmlDocument.CreateElement("env")).InnerText = n0233.ToString();
-			xmlDocument.SelectSingleNode("/sys/options").AppendChild(xmlDocument.CreateElement("sun")).InnerText = n0234.ToString();
-			xmlDocument.SelectSingleNode("/sys/options").AppendChild(xmlDocument.CreateElement("shock")).InnerText = n0235.ToString();
+			xmlDocument.SelectSingleNode("/sys/options").AppendChild(xmlDocument.CreateElement("fade")).InnerText = fadeEnabled.ToString();
+			xmlDocument.SelectSingleNode("/sys/options").AppendChild(xmlDocument.CreateElement("env")).InnerText = envEnabled.ToString();
+			xmlDocument.SelectSingleNode("/sys/options").AppendChild(xmlDocument.CreateElement("sun")).InnerText = sunEnabled.ToString();
+			xmlDocument.SelectSingleNode("/sys/options").AppendChild(xmlDocument.CreateElement("shock")).InnerText = shockEnabled.ToString();
 			string innerText;
-			if (n0236 == Color.FromArgb(128, 255, 128))
+			if (textColor == Color.FromArgb(128, 255, 128))
 			{
 				innerText = "Green";
 			}
-			else if (n0236 == Color.FromArgb(128, 128, 255))
+			else if (textColor == Color.FromArgb(128, 128, 255))
 			{
 				innerText = "Blue";
 			}
-			else if (n0236 == Color.FromArgb(255, 128, 128))
+			else if (textColor == Color.FromArgb(255, 128, 128))
 			{
 				innerText = "Red";
 			}
-			else if (n0236 == Color.FromArgb(255, 255, 128))
+			else if (textColor == Color.FromArgb(255, 255, 128))
 			{
 				innerText = "Yellow";
 			}
-			else if (n0236 == Color.FromArgb(255, 128, 255))
+			else if (textColor == Color.FromArgb(255, 128, 255))
 			{
 				innerText = "Purple";
 			}
-			else if (n0236 == Color.FromArgb(128, 255, 255))
+			else if (textColor == Color.FromArgb(128, 255, 255))
 			{
 				innerText = "Cyan";
 			}
 			else
 			{
-				innerText = ((!(n0236 == Color.FromArgb(128, 128, 128))) ? "Blue" : "Black");
+				innerText = ((!(textColor == Color.FromArgb(128, 128, 128))) ? "Blue" : "Black");
 			}
 			xmlDocument.SelectSingleNode("/sys/options").AppendChild(xmlDocument.CreateElement("color")).InnerText = innerText;
-			xmlDocument.SelectSingleNode("/sys/options").AppendChild(xmlDocument.CreateElement("speed")).InnerText = n0237.ToString();
-			xmlDocument.SelectSingleNode("/sys/options").AppendChild(xmlDocument.CreateElement("synchro")).InnerText = n0238.ToString();
+			xmlDocument.SelectSingleNode("/sys/options").AppendChild(xmlDocument.CreateElement("speed")).InnerText = textSpeed.ToString();
+			xmlDocument.SelectSingleNode("/sys/options").AppendChild(xmlDocument.CreateElement("synchro")).InnerText = voiceSynchro.ToString();
 			xmlDocument.DocumentElement.AppendChild(xmlDocument.CreateElement("save"));
-			xmlDocument.SelectSingleNode("/sys/save").AppendChild(xmlDocument.CreateElement("episode")).InnerText = n0158.ToString();
-			xmlDocument.SelectSingleNode("/sys/save").AppendChild(xmlDocument.CreateElement("album")).InnerText = n0160.ToString();
+			xmlDocument.SelectSingleNode("/sys/save").AppendChild(xmlDocument.CreateElement("episode")).InnerText = unlockedEpisodeCount.ToString();
+			xmlDocument.SelectSingleNode("/sys/save").AppendChild(xmlDocument.CreateElement("album")).InnerText = unlockedAlbumCount.ToString();
 			try
 			{
 				xmlDocument.Save("save_sys.dat");
@@ -1636,7 +1636,7 @@ namespace n0001
 			PresentParameters presentParameters = new PresentParameters();
 			presentParameters.SwapEffect = SwapEffect.Flip;
 			presentParameters.Windowed = true;
-			n0133.Reset(presentParameters);
+			device.Reset(presentParameters);
 		}
 
 		private void n0225()
@@ -1650,17 +1650,17 @@ namespace n0001
 			{
 				TopMost = true;
 				FormBorderStyle = FormBorderStyle.None;
-				n0145 = base.Location;
+				windowedLocation = base.Location;
 				base.Location = new Point(0, 0);
-				n0146.SetDisplayMode(800, 600, 32, 0, true);
+				displayDevice.SetDisplayMode(800, 600, 32, 0, true);
 				base.Width = 800;
 				base.Height = 600;
 			}
 			else
 			{
-				n0146.RestoreDisplayMode();
+				displayDevice.RestoreDisplayMode();
 				FormBorderStyle = FormBorderStyle.FixedSingle;
-				base.Location = n0145;
+				base.Location = windowedLocation;
 				TopMost = false;
 				ClientSize = new Size(800, 600);
 			}
@@ -1683,42 +1683,42 @@ namespace n0001
 			switch (n0046)
 			{
 			case ButtonLayout.n0041:
-				n0073.Text = "取消(&C)";
-				n0075.Text = "选项(&O)\tF8";
-				n0077.Text = "显示模式(&M)\tAlt+Enter";
-				n0079.Text = "快进(&Q)\tF3";
-				n0080.Text = "自动播放(&A)\tF4";
-				n0081.Text = "隐藏对话(&H)\tF2";
-				n0083.Text = "语言(&L)";
-				n0088.Text = "字体(&F)";
-				n0090.Text = "返回主菜单(&B)";
-				n0092.Text = "结束游戏(&E)\tAlt+F4";
+				menuCancelItem.Text = "取消(&C)";
+				menuOptionsItem.Text = "选项(&O)\tF8";
+				menuDisplayModeItem.Text = "显示模式(&M)\tAlt+Enter";
+				menuSkipItem.Text = "快进(&Q)\tF3";
+				menuAutoItem.Text = "自动播放(&A)\tF4";
+				menuHideWindowItem.Text = "隐藏对话(&H)\tF2";
+				menuLanguageItem.Text = "语言(&L)";
+				menuFontItem.Text = "字体(&F)";
+				menuBackToTitleItem.Text = "返回主菜单(&B)";
+				menuExitItem.Text = "结束游戏(&E)\tAlt+F4";
 				Text = "秋之回忆 ～雪萤～";
 				break;
 			case ButtonLayout.n0042:
-				n0073.Text = "取消(&C)";
-				n0075.Text = "選項(&O)\tF8";
-				n0077.Text = "顯示模式(&M)\tAlt+Enter";
-				n0079.Text = "快進(&Q)\tF3";
-				n0080.Text = "自動播放(&A)\tF4";
-				n0081.Text = "隱藏對話(&H)\tF2";
-				n0083.Text = "語言(&L)";
-				n0088.Text = "字體(&F)";
-				n0090.Text = "返回主菜單(&B)";
-				n0092.Text = "結束遊戲(&E)\tAlt+F4";
+				menuCancelItem.Text = "取消(&C)";
+				menuOptionsItem.Text = "選項(&O)\tF8";
+				menuDisplayModeItem.Text = "顯示模式(&M)\tAlt+Enter";
+				menuSkipItem.Text = "快進(&Q)\tF3";
+				menuAutoItem.Text = "自動播放(&A)\tF4";
+				menuHideWindowItem.Text = "隱藏對話(&H)\tF2";
+				menuLanguageItem.Text = "語言(&L)";
+				menuFontItem.Text = "字體(&F)";
+				menuBackToTitleItem.Text = "返回主菜單(&B)";
+				menuExitItem.Text = "結束遊戲(&E)\tAlt+F4";
 				Text = "秋之回憶 ～雪螢～";
 				break;
 			case ButtonLayout.n0043:
-				n0073.Text = "戻る(&C)";
-				n0075.Text = "オプション設定(&O)\tF8";
-				n0077.Text = "画面モード(&M)\tAlt+Enter";
-				n0079.Text = "スキップ(&Q)\tF3";
-				n0080.Text = "オートモード(&A)\tF4";
-				n0081.Text = "ウインドウ消去(&H)\tF2";
-				n0083.Text = "言語(&L)";
-				n0088.Text = "フォント(&F)";
-				n0090.Text = "タイトルに戻る(&B)";
-				n0092.Text = "ゲーム終了(&E)\tAlt+F4";
+				menuCancelItem.Text = "戻る(&C)";
+				menuOptionsItem.Text = "オプション設定(&O)\tF8";
+				menuDisplayModeItem.Text = "画面モード(&M)\tAlt+Enter";
+				menuSkipItem.Text = "スキップ(&Q)\tF3";
+				menuAutoItem.Text = "オートモード(&A)\tF4";
+				menuHideWindowItem.Text = "ウインドウ消去(&H)\tF2";
+				menuLanguageItem.Text = "言語(&L)";
+				menuFontItem.Text = "フォント(&F)";
+				menuBackToTitleItem.Text = "タイトルに戻る(&B)";
+				menuExitItem.Text = "ゲーム終了(&E)\tAlt+F4";
 				Text = "メモリーズオフデュエット ～雪蛍～";
 				break;
 			}
@@ -1726,11 +1726,11 @@ namespace n0001
 
 		private int PollJoystick()
 		{
-			if (n0131 != null)
+			if (joystick != null)
 			{
 				try
 				{
-					n0131.Poll();
+					joystick.Poll();
 				}
 				catch (InputException ex)
 				{
@@ -1738,7 +1738,7 @@ namespace n0001
 					{
 						try
 						{
-							n0131.Acquire();
+							joystick.Acquire();
 						}
 						catch (InputException)
 						{
@@ -1749,7 +1749,7 @@ namespace n0001
 				JoystickState currentJoystickState;
 				try
 				{
-					currentJoystickState = n0131.CurrentJoystickState;
+					currentJoystickState = joystick.CurrentJoystickState;
 				}
 				catch (InputException)
 				{
@@ -1778,15 +1778,15 @@ namespace n0001
 				{
 					if ((buttons[i] & 0x80) != 0)
 					{
-						if (!n0130[i])
+						if (!joystickButtonStates[i])
 						{
-							n0130[i] = true;
+							joystickButtonStates[i] = true;
 							return i;
 						}
 					}
 					else
 					{
-						n0130[i] = false;
+						joystickButtonStates[i] = false;
 					}
 				}
 				return -1;
@@ -1798,13 +1798,13 @@ namespace n0001
 		{
 			try
 			{
-				n0156 = new SceneDirector("Yukihota", n0246, n0133, n0144, new FrameCallback(n0225), n0135, n0132, new System.Drawing.Font(n0037, 24f), n0039, n0236);
-				n0156.n0249(n0232);
-				n0156.n0250(n0234);
-				n0156.n0251(n0233);
-				n0156.n0252(n0235);
-				n0156.SetTextSpeed(n0237);
-				n0156.n0254(n0238);
+				director = new SceneDirector("Yukihota", n0246, device, sprite, new FrameCallback(n0225), n0135, forceFeedbackEffect, new System.Drawing.Font(fontName, 24f), language, textColor);
+				director.n0249(fadeEnabled);
+				director.n0250(sunEnabled);
+				director.n0251(envEnabled);
+				director.n0252(shockEnabled);
+				director.SetTextSpeed(textSpeed);
+				director.n0254(voiceSynchro);
 			}
 			catch (Exception ex)
 			{
@@ -1817,30 +1817,30 @@ namespace n0001
 			n0219.Clear();
 			n0220.Clear();
 			n0221 = null;
-			n0066 = 1;
-			n0067.n0230();
+			gameMode = 1;
+			menuBgmPlayer.n0230();
 			n0255();
 			n0256();
 			n0257();
 			n0258();
 			n0259();
-			n0069.Start();
+			scenarioTimer.Start();
 		}
 
 		private void n0227()
 		{
-			if (n0156.n0157() > n0158)
+			if (director.n0157() > unlockedEpisodeCount)
 			{
-				n0158 = n0156.n0157();
+				unlockedEpisodeCount = director.n0157();
 			}
-			if (n0156.n0159() > n0160)
+			if (director.n0159() > unlockedAlbumCount)
 			{
-				n0160 = n0156.n0159();
+				unlockedAlbumCount = director.n0159();
 			}
-			n0069.Stop();
-			n0156.n0230();
-			n0156.Dispose();
-			n0156 = null;
+			scenarioTimer.Stop();
+			director.n0230();
+			director.Dispose();
+			director = null;
 			GC.Collect();
 			n0139();
 			n0140();
@@ -1852,7 +1852,7 @@ namespace n0001
 
 		private void QueueDraw(Texture n0262, Rectangle n0263, Rectangle n0264, Point n0265, Color n0266)
 		{
-			n0144.Draw2D(n0262, n0263, n0264, Point.Empty, 0f, n0265, n0266);
+			sprite.Draw2D(n0262, n0263, n0264, Point.Empty, 0f, n0265, n0266);
 			n0216.Add(n0262);
 			n0217.Add(n0263);
 			n0218.Add(n0264);
@@ -1862,90 +1862,90 @@ namespace n0001
 
 		private void n0141()
 		{
-			n0267 = TextureLoader.FromStream(n0133, n0136.ReadEntry("KID_LOGO"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			logoTexture = TextureLoader.FromStream(device, systemArchive.ReadEntry("KID_LOGO"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 			if (n0125)
 			{
-				n0268 = 0;
-				n0066 = -1;
+				logoFrame = 0;
+				gameMode = -1;
 			}
 		}
 
 		private void n0257()
 		{
-			n0267.Dispose();
-			n0267 = null;
+			logoTexture.Dispose();
+			logoTexture = null;
 		}
 
 		private void n0138()
 		{
-			n0066 = -2;
+			gameMode = -2;
 			if (!n0125)
 			{
-				n0096.Visible = true;
-				n0163 = new MediaPackage("Op");
-				n0163.Open("Movie\\KFC.wmv", n0096);
-				n0163.Play();
+				movieBox.Visible = true;
+				openingMovie = new MediaPackage("Op");
+				openingMovie.Open("Movie\\KFC.wmv", movieBox);
+				openingMovie.Play();
 			}
-			n0093.Start();
+			logoFadeTimer.Start();
 		}
 
 		private void n0112(object n0035, EventArgs n0036)
 		{
-			if (n0066 == -2 && !n0125)
+			if (gameMode == -2 && !n0125)
 			{
-				if (n0163.n0269() < n0163.n0270() && n0163.n0270() != -1)
+				if (openingMovie.n0269() < openingMovie.n0270() && openingMovie.n0270() != -1)
 				{
 					return;
 				}
-				n0268 = 0;
-				n0066 = -1;
-				n0096.Visible = false;
-				n0149 = true;
-				n0163.n0162();
-				n0149 = false;
-				n0163 = null;
+				logoFrame = 0;
+				gameMode = -1;
+				movieBox.Visible = false;
+				suppressLostFocus = true;
+				openingMovie.n0162();
+				suppressLostFocus = false;
+				openingMovie = null;
 			}
-			n0133.Clear(ClearFlags.Target, Color.White, 1f, 0);
+			device.Clear(ClearFlags.Target, Color.White, 1f, 0);
 			n0216.Clear();
 			n0217.Clear();
 			n0218.Clear();
 			n0219.Clear();
 			n0220.Clear();
 			n0221 = null;
-			n0133.BeginScene();
-			n0144.Begin(SpriteFlags.AlphaBlend);
+			device.BeginScene();
+			sprite.Begin(SpriteFlags.AlphaBlend);
 			int alpha;
-			if (n0268 < n0271[0])
+			if (logoFrame < n0271[0])
 			{
-				alpha = (int)((double)n0268 / (double)n0271[0] * 255.0);
+				alpha = (int)((double)logoFrame / (double)n0271[0] * 255.0);
 			}
-			else if (n0268 < n0271[1])
+			else if (logoFrame < n0271[1])
 			{
 				alpha = 255;
 			}
-			else if (n0268 < n0271[2])
+			else if (logoFrame < n0271[2])
 			{
-				alpha = (int)((double)(n0271[2] - n0268) / (double)(n0271[2] - n0271[1]) * 255.0);
+				alpha = (int)((double)(n0271[2] - logoFrame) / (double)(n0271[2] - n0271[1]) * 255.0);
 			}
 			else
 			{
-				n0093.Stop();
+				logoFadeTimer.Stop();
 				n0260();
 				alpha = 0;
 			}
-			QueueDraw(n0267, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb(alpha, Color.White));
-			n0268++;
-			n0144.End();
-			n0133.EndScene();
+			QueueDraw(logoTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb(alpha, Color.White));
+			logoFrame++;
+			sprite.End();
+			device.EndScene();
 			try
 			{
-				n0133.Present();
+				device.Present();
 			}
 			catch (DeviceLostException)
 			{
 				try
 				{
-					n0133.TestCooperativeLevel();
+					device.TestCooperativeLevel();
 				}
 				catch (DeviceNotResetException)
 				{
@@ -1959,77 +1959,77 @@ namespace n0001
 
 		private void n0139()
 		{
-			n0272[0] = TextureLoader.FromStream(n0133, n0136.ReadEntry("TITLESC"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
-			n0272[1] = TextureLoader.FromStream(n0133, n0136.ReadEntry("TITLETC"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
-			n0272[2] = TextureLoader.FromStream(n0133, n0136.ReadEntry("TITLEJP"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
-			n0273 = TextureLoader.FromStream(n0133, n0136.ReadEntry("MENU"), n0274.Width, n0274.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			titleTextures[0] = TextureLoader.FromStream(device, systemArchive.ReadEntry("TITLESC"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			titleTextures[1] = TextureLoader.FromStream(device, systemArchive.ReadEntry("TITLETC"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			titleTextures[2] = TextureLoader.FromStream(device, systemArchive.ReadEntry("TITLEJP"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			menuButtonTexture = TextureLoader.FromStream(device, systemArchive.ReadEntry("MENU"), n0274.Width, n0274.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 		}
 
 		private void n0255()
 		{
 			for (int i = 0; i < 3; i++)
 			{
-				n0272[i].Dispose();
-				n0272[i] = null;
+				titleTextures[i].Dispose();
+				titleTextures[i] = null;
 			}
-			n0273.Dispose();
-			n0273 = null;
+			menuButtonTexture.Dispose();
+			menuButtonTexture = null;
 		}
 
 		private void n0260()
 		{
-			n0066 = 0;
-			n0170 = 10;
-			n0275 = true;
-			bool[] array = n0172;
+			gameMode = 0;
+			menuFadeCounter = 10;
+			menuFadeIn = true;
+			bool[] array = menuItemEnabled;
 			bool flag;
-			n0172[2] = (flag = (n0172[4] = true));
+			menuItemEnabled[2] = (flag = (menuItemEnabled[4] = true));
 			array[0] = flag;
-			n0172[1] = n0158 > 0;
-			n0172[3] = n0160 > 0;
-			if (!n0067.n0276())
+			menuItemEnabled[1] = unlockedEpisodeCount > 0;
+			menuItemEnabled[3] = unlockedAlbumCount > 0;
+			if (!menuBgmPlayer.n0276())
 			{
-				n0067.Play(true);
+				menuBgmPlayer.Play(true);
 			}
-			n0070.Start();
+			menuTimer.Start();
 		}
 
 		private void n0173()
 		{
-			n0170 = 10;
-			n0275 = false;
+			menuFadeCounter = 10;
+			menuFadeIn = false;
 		}
 
 		private void n0194(int n0277)
 		{
-			if (n0170 > 0)
+			if (menuFadeCounter > 0)
 			{
 				return;
 			}
 			switch (n0277)
 			{
 			case 0:
-				if (n0171 == 0)
+				if (menuSelection == 0)
 				{
-					n0171 = 5;
+					menuSelection = 5;
 					break;
 				}
-				n0171--;
-				if (n0171 == 0)
+				menuSelection--;
+				if (menuSelection == 0)
 				{
-					n0171 = 5;
+					menuSelection = 5;
 				}
 				break;
 			case 1:
-				if (n0171 == 0)
+				if (menuSelection == 0)
 				{
-					n0171 = 1;
+					menuSelection = 1;
 					break;
 				}
-				n0171++;
-				if (n0171 == 6)
+				menuSelection++;
+				if (menuSelection == 6)
 				{
-					n0171 = 1;
+					menuSelection = 1;
 				}
 				break;
 			}
@@ -2041,7 +2041,7 @@ namespace n0001
 			int num = PollJoystick();
 			if (num == 0)
 			{
-				if (n0171 > 0 && n0172[n0171 - 1])
+				if (menuSelection > 0 && menuItemEnabled[menuSelection - 1])
 				{
 					n0173();
 				}
@@ -2059,30 +2059,30 @@ namespace n0001
 				}
 			}
 			bool flag = false;
-			n0133.Clear(ClearFlags.Target, Color.White, 1f, 0);
+			device.Clear(ClearFlags.Target, Color.White, 1f, 0);
 			n0216.Clear();
 			n0217.Clear();
 			n0218.Clear();
 			n0219.Clear();
 			n0220.Clear();
 			n0221 = null;
-			n0133.BeginScene();
-			n0144.Begin(SpriteFlags.AlphaBlend);
-			QueueDraw(n0272[(int)n0039], Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
+			device.BeginScene();
+			sprite.Begin(SpriteFlags.AlphaBlend);
+			QueueDraw(titleTextures[(int)language], Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
 			for (int i = 0; i < 5; i++)
 			{
-				Rectangle n880 = new Rectangle((n0171 - 1 != i) ? 180 : 0, 32 * (n0172[i] ? i : 5), 180, 32);
-				QueueDraw(n0273, n880, Rectangle.Empty, new Point(310, 368 + 32 * i), Color.White);
+				Rectangle n880 = new Rectangle((menuSelection - 1 != i) ? 180 : 0, 32 * (menuItemEnabled[i] ? i : 5), 180, 32);
+				QueueDraw(menuButtonTexture, n880, Rectangle.Empty, new Point(310, 368 + 32 * i), Color.White);
 			}
-			if (n0170 > 0)
+			if (menuFadeCounter > 0)
 			{
-				int alpha = (int)((double)(n0275 ? n0170 : (10 - n0170)) / 10.0 * 255.0);
+				int alpha = (int)((double)(menuFadeIn ? menuFadeCounter : (10 - menuFadeCounter)) / 10.0 * 255.0);
 				QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb(alpha, Color.White));
-				n0170--;
-				if (!n0275 && n0170 == 0)
+				menuFadeCounter--;
+				if (!menuFadeIn && menuFadeCounter == 0)
 				{
-					n0070.Stop();
-					switch (n0171)
+					menuTimer.Stop();
+					switch (menuSelection)
 					{
 					case 1:
 						flag = true;
@@ -2101,20 +2101,20 @@ namespace n0001
 						Application.Exit();
 						break;
 					}
-					n0171 = 0;
+					menuSelection = 0;
 				}
 			}
-			n0144.End();
-			n0133.EndScene();
+			sprite.End();
+			device.EndScene();
 			try
 			{
-				n0133.Present();
+				device.Present();
 			}
 			catch (DeviceLostException)
 			{
 				try
 				{
-					n0133.TestCooperativeLevel();
+					device.TestCooperativeLevel();
 				}
 				catch (DeviceNotResetException)
 				{
@@ -2132,11 +2132,11 @@ namespace n0001
 
 		private void n0207(object n0035, MouseEventArgs n0036)
 		{
-			if (n0170 == 0 && n0036.Button == MouseButtons.Left)
+			if (menuFadeCounter == 0 && n0036.Button == MouseButtons.Left)
 			{
-				n0134 = Point.Empty;
+				lastCursorPosition = Point.Empty;
 				n0211(n0035, n0036);
-				if (n0171 > 0 && n0172[n0171 - 1])
+				if (menuSelection > 0 && menuItemEnabled[menuSelection - 1])
 				{
 					n0173();
 				}
@@ -2145,46 +2145,46 @@ namespace n0001
 
 		private void n0211(object n0035, MouseEventArgs n0036)
 		{
-			if (Cursor.Position.Equals(n0134))
+			if (Cursor.Position.Equals(lastCursorPosition))
 			{
 				return;
 			}
-			n0134 = Cursor.Position;
-			if (n0170 == 0)
+			lastCursorPosition = Cursor.Position;
+			if (menuFadeCounter == 0)
 			{
 				if (n0036.X >= 310 && n0036.X < 490 && n0036.Y >= 368 && n0036.Y < 528)
 				{
-					n0171 = (n0036.Y - 368) / 32 + 1;
+					menuSelection = (n0036.Y - 368) / 32 + 1;
 				}
 				else
 				{
-					n0171 = 0;
+					menuSelection = 0;
 				}
 			}
 		}
 
 		private void n0140()
 		{
-			n0280 = 0;
-			n0281[0] = TextureLoader.FromStream(n0133, n0136.ReadEntry("OPT_BGSC"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
-			n0281[1] = TextureLoader.FromStream(n0133, n0136.ReadEntry("OPT_BGTC"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
-			n0281[2] = TextureLoader.FromStream(n0133, n0136.ReadEntry("OPT_BGJP"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
-			Texture[] array = n0282;
+			optionCursorFrame = 0;
+			optionsBackTextures[0] = TextureLoader.FromStream(device, systemArchive.ReadEntry("OPT_BGSC"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			optionsBackTextures[1] = TextureLoader.FromStream(device, systemArchive.ReadEntry("OPT_BGTC"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			optionsBackTextures[2] = TextureLoader.FromStream(device, systemArchive.ReadEntry("OPT_BGJP"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			Texture[] array = optionsLabelTextures;
 			int num = 0;
-			Microsoft.DirectX.Direct3D.Device device = n0133;
-			Stream stream = n0136.ReadEntry("OPTIONSC");
+			Microsoft.DirectX.Direct3D.Device deviceLocal = this.device;
+			Stream stream = systemArchive.ReadEntry("OPTIONSC");
 			int num2 = n0283.Width;
-			array[num] = TextureLoader.FromStream(device, stream, num2, n0283.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
-			Texture[] array2 = n0282;
+			array[num] = TextureLoader.FromStream(deviceLocal, stream, num2, n0283.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			Texture[] array2 = optionsLabelTextures;
 			int num3 = 1;
-			Microsoft.DirectX.Direct3D.Device device2 = n0133;
-			Stream stream2 = n0136.ReadEntry("OPTIONTC");
+			Microsoft.DirectX.Direct3D.Device device2 = device;
+			Stream stream2 = systemArchive.ReadEntry("OPTIONTC");
 			int num4 = n0283.Width;
 			array2[num3] = TextureLoader.FromStream(device2, stream2, num4, n0283.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
-			Texture[] array3 = n0282;
+			Texture[] array3 = optionsLabelTextures;
 			int num5 = 2;
-			Microsoft.DirectX.Direct3D.Device device3 = n0133;
-			Stream stream3 = n0136.ReadEntry("OPTIONJP");
+			Microsoft.DirectX.Direct3D.Device device3 = device;
+			Stream stream3 = systemArchive.ReadEntry("OPTIONJP");
 			int num6 = n0283.Width;
 			array3[num5] = TextureLoader.FromStream(device3, stream3, num6, n0283.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 		}
@@ -2193,143 +2193,143 @@ namespace n0001
 		{
 			for (int i = 0; i < 3; i++)
 			{
-				n0281[i].Dispose();
-				n0281[i] = null;
-				n0282[i].Dispose();
-				n0282[i] = null;
+				optionsBackTextures[i].Dispose();
+				optionsBackTextures[i] = null;
+				optionsLabelTextures[i].Dispose();
+				optionsLabelTextures[i] = null;
 			}
 		}
 
 		private void n0202()
 		{
 			GC.Collect();
-			n0167 = n0066;
-			n0066 = 3;
-			n0178 = 10;
-			n0286 = true;
-			n0071.Start();
+			returnMode = gameMode;
+			gameMode = 3;
+			optionsFadeCounter = 10;
+			optionsFadeIn = true;
+			optionsTimer.Start();
 		}
 
 		private void n0189()
 		{
-			n0178 = 10;
-			n0286 = false;
+			optionsFadeCounter = 10;
+			optionsFadeIn = false;
 		}
 
 		private void n0192(int n0277)
 		{
-			if (n0178 > 0)
+			if (optionsFadeCounter > 0)
 			{
 				return;
 			}
-			if (n0179 != 0)
+			if (optionSelection != 0)
 			{
-				if (n0179 >= 1 && n0179 <= 8)
+				if (optionSelection >= 1 && optionSelection <= 8)
 				{
 					switch (n0277)
 					{
 					case 0:
 					case 1:
-						n0179 += ((n0179 % 2 != 0) ? 1 : (-1));
+						optionSelection += ((optionSelection % 2 != 0) ? 1 : (-1));
 						break;
 					case 2:
-						n0179 -= 2;
-						if (n0179 <= 0)
+						optionSelection -= 2;
+						if (optionSelection <= 0)
 						{
-							n0179 += 23;
+							optionSelection += 23;
 						}
 						break;
 					case 3:
-						n0179 += 2;
+						optionSelection += 2;
 						break;
 					}
 				}
-				else if (n0179 >= 9 && n0179 <= 15)
+				else if (optionSelection >= 9 && optionSelection <= 15)
 				{
 					switch (n0277)
 					{
 					case 0:
-						n0179--;
-						if (n0179 == 8)
+						optionSelection--;
+						if (optionSelection == 8)
 						{
-							n0179 = 15;
+							optionSelection = 15;
 						}
 						break;
 					case 1:
-						n0179++;
-						if (n0179 == 16)
+						optionSelection++;
+						if (optionSelection == 16)
 						{
-							n0179 = 9;
+							optionSelection = 9;
 						}
 						break;
 					case 2:
-						if (n0179 == 9)
+						if (optionSelection == 9)
 						{
-							n0179 = 7;
+							optionSelection = 7;
 						}
 						else
 						{
-							n0179 = 8;
+							optionSelection = 8;
 						}
 						break;
 					case 3:
-						if (n0179 <= 14)
+						if (optionSelection <= 14)
 						{
-							n0179 += 7;
+							optionSelection += 7;
 						}
 						else
 						{
-							n0179 = 21;
-						}
-						break;
-					}
-				}
-				else if (n0179 >= 16 && n0179 <= 21)
-				{
-					switch (n0277)
-					{
-					case 0:
-						n0179--;
-						if (n0179 == 15)
-						{
-							n0179 = 21;
-						}
-						break;
-					case 1:
-						n0179++;
-						if (n0179 == 22)
-						{
-							n0179 = 16;
-						}
-						break;
-					case 2:
-						n0179 -= 7;
-						break;
-					case 3:
-						if (n0179 == 16)
-						{
-							n0179 = 22;
-						}
-						else
-						{
-							n0179 = 23;
+							optionSelection = 21;
 						}
 						break;
 					}
 				}
-				else if (n0179 >= 22 && n0179 <= 23)
+				else if (optionSelection >= 16 && optionSelection <= 21)
+				{
+					switch (n0277)
+					{
+					case 0:
+						optionSelection--;
+						if (optionSelection == 15)
+						{
+							optionSelection = 21;
+						}
+						break;
+					case 1:
+						optionSelection++;
+						if (optionSelection == 22)
+						{
+							optionSelection = 16;
+						}
+						break;
+					case 2:
+						optionSelection -= 7;
+						break;
+					case 3:
+						if (optionSelection == 16)
+						{
+							optionSelection = 22;
+						}
+						else
+						{
+							optionSelection = 23;
+						}
+						break;
+					}
+				}
+				else if (optionSelection >= 22 && optionSelection <= 23)
 				{
 					switch (n0277)
 					{
 					case 0:
 					case 1:
-						n0179 += ((n0179 % 2 != 1) ? 1 : (-1));
+						optionSelection += ((optionSelection % 2 != 1) ? 1 : (-1));
 						break;
 					case 2:
-						n0179 -= 6;
+						optionSelection -= 6;
 						break;
 					case 3:
-						n0179 -= 21;
+						optionSelection -= 21;
 						break;
 					}
 				}
@@ -2340,11 +2340,11 @@ namespace n0001
 				{
 				case 0:
 				case 2:
-					n0179 = 23;
+					optionSelection = 23;
 					break;
 				case 1:
 				case 3:
-					n0179 = 1;
+					optionSelection = 1;
 					break;
 				}
 			}
@@ -2355,49 +2355,49 @@ namespace n0001
 			switch (n0287)
 			{
 			case 0:
-				n0232 = true;
+				fadeEnabled = true;
 				break;
 			case 1:
-				n0232 = false;
+				fadeEnabled = false;
 				break;
 			case 2:
-				n0233 = true;
+				envEnabled = true;
 				break;
 			case 3:
-				n0233 = false;
+				envEnabled = false;
 				break;
 			case 4:
-				n0234 = true;
+				sunEnabled = true;
 				break;
 			case 5:
-				n0234 = false;
+				sunEnabled = false;
 				break;
 			case 6:
-				n0235 = true;
+				shockEnabled = true;
 				break;
 			case 7:
-				n0235 = false;
+				shockEnabled = false;
 				break;
 			case 8:
-				n0236 = Color.FromArgb(128, 255, 128);
+				textColor = Color.FromArgb(128, 255, 128);
 				break;
 			case 9:
-				n0236 = Color.FromArgb(128, 128, 255);
+				textColor = Color.FromArgb(128, 128, 255);
 				break;
 			case 10:
-				n0236 = Color.FromArgb(255, 128, 128);
+				textColor = Color.FromArgb(255, 128, 128);
 				break;
 			case 11:
-				n0236 = Color.FromArgb(255, 255, 128);
+				textColor = Color.FromArgb(255, 255, 128);
 				break;
 			case 12:
-				n0236 = Color.FromArgb(255, 128, 255);
+				textColor = Color.FromArgb(255, 128, 255);
 				break;
 			case 13:
-				n0236 = Color.FromArgb(128, 255, 255);
+				textColor = Color.FromArgb(128, 255, 255);
 				break;
 			case 14:
-				n0236 = Color.FromArgb(128, 128, 128);
+				textColor = Color.FromArgb(128, 128, 128);
 				break;
 			case 15:
 			case 16:
@@ -2405,13 +2405,13 @@ namespace n0001
 			case 18:
 			case 19:
 			case 20:
-				n0237 = n0287 - 14;
+				textSpeed = n0287 - 14;
 				break;
 			case 21:
-				n0238 = false;
+				voiceSynchro = false;
 				break;
 			case 22:
-				n0238 = true;
+				voiceSynchro = true;
 				break;
 			}
 		}
@@ -2422,9 +2422,9 @@ namespace n0001
 			switch (num)
 			{
 			case 0:
-				if (n0179 > 0)
+				if (optionSelection > 0)
 				{
-					n0180(n0179 - 1);
+					n0180(optionSelection - 1);
 				}
 				break;
 			case 1:
@@ -2435,123 +2435,123 @@ namespace n0001
 			{
 				n0192(num - 4);
 			}
-			n0133.Clear(ClearFlags.Target, Color.White, 1f, 0);
+			device.Clear(ClearFlags.Target, Color.White, 1f, 0);
 			n0216.Clear();
 			n0217.Clear();
 			n0218.Clear();
 			n0219.Clear();
 			n0220.Clear();
 			n0221 = null;
-			n0133.BeginScene();
-			n0144.Begin(SpriteFlags.AlphaBlend);
-			QueueDraw(n0281[(int)n0039], Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
+			device.BeginScene();
+			sprite.Begin(SpriteFlags.AlphaBlend);
+			QueueDraw(optionsBackTextures[(int)language], Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
 			for (int i = 0; i < 23; i++)
 			{
-				n0288[i] = false;
+				optionItemVisible[i] = false;
 			}
-			if (n0232)
+			if (fadeEnabled)
 			{
-				n0288[0] = true;
-			}
-			else
-			{
-				n0288[1] = true;
-			}
-			if (n0233)
-			{
-				n0288[2] = true;
+				optionItemVisible[0] = true;
 			}
 			else
 			{
-				n0288[3] = true;
+				optionItemVisible[1] = true;
 			}
-			if (n0234)
+			if (envEnabled)
 			{
-				n0288[4] = true;
-			}
-			else
-			{
-				n0288[5] = true;
-			}
-			if (n0235)
-			{
-				n0288[6] = true;
+				optionItemVisible[2] = true;
 			}
 			else
 			{
-				n0288[7] = true;
+				optionItemVisible[3] = true;
 			}
-			if (n0236 == Color.FromArgb(128, 255, 128))
+			if (sunEnabled)
 			{
-				n0288[8] = true;
-			}
-			else if (n0236 == Color.FromArgb(128, 128, 255))
-			{
-				n0288[9] = true;
-			}
-			else if (n0236 == Color.FromArgb(255, 128, 128))
-			{
-				n0288[10] = true;
-			}
-			else if (n0236 == Color.FromArgb(255, 255, 128))
-			{
-				n0288[11] = true;
-			}
-			else if (n0236 == Color.FromArgb(255, 128, 255))
-			{
-				n0288[12] = true;
-			}
-			else if (n0236 == Color.FromArgb(128, 255, 255))
-			{
-				n0288[13] = true;
-			}
-			else if (n0236 == Color.FromArgb(128, 128, 128))
-			{
-				n0288[14] = true;
-			}
-			n0288[n0237 + 14] = true;
-			if (!n0238)
-			{
-				n0288[21] = true;
+				optionItemVisible[4] = true;
 			}
 			else
 			{
-				n0288[22] = true;
+				optionItemVisible[5] = true;
+			}
+			if (shockEnabled)
+			{
+				optionItemVisible[6] = true;
+			}
+			else
+			{
+				optionItemVisible[7] = true;
+			}
+			if (textColor == Color.FromArgb(128, 255, 128))
+			{
+				optionItemVisible[8] = true;
+			}
+			else if (textColor == Color.FromArgb(128, 128, 255))
+			{
+				optionItemVisible[9] = true;
+			}
+			else if (textColor == Color.FromArgb(255, 128, 128))
+			{
+				optionItemVisible[10] = true;
+			}
+			else if (textColor == Color.FromArgb(255, 255, 128))
+			{
+				optionItemVisible[11] = true;
+			}
+			else if (textColor == Color.FromArgb(255, 128, 255))
+			{
+				optionItemVisible[12] = true;
+			}
+			else if (textColor == Color.FromArgb(128, 255, 255))
+			{
+				optionItemVisible[13] = true;
+			}
+			else if (textColor == Color.FromArgb(128, 128, 128))
+			{
+				optionItemVisible[14] = true;
+			}
+			optionItemVisible[textSpeed + 14] = true;
+			if (!voiceSynchro)
+			{
+				optionItemVisible[21] = true;
+			}
+			else
+			{
+				optionItemVisible[22] = true;
 			}
 			for (int j = 0; j < 23; j++)
 			{
-				if (n0288[j])
+				if (optionItemVisible[j])
 				{
 					Rectangle n880 = new Rectangle(n0289[j], n0290[j], n0291[j], n0292[j]);
-					QueueDraw(n0282[(int)n0039], n880, Rectangle.Empty, new Point(n0293[j], n0294[j]), Color.White);
+					QueueDraw(optionsLabelTextures[(int)language], n880, Rectangle.Empty, new Point(n0293[j], n0294[j]), Color.White);
 				}
 			}
-			if (n0179 > 0)
+			if (optionSelection > 0)
 			{
-				Rectangle n881 = new Rectangle(225 + 16 * n0295[n0280], 25, 16, 25);
-				QueueDraw(n0282[(int)n0039], n881, Rectangle.Empty, new Point(n0293[n0179 - 1] - 16, n0294[n0179 - 1]), Color.White);
-				n881 = new Rectangle(273 + 16 * n0295[n0280], 25, 16, 25);
-				QueueDraw(n0282[(int)n0039], n881, Rectangle.Empty, new Point(n0293[n0179 - 1] + n0291[n0179 - 1], n0294[n0179 - 1]), Color.White);
-				n0280++;
-				if (n0280 == 6)
+				Rectangle n881 = new Rectangle(225 + 16 * n0295[optionCursorFrame], 25, 16, 25);
+				QueueDraw(optionsLabelTextures[(int)language], n881, Rectangle.Empty, new Point(n0293[optionSelection - 1] - 16, n0294[optionSelection - 1]), Color.White);
+				n881 = new Rectangle(273 + 16 * n0295[optionCursorFrame], 25, 16, 25);
+				QueueDraw(optionsLabelTextures[(int)language], n881, Rectangle.Empty, new Point(n0293[optionSelection - 1] + n0291[optionSelection - 1], n0294[optionSelection - 1]), Color.White);
+				optionCursorFrame++;
+				if (optionCursorFrame == 6)
 				{
-					n0280 = 0;
+					optionCursorFrame = 0;
 				}
 			}
 			bool flag = false;
-			if (n0178 > 0)
+			if (optionsFadeCounter > 0)
 			{
-				int alpha = (int)((double)(n0286 ? n0178 : (10 - n0178)) / 10.0 * 255.0);
+				int alpha = (int)((double)(optionsFadeIn ? optionsFadeCounter : (10 - optionsFadeCounter)) / 10.0 * 255.0);
 				QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb(alpha, Color.White));
-				n0178--;
-				if (!n0286 && n0178 == 0)
+				optionsFadeCounter--;
+				if (!optionsFadeIn && optionsFadeCounter == 0)
 				{
-					n0071.Stop();
-					if (n0167 == 0)
+					optionsTimer.Stop();
+					if (returnMode == 0)
 					{
 						n0260();
 					}
-					else if (n0167 == 1)
+					else if (returnMode == 1)
 					{
 						n0216.Clear();
 						n0217.Clear();
@@ -2559,32 +2559,32 @@ namespace n0001
 						n0219.Clear();
 						n0220.Clear();
 						n0221 = null;
-						n0066 = 1;
-						n0156.n0249(n0232);
-						n0156.n0250(n0234);
-						n0156.n0251(n0233);
-						n0156.n0252(n0235);
-						n0156.SetDialogueColor(n0236);
-						n0156.SetTextSpeed(n0237);
-						n0156.n0254(n0238);
-						n0156.SetPaused(false, false);
-						n0069.Start();
+						gameMode = 1;
+						director.n0249(fadeEnabled);
+						director.n0250(sunEnabled);
+						director.n0251(envEnabled);
+						director.n0252(shockEnabled);
+						director.SetDialogueColor(textColor);
+						director.SetTextSpeed(textSpeed);
+						director.n0254(voiceSynchro);
+						director.SetPaused(false, false);
+						scenarioTimer.Start();
 						flag = true;
 					}
-					n0179 = 0;
+					optionSelection = 0;
 				}
 			}
-			n0144.End();
-			n0133.EndScene();
+			sprite.End();
+			device.EndScene();
 			try
 			{
-				n0133.Present();
+				device.Present();
 			}
 			catch (DeviceLostException)
 			{
 				try
 				{
-					n0133.TestCooperativeLevel();
+					device.TestCooperativeLevel();
 				}
 				catch (DeviceNotResetException)
 				{
@@ -2602,17 +2602,17 @@ namespace n0001
 
 		private void n0209(object n0035, MouseEventArgs n0036)
 		{
-			if (n0178 != 0)
+			if (optionsFadeCounter != 0)
 			{
 				return;
 			}
 			if (n0036.Button == MouseButtons.Left)
 			{
-				n0134 = Point.Empty;
+				lastCursorPosition = Point.Empty;
 				n0213(n0035, n0036);
-				if (n0179 > 0)
+				if (optionSelection > 0)
 				{
-					n0180(n0179 - 1);
+					n0180(optionSelection - 1);
 				}
 			}
 			else if (n0036.Button == MouseButtons.Right)
@@ -2623,83 +2623,83 @@ namespace n0001
 
 		private void n0213(object n0035, MouseEventArgs n0036)
 		{
-			if (Cursor.Position.Equals(n0134))
+			if (Cursor.Position.Equals(lastCursorPosition))
 			{
 				return;
 			}
-			n0134 = Cursor.Position;
-			if (n0178 == 0)
+			lastCursorPosition = Cursor.Position;
+			if (optionsFadeCounter == 0)
 			{
 				for (int i = 0; i < 23; i++)
 				{
 					if (n0036.X >= n0293[i] && n0036.X < n0293[i] + n0291[i] && n0036.Y >= n0294[i] && n0036.Y < n0294[i] + n0292[i])
 					{
-						n0179 = i + 1;
+						optionSelection = i + 1;
 						return;
 					}
 				}
 			}
-			n0179 = 0;
+			optionSelection = 0;
 		}
 
 		private void n0142()
 		{
-			n0297 = TextureLoader.FromStream(n0133, n0136.ReadEntry("SCUT_BG"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
-			n0298 = TextureLoader.FromStream(n0133, n0136.ReadEntry("SCUTMENU"), n0299.Width, n0299.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			episodeBackTexture = TextureLoader.FromStream(device, systemArchive.ReadEntry("SCUT_BG"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			episodeMenuTexture = TextureLoader.FromStream(device, systemArchive.ReadEntry("SCUTMENU"), n0299.Width, n0299.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 		}
 
 		private void n0258()
 		{
-			n0297.Dispose();
-			n0297 = null;
-			n0298.Dispose();
-			n0298 = null;
+			episodeBackTexture.Dispose();
+			episodeBackTexture = null;
+			episodeMenuTexture.Dispose();
+			episodeMenuTexture = null;
 		}
 
 		private void n0278()
 		{
-			n0066 = 2;
-			n0175 = 10;
-			n0300 = true;
-			n0094.Start();
+			gameMode = 2;
+			episodeFadeCounter = 10;
+			episodeFadeIn = true;
+			episodeTimer.Start();
 		}
 
 		private void n0177()
 		{
-			n0175 = 10;
-			n0300 = false;
+			episodeFadeCounter = 10;
+			episodeFadeIn = false;
 		}
 
 		private void n0195(int n0277)
 		{
-			if (n0175 > 0)
+			if (episodeFadeCounter > 0)
 			{
 				return;
 			}
 			switch (n0277)
 			{
 			case 0:
-				if (n0176 == 0)
+				if (episodeSelection == 0)
 				{
-					n0176 = 16;
+					episodeSelection = 16;
 					break;
 				}
-				n0176--;
-				if (n0176 == 0)
+				episodeSelection--;
+				if (episodeSelection == 0)
 				{
-					n0176 = 16;
+					episodeSelection = 16;
 				}
 				break;
 			case 1:
-				if (n0176 == 0)
+				if (episodeSelection == 0)
 				{
-					n0176 = 1;
+					episodeSelection = 1;
 					break;
 				}
-				n0176++;
-				if (n0176 == 17)
+				episodeSelection++;
+				if (episodeSelection == 17)
 				{
-					n0176 = 1;
+					episodeSelection = 1;
 				}
 				break;
 			}
@@ -2710,13 +2710,13 @@ namespace n0001
 			switch (PollJoystick())
 			{
 			case 0:
-				if (n0176 > 0 && n0158 >= n0176)
+				if (episodeSelection > 0 && unlockedEpisodeCount >= episodeSelection)
 				{
 					n0177();
 				}
 				break;
 			case 1:
-				n0176 = 0;
+				episodeSelection = 0;
 				n0177();
 				break;
 			case 6:
@@ -2727,7 +2727,7 @@ namespace n0001
 				break;
 			}
 			int num = 0;
-			n0133.Clear(ClearFlags.Target, Color.White, 1f, 0);
+			device.Clear(ClearFlags.Target, Color.White, 1f, 0);
 			n0216.Clear();
 			n0217.Clear();
 			n0218.Clear();
@@ -2735,49 +2735,49 @@ namespace n0001
 			arrayList.Clear();
 			n0220.Clear();
 			n0221 = null;
-			n0133.BeginScene();
-			n0144.Begin(SpriteFlags.AlphaBlend);
-			QueueDraw(n0297, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
-			for (int i = 0; i < n0158; i++)
+			device.BeginScene();
+			sprite.Begin(SpriteFlags.AlphaBlend);
+			QueueDraw(episodeBackTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
+			for (int i = 0; i < unlockedEpisodeCount; i++)
 			{
-				Rectangle n880 = new Rectangle((n0176 - 1 != i) ? 280 : 0, 28 * i, 280, 28);
-				QueueDraw(n0298, n880, Rectangle.Empty, new Point(n0301[(i >= 8) ? 1 : 0], 80 + 40 * (i % 8)), Color.White);
+				Rectangle n880 = new Rectangle((episodeSelection - 1 != i) ? 280 : 0, 28 * i, 280, 28);
+				QueueDraw(episodeMenuTexture, n880, Rectangle.Empty, new Point(n0301[(i >= 8) ? 1 : 0], 80 + 40 * (i % 8)), Color.White);
 			}
-			for (int j = n0158; j < 16; j++)
+			for (int j = unlockedEpisodeCount; j < 16; j++)
 			{
-				Rectangle n881 = new Rectangle((n0176 - 1 != j) ? 280 : 0, 448, 280, 28);
-				QueueDraw(n0298, n881, Rectangle.Empty, new Point(n0301[(j >= 8) ? 1 : 0], 80 + 40 * (j % 8)), Color.White);
+				Rectangle n881 = new Rectangle((episodeSelection - 1 != j) ? 280 : 0, 448, 280, 28);
+				QueueDraw(episodeMenuTexture, n881, Rectangle.Empty, new Point(n0301[(j >= 8) ? 1 : 0], 80 + 40 * (j % 8)), Color.White);
 			}
-			if (n0175 > 0)
+			if (episodeFadeCounter > 0)
 			{
-				int alpha = (int)((double)(n0300 ? n0175 : (10 - n0175)) / 10.0 * 255.0);
+				int alpha = (int)((double)(episodeFadeIn ? episodeFadeCounter : (10 - episodeFadeCounter)) / 10.0 * 255.0);
 				QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb(alpha, Color.White));
-				n0175--;
-				if (!n0300 && n0175 == 0)
+				episodeFadeCounter--;
+				if (!episodeFadeIn && episodeFadeCounter == 0)
 				{
-					n0094.Stop();
-					if (n0176 == 0)
+					episodeTimer.Stop();
+					if (episodeSelection == 0)
 					{
 						n0260();
 					}
 					else
 					{
-						num = n0176;
+						num = episodeSelection;
 					}
-					n0176 = 0;
+					episodeSelection = 0;
 				}
 			}
-			n0144.End();
-			n0133.EndScene();
+			sprite.End();
+			device.EndScene();
 			try
 			{
-				n0133.Present();
+				device.Present();
 			}
 			catch (DeviceLostException)
 			{
 				try
 				{
-					n0133.TestCooperativeLevel();
+					device.TestCooperativeLevel();
 				}
 				catch (DeviceNotResetException)
 				{
@@ -2795,43 +2795,43 @@ namespace n0001
 
 		private void n0208(object n0035, MouseEventArgs n0036)
 		{
-			if (n0175 != 0)
+			if (episodeFadeCounter != 0)
 			{
 				return;
 			}
 			if (n0036.Button == MouseButtons.Left)
 			{
-				n0134 = Point.Empty;
+				lastCursorPosition = Point.Empty;
 				n0212(n0035, n0036);
-				if (n0176 > 0 && n0158 >= n0176)
+				if (episodeSelection > 0 && unlockedEpisodeCount >= episodeSelection)
 				{
 					n0177();
 				}
 			}
 			else if (n0036.Button == MouseButtons.Right)
 			{
-				n0176 = 0;
+				episodeSelection = 0;
 				n0177();
 			}
 		}
 
 		private void n0212(object n0035, MouseEventArgs n0036)
 		{
-			if (Cursor.Position.Equals(n0134))
+			if (Cursor.Position.Equals(lastCursorPosition))
 			{
 				return;
 			}
-			n0134 = Cursor.Position;
-			if (n0175 != 0)
+			lastCursorPosition = Cursor.Position;
+			if (episodeFadeCounter != 0)
 			{
 				return;
 			}
-			n0176 = 0;
+			episodeSelection = 0;
 			for (int i = 0; i < 16; i++)
 			{
 				if (n0036.X > n0301[(i >= 8) ? 1 : 0] && n0036.X < n0301[(i >= 8) ? 1 : 0] + 280 && n0036.Y >= 80 + 40 * (i % 8) && n0036.Y < 80 + 40 * (i % 8) + 28)
 				{
-					n0176 = i + 1;
+					episodeSelection = i + 1;
 					break;
 				}
 			}
@@ -2839,35 +2839,35 @@ namespace n0001
 
 		private void n0143()
 		{
-			n0302 = TextureLoader.FromStream(n0133, n0136.ReadEntry("ALBUMBG"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
-			n0303 = TextureLoader.FromStream(n0133, n0136.ReadEntry("AL_PIC"), n0304.Width, n0304.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			albumBackTexture = TextureLoader.FromStream(device, systemArchive.ReadEntry("ALBUMBG"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			albumPictureTexture = TextureLoader.FromStream(device, systemArchive.ReadEntry("AL_PIC"), albumPictureSize.Width, albumPictureSize.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 		}
 
 		private void n0259()
 		{
-			n0302.Dispose();
-			n0302 = null;
-			n0303.Dispose();
-			n0303 = null;
+			albumBackTexture.Dispose();
+			albumBackTexture = null;
+			albumPictureTexture.Dispose();
+			albumPictureTexture = null;
 		}
 
 		private void n0279()
 		{
-			n0066 = 4;
-			n0181 = 10;
-			n0305 = true;
-			n0183 = 0;
-			n0185 = 0;
-			n0182 = 0;
-			n0306 = (n0307 = null);
-			n0222 = new Microsoft.DirectX.Direct3D.Font(n0133, new System.Drawing.Font(n0037, 24f));
-			n0095.Start();
+			gameMode = 4;
+			albumFadeCounter = 10;
+			albumFadeIn = true;
+			albumGroup = 0;
+			albumImageIndex = 0;
+			albumImageTransition = 0;
+			albumPrevTexture = (albumCurrentTexture = null);
+			d3dFont = new Microsoft.DirectX.Direct3D.Font(device, new System.Drawing.Font(fontName, 24f));
+			albumTimer.Start();
 		}
 
 		private void n0190()
 		{
-			n0181 = 10;
-			n0305 = false;
+			albumFadeCounter = 10;
+			albumFadeIn = false;
 		}
 
 		private void ShowAlbumImage(int n0308, int n0309)
@@ -2877,60 +2877,60 @@ namespace n0001
 				n0191();
 				return;
 			}
-			n0183 = n0308;
-			n0185 = n0309;
-			n0182 = 10;
-			if (n0306 != null)
+			albumGroup = n0308;
+			albumImageIndex = n0309;
+			albumImageTransition = 10;
+			if (albumPrevTexture != null)
 			{
-				n0306.Dispose();
+				albumPrevTexture.Dispose();
 			}
-			n0306 = n0307;
-			n0307 = TextureLoader.FromStream(n0133, n0153.ReadEntry("EV_HP0" + n0308 + (char)(n0309 + 65)), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			albumPrevTexture = albumCurrentTexture;
+			albumCurrentTexture = TextureLoader.FromStream(device, bgArchive.ReadEntry("EV_HP0" + n0308 + (char)(n0309 + 65)), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 		}
 
 		private void n0191()
 		{
-			n0183 = 0;
-			n0185 = 0;
-			n0182 = 10;
-			if (n0306 != null)
+			albumGroup = 0;
+			albumImageIndex = 0;
+			albumImageTransition = 10;
+			if (albumPrevTexture != null)
 			{
-				n0306.Dispose();
+				albumPrevTexture.Dispose();
 			}
-			n0306 = n0307;
-			n0307 = null;
+			albumPrevTexture = albumCurrentTexture;
+			albumCurrentTexture = null;
 		}
 
 		private void n0193(int n0277)
 		{
-			if (n0181 > 0 || n0182 > 0)
+			if (albumFadeCounter > 0 || albumImageTransition > 0)
 			{
 				return;
 			}
 			switch (n0277)
 			{
 			case 0:
-				if (n0186 == 0)
+				if (albumSelection == 0)
 				{
-					n0186 = 7;
+					albumSelection = 7;
 					break;
 				}
-				n0186--;
-				if (n0186 == 0)
+				albumSelection--;
+				if (albumSelection == 0)
 				{
-					n0186 = 7;
+					albumSelection = 7;
 				}
 				break;
 			case 1:
-				if (n0186 == 0)
+				if (albumSelection == 0)
 				{
-					n0186 = 1;
+					albumSelection = 1;
 					break;
 				}
-				n0186++;
-				if (n0186 == 8)
+				albumSelection++;
+				if (albumSelection == 8)
 				{
-					n0186 = 1;
+					albumSelection = 1;
 				}
 				break;
 			}
@@ -2941,20 +2941,20 @@ namespace n0001
 			switch (PollJoystick())
 			{
 			case 0:
-				if (n0183 == 0)
+				if (albumGroup == 0)
 				{
-					if (n0186 > 0 && n0160 >= n0186)
+					if (albumSelection > 0 && unlockedAlbumCount >= albumSelection)
 					{
-						ShowAlbumImage(n0186, 0);
+						ShowAlbumImage(albumSelection, 0);
 					}
 				}
 				else
 				{
-					ShowAlbumImage(n0183, n0185 + 1);
+					ShowAlbumImage(albumGroup, albumImageIndex + 1);
 				}
 				break;
 			case 1:
-				if (n0183 == 0)
+				if (albumGroup == 0)
 				{
 					n0190();
 				}
@@ -2964,45 +2964,45 @@ namespace n0001
 				}
 				break;
 			case 4:
-				if (n0183 == 0)
+				if (albumGroup == 0)
 				{
 					n0193(0);
 				}
 				break;
 			case 5:
-				if (n0183 == 0)
+				if (albumGroup == 0)
 				{
 					n0193(1);
 				}
 				break;
 			}
-			n0133.Clear(ClearFlags.Target, Color.White, 1f, 0);
+			device.Clear(ClearFlags.Target, Color.White, 1f, 0);
 			n0216.Clear();
 			n0217.Clear();
 			n0218.Clear();
 			n0219.Clear();
 			n0220.Clear();
 			n0221 = null;
-			n0133.BeginScene();
-			n0144.Begin(SpriteFlags.AlphaBlend);
-			if (n0183 == 0 || (n0185 == 0 && n0182 > 0))
+			device.BeginScene();
+			sprite.Begin(SpriteFlags.AlphaBlend);
+			if (albumGroup == 0 || (albumImageIndex == 0 && albumImageTransition > 0))
 			{
-				QueueDraw(n0302, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
-				for (int i = 0; i < n0160; i++)
+				QueueDraw(albumBackTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
+				for (int i = 0; i < unlockedAlbumCount; i++)
 				{
-					QueueDraw(n0303, new Rectangle(0, 90 * i, 120, 90), Rectangle.Empty, new Point(n0311[i], n0312[i]), (n0186 - 1 == i) ? Color.White : Color.FromArgb(n0313, Color.White));
+					QueueDraw(albumPictureTexture, new Rectangle(0, 90 * i, 120, 90), Rectangle.Empty, new Point(n0311[i], n0312[i]), (albumSelection - 1 == i) ? Color.White : Color.FromArgb(n0313, Color.White));
 				}
-				for (int j = n0160; j < 7; j++)
+				for (int j = unlockedAlbumCount; j < 7; j++)
 				{
-					QueueDraw(n0303, new Rectangle(0, 630, 120, 90), Rectangle.Empty, new Point(n0311[j], n0312[j]), (n0186 - 1 == j) ? Color.White : Color.FromArgb(n0313, Color.White));
+					QueueDraw(albumPictureTexture, new Rectangle(0, 630, 120, 90), Rectangle.Empty, new Point(n0311[j], n0312[j]), (albumSelection - 1 == j) ? Color.White : Color.FromArgb(n0313, Color.White));
 				}
-				if (n0186 > 0 && n0160 >= n0186)
+				if (albumSelection > 0 && unlockedAlbumCount >= albumSelection)
 				{
 					int num = 0;
-					while (num < n0314[n0186 - 1].Length)
+					while (num < n0314[albumSelection - 1].Length)
 					{
-						n0222.DrawText(n0144, n0314[n0186 - 1][num].ToString(), n0223.X + n0224.Width * num + 2, n0223.Y + 2, Color.Black);
-						n0222.DrawText(n0144, n0314[n0186 - 1][num].ToString(), n0223.X + n0224.Width * num, n0223.Y, Color.White);
+						d3dFont.DrawText(sprite, n0314[albumSelection - 1][num].ToString(), n0223.X + n0224.Width * num + 2, n0223.Y + 2, Color.Black);
+						d3dFont.DrawText(sprite, n0314[albumSelection - 1][num].ToString(), n0223.X + n0224.Width * num, n0223.Y, Color.White);
 						int num2 = num;
 						int num3 = 1;
 						num = num2 + num3;
@@ -3012,52 +3012,52 @@ namespace n0001
 					n0218.Add(null);
 					n0219.Add(null);
 					n0220.Add(null);
-					n0221 = n0314[n0186 - 1];
+					n0221 = n0314[albumSelection - 1];
 				}
 			}
-			else if (n0182 == 0)
+			else if (albumImageTransition == 0)
 			{
-				QueueDraw(n0307, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
+				QueueDraw(albumCurrentTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
 			}
 			else
 			{
-				QueueDraw(n0306, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
+				QueueDraw(albumPrevTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
 			}
-			if (n0181 > 0)
+			if (albumFadeCounter > 0)
 			{
-				int alpha = (int)((double)(n0305 ? n0181 : (10 - n0181)) / 10.0 * 255.0);
+				int alpha = (int)((double)(albumFadeIn ? albumFadeCounter : (10 - albumFadeCounter)) / 10.0 * 255.0);
 				QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb(alpha, Color.White));
-				n0181--;
-				if (!n0305 && n0181 == 0)
+				albumFadeCounter--;
+				if (!albumFadeIn && albumFadeCounter == 0)
 				{
-					n0095.Stop();
+					albumTimer.Stop();
 					n0260();
-					n0186 = 0;
+					albumSelection = 0;
 				}
 			}
-			else if (n0182 > 0)
+			else if (albumImageTransition > 0)
 			{
-				if (n0183 > 0)
+				if (albumGroup > 0)
 				{
-					QueueDraw(n0307, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)((double)(10 - n0182) / 10.0 * 255.0), Color.White));
+					QueueDraw(albumCurrentTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)((double)(10 - albumImageTransition) / 10.0 * 255.0), Color.White));
 				}
 				else
 				{
-					QueueDraw(n0306, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)((double)n0182 / 10.0 * 255.0), Color.White));
+					QueueDraw(albumPrevTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)((double)albumImageTransition / 10.0 * 255.0), Color.White));
 				}
-				n0182--;
+				albumImageTransition--;
 			}
-			n0144.End();
-			n0133.EndScene();
+			sprite.End();
+			device.EndScene();
 			try
 			{
-				n0133.Present();
+				device.Present();
 			}
 			catch (DeviceLostException)
 			{
 				try
 				{
-					n0133.TestCooperativeLevel();
+					device.TestCooperativeLevel();
 				}
 				catch (DeviceNotResetException)
 				{
@@ -3067,36 +3067,36 @@ namespace n0001
 				{
 				}
 			}
-			if (n0183 == 0 && n0182 == 0 && n0306 != null)
+			if (albumGroup == 0 && albumImageTransition == 0 && albumPrevTexture != null)
 			{
-				n0306.Dispose();
-				n0306 = null;
+				albumPrevTexture.Dispose();
+				albumPrevTexture = null;
 			}
 		}
 
 		private void n0210(object n0035, MouseEventArgs n0036)
 		{
-			if (n0181 != 0)
+			if (albumFadeCounter != 0)
 			{
 				return;
 			}
 			if (n0036.Button == MouseButtons.Left)
 			{
-				if (n0183 != 0)
+				if (albumGroup != 0)
 				{
-					ShowAlbumImage(n0183, n0185 + 1);
+					ShowAlbumImage(albumGroup, albumImageIndex + 1);
 					return;
 				}
-				n0134 = Point.Empty;
+				lastCursorPosition = Point.Empty;
 				n0214(n0035, n0036);
-				if (n0186 > 0 && n0160 >= n0186)
+				if (albumSelection > 0 && unlockedAlbumCount >= albumSelection)
 				{
-					ShowAlbumImage(n0186, 0);
+					ShowAlbumImage(albumSelection, 0);
 				}
 			}
 			else if (n0036.Button == MouseButtons.Right)
 			{
-				if (n0183 == 0)
+				if (albumGroup == 0)
 				{
 					n0190();
 				}
@@ -3109,21 +3109,21 @@ namespace n0001
 
 		private void n0214(object n0035, MouseEventArgs n0036)
 		{
-			if (Cursor.Position.Equals(n0134))
+			if (Cursor.Position.Equals(lastCursorPosition))
 			{
 				return;
 			}
-			n0134 = Cursor.Position;
-			if (n0181 != 0)
+			lastCursorPosition = Cursor.Position;
+			if (albumFadeCounter != 0)
 			{
 				return;
 			}
-			n0186 = 0;
+			albumSelection = 0;
 			for (int i = 0; i < 7; i++)
 			{
 				if (n0036.X > n0311[i] && n0036.X < n0311[i] + 120 && n0036.Y >= n0312[i] && n0036.Y < n0312[i] + 90)
 				{
-					n0186 = i + 1;
+					albumSelection = i + 1;
 					break;
 				}
 			}

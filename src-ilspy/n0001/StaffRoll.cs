@@ -12,33 +12,33 @@ namespace n0001
 
 		protected const int n0556 = 15;
 
-		private MediaPackage n0067;
+		private MediaPackage edPackage;
 
-		private ArchiveFile n0482;
+		private ArchiveFile charaArchive;
 
-		private ArchiveFile n0153;
+		private ArchiveFile bgArchive;
 
-		private XmlNode[] n0545;
+		private XmlNode[] xmlDocuments;
 
-		private XmlNode[] n0546 = new XmlNode[3];
+		private XmlNode[] staffNodes = new XmlNode[3];
 
-		private XmlNode[] n0547 = new XmlNode[3];
+		private XmlNode[] musicNodes = new XmlNode[3];
 
-		private Texture n0550;
+		private Texture characterTexture;
 
-		private ImageInformation n0555;
+		private ImageInformation imageInfo;
 
-		private Texture n0551;
+		private Texture backgroundTexture;
 
-		private Device n0006;
+		private Device graphicsDevice;
 
-		private Sprite n0144;
+		private Sprite spriteBatch;
 
-		private FrameCallback n0552;
+		private FrameCallback deviceResetHandler;
 
-		private Microsoft.DirectX.Direct3D.Font n0362;
+		private Microsoft.DirectX.Direct3D.Font textFont;
 
-		private ButtonLayout n0363;
+		private ButtonLayout layout;
 
 		protected Texture n0135;
 
@@ -58,13 +58,13 @@ namespace n0001
 
 		protected readonly Size n0544;
 
-		private int n0548;
+		private int staffLineCount;
 
-		private bool n0549;
+		private bool started;
 
-		private int n0553;
+		private int characterIndex;
 
-		private int n0554;
+		private int backgroundIndex;
 
 		public StaffRoll(string n0387, ArchiveFile n0390, ArchiveFile n0385, XmlNode[] n0348)
 		{
@@ -107,66 +107,66 @@ namespace n0001
 			n0542 = new Point(1200, 480);
 			n0543 = new Point(0, 560);
 			n0544 = new Size(30, 40);
-			n0067 = new MediaPackage("ED");
-			n0067.Open(n0387);
-			n0482 = n0390;
-			n0153 = n0385;
-			n0545 = n0348;
+			edPackage = new MediaPackage("ED");
+			edPackage.Open(n0387);
+			charaArchive = n0390;
+			bgArchive = n0385;
+			xmlDocuments = n0348;
 			for (int i = 0; i < 3; i++)
 			{
-				n0546[i] = n0545[i].SelectSingleNode("ed/staff");
-				n0547[i] = n0545[i].SelectSingleNode("ed/music");
+				staffNodes[i] = xmlDocuments[i].SelectSingleNode("ed/staff");
+				musicNodes[i] = xmlDocuments[i].SelectSingleNode("ed/music");
 			}
-			n0548 = n0546[0].ChildNodes.Count + 15;
-			n0549 = true;
-			n0550 = null;
-			n0551 = null;
-			n0550 = null;
+			staffLineCount = staffNodes[0].ChildNodes.Count + 15;
+			started = true;
+			characterTexture = null;
+			backgroundTexture = null;
+			characterTexture = null;
 		}
 
 		public void Initialize(Device n0349, Sprite n0350, FrameCallback n0225, Texture n0351, System.Drawing.Font n0353, ButtonLayout n0046)
 		{
-			n0006 = n0349;
-			n0144 = n0350;
-			n0552 = n0225;
+			graphicsDevice = n0349;
+			spriteBatch = n0350;
+			deviceResetHandler = n0225;
 			n0135 = n0351;
-			n0362 = new Microsoft.DirectX.Direct3D.Font(n0006, new System.Drawing.Font(n0353.FontFamily, 24f));
-			n0363 = n0046;
+			textFont = new Microsoft.DirectX.Direct3D.Font(graphicsDevice, new System.Drawing.Font(n0353.FontFamily, 24f));
+			layout = n0046;
 		}
 
 		public bool Update()
 		{
-			if (n0549)
+			if (started)
 			{
-				n0067.Play(false);
-				n0549 = false;
-				n0553 = -1;
-				n0554 = -1;
-				if (n0550 != null)
+				edPackage.Play(false);
+				started = false;
+				characterIndex = -1;
+				backgroundIndex = -1;
+				if (characterTexture != null)
 				{
-					n0550.Dispose();
+					characterTexture.Dispose();
 				}
-				if (n0551 != null)
+				if (backgroundTexture != null)
 				{
-					n0551.Dispose();
+					backgroundTexture.Dispose();
 				}
-				n0550 = null;
-				n0551 = null;
+				characterTexture = null;
+				backgroundTexture = null;
 			}
 			bool result = true;
-			n0006.Clear(ClearFlags.Target, Color.Black, 1f, 0);
-			n0006.BeginScene();
-			n0144.Begin(SpriteFlags.AlphaBlend);
-			double num = (double)n0067.n0269() / 1000.0;
+			graphicsDevice.Clear(ClearFlags.Target, Color.Black, 1f, 0);
+			graphicsDevice.BeginScene();
+			spriteBatch.Begin(SpriteFlags.AlphaBlend);
+			double num = (double)edPackage.n0269() / 1000.0;
 			if (num < 8.0)
 			{
-				if (n0551 != null)
+				if (backgroundTexture != null)
 				{
-					n0551.Dispose();
+					backgroundTexture.Dispose();
 				}
-				if (n0550 != null)
+				if (characterTexture != null)
 				{
-					n0550.Dispose();
+					characterTexture.Dispose();
 				}
 				int num2 = (int)num / 4;
 				double num3 = num - (double)(num2 * 4);
@@ -181,30 +181,30 @@ namespace n0001
 				}
 				if (num4 == 255)
 				{
-					n0362.DrawText(n0144, n0537[(int)n0363, num2], 400 - n0537[(int)n0363, num2].Length * 15, 280, Color.White);
+					textFont.DrawText(spriteBatch, n0537[(int)layout, num2], 400 - n0537[(int)layout, num2].Length * 15, 280, Color.White);
 				}
 				else
 				{
-					n0362.DrawText(n0144, n0537[(int)n0363, num2], 400 - n0537[(int)n0363, num2].Length * 15, 280, Color.FromArgb(num4, Color.White));
+					textFont.DrawText(spriteBatch, n0537[(int)layout, num2], 400 - n0537[(int)layout, num2].Length * 15, 280, Color.FromArgb(num4, Color.White));
 				}
 			}
 			else if (num < 38.0)
 			{
-				if (n0551 != null)
+				if (backgroundTexture != null)
 				{
-					n0551.Dispose();
+					backgroundTexture.Dispose();
 				}
 				int num5 = (int)(num - 8.0) / 5;
 				double num6 = num - 8.0 - (double)(num5 * 5);
-				if (n0553 != num5)
+				if (characterIndex != num5)
 				{
-					if (n0550 != null)
+					if (characterTexture != null)
 					{
-						n0550.Dispose();
+						characterTexture.Dispose();
 					}
-					n0555 = TextureLoader.ImageInformationFromStream(n0482.ReadEntry(n0538[num5]));
-					n0550 = TextureLoader.FromStream(n0006, n0482.ReadEntry(n0538[num5]), n0555.Width, n0555.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
-					n0553 = num5;
+					imageInfo = TextureLoader.ImageInformationFromStream(charaArchive.ReadEntry(n0538[num5]));
+					characterTexture = TextureLoader.FromStream(graphicsDevice, charaArchive.ReadEntry(n0538[num5]), imageInfo.Width, imageInfo.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+					characterIndex = num5;
 				}
 				if (num6 < 0.5)
 				{
@@ -222,15 +222,15 @@ namespace n0001
 				{
 					if (num7 == 255)
 					{
-						n0144.Draw2D(n0550, Rectangle.Empty, Rectangle.Empty, Point.Empty, 0f, new Point(250 - n0555.Width / 2, 600 - n0555.Height), Color.White);
-						n0362.DrawText(n0144, n0539[(int)n0363, num5, 0], 505 - (int)((double)n0539[(int)n0363, num5, 0].Length - 0.5) * 15, 260, Color.White);
-						n0362.DrawText(n0144, n0539[(int)n0363, num5, 1], 505 - (int)((double)n0539[(int)n0363, num5, 1].Length - 0.5) * 15, 300, Color.White);
+						spriteBatch.Draw2D(characterTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, 0f, new Point(250 - imageInfo.Width / 2, 600 - imageInfo.Height), Color.White);
+						textFont.DrawText(spriteBatch, n0539[(int)layout, num5, 0], 505 - (int)((double)n0539[(int)layout, num5, 0].Length - 0.5) * 15, 260, Color.White);
+						textFont.DrawText(spriteBatch, n0539[(int)layout, num5, 1], 505 - (int)((double)n0539[(int)layout, num5, 1].Length - 0.5) * 15, 300, Color.White);
 					}
 					else
 					{
-						n0144.Draw2D(n0550, Rectangle.Empty, Rectangle.Empty, Point.Empty, 0f, new Point(250 - n0555.Width / 2, 600 - n0555.Height), Color.FromArgb(num7, Color.White));
-						n0362.DrawText(n0144, n0539[(int)n0363, num5, 0], 505 - (int)((double)n0539[(int)n0363, num5, 0].Length - 0.5) * 15, 260, Color.FromArgb(num7, Color.White));
-						n0362.DrawText(n0144, n0539[(int)n0363, num5, 1], 505 - (int)((double)n0539[(int)n0363, num5, 1].Length - 0.5) * 15, 300, Color.FromArgb(num7, Color.White));
+						spriteBatch.Draw2D(characterTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, 0f, new Point(250 - imageInfo.Width / 2, 600 - imageInfo.Height), Color.FromArgb(num7, Color.White));
+						textFont.DrawText(spriteBatch, n0539[(int)layout, num5, 0], 505 - (int)((double)n0539[(int)layout, num5, 0].Length - 0.5) * 15, 260, Color.FromArgb(num7, Color.White));
+						textFont.DrawText(spriteBatch, n0539[(int)layout, num5, 1], 505 - (int)((double)n0539[(int)layout, num5, 1].Length - 0.5) * 15, 300, Color.FromArgb(num7, Color.White));
 					}
 				}
 			}
@@ -238,19 +238,19 @@ namespace n0001
 			{
 				int num8 = (int)(num - 38.0) / 19;
 				double num9 = num - 38.0 - (double)(num8 * 19);
-				if (n0554 != num8)
+				if (backgroundIndex != num8)
 				{
-					if (n0551 != null)
+					if (backgroundTexture != null)
 					{
-						n0551.Dispose();
+						backgroundTexture.Dispose();
 					}
-					n0555 = TextureLoader.ImageInformationFromStream(n0153.ReadEntry(n0540[num8]));
-					n0551 = TextureLoader.FromStream(n0006, n0153.ReadEntry(n0540[num8]), n0555.Width, n0555.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
-					n0554 = num8;
+					imageInfo = TextureLoader.ImageInformationFromStream(bgArchive.ReadEntry(n0540[num8]));
+					backgroundTexture = TextureLoader.FromStream(graphicsDevice, bgArchive.ReadEntry(n0540[num8]), imageInfo.Width, imageInfo.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+					backgroundIndex = num8;
 				}
-				if (n0550 != null)
+				if (characterTexture != null)
 				{
-					n0550.Dispose();
+					characterTexture.Dispose();
 				}
 				if (num9 < 0.5)
 				{
@@ -268,101 +268,101 @@ namespace n0001
 				{
 					if (num10 == 255)
 					{
-						n0144.Draw2D(n0551, Rectangle.Empty, n0541, Point.Empty, 0f, n0542, Color.White);
+						spriteBatch.Draw2D(backgroundTexture, Rectangle.Empty, n0541, Point.Empty, 0f, n0542, Color.White);
 					}
 					else
 					{
-						n0144.Draw2D(n0551, Rectangle.Empty, n0541, Point.Empty, 0f, n0542, Color.FromArgb(num10, Color.White));
+						spriteBatch.Draw2D(backgroundTexture, Rectangle.Empty, n0541, Point.Empty, 0f, n0542, Color.FromArgb(num10, Color.White));
 					}
-					n0144.Draw2D(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, 0f, Point.Empty, Color.Transparent);
+					spriteBatch.Draw2D(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, 0f, Point.Empty, Color.Transparent);
 				}
 				if (num < 163.0)
 				{
 					num9 = num - 38.0;
-					double num11 = num9 / 125.0 * (double)n0548;
+					double num11 = num9 / 125.0 * (double)staffLineCount;
 					double num12 = num11 - 15.0;
 					for (int i = (int)num12; i <= (int)num11; i++)
 					{
-						if (i >= 0 && i < n0548 - 15 && n0546[0].ChildNodes[i].HasChildNodes)
+						if (i >= 0 && i < staffLineCount - 15 && staffNodes[0].ChildNodes[i].HasChildNodes)
 						{
-							n0362.DrawText(n0144, n0546[(int)n0363].ChildNodes[i].FirstChild.Value, 92, (int)(((double)i - num12) * 40.0) + 2, Color.Black);
-							n0362.DrawText(n0144, n0546[(int)n0363].ChildNodes[i].FirstChild.Value, 90, (int)(((double)i - num12) * 40.0), Color.White);
+							textFont.DrawText(spriteBatch, staffNodes[(int)layout].ChildNodes[i].FirstChild.Value, 92, (int)(((double)i - num12) * 40.0) + 2, Color.Black);
+							textFont.DrawText(spriteBatch, staffNodes[(int)layout].ChildNodes[i].FirstChild.Value, 90, (int)(((double)i - num12) * 40.0), Color.White);
 						}
 					}
 				}
 			}
-			else if (num * 1000.0 < (double)n0067.n0270())
+			else if (num * 1000.0 < (double)edPackage.n0270())
 			{
-				if (n0550 != null)
+				if (characterTexture != null)
 				{
-					n0550.Dispose();
+					characterTexture.Dispose();
 				}
-				if (n0551 != null)
+				if (backgroundTexture != null)
 				{
-					n0551.Dispose();
+					backgroundTexture.Dispose();
 				}
 			}
 			else
 			{
-				if (n0550 != null)
+				if (characterTexture != null)
 				{
-					n0550.Dispose();
+					characterTexture.Dispose();
 				}
-				if (n0551 != null)
+				if (backgroundTexture != null)
 				{
-					n0551.Dispose();
+					backgroundTexture.Dispose();
 				}
-				n0067.n0162();
+				edPackage.n0162();
 				result = false;
 			}
-			n0144.Draw2D(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, 0f, n0543, Color.Black);
-			for (int j = 0; j < n0547[(int)n0363].ChildNodes.Count - 1; j++)
+			spriteBatch.Draw2D(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, 0f, n0543, Color.Black);
+			for (int j = 0; j < musicNodes[(int)layout].ChildNodes.Count - 1; j++)
 			{
-				double num13 = double.Parse(n0547[(int)n0363].ChildNodes[j].Attributes["start"].Value);
-				double num14 = double.Parse(n0547[(int)n0363].ChildNodes[j].Attributes["end"].Value);
-				double num15 = double.Parse(n0547[(int)n0363].ChildNodes[j + 1].Attributes["start"].Value);
+				double num13 = double.Parse(musicNodes[(int)layout].ChildNodes[j].Attributes["start"].Value);
+				double num14 = double.Parse(musicNodes[(int)layout].ChildNodes[j].Attributes["end"].Value);
+				double num15 = double.Parse(musicNodes[(int)layout].ChildNodes[j + 1].Attributes["start"].Value);
 				if (!(num > num13) || !(num < num15))
 				{
 					continue;
 				}
-				string value = n0547[(int)n0363].ChildNodes[j].FirstChild.Value;
+				string value = musicNodes[(int)layout].ChildNodes[j].FirstChild.Value;
 				for (int k = 0; k < value.Length; k++)
 				{
-					n0362.DrawText(n0144, value[k].ToString(), 400 - value.Length * 15 + k * 30 + 2, 562, Color.White);
+					textFont.DrawText(spriteBatch, value[k].ToString(), 400 - value.Length * 15 + k * 30 + 2, 562, Color.White);
 				}
 				if (num < num14)
 				{
 					double num16 = (num - num13) / (num14 - num13) * (double)value.Length;
 					for (int l = 0; l < (int)num16; l++)
 					{
-						n0362.DrawText(n0144, value[l].ToString(), 400 - value.Length * 15 + l * 30, 560, Color.Yellow);
+						textFont.DrawText(spriteBatch, value[l].ToString(), 400 - value.Length * 15 + l * 30, 560, Color.Yellow);
 					}
-					n0362.DrawText(n0144, value[(int)num16].ToString(), 400 - value.Length * 15 + (int)num16 * 30, 560, Color.FromArgb((int)((num16 - (double)(int)num16) * 255.0), Color.Yellow));
+					textFont.DrawText(spriteBatch, value[(int)num16].ToString(), 400 - value.Length * 15 + (int)num16 * 30, 560, Color.FromArgb((int)((num16 - (double)(int)num16) * 255.0), Color.Yellow));
 				}
 				else
 				{
 					for (int m = 0; m < value.Length; m++)
 					{
-						n0362.DrawText(n0144, value[m].ToString(), 400 - value.Length * 15 + m * 30, 560, Color.Yellow);
+						textFont.DrawText(spriteBatch, value[m].ToString(), 400 - value.Length * 15 + m * 30, 560, Color.Yellow);
 					}
 				}
 				break;
 			}
-			n0144.End();
-			n0006.EndScene();
+			spriteBatch.End();
+			graphicsDevice.EndScene();
 			try
 			{
-				n0006.Present();
+				graphicsDevice.Present();
 			}
 			catch (DeviceLostException)
 			{
 				try
 				{
-					n0006.TestCooperativeLevel();
+					graphicsDevice.TestCooperativeLevel();
 				}
 				catch (DeviceNotResetException)
 				{
-					n0552();
+					deviceResetHandler();
 				}
 				catch
 				{
@@ -373,14 +373,14 @@ namespace n0001
 
 		public void n0230()
 		{
-			n0067.n0162();
-			if (n0550 != null)
+			edPackage.n0162();
+			if (characterTexture != null)
 			{
-				n0550.Dispose();
+				characterTexture.Dispose();
 			}
-			if (n0551 != null)
+			if (backgroundTexture != null)
 			{
-				n0551.Dispose();
+				backgroundTexture.Dispose();
 			}
 		}
 
@@ -388,22 +388,22 @@ namespace n0001
 		{
 			if (n0241)
 			{
-				n0067.SetPaused();
+				edPackage.SetPaused();
 			}
 			else
 			{
-				n0067.n0165();
+				edPackage.n0165();
 			}
 		}
 
 		public void SetButtonLayout(ButtonLayout n0046)
 		{
-			n0363 = n0046;
+			layout = n0046;
 		}
 
 		public void Dispose()
 		{
-			n0067.n0162();
+			edPackage.n0162();
 			GC.SuppressFinalize(this);
 		}
 	}
