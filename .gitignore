@@ -12,3 +12,6 @@ obj/
 
 # 分析中间产物
 work/
+
+src-ilspy-build/bin/
+src-ilspy-build/obj/

@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Yukihota — Memories Off 2nd ～雪萤～ 逆向还原工程
+
+  构建方式（命令行，不需要任何 ps1/cmd 脚本）：
+      msbuild Yukihota.csproj
+      msbuild Yukihota.csproj /t:Rebuild
+      msbuild Yukihota.csproj /p:Configuration=Debug
+
+  为什么不用 Microsoft.CSharp.targets：
+      本程序集目标是 .NET Framework 1.1（元数据 v1.1.4322）。VS2005 之后的 MSBuild
+      只认 v2.0+ 目标框架、也不会去调用 1.1 的 csc。因此本工程用自定义 target 直接
+      驱动 %WINDIR%\Microsoft.NET\Framework\v1.1.4322\csc.exe，并用内联任务补上
+      csc 1.1 没有的 /platform:x86（置 CLI header 的 32BITREQUIRED）。
+      所有构建逻辑都在这个文件里。
+-->
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <ProjectGuid>{7A4E2C11-3E8F-42B6-9E4D-1F6B0C2D7A55}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Yukihota</RootNamespace>
+    <AssemblyName>Yukihota</AssemblyName>
+    <TargetFrameworkVersion>v1.1</TargetFrameworkVersion>
+    <PlatformTarget>x86</PlatformTarget>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <ApplicationIcon>Yukihota.ico</ApplicationIcon>
+    <StartupObject>n0001.n0063</StartupObject>
+    <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>obj\</IntermediateOutputPath>
+    <RspFile>$(IntermediateOutputPath)csc.rsp</RspFile>
+  </PropertyGroup>
+
+  <!-- .NET Framework 1.1 工具链（可用 /p:DotNet11Dir=... 覆盖） -->
+  <PropertyGroup>
+    <DotNet11Dir Condition=" '$(DotNet11Dir)' == '' ">$(WINDIR)\Microsoft.NET\Framework\v1.1.4322</DotNet11Dir>
+    <CscExe>$(DotNet11Dir)\csc.exe</CscExe>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>false</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+
+  <!-- 源文件 -->
+  <ItemGroup>
+    <Compile Include="**\*.cs" />
+    
+  </ItemGroup>
+
+  <!-- 引用：BCL 用 1.1 目录里的，DirectX 用仓库内 lib\ -->
+  <ItemGroup>
+    <BclReference Include="System" />
+    <BclReference Include="System.Windows.Forms" />
+    <BclReference Include="System.Drawing" />
+    <BclReference Include="System.Xml" />
+    <DirectXReference Include="lib\Microsoft.DirectX.dll" />
+    <DirectXReference Include="lib\Microsoft.DirectX.Direct3D.dll" />
+    <DirectXReference Include="lib\Microsoft.DirectX.Direct3DX.dll" />
+    <DirectXReference Include="lib\Microsoft.DirectX.DirectDraw.dll" />
+    <DirectXReference Include="lib\Microsoft.DirectX.DirectInput.dll" />
+  </ItemGroup>
+
+  <!-- 窗体资源：原始 .NET 1.1 格式 .resources（ResGen 4.x 的 v2 格式 1.1 运行时不认） -->
+  <ItemGroup>
+    <EmbeddedResource Include="resources\res1.bin">
+      <LogicalName>n0001.n0002.resources</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\res2.bin">
+      <LogicalName>n0001.n0063.resources</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <!-- 非编译项：设计器用 resx、图标、文档 -->
+  <ItemGroup>
+    <None Include="OptionsForm.resx" />
+    <None Include="GalGameForm.resx" />
+    <None Include="Yukihota.ico" />
+    <None Include="README.md" />
+    <None Include="NOTICE.md" />
+  </ItemGroup>
+
+  <!-- csc 1.1 没有 /platform，用它补 32BITREQUIRED（否则 64 位 CLR 会加载 32 位的 DirectX 包装而失败） -->
+  <UsingTask TaskName="Set32BitRequired" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
+    <ParameterGroup>
+      <AssemblyPath ParameterType="System.String" Required="true" />
+    </ParameterGroup>
+    <Task>
+      <Using Namespace="System" />
+      <Using Namespace="System.IO" />
+      <Code Type="Fragment" Language="cs">
+        <![CDATA[
+          byte[] bytes = File.ReadAllBytes(AssemblyPath);
+          int pe = BitConverter.ToInt32(bytes, 0x3C);
+          int numSections = BitConverter.ToUInt16(bytes, pe + 6);
+          int optSize = BitConverter.ToUInt16(bytes, pe + 20);
+          int opt = pe + 24;
+          int magic = BitConverter.ToUInt16(bytes, opt);
+          int dd = opt + (magic == 0x10b ? 96 : 112);
+          uint cliRva = BitConverter.ToUInt32(bytes, dd + 14 * 8);
+          int sec = opt + optSize;
+          int cliOff = -1;
+          for (int i = 0; i < numSections; i++) {
+            int s = sec + i * 40;
+            uint vsize = BitConverter.ToUInt32(bytes, s + 8);
+            uint vaddr = BitConverter.ToUInt32(bytes, s + 12);
+            uint rawsize = BitConverter.ToUInt32(bytes, s + 16);
+            uint rawptr = BitConverter.ToUInt32(bytes, s + 20);
+            uint span = Math.Max(vsize, rawsize);
+            if (cliRva >= vaddr && cliRva < vaddr + span) {
+              cliOff = (int)(rawptr + (cliRva - vaddr));
+              break;
+            }
+          }
+          if (cliOff < 0) {
+            Log.LogError("找不到 CLI header: " + AssemblyPath);
+          } else {
+            uint flags = BitConverter.ToUInt32(bytes, cliOff + 16);
+            if ((flags & 2) == 0) {
+              BitConverter.GetBytes(flags | 2).CopyTo(bytes, cliOff + 16);
+              File.WriteAllBytes(AssemblyPath, bytes);
+              Log.LogMessage(MessageImportance.High, "CLI flags 0x" + flags.ToString("X") + " -> 0x" + (flags | 2).ToString("X") + " (32BITREQUIRED)");
+            }
+          }
+        ]]>
+      </Code>
+    </Task>
+  </UsingTask>
+
+  <Target Name="Build" DependsOnTargets="CompileAssembly;Mark32BitRequired;CopyGameData" />
+
+  <Target Name="Rebuild" DependsOnTargets="Clean;Build" />
+
+  <Target Name="Clean">
+    <RemoveDir Directories="$(OutputPath)" />
+    <Delete Files="$(RspFile)" />
+  </Target>
+
+  <Target Name="PrepareBuild">
+    <Error Condition="!Exists('$(CscExe)')"
+           Text="找不到 .NET Framework 1.1 编译器：$(CscExe)。请安装 .NET Framework 1.1，或用 /p:DotNet11Dir=... 指定目录。" />
+    <MakeDir Directories="$(OutputPath);$(IntermediateOutputPath)" />
+  </Target>
+
+  <Target Name="CompileAssembly" DependsOnTargets="PrepareBuild">
+    <ItemGroup>
+      <BclFile Include="$(DotNet11Dir)\%(BclReference.Identity).dll" />
+      <DirectXFile Include="%(DirectXReference.FullPath)" />
+      <ResourceFile Include="@(EmbeddedResource)" />
+      <SourceFile Include="@(Compile)" />
+      <IconItem Include="$(ApplicationIcon)" />
+    </ItemGroup>
+    <ItemGroup>
+      <CscArg Include="/nologo" />
+      <CscArg Include="/target:winexe" />
+      <CscArg Include="/unsafe" />
+      <CscArg Include="/codepage:65001" />
+      <CscArg Include="/warn:4" />
+      <CscArg Include="/optimize+" Condition=" '$(Optimize)' == 'true' " />
+      <CscArg Include="/debug+" Condition=" '$(DebugSymbols)' == 'true' " />
+      <CscArg Include="/win32icon:%(IconItem.FullPath)" />
+      <CscArg Include="/out:$(MSBuildProjectDirectory)\$(OutputPath)$(AssemblyName).exe" />
+      <CscArg Include="/r:%(BclFile.FullPath)" />
+      <CscArg Include="/r:%(DirectXFile.FullPath)" />
+      <CscArg Include="/resource:%(ResourceFile.FullPath),%(ResourceFile.LogicalName)" />
+      <CscArg Include="&quot;%(SourceFile.FullPath)&quot;" />
+    </ItemGroup>
+    <WriteLinesToFile File="$(RspFile)" Lines="@(CscArg)" Overwrite="true" />
+    <Exec Command="&quot;$(CscExe)&quot; @&quot;$(MSBuildProjectDirectory)\$(RspFile)&quot;"
+          WorkingDirectory="$(MSBuildProjectDirectory)" />
+    <Message Importance="high" Text="BUILD OK -> $(OutputPath)$(AssemblyName).exe" />
+  </Target>
+
+  <Target Name="Mark32BitRequired" DependsOnTargets="CompileAssembly">
+    <Set32BitRequired AssemblyPath="$(MSBuildProjectDirectory)\$(OutputPath)$(AssemblyName).exe" />
+  </Target>
+
+  <!--
+    把 game-data 下的游戏资源复制到编译产物同目录。
+    game-data 只放数据（归档 / 动画 / 说明书 / 运行库），编译产物只出现在 bin\<Configuration>\。
+    save_sys.dat 也是复制过去的，所以游戏运行时回写的是 bin 里那份，不会污染仓库里的原始配置。
+  -->
+  <Target Name="CopyGameData" DependsOnTargets="CompileAssembly">
+    <ItemGroup>
+      <GameDataFile Include="..\game-data\**\*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(GameDataFile)"
+          DestinationFiles="@(GameDataFile->'$(MSBuildProjectDirectory)\$(OutputPath)%(RecursiveDir)%(Filename)%(Extension)')"
+          SkipUnchangedFiles="true" />
+    <Message Importance="high" Text="游戏数据已复制到 $(OutputPath)" />
+  </Target>
+
+</Project>
