@@ -4,7 +4,7 @@
 用来和 `main` 分支的 dnSpy 路线对照。
 
 ```
-main 分支        dnSpy（dnlib）反编译 → 手工语义化 1026 个成员 → 修 16 类问题
+dnspy 分支       dnSpy（dnlib）反编译 → 手工语义化 1026 个成员 → 修 16 类问题
 ilspy 分支       ILSpy -lv CSharp2 反编译 → 修 38 处方法组 → 能编译能运行
 ```
 
