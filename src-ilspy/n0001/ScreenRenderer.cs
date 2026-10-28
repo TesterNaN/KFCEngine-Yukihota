@@ -7,47 +7,47 @@ namespace Yukihota
 {
 	public class ScreenRenderer : IDisposable
 	{
-		protected const int n0779 = 16;
+		protected const int shakeFrameCount = 16;
 
-		protected const int n0780 = 4;
+		protected const int shakeStep = 4;
 
-		protected const int n0781 = 32;
+		protected const int indicatorCellWidth = 32;
 
-		protected const int n0782 = 32;
+		protected const int indicatorCellHeight = 32;
 
-		private const int n0783 = 3;
+		private const int fontCount = 3;
 
-		protected const int n0784 = 2;
+		protected const int shadowOffsetPixels = 2;
 
-		protected const int n0785 = 8;
+		protected const int characterFadeFrames = 8;
 
 		protected const int shockFrames = 16;
 
-		protected const int n0786 = 16;
+		protected const int backgroundFadeFrames = 16;
 
-		protected const int n0787 = 128;
+		protected const int halfAlpha = 128;
 
-		protected const int n0788 = 5;
+		protected const int sunSpriteCount = 5;
 
-		protected const int n0789 = 20;
+		protected const int sunSpawnDelayMin = 20;
 
-		protected const int n0790 = 80;
+		protected const int sunSpriteSize = 80;
 
 		protected const double n0791 = 0.5;
 
 		protected const double n0792 = 0.25;
 
-		protected const int n0793 = 450;
+		protected const int sunScaleMax = 450;
 
-		protected const int n0794 = 75;
+		protected const int sunOffsetRange = 75;
 
-		protected const int n0795 = 18;
+		protected const int sunCenterOffset = 18;
 
-		protected const int n0796 = 80;
+		protected const int petalTextureSize = 80;
 
-		protected const int n0797 = 30;
+		protected const int petalMaxCount = 30;
 
-		protected const int n0798 = 20;
+		protected const int petalMinCount = 20;
 
 		protected const float n0799 = 16f;
 
@@ -55,23 +55,23 @@ namespace Yukihota
 
 		protected const float n0801 = 0.1f;
 
-		protected const int n0802 = 40;
+		protected const int petalLifeMin = 40;
 
-		protected const int n0803 = 200;
+		protected const int petalLifeMax = 200;
 
 		protected const double n0804 = 0.2;
 
-		protected const int n0805 = 24;
+		protected const int petalFrameSizePixels = 24;
 
-		protected const int n0806 = 4;
+		protected const int petalFrameCount = 4;
 
-		protected const int n0807 = 4;
+		protected const int petalTypeCount = 4;
 
-		protected const int n0808 = 8;
+		protected const int petalStepCount = 8;
 
-		protected const int n0809 = 25;
+		protected const int snowflakeMaxCount = 25;
 
-		protected const int n0810 = 15;
+		protected const int snowflakeMinCount = 15;
 
 		protected const float n0811 = 6f;
 
@@ -89,73 +89,73 @@ namespace Yukihota
 
 		protected const double n0818 = 0.2;
 
-		protected const int n0819 = 16;
+		protected const int snowFrameSizePixels = 16;
 
-		protected const int n0820 = 4;
+		protected const int snowFrameCount = 4;
 
-		protected const int n0821 = 10;
+		protected const int dimFadeFrames = 10;
 
-		protected const int n0822 = 128;
+		protected const int dimAlpha = 128;
 
-		protected const int n0823 = 10;
+		protected const int thinkFadeFrames = 10;
 
-		protected const int n0824 = 8;
+		protected const int characterAppearFrames = 8;
 
-		protected const int n0825 = 6;
+		protected const int characterAppearDivisor = 6;
 
-		protected const int n0826 = 3;
+		protected const int dialogueExpandFrames = 3;
 
-		protected const int n0827 = 15;
+		protected const int dialogueTextWidth = 15;
 
-		protected const int n0828 = 3;
+		protected const int dialogueShrinkFrames = 3;
 
-		protected const int n0829 = 10;
+		protected const int messageFadeFrames = 10;
 
-		protected const int n0830 = 50;
+		protected const int messageHoldFrames = 50;
 
 		protected const int n0831 = 15;
 
-		protected const int n0832 = 2;
+		protected const int textShadowDistance = 2;
 
-		protected const int n0833 = 24;
+		protected const int fontSizePixels = 24;
 
-		protected const int n0834 = 6;
+		protected const int messageSpeedDivisor = 6;
 
-		protected const int n0835 = 4;
+		protected const int textFadeLength = 4;
 
-		protected const int n0836 = 10;
+		protected const int captionFadeFrames = 10;
 
-		protected const int n0837 = 10;
+		protected const int captionLineWidth = 10;
 
-		protected const int n0838 = 2;
+		protected const int captionShadowDistance = 2;
 
-		protected const int n0839 = 24;
+		protected const int captionFontHeight = 24;
 
-		protected const int n0840 = 25;
+		protected const int messageMaxLineWidth = 25;
 
-		protected const int n0841 = 13;
+		protected const int messageOptionIndent = 13;
 
-		protected const int n0842 = 3;
+		protected const int messageWrapFrames = 3;
 
-		protected const int n0843 = 6;
+		protected const int messageRevealStep = 6;
 
-		protected const int n0844 = 4;
+		protected const int messageRevealChunk = 4;
 
-		protected const int n0845 = 2;
+		protected const int messageFadeStep = 2;
 
-		protected const int n0846 = 24;
+		protected const int dialogueFramePadding = 24;
 
-		protected const int n0847 = 25;
+		protected const int dialogueLineWidth = 25;
 
-		protected const int n0848 = 3;
+		protected const int dialogueFadeStep = 3;
 
-		protected const int n0849 = 5;
+		protected const int optionLineCount = 5;
 
-		protected const int n0850 = 9;
+		protected const int modeIconFrameCount = 9;
 
-		protected const int n0851 = 3;
+		protected const int modeIconColumns = 3;
 
-		protected const int n0852 = 32;
+		protected const int modeIconCellSize = 32;
 
 		protected ArchiveFile systemArchive;
 

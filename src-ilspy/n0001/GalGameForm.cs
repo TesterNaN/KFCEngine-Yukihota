@@ -16,71 +16,71 @@ namespace Yukihota
 {
 	public class GalGameForm : Form
 	{
-		private const int n0315 = 24;
+		private const int fontSize = 24;
 
-		protected const int n0316 = 274;
+		protected const int wmSysCommand = 274;
 
-		protected const int n0317 = 61760;
+		protected const int scScreenSave = 61760;
 
-		protected const int n0318 = 61808;
+		protected const int scMonitorPower = 61808;
 
-		protected const int n0319 = 10;
+		protected const int menuFadeFrames = 10;
 
-		protected const int n0320 = 180;
+		protected const int menuItemWidth = 180;
 
-		protected const int n0321 = 32;
+		protected const int menuItemHeight = 32;
 
-		protected const int n0322 = 310;
+		protected const int menuOriginX = 310;
 
-		protected const int n0323 = 368;
+		protected const int menuOriginY = 368;
 
-		protected const int n0324 = 5;
+		protected const int menuItemCount = 5;
 
-		protected const int n0325 = 10;
+		protected const int optionsFadeFrames = 10;
 
-		protected const int n0326 = 23;
+		protected const int optionItemCount = 23;
 
-		protected const int n0327 = 225;
+		protected const int optionCursorSourceX1 = 225;
 
-		protected const int n0328 = 25;
+		protected const int optionCursorSourceY1 = 25;
 
-		protected const int n0329 = 273;
+		protected const int optionCursorSourceX2 = 273;
 
-		protected const int n0330 = 25;
+		protected const int optionCursorSourceY2 = 25;
 
-		protected const int n0331 = 16;
+		protected const int optionCursorWidth = 16;
 
-		protected const int n0332 = 25;
+		protected const int optionCursorHeight = 25;
 
-		protected const int n0333 = 3;
+		protected const int languageTextureCount = 3;
 
-		protected const int n0334 = 6;
+		protected const int optionCursorFrameCount = 6;
 
-		protected const int n0335 = 10;
+		protected const int episodeFadeFrames = 10;
 
-		protected const int n0336 = 280;
+		protected const int episodeItemWidth = 280;
 
-		protected const int n0337 = 28;
+		protected const int episodeItemHeight = 28;
 
-		protected const int n0338 = 80;
+		protected const int episodeOriginY = 80;
 
-		protected const int n0339 = 40;
+		protected const int episodeRowHeight = 40;
 
-		protected const int n0340 = 16;
+		protected const int episodeSlotCount = 16;
 
-		protected const int n0341 = 8;
+		protected const int episodesPerColumn = 8;
 
-		protected const int n0342 = 10;
+		protected const int albumFadeFrames = 10;
 
-		protected const int n0343 = 120;
+		protected const int albumThumbWidth = 120;
 
-		protected const int n0344 = 90;
+		protected const int albumThumbHeight = 90;
 
-		protected const int n0345 = 7;
+		protected const int albumSlotCount = 7;
 
-		protected const int n0346 = 2;
+		protected const int episodeColumnCount = 2;
 
-		protected const int n0347 = 24;
+		protected const int albumSlotWidth = 24;
 
 		private Microsoft.DirectX.DirectInput.Device joystick;
 
