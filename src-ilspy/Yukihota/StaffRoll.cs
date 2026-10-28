@@ -157,8 +157,8 @@ namespace Yukihota
 			graphicsDevice.Clear(ClearFlags.Target, Color.Black, 1f, 0);
 			graphicsDevice.BeginScene();
 			spriteBatch.Begin(SpriteFlags.AlphaBlend);
-			double num = (double)edPackage.GetPosition() / 1000.0;
-			if (num < 8.0)
+			double elapsed = (double)edPackage.GetPosition() / 1000.0;
+			if (elapsed < 8.0)
 			{
 				if (backgroundTexture != null)
 				{
@@ -168,130 +168,130 @@ namespace Yukihota
 				{
 					characterTexture.Dispose();
 				}
-				int num2 = (int)num / 4;
-				double num3 = num - (double)(num2 * 4);
-				int num4;
-				if (num3 < 1.0)
+				int titleRow = (int)elapsed / 4;
+				double titlePhase = elapsed - (double)(titleRow * 4);
+				int titleAlpha;
+				if (titlePhase < 1.0)
 				{
-					num4 = (int)(num3 * 255.0);
+					titleAlpha = (int)(titlePhase * 255.0);
 				}
 				else
 				{
-					num4 = ((!(num3 < 3.0)) ? ((int)((4.0 - num3) * 255.0)) : 255);
+					titleAlpha = ((!(titlePhase < 3.0)) ? ((int)((4.0 - titlePhase) * 255.0)) : 255);
 				}
-				if (num4 == 255)
+				if (titleAlpha == 255)
 				{
-					textFont.DrawText(spriteBatch, titleLines[(int)layout, num2], 400 - titleLines[(int)layout, num2].Length * 15, 280, Color.White);
+					textFont.DrawText(spriteBatch, titleLines[(int)layout, titleRow], 400 - titleLines[(int)layout, titleRow].Length * 15, 280, Color.White);
 				}
 				else
 				{
-					textFont.DrawText(spriteBatch, titleLines[(int)layout, num2], 400 - titleLines[(int)layout, num2].Length * 15, 280, Color.FromArgb(num4, Color.White));
+					textFont.DrawText(spriteBatch, titleLines[(int)layout, titleRow], 400 - titleLines[(int)layout, titleRow].Length * 15, 280, Color.FromArgb(titleAlpha, Color.White));
 				}
 			}
-			else if (num < 38.0)
+			else if (elapsed < 38.0)
 			{
 				if (backgroundTexture != null)
 				{
 					backgroundTexture.Dispose();
 				}
-				int num5 = (int)(num - 8.0) / 5;
-				double num6 = num - 8.0 - (double)(num5 * 5);
-				if (characterIndex != num5)
+				int castIndex = (int)(elapsed - 8.0) / 5;
+				double castPhase = elapsed - 8.0 - (double)(castIndex * 5);
+				if (characterIndex != castIndex)
 				{
 					if (characterTexture != null)
 					{
 						characterTexture.Dispose();
 					}
-					imageInfo = TextureLoader.ImageInformationFromStream(charaArchive.ReadEntry(characterTextureNames[num5]));
-					characterTexture = TextureLoader.FromStream(graphicsDevice, charaArchive.ReadEntry(characterTextureNames[num5]), imageInfo.Width, imageInfo.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
-					characterIndex = num5;
+					imageInfo = TextureLoader.ImageInformationFromStream(charaArchive.ReadEntry(characterTextureNames[castIndex]));
+					characterTexture = TextureLoader.FromStream(graphicsDevice, charaArchive.ReadEntry(characterTextureNames[castIndex]), imageInfo.Width, imageInfo.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+					characterIndex = castIndex;
 				}
-				if (num6 < 0.5)
+				if (castPhase < 0.5)
 				{
 				}
-				int num7;
-				if (num6 < 1.5)
+				int castAlpha;
+				if (castPhase < 1.5)
 				{
-					num7 = (int)((num6 - 0.5) * 255.0);
+					castAlpha = (int)((castPhase - 0.5) * 255.0);
 				}
 				else
 				{
-					num7 = ((num6 < 3.5) ? 255 : ((num6 < 4.5) ? ((int)((4.5 - num6) * 255.0)) : 0));
+					castAlpha = ((castPhase < 3.5) ? 255 : ((castPhase < 4.5) ? ((int)((4.5 - castPhase) * 255.0)) : 0));
 				}
-				if (num7 > 0)
+				if (castAlpha > 0)
 				{
-					if (num7 == 255)
+					if (castAlpha == 255)
 					{
 						spriteBatch.Draw2D(characterTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, 0f, new Point(250 - imageInfo.Width / 2, 600 - imageInfo.Height), Color.White);
-						textFont.DrawText(spriteBatch, castNames[(int)layout, num5, 0], 505 - (int)((double)castNames[(int)layout, num5, 0].Length - 0.5) * 15, 260, Color.White);
-						textFont.DrawText(spriteBatch, castNames[(int)layout, num5, 1], 505 - (int)((double)castNames[(int)layout, num5, 1].Length - 0.5) * 15, 300, Color.White);
+						textFont.DrawText(spriteBatch, castNames[(int)layout, castIndex, 0], 505 - (int)((double)castNames[(int)layout, castIndex, 0].Length - 0.5) * 15, 260, Color.White);
+						textFont.DrawText(spriteBatch, castNames[(int)layout, castIndex, 1], 505 - (int)((double)castNames[(int)layout, castIndex, 1].Length - 0.5) * 15, 300, Color.White);
 					}
 					else
 					{
-						spriteBatch.Draw2D(characterTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, 0f, new Point(250 - imageInfo.Width / 2, 600 - imageInfo.Height), Color.FromArgb(num7, Color.White));
-						textFont.DrawText(spriteBatch, castNames[(int)layout, num5, 0], 505 - (int)((double)castNames[(int)layout, num5, 0].Length - 0.5) * 15, 260, Color.FromArgb(num7, Color.White));
-						textFont.DrawText(spriteBatch, castNames[(int)layout, num5, 1], 505 - (int)((double)castNames[(int)layout, num5, 1].Length - 0.5) * 15, 300, Color.FromArgb(num7, Color.White));
+						spriteBatch.Draw2D(characterTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, 0f, new Point(250 - imageInfo.Width / 2, 600 - imageInfo.Height), Color.FromArgb(castAlpha, Color.White));
+						textFont.DrawText(spriteBatch, castNames[(int)layout, castIndex, 0], 505 - (int)((double)castNames[(int)layout, castIndex, 0].Length - 0.5) * 15, 260, Color.FromArgb(castAlpha, Color.White));
+						textFont.DrawText(spriteBatch, castNames[(int)layout, castIndex, 1], 505 - (int)((double)castNames[(int)layout, castIndex, 1].Length - 0.5) * 15, 300, Color.FromArgb(castAlpha, Color.White));
 					}
 				}
 			}
-			else if (num < 171.0)
+			else if (elapsed < 171.0)
 			{
-				int num8 = (int)(num - 38.0) / 19;
-				double num9 = num - 38.0 - (double)(num8 * 19);
-				if (backgroundIndex != num8)
+				int bgIndex = (int)(elapsed - 38.0) / 19;
+				double segmentTime = elapsed - 38.0 - (double)(bgIndex * 19);
+				if (backgroundIndex != bgIndex)
 				{
 					if (backgroundTexture != null)
 					{
 						backgroundTexture.Dispose();
 					}
-					imageInfo = TextureLoader.ImageInformationFromStream(bgArchive.ReadEntry(backgroundTextureNames[num8]));
-					backgroundTexture = TextureLoader.FromStream(graphicsDevice, bgArchive.ReadEntry(backgroundTextureNames[num8]), imageInfo.Width, imageInfo.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
-					backgroundIndex = num8;
+					imageInfo = TextureLoader.ImageInformationFromStream(bgArchive.ReadEntry(backgroundTextureNames[bgIndex]));
+					backgroundTexture = TextureLoader.FromStream(graphicsDevice, bgArchive.ReadEntry(backgroundTextureNames[bgIndex]), imageInfo.Width, imageInfo.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+					backgroundIndex = bgIndex;
 				}
 				if (characterTexture != null)
 				{
 					characterTexture.Dispose();
 				}
-				if (num9 < 0.5)
+				if (segmentTime < 0.5)
 				{
 				}
-				int num10;
-				if (num9 < 2.5)
+				int bgAlpha;
+				if (segmentTime < 2.5)
 				{
-					num10 = (int)((num9 - 0.5) / 2.0 * 255.0);
+					bgAlpha = (int)((segmentTime - 0.5) / 2.0 * 255.0);
 				}
 				else
 				{
-					num10 = ((num9 < 16.5) ? 255 : ((num9 < 18.5) ? ((int)((18.5 - num9) / 2.0 * 255.0)) : 0));
+					bgAlpha = ((segmentTime < 16.5) ? 255 : ((segmentTime < 18.5) ? ((int)((18.5 - segmentTime) / 2.0 * 255.0)) : 0));
 				}
-				if (num10 > 0)
+				if (bgAlpha > 0)
 				{
-					if (num10 == 255)
+					if (bgAlpha == 255)
 					{
 						spriteBatch.Draw2D(backgroundTexture, Rectangle.Empty, backgroundSourceRect, Point.Empty, 0f, backgroundPosition, Color.White);
 					}
 					else
 					{
-						spriteBatch.Draw2D(backgroundTexture, Rectangle.Empty, backgroundSourceRect, Point.Empty, 0f, backgroundPosition, Color.FromArgb(num10, Color.White));
+						spriteBatch.Draw2D(backgroundTexture, Rectangle.Empty, backgroundSourceRect, Point.Empty, 0f, backgroundPosition, Color.FromArgb(bgAlpha, Color.White));
 					}
 					spriteBatch.Draw2D(overlayTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, 0f, Point.Empty, Color.Transparent);
 				}
-				if (num < 163.0)
+				if (elapsed < 163.0)
 				{
-					num9 = num - 38.0;
-					double num11 = num9 / 125.0 * (double)staffLineCount;
-					double num12 = num11 - 15.0;
-					for (int i = (int)num12; i <= (int)num11; i++)
+					segmentTime = elapsed - 38.0;
+					double staffPosition = segmentTime / 125.0 * (double)staffLineCount;
+					double staffStartLine = staffPosition - 15.0;
+					for (int i = (int)staffStartLine; i <= (int)staffPosition; i++)
 					{
 						if (i >= 0 && i < staffLineCount - 15 && staffNodes[0].ChildNodes[i].HasChildNodes)
 						{
-							textFont.DrawText(spriteBatch, staffNodes[(int)layout].ChildNodes[i].FirstChild.Value, 92, (int)(((double)i - num12) * 40.0) + 2, Color.Black);
-							textFont.DrawText(spriteBatch, staffNodes[(int)layout].ChildNodes[i].FirstChild.Value, 90, (int)(((double)i - num12) * 40.0), Color.White);
+							textFont.DrawText(spriteBatch, staffNodes[(int)layout].ChildNodes[i].FirstChild.Value, 92, (int)(((double)i - staffStartLine) * 40.0) + 2, Color.Black);
+							textFont.DrawText(spriteBatch, staffNodes[(int)layout].ChildNodes[i].FirstChild.Value, 90, (int)(((double)i - staffStartLine) * 40.0), Color.White);
 						}
 					}
 				}
 			}
-			else if (num * 1000.0 < (double)edPackage.GetLength())
+			else if (elapsed * 1000.0 < (double)edPackage.GetLength())
 			{
 				if (characterTexture != null)
 				{
@@ -318,10 +318,10 @@ namespace Yukihota
 			spriteBatch.Draw2D(overlayTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, 0f, barPosition, Color.Black);
 			for (int j = 0; j < musicNodes[(int)layout].ChildNodes.Count - 1; j++)
 			{
-				double num13 = double.Parse(musicNodes[(int)layout].ChildNodes[j].Attributes["start"].Value);
-				double num14 = double.Parse(musicNodes[(int)layout].ChildNodes[j].Attributes["end"].Value);
-				double num15 = double.Parse(musicNodes[(int)layout].ChildNodes[j + 1].Attributes["start"].Value);
-				if (!(num > num13) || !(num < num15))
+				double musicStart = double.Parse(musicNodes[(int)layout].ChildNodes[j].Attributes["start"].Value);
+				double musicEnd = double.Parse(musicNodes[(int)layout].ChildNodes[j].Attributes["end"].Value);
+				double nextMusicStart = double.Parse(musicNodes[(int)layout].ChildNodes[j + 1].Attributes["start"].Value);
+				if (!(elapsed > musicStart) || !(elapsed < nextMusicStart))
 				{
 					continue;
 				}
@@ -330,14 +330,14 @@ namespace Yukihota
 				{
 					textFont.DrawText(spriteBatch, value[k].ToString(), 400 - value.Length * 15 + k * 30 + 2, 562, Color.White);
 				}
-				if (num < num14)
+				if (elapsed < musicEnd)
 				{
-					double num16 = (num - num13) / (num14 - num13) * (double)value.Length;
-					for (int l = 0; l < (int)num16; l++)
+					double lyricProgress = (elapsed - musicStart) / (musicEnd - musicStart) * (double)value.Length;
+					for (int l = 0; l < (int)lyricProgress; l++)
 					{
 						textFont.DrawText(spriteBatch, value[l].ToString(), 400 - value.Length * 15 + l * 30, 560, Color.Yellow);
 					}
-					textFont.DrawText(spriteBatch, value[(int)num16].ToString(), 400 - value.Length * 15 + (int)num16 * 30, 560, Color.FromArgb((int)((num16 - (double)(int)num16) * 255.0), Color.Yellow));
+					textFont.DrawText(spriteBatch, value[(int)lyricProgress].ToString(), 400 - value.Length * 15 + (int)lyricProgress * 30, 560, Color.FromArgb((int)((lyricProgress - (double)(int)lyricProgress) * 255.0), Color.Yellow));
 				}
 				else
 				{
