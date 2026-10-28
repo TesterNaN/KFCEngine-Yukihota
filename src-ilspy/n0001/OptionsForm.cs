@@ -12,266 +12,266 @@ namespace Yukihota
 	{
 		private struct InputDeviceInfo
 		{
-			private DeviceInstance n0061;
+			private DeviceInstance deviceInstance;
 
-			public InputDeviceInfo(DeviceInstance n0060)
+			public InputDeviceInfo(DeviceInstance instance)
 			{
-				n0061 = n0060;
+				deviceInstance = instance;
 			}
 
 			public Guid GetInstanceGuid()
 			{
-				return n0061.InstanceGuid;
+				return deviceInstance.InstanceGuid;
 			}
 
 			public override string ToString()
 			{
-				return n0061.ProductName;
+				return deviceInstance.ProductName;
 			}
 		}
 
-		private Font n0037;
+		private Font font;
 
-		private Device n0006;
+		private Device device;
 
-		private bool shakeEffect;
+		private bool forceFeedback;
 
-		private bool n0038;
+		private bool fullscreen;
 
-		private ButtonLayout n0039;
+		private ButtonLayout buttonLayout;
 
-		private bool n0045;
+		private bool showOptions;
 
-		private Container n0011 = null;
+		private Container components = null;
 
-		private System.Windows.Forms.Button n0012;
+		private System.Windows.Forms.Button btnOk;
 
-		private System.Windows.Forms.Button n0013;
+		private System.Windows.Forms.Button btnCancel;
 
-		private PictureBox n0014;
+		private PictureBox picLogo;
 
-		private Label n0015;
+		private Label lblGamepad;
 
-		private ComboBox n0004;
+		private ComboBox cmbDevice;
 
-		private System.Windows.Forms.Button n0016;
+		private System.Windows.Forms.Button btnFont;
 
-		private FontDialog n0017;
+		private FontDialog fontDialog;
 
-		private GroupBox n0018;
+		private GroupBox grpDisplay;
 
-		private RadioButton n0019;
+		private RadioButton rdoFullscreen;
 
-		private RadioButton n0020;
+		private RadioButton rdoWindowed;
 
-		private GroupBox n0021;
+		private GroupBox grpLanguage;
 
-		private RadioButton n0022;
+		private RadioButton rdoSimplified;
 
-		private RadioButton n0023;
+		private RadioButton rdoTraditional;
 
-		private RadioButton n0024;
+		private RadioButton rdoJapanese;
 
-		private LinkLabel n0026;
+		private LinkLabel lnkManual;
 
-		private CheckBox n0008;
+		private CheckBox chkVibration;
 
-		private CheckBox n0025;
+		private CheckBox chkDontShow;
 
 		public OptionsForm()
 		{
 			InitializeComponent();
 			foreach (object device in Manager.GetDevices(DeviceClass.GameControl, EnumDevicesFlags.AttachedOnly))
 			{
-				DeviceInstance n536 = (DeviceInstance)device;
-				n0004.Items.Add(new InputDeviceInfo(n536));
+				DeviceInstance instance = (DeviceInstance)device;
+				cmbDevice.Items.Add(new InputDeviceInfo(instance));
 			}
-			if (n0004.Items.Count > 0)
+			if (cmbDevice.Items.Count > 0)
 			{
-				n0004.SelectedIndex = 0;
-				InputDeviceInfo n537 = (InputDeviceInfo)n0004.SelectedItem;
-				n0006 = new Device(n537.GetInstanceGuid());
-				Control control = n0008;
-				control.Enabled = n0006.Caps.ForceFeedback;
-				CheckBox checkBox = n0008;
-				checkBox.Checked = n0006.Caps.ForceFeedback;
-				shakeEffect = n0006.Caps.ForceFeedback;
+				cmbDevice.SelectedIndex = 0;
+				InputDeviceInfo inputInfo = (InputDeviceInfo)cmbDevice.SelectedItem;
+				device = new Device(inputInfo.GetInstanceGuid());
+				Control control = chkVibration;
+				control.Enabled = device.Caps.ForceFeedback;
+				CheckBox checkBox = chkVibration;
+				checkBox.Checked = device.Caps.ForceFeedback;
+				forceFeedback = device.Caps.ForceFeedback;
 			}
 			else
 			{
-				n0008.Enabled = false;
-				n0008.Checked = false;
-				shakeEffect = false;
+				chkVibration.Enabled = false;
+				chkVibration.Checked = false;
+				forceFeedback = false;
 			}
 		}
 
-		protected override void Dispose(bool n0010)
+		protected override void Dispose(bool disposing)
 		{
-			if (n0010 && n0011 != null)
+			if (disposing && components != null)
 			{
-				n0011.Dispose();
+				components.Dispose();
 			}
-			base.Dispose(n0010);
+			base.Dispose(disposing);
 		}
 
 		private void InitializeComponent()
 		{
 			ResourceManager resourceManager = new ResourceManager(typeof(OptionsForm));
-			n0012 = new System.Windows.Forms.Button();
-			n0013 = new System.Windows.Forms.Button();
-			n0014 = new PictureBox();
-			n0015 = new Label();
-			n0004 = new ComboBox();
-			n0016 = new System.Windows.Forms.Button();
-			n0017 = new FontDialog();
-			n0018 = new GroupBox();
-			n0019 = new RadioButton();
-			n0020 = new RadioButton();
-			n0021 = new GroupBox();
-			n0022 = new RadioButton();
-			n0023 = new RadioButton();
-			n0024 = new RadioButton();
-			n0025 = new CheckBox();
-			n0026 = new LinkLabel();
-			n0008 = new CheckBox();
-			n0018.SuspendLayout();
-			n0021.SuspendLayout();
+			btnOk = new System.Windows.Forms.Button();
+			btnCancel = new System.Windows.Forms.Button();
+			picLogo = new PictureBox();
+			lblGamepad = new Label();
+			cmbDevice = new ComboBox();
+			btnFont = new System.Windows.Forms.Button();
+			fontDialog = new FontDialog();
+			grpDisplay = new GroupBox();
+			rdoFullscreen = new RadioButton();
+			rdoWindowed = new RadioButton();
+			grpLanguage = new GroupBox();
+			rdoSimplified = new RadioButton();
+			rdoTraditional = new RadioButton();
+			rdoJapanese = new RadioButton();
+			chkDontShow = new CheckBox();
+			lnkManual = new LinkLabel();
+			chkVibration = new CheckBox();
+			grpDisplay.SuspendLayout();
+			grpLanguage.SuspendLayout();
 			base.SuspendLayout();
-			n0012.DialogResult = DialogResult.OK;
-			n0012.Location = new Point(32, 280);
-			n0012.Name = "btnOk";
-			n0012.Size = new Size(96, 23);
-			n0012.TabIndex = 0;
-			n0012.Text = "确定(&O)";
-			n0012.Click += new EventHandler(this.OnSimplifiedCheckedChanged);
-			n0013.DialogResult = DialogResult.Cancel;
-			n0013.Location = new Point(184, 280);
-			n0013.Name = "btnCancel";
-			n0013.Size = new Size(96, 23);
-			n0013.TabIndex = 1;
-			n0013.Text = "取消(&C)";
-			n0014.Image = (Image)resourceManager.GetObject("picTitle.Image");
-			n0014.Location = new Point(64, 8);
-			n0014.Name = "picTitle";
-			n0014.Size = new Size(160, 50);
-			n0014.SizeMode = PictureBoxSizeMode.StretchImage;
-			n0014.TabIndex = 4;
-			n0014.TabStop = false;
-			n0015.BackColor = Color.Transparent;
-			n0015.Location = new Point(16, 64);
-			n0015.Name = "lblGamepad";
-			n0015.Size = new Size(144, 16);
-			n0015.TabIndex = 2;
-			n0015.Text = "手柄选择(&G)";
-			n0004.DropDownStyle = ComboBoxStyle.DropDownList;
-			n0004.Location = new Point(16, 80);
-			n0004.Name = "cbbGamepad";
-			n0004.Size = new Size(288, 20);
-			n0004.TabIndex = 3;
-			n0004.SelectedIndexChanged += new EventHandler(this.OnTraditionalCheckedChanged);
-			n0016.Location = new Point(104, 112);
-			n0016.Name = "btnFont";
-			n0016.Size = new Size(104, 23);
-			n0016.TabIndex = 5;
-			n0016.Text = "字体(&F)";
-			n0016.Click += new EventHandler(this.OnJapaneseCheckedChanged);
-			n0017.AllowVerticalFonts = false;
-			n0017.Font = new Font("黑体", 24f, FontStyle.Regular, GraphicsUnit.Point, 134);
-			n0017.FontMustExist = true;
-			n0017.MaxSize = 24;
-			n0017.MinSize = 24;
-			n0017.ShowEffects = false;
-			n0018.BackColor = Color.Transparent;
-			n0018.Controls.Add(n0019);
-			n0018.Controls.Add(n0020);
-			n0018.Location = new Point(8, 144);
-			n0018.Name = "gpbMode";
-			n0018.Size = new Size(144, 80);
-			n0018.TabIndex = 6;
-			n0018.TabStop = false;
-			n0018.Text = "显示模式(&M)";
-			n0019.BackColor = Color.Transparent;
-			n0019.Checked = true;
-			n0019.Location = new Point(8, 24);
-			n0019.Name = "rbtFullScreen";
-			n0019.Size = new Size(136, 24);
-			n0019.TabIndex = 0;
-			n0019.TabStop = true;
-			n0019.Text = "全屏幕(&F)";
-			n0020.BackColor = Color.Transparent;
-			n0020.Location = new Point(8, 48);
-			n0020.Name = "rbtWindowed";
-			n0020.Size = new Size(136, 24);
-			n0020.TabIndex = 1;
-			n0020.Text = "窗口模式(&W)";
-			n0021.BackColor = Color.Transparent;
-			n0021.Controls.Add(n0022);
-			n0021.Controls.Add(n0023);
-			n0021.Controls.Add(n0024);
-			n0021.Location = new Point(160, 144);
-			n0021.Name = "gpbLanguage";
-			n0021.Size = new Size(144, 104);
-			n0021.TabIndex = 7;
-			n0021.TabStop = false;
-			n0021.Text = "语言(&L)";
-			n0022.BackColor = Color.Transparent;
-			n0022.Checked = true;
-			n0022.Location = new Point(8, 24);
-			n0022.Name = "rbtSC";
-			n0022.Size = new Size(136, 24);
-			n0022.TabIndex = 0;
-			n0022.TabStop = true;
-			n0022.Text = "简体中文(&S)";
-			n0022.CheckedChanged += new EventHandler(this.OnManualLinkClicked);
-			n0023.BackColor = Color.Transparent;
-			n0023.Location = new Point(8, 48);
-			n0023.Name = "rbtTC";
-			n0023.Size = new Size(136, 24);
-			n0023.TabIndex = 1;
-			n0023.Text = "繁體中文(&T)";
-			n0023.CheckedChanged += new EventHandler(this.ApplyButtonLayout);
-			n0024.BackColor = Color.Transparent;
-			n0024.Enabled = false;
-			n0024.Location = new Point(8, 72);
-			n0024.Name = "rbtJP";
-			n0024.Size = new Size(136, 24);
-			n0024.TabIndex = 2;
-			n0024.Text = "日本語(&J)";
-			n0024.CheckedChanged += new EventHandler(this.n0032);
-			n0025.BackColor = Color.Transparent;
-			n0025.Location = new Point(8, 232);
-			n0025.Name = "ckbDontShow";
-			n0025.Size = new Size(152, 24);
-			n0025.TabIndex = 8;
-			n0025.Text = "不再显示(&S)";
-			n0026.BackColor = Color.Transparent;
-			n0026.Location = new Point(112, 256);
-			n0026.Name = "llbManual";
-			n0026.Size = new Size(96, 16);
-			n0026.TabIndex = 9;
-			n0026.TabStop = true;
-			n0026.Text = "手册(&M)";
-			n0026.TextAlign = ContentAlignment.MiddleCenter;
-			n0026.LinkClicked += new LinkLabelLinkClickedEventHandler(this.OnManualLinkClicked);
-			n0008.BackColor = Color.Transparent;
-			n0008.Location = new Point(208, 64);
-			n0008.Name = "ckbEffect";
-			n0008.Size = new Size(88, 16);
-			n0008.TabIndex = 4;
-			n0008.Text = "振动(&E)";
+			btnOk.DialogResult = DialogResult.OK;
+			btnOk.Location = new Point(32, 280);
+			btnOk.Name = "btnOk";
+			btnOk.Size = new Size(96, 23);
+			btnOk.TabIndex = 0;
+			btnOk.Text = "确定(&O)";
+			btnOk.Click += new EventHandler(this.OnSimplifiedCheckedChanged);
+			btnCancel.DialogResult = DialogResult.Cancel;
+			btnCancel.Location = new Point(184, 280);
+			btnCancel.Name = "btnCancel";
+			btnCancel.Size = new Size(96, 23);
+			btnCancel.TabIndex = 1;
+			btnCancel.Text = "取消(&C)";
+			picLogo.Image = (Image)resourceManager.GetObject("picTitle.Image");
+			picLogo.Location = new Point(64, 8);
+			picLogo.Name = "picTitle";
+			picLogo.Size = new Size(160, 50);
+			picLogo.SizeMode = PictureBoxSizeMode.StretchImage;
+			picLogo.TabIndex = 4;
+			picLogo.TabStop = false;
+			lblGamepad.BackColor = Color.Transparent;
+			lblGamepad.Location = new Point(16, 64);
+			lblGamepad.Name = "lblGamepad";
+			lblGamepad.Size = new Size(144, 16);
+			lblGamepad.TabIndex = 2;
+			lblGamepad.Text = "手柄选择(&G)";
+			cmbDevice.DropDownStyle = ComboBoxStyle.DropDownList;
+			cmbDevice.Location = new Point(16, 80);
+			cmbDevice.Name = "cbbGamepad";
+			cmbDevice.Size = new Size(288, 20);
+			cmbDevice.TabIndex = 3;
+			cmbDevice.SelectedIndexChanged += new EventHandler(this.OnTraditionalCheckedChanged);
+			btnFont.Location = new Point(104, 112);
+			btnFont.Name = "btnFont";
+			btnFont.Size = new Size(104, 23);
+			btnFont.TabIndex = 5;
+			btnFont.Text = "字体(&F)";
+			btnFont.Click += new EventHandler(this.OnJapaneseCheckedChanged);
+			fontDialog.AllowVerticalFonts = false;
+			fontDialog.Font = new Font("黑体", 24f, FontStyle.Regular, GraphicsUnit.Point, 134);
+			fontDialog.FontMustExist = true;
+			fontDialog.MaxSize = 24;
+			fontDialog.MinSize = 24;
+			fontDialog.ShowEffects = false;
+			grpDisplay.BackColor = Color.Transparent;
+			grpDisplay.Controls.Add(rdoFullscreen);
+			grpDisplay.Controls.Add(rdoWindowed);
+			grpDisplay.Location = new Point(8, 144);
+			grpDisplay.Name = "gpbMode";
+			grpDisplay.Size = new Size(144, 80);
+			grpDisplay.TabIndex = 6;
+			grpDisplay.TabStop = false;
+			grpDisplay.Text = "显示模式(&M)";
+			rdoFullscreen.BackColor = Color.Transparent;
+			rdoFullscreen.Checked = true;
+			rdoFullscreen.Location = new Point(8, 24);
+			rdoFullscreen.Name = "rbtFullScreen";
+			rdoFullscreen.Size = new Size(136, 24);
+			rdoFullscreen.TabIndex = 0;
+			rdoFullscreen.TabStop = true;
+			rdoFullscreen.Text = "全屏幕(&F)";
+			rdoWindowed.BackColor = Color.Transparent;
+			rdoWindowed.Location = new Point(8, 48);
+			rdoWindowed.Name = "rbtWindowed";
+			rdoWindowed.Size = new Size(136, 24);
+			rdoWindowed.TabIndex = 1;
+			rdoWindowed.Text = "窗口模式(&W)";
+			grpLanguage.BackColor = Color.Transparent;
+			grpLanguage.Controls.Add(rdoSimplified);
+			grpLanguage.Controls.Add(rdoTraditional);
+			grpLanguage.Controls.Add(rdoJapanese);
+			grpLanguage.Location = new Point(160, 144);
+			grpLanguage.Name = "gpbLanguage";
+			grpLanguage.Size = new Size(144, 104);
+			grpLanguage.TabIndex = 7;
+			grpLanguage.TabStop = false;
+			grpLanguage.Text = "语言(&L)";
+			rdoSimplified.BackColor = Color.Transparent;
+			rdoSimplified.Checked = true;
+			rdoSimplified.Location = new Point(8, 24);
+			rdoSimplified.Name = "rbtSC";
+			rdoSimplified.Size = new Size(136, 24);
+			rdoSimplified.TabIndex = 0;
+			rdoSimplified.TabStop = true;
+			rdoSimplified.Text = "简体中文(&S)";
+			rdoSimplified.CheckedChanged += new EventHandler(this.OnManualLinkClicked);
+			rdoTraditional.BackColor = Color.Transparent;
+			rdoTraditional.Location = new Point(8, 48);
+			rdoTraditional.Name = "rbtTC";
+			rdoTraditional.Size = new Size(136, 24);
+			rdoTraditional.TabIndex = 1;
+			rdoTraditional.Text = "繁體中文(&T)";
+			rdoTraditional.CheckedChanged += new EventHandler(this.ApplyButtonLayout);
+			rdoJapanese.BackColor = Color.Transparent;
+			rdoJapanese.Enabled = false;
+			rdoJapanese.Location = new Point(8, 72);
+			rdoJapanese.Name = "rbtJP";
+			rdoJapanese.Size = new Size(136, 24);
+			rdoJapanese.TabIndex = 2;
+			rdoJapanese.Text = "日本語(&J)";
+			rdoJapanese.CheckedChanged += new EventHandler(this.n0032);
+			chkDontShow.BackColor = Color.Transparent;
+			chkDontShow.Location = new Point(8, 232);
+			chkDontShow.Name = "ckbDontShow";
+			chkDontShow.Size = new Size(152, 24);
+			chkDontShow.TabIndex = 8;
+			chkDontShow.Text = "不再显示(&S)";
+			lnkManual.BackColor = Color.Transparent;
+			lnkManual.Location = new Point(112, 256);
+			lnkManual.Name = "llbManual";
+			lnkManual.Size = new Size(96, 16);
+			lnkManual.TabIndex = 9;
+			lnkManual.TabStop = true;
+			lnkManual.Text = "手册(&M)";
+			lnkManual.TextAlign = ContentAlignment.MiddleCenter;
+			lnkManual.LinkClicked += new LinkLabelLinkClickedEventHandler(this.OnManualLinkClicked);
+			chkVibration.BackColor = Color.Transparent;
+			chkVibration.Location = new Point(208, 64);
+			chkVibration.Name = "ckbEffect";
+			chkVibration.Size = new Size(88, 16);
+			chkVibration.TabIndex = 4;
+			chkVibration.Text = "振动(&E)";
 			AutoScaleBaseSize = new Size(6, 14);
 			ClientSize = new Size(314, 312);
-			base.Controls.Add(n0014);
-			base.Controls.Add(n0015);
-			base.Controls.Add(n0004);
-			base.Controls.Add(n0008);
-			base.Controls.Add(n0016);
-			base.Controls.Add(n0018);
-			base.Controls.Add(n0021);
-			base.Controls.Add(n0025);
-			base.Controls.Add(n0026);
-			base.Controls.Add(n0012);
-			base.Controls.Add(n0013);
+			base.Controls.Add(picLogo);
+			base.Controls.Add(lblGamepad);
+			base.Controls.Add(cmbDevice);
+			base.Controls.Add(chkVibration);
+			base.Controls.Add(btnFont);
+			base.Controls.Add(grpDisplay);
+			base.Controls.Add(grpLanguage);
+			base.Controls.Add(chkDontShow);
+			base.Controls.Add(lnkManual);
+			base.Controls.Add(btnOk);
+			base.Controls.Add(btnCancel);
 			FormBorderStyle = FormBorderStyle.FixedDialog;
 			Icon = (Icon)resourceManager.GetObject("$this.Icon");
 			MaximizeBox = false;
@@ -280,113 +280,113 @@ namespace Yukihota
 			StartPosition = FormStartPosition.CenterScreen;
 			Text = "选项";
 			Load += new EventHandler(this.OnFontClick);
-			n0018.ResumeLayout(false);
-			n0021.ResumeLayout(false);
+			grpDisplay.ResumeLayout(false);
+			grpLanguage.ResumeLayout(false);
 			base.ResumeLayout(false);
 		}
 
-		private void OnFontClick(object n0035, EventArgs n0036)
+		private void OnFontClick(object sender, EventArgs e)
 		{
-			n0017.Font = n0037;
-			if (n0038)
+			fontDialog.Font = font;
+			if (fullscreen)
 			{
-				n0019.Checked = true;
+				rdoFullscreen.Checked = true;
 			}
 			else
 			{
-				n0020.Checked = true;
+				rdoWindowed.Checked = true;
 			}
-			switch (n0039)
+			switch (buttonLayout)
 			{
 			case ButtonLayout.SimplifiedChinese:
-				n0022.Checked = true;
+				rdoSimplified.Checked = true;
 				break;
 			case ButtonLayout.TraditionalChinese:
-				n0023.Checked = true;
+				rdoTraditional.Checked = true;
 				break;
 			case ButtonLayout.Japanese:
-				n0024.Checked = true;
+				rdoJapanese.Checked = true;
 				break;
 			}
-			ApplyLanguage(n0039);
+			ApplyLanguage(buttonLayout);
 		}
 
-		private void OnSimplifiedCheckedChanged(object n0035, EventArgs n0036)
+		private void OnSimplifiedCheckedChanged(object sender, EventArgs e)
 		{
-			if (n0004.SelectedItem != null)
+			if (cmbDevice.SelectedItem != null)
 			{
-				InputDeviceInfo n536 = (InputDeviceInfo)n0004.SelectedItem;
-				n0006 = new Device(n536.GetInstanceGuid());
+				InputDeviceInfo instance = (InputDeviceInfo)cmbDevice.SelectedItem;
+				device = new Device(instance.GetInstanceGuid());
 			}
 			else
 			{
-				n0006 = null;
+				device = null;
 			}
-			shakeEffect = n0008.Checked;
-			n0038 = n0019.Checked;
-			if (n0024.Checked)
+			forceFeedback = chkVibration.Checked;
+			fullscreen = rdoFullscreen.Checked;
+			if (rdoJapanese.Checked)
 			{
-				n0039 = ButtonLayout.Japanese;
+				buttonLayout = ButtonLayout.Japanese;
 			}
-			else if (n0023.Checked)
+			else if (rdoTraditional.Checked)
 			{
-				n0039 = ButtonLayout.TraditionalChinese;
+				buttonLayout = ButtonLayout.TraditionalChinese;
 			}
 			else
 			{
-				n0039 = ButtonLayout.SimplifiedChinese;
+				buttonLayout = ButtonLayout.SimplifiedChinese;
 			}
-			n0045 = !n0025.Checked;
+			showOptions = !chkDontShow.Checked;
 		}
 
-		private void OnTraditionalCheckedChanged(object n0035, EventArgs n0036)
+		private void OnTraditionalCheckedChanged(object sender, EventArgs e)
 		{
-			if (((ComboBox)n0035).SelectedItem != null)
+			if (((ComboBox)sender).SelectedItem != null)
 			{
-				InputDeviceInfo n536 = (InputDeviceInfo)((ComboBox)n0035).SelectedItem;
-				Device device = new Device(n536.GetInstanceGuid());
-				n0008.Enabled = device.Caps.ForceFeedback;
-				n0008.Checked = device.Caps.ForceFeedback;
+				InputDeviceInfo instance = (InputDeviceInfo)((ComboBox)sender).SelectedItem;
+				Device device = new Device(instance.GetInstanceGuid());
+				chkVibration.Enabled = device.Caps.ForceFeedback;
+				chkVibration.Checked = device.Caps.ForceFeedback;
 			}
 			else
 			{
-				n0008.Enabled = false;
-				n0008.Checked = false;
+				chkVibration.Enabled = false;
+				chkVibration.Checked = false;
 			}
 		}
 
-		private void OnJapaneseCheckedChanged(object n0035, EventArgs n0036)
+		private void OnJapaneseCheckedChanged(object sender, EventArgs e)
 		{
-			if (n0017.ShowDialog() == DialogResult.OK)
+			if (fontDialog.ShowDialog() == DialogResult.OK)
 			{
-				n0037 = n0017.Font;
+				font = fontDialog.Font;
 			}
 		}
 
-		private void OnManualLinkClicked(object n0035, EventArgs n0036)
+		private void OnManualLinkClicked(object sender, EventArgs e)
 		{
 			ApplyLanguage(ButtonLayout.SimplifiedChinese);
 		}
 
-		private void ApplyButtonLayout(object n0035, EventArgs n0036)
+		private void ApplyButtonLayout(object sender, EventArgs e)
 		{
 			ApplyLanguage(ButtonLayout.TraditionalChinese);
 		}
 
-		private void n0032(object n0035, EventArgs n0036)
+		private void n0032(object sender, EventArgs e)
 		{
 			ApplyLanguage(ButtonLayout.Japanese);
 		}
 
-		private void OnManualLinkClicked(object n0035, LinkLabelLinkClickedEventArgs n0036)
+		private void OnManualLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
 			try
 			{
-				if (n0024.Checked)
+				if (rdoJapanese.Checked)
 				{
 					Process.Start("Manual\\Index_jp.html");
 				}
-				else if (n0023.Checked)
+				else if (rdoTraditional.Checked)
 				{
 					Process.Start("Manual\\Index_tc.html");
 				}
@@ -406,45 +406,45 @@ namespace Yukihota
 			switch (n0046)
 			{
 			case ButtonLayout.SimplifiedChinese:
-				n0012.Text = "确定(&O)";
-				n0013.Text = "取消(&C)";
-				n0016.Text = "字体(&F)";
-				n0015.Text = "手柄选择(&G)";
-				n0008.Text = "振动(&E)";
-				n0018.Text = "显示模式(&M)";
-				n0020.Text = "窗口模式(&W)";
-				n0019.Text = "全屏幕(&F)";
-				n0021.Text = "语言(&L)";
-				n0025.Text = "不再显示(&S)";
-				n0026.Text = "手册(&M)";
+				btnOk.Text = "确定(&O)";
+				btnCancel.Text = "取消(&C)";
+				btnFont.Text = "字体(&F)";
+				lblGamepad.Text = "手柄选择(&G)";
+				chkVibration.Text = "振动(&E)";
+				grpDisplay.Text = "显示模式(&M)";
+				rdoWindowed.Text = "窗口模式(&W)";
+				rdoFullscreen.Text = "全屏幕(&F)";
+				grpLanguage.Text = "语言(&L)";
+				chkDontShow.Text = "不再显示(&S)";
+				lnkManual.Text = "手册(&M)";
 				Text = "选项";
 				break;
 			case ButtonLayout.TraditionalChinese:
-				n0012.Text = "確定(&O)";
-				n0013.Text = "取消(&C)";
-				n0016.Text = "字體(&F)";
-				n0015.Text = "手柄選擇(&G)";
-				n0008.Text = "振動(&E)";
-				n0018.Text = "顯示模式(&M)";
-				n0020.Text = "窗口模式(&W)";
-				n0019.Text = "全屏幕(&F)";
-				n0021.Text = "語言(&L)";
-				n0025.Text = "不再顯示(&S)";
-				n0026.Text = "手冊(&M)";
+				btnOk.Text = "確定(&O)";
+				btnCancel.Text = "取消(&C)";
+				btnFont.Text = "字體(&F)";
+				lblGamepad.Text = "手柄選擇(&G)";
+				chkVibration.Text = "振動(&E)";
+				grpDisplay.Text = "顯示模式(&M)";
+				rdoWindowed.Text = "窗口模式(&W)";
+				rdoFullscreen.Text = "全屏幕(&F)";
+				grpLanguage.Text = "語言(&L)";
+				chkDontShow.Text = "不再顯示(&S)";
+				lnkManual.Text = "手冊(&M)";
 				Text = "選項";
 				break;
 			case ButtonLayout.Japanese:
-				n0012.Text = "開始(&O)";
-				n0013.Text = "キャンセル(&C)";
-				n0016.Text = "フォント(&F)";
-				n0015.Text = "コントローラ選択(&G)";
-				n0008.Text = "振動(&E)";
-				n0018.Text = "画面モード(&M)";
-				n0020.Text = "窓モード(&W)";
-				n0019.Text = "フルスクリーン(&F)";
-				n0021.Text = "言語(&L)";
-				n0025.Text = "以降は提示しない(&S)";
-				n0026.Text = "マニュアル(&M)";
+				btnOk.Text = "開始(&O)";
+				btnCancel.Text = "キャンセル(&C)";
+				btnFont.Text = "フォント(&F)";
+				lblGamepad.Text = "コントローラ選択(&G)";
+				chkVibration.Text = "振動(&E)";
+				grpDisplay.Text = "画面モード(&M)";
+				rdoWindowed.Text = "窓モード(&W)";
+				rdoFullscreen.Text = "フルスクリーン(&F)";
+				grpLanguage.Text = "言語(&L)";
+				chkDontShow.Text = "以降は提示しない(&S)";
+				lnkManual.Text = "マニュアル(&M)";
 				Text = "メニュー";
 				break;
 			}
@@ -452,62 +452,62 @@ namespace Yukihota
 
 		public Font GetFontName()
 		{
-			return n0037;
+			return font;
 		}
 
 		public void SetFontName(Font extensionName)
 		{
-			n0037 = extensionName;
+			font = extensionName;
 		}
 
 		public Device GetDevice()
 		{
-			return n0006;
+			return device;
 		}
 
 		public void SetDevice(Device extensionName)
 		{
-			n0006 = extensionName;
+			device = extensionName;
 		}
 
-		public bool n0052()
+		public bool GetForceFeedback()
 		{
-			return shakeEffect;
+			return forceFeedback;
 		}
 
-		public void n0053(bool extensionName)
+		public void SetForceFeedback(bool extensionName)
 		{
-			shakeEffect = extensionName;
+			forceFeedback = extensionName;
 		}
 
-		public bool n0054()
+		public bool GetFullscreen()
 		{
-			return n0038;
+			return fullscreen;
 		}
 
-		public void n0055(bool extensionName)
+		public void SetFullscreen(bool extensionName)
 		{
-			n0038 = extensionName;
+			fullscreen = extensionName;
 		}
 
 		public ButtonLayout GetButtonLayout()
 		{
-			return n0039;
+			return buttonLayout;
 		}
 
-		public void n0057(ButtonLayout extensionName)
+		public void SetButtonLayout(ButtonLayout extensionName)
 		{
-			n0039 = extensionName;
+			buttonLayout = extensionName;
 		}
 
-		public bool n0058()
+		public bool GetShowOptions()
 		{
-			return n0045;
+			return showOptions;
 		}
 
-		public void n0059(bool extensionName)
+		public void SetShowOptions(bool extensionName)
 		{
-			n0045 = extensionName;
+			showOptions = extensionName;
 		}
 	}
 }

@@ -881,7 +881,7 @@ namespace Yukihota
 					}
 					File.Move(tempDirectory + "\\BGM37.wav", tempDirectory + "\\bgm" + bgmSlotIndex + ".wav");
 					GC.Collect();
-					string n536 = tempDirectory + "\\bgm" + bgmSlotIndex + ".wav";
+					string instance = tempDirectory + "\\bgm" + bgmSlotIndex + ".wav";
 					bgmSlotIndex = (bgmSlotIndex + 1) % 4;
 					XmlDocument[] array2 = new XmlDocument[3];
 					for (int num7 = 0; num7 < 3; num7++)
@@ -891,8 +891,8 @@ namespace Yukihota
 					array2[0].Load(scriptArchive.ReadEntry("ED_SC"));
 					array2[1].Load(scriptArchive.ReadEntry("ED_TC"));
 					array2[2].Load(scriptArchive.ReadEntry("ED_JP"));
-					StaffRoll n537 = new StaffRoll(n536, charaArchive, bgArchive, array2);
-					n0479 = n537;
+					StaffRoll inputInfo = new StaffRoll(instance, charaArchive, bgArchive, array2);
+					n0479 = inputInfo;
 					return ScenarioResult.StaffRoll;
 				}
 				return ScenarioResult.None;

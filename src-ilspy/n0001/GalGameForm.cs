@@ -108,9 +108,9 @@ namespace Yukihota
 
 		private Sprite sprite;
 
-		protected Texture n0135;
+		protected Texture whiteTexture;
 
-		private static bool n0125;
+		private static bool noOperationMode;
 
 		private bool languageResetPending = false;
 
@@ -220,15 +220,15 @@ namespace Yukihota
 
 		private bool f12KeyDown = false;
 
-		protected ArrayList n0216 = new ArrayList();
+		protected ArrayList layerTextures = new ArrayList();
 
-		protected ArrayList n0217 = new ArrayList();
+		protected ArrayList layerSourceRects = new ArrayList();
 
-		protected ArrayList n0218 = new ArrayList();
+		protected ArrayList layerDestRects = new ArrayList();
 
-		protected ArrayList n0219 = new ArrayList();
+		protected ArrayList layerPositions = new ArrayList();
 
-		protected ArrayList n0220 = new ArrayList();
+		protected ArrayList layerColors = new ArrayList();
 
 		protected string overlayText;
 
@@ -377,13 +377,13 @@ namespace Yukihota
 			menuBgmPlayer = new MediaPackage("MENU");
 		}
 
-		protected override void Dispose(bool n0010)
+		protected override void Dispose(bool disposing)
 		{
-			if (n0010 && components != null)
+			if (disposing && components != null)
 			{
 				components.Dispose();
 			}
-			base.Dispose(n0010);
+			base.Dispose(disposing);
 		}
 
 		private void InitializeComponent()
@@ -531,7 +531,7 @@ namespace Yukihota
 		}
 
 		[STAThread]
-		private static void Main(string[] n0124)
+		private static void Main(string[] args)
 		{
 			try
 			{
@@ -546,16 +546,16 @@ namespace Yukihota
 				MessageBox.Show(ex.Message);
 			}
 			bool flag = true;
-			n0125 = false;
-			for (int i = 0; i < n0124.Length; i++)
+			noOperationMode = false;
+			for (int i = 0; i < args.Length; i++)
 			{
-				if (n0124[i] == "/nocopyright")
+				if (args[i] == "/nocopyright")
 				{
 					flag = false;
 				}
-				if (n0124[i] == "/noop")
+				if (args[i] == "/noop")
 				{
-					n0125 = true;
+					noOperationMode = true;
 				}
 			}
 			if (flag)
@@ -565,41 +565,41 @@ namespace Yukihota
 			Application.Run(new GalGameForm());
 		}
 
-		protected override void WndProc(ref Message n0126)
+		protected override void WndProc(ref Message m)
 		{
-			if (n0126.Msg == 274 && ((int)n0126.WParam == 61760 || (int)n0126.WParam == 61808))
+			if (m.Msg == 274 && ((int)m.WParam == 61760 || (int)m.WParam == 61808))
 			{
-				n0126.Result = (IntPtr)1;
+				m.Result = (IntPtr)1;
 			}
 			else
 			{
-				base.WndProc(ref n0126);
+				base.WndProc(ref m);
 			}
 		}
 
-		private void OnLoad(object n0035, EventArgs n0036)
+		private void OnLoad(object sender, EventArgs e)
 		{
 			LoadSettings();
-			OptionsForm n880 = new OptionsForm();
-			n880.SetFontName(new System.Drawing.Font(fontName, 24f));
-			n880.n0055(fullscreen);
-			n880.n0057(language);
-			n880.n0059(showOptionsOnStartup);
-			if (showOptionsOnStartup && n880.ShowDialog() == DialogResult.Cancel)
+			OptionsForm optionsForm = new OptionsForm();
+			optionsForm.SetFontName(new System.Drawing.Font(fontName, 24f));
+			optionsForm.SetFullscreen(fullscreen);
+			optionsForm.SetButtonLayout(language);
+			optionsForm.SetShowOptions(showOptionsOnStartup);
+			if (showOptionsOnStartup && optionsForm.ShowDialog() == DialogResult.Cancel)
 			{
 				Application.Exit();
 				return;
 			}
-			fontName = n880.GetFontName().Name;
-			fullscreen = n880.n0054();
-			language = n880.GetButtonLayout();
-			showOptionsOnStartup = n880.n0058();
+			fontName = optionsForm.GetFontName().Name;
+			fullscreen = optionsForm.GetFullscreen();
+			language = optionsForm.GetButtonLayout();
+			showOptionsOnStartup = optionsForm.GetShowOptions();
 			ArchiveFile.VerifyKey("Mullen");
 			for (int i = 0; i < 8; i++)
 			{
 				joystickButtonStates[i] = false;
 			}
-			joystick = n880.GetDevice();
+			joystick = optionsForm.GetDevice();
 			if (joystick != null)
 			{
 				try
@@ -614,7 +614,7 @@ namespace Yukihota
 							joystick.Properties.SetRange(ParameterHow.ById, deviceObjectInstance.ObjectId, new InputRange(-1000, 1000));
 						}
 					}
-					if (n880.n0052())
+					if (optionsForm.GetForceFeedback())
 					{
 						int[] array = null;
 						foreach (object object2 in joystick.GetObjects(DeviceObjectTypeFlags.Axis))
@@ -691,7 +691,7 @@ namespace Yukihota
 			sprite = new Sprite(device);
 			windowedLocation = base.Location;
 			displayDevice = new Microsoft.DirectX.DirectDraw.Device();
-			ApplyFullscreen(n880.n0054());
+			ApplyFullscreen(optionsForm.GetFullscreen());
 			isBorderless = false;
 			suppressLostFocus = false;
 			try
@@ -733,7 +733,7 @@ namespace Yukihota
 				break;
 			}
 			lastCursorPosition = Cursor.Position;
-			n0135 = TextureLoader.FromStream(device, systemArchive.ReadEntry("WHITE"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			whiteTexture = TextureLoader.FromStream(device, systemArchive.ReadEntry("WHITE"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 			try
 			{
 				InitOpeningMovie();
@@ -750,7 +750,7 @@ namespace Yukihota
 			}
 		}
 
-		private void OnClosing(object n0035, CancelEventArgs n0036)
+		private void OnClosing(object sender, CancelEventArgs e)
 		{
 			if (gameMode == 1)
 			{
@@ -793,7 +793,7 @@ namespace Yukihota
 			}
 		}
 
-		private void OnActivated(object n0035, EventArgs n0036)
+		private void OnActivated(object sender, EventArgs e)
 		{
 			if (joystick != null)
 			{
@@ -807,7 +807,7 @@ namespace Yukihota
 			}
 		}
 
-		private void OnGotFocus(object n0035, EventArgs n0036)
+		private void OnGotFocus(object sender, EventArgs e)
 		{
 			if (isBorderless)
 			{
@@ -855,15 +855,15 @@ namespace Yukihota
 			}
 		}
 
-		protected override void OnLostFocus(EventArgs n0036)
+		protected override void OnLostFocus(EventArgs e)
 		{
 			if (!suppressLostFocus)
 			{
-				base.OnLostFocus(n0036);
+				base.OnLostFocus(e);
 			}
 		}
 
-		private void OnLostFocus(object n0035, EventArgs n0036)
+		private void OnLostFocus(object sender, EventArgs e)
 		{
 			isBorderless = FormBorderStyle == FormBorderStyle.None;
 			if (isBorderless)
@@ -912,9 +912,9 @@ namespace Yukihota
 			}
 		}
 
-		private void OnKeyDown(object n0035, KeyEventArgs n0036)
+		private void OnKeyDown(object sender, KeyEventArgs e)
 		{
-			switch (n0036.KeyCode)
+			switch (e.KeyCode)
 			{
 			case Keys.ControlKey:
 				if (gameMode == 1)
@@ -928,7 +928,7 @@ namespace Yukihota
 					break;
 				}
 				enterKeyDown = true;
-				if (n0036.Alt)
+				if (e.Alt)
 				{
 					ApplyFullscreen();
 					break;
@@ -1160,9 +1160,9 @@ namespace Yukihota
 			}
 		}
 
-		private void OnKeyUp(object n0035, KeyEventArgs n0036)
+		private void OnKeyUp(object sender, KeyEventArgs e)
 		{
-			switch (n0036.KeyCode)
+			switch (e.KeyCode)
 			{
 			case Keys.Return:
 				enterKeyDown = false;
@@ -1194,61 +1194,61 @@ namespace Yukihota
 			}
 		}
 
-		private void OnMouseDown(object n0035, MouseEventArgs n0036)
+		private void OnMouseDown(object sender, MouseEventArgs e)
 		{
 			switch (gameMode)
 			{
 			case 0:
-				OnMenuMouseDown(n0035, n0036);
+				OnMenuMouseDown(sender, e);
 				break;
 			case 1:
-				if (n0036.Button == MouseButtons.Left)
+				if (e.Button == MouseButtons.Left)
 				{
 					director.waitClick();
 				}
-				else if (n0036.Button == MouseButtons.Right && !director.n0188())
+				else if (e.Button == MouseButtons.Right && !director.n0188())
 				{
 					director.SetPaused(true, false);
 					scenarioTimer.Stop();
-					contextMenu.Show((Control)n0035, new Point(n0036.X, n0036.Y));
+					contextMenu.Show((Control)sender, new Point(e.X, e.Y));
 					director.SetPaused(false, false);
 					scenarioTimer.Start();
 				}
 				break;
 			case 2:
-				OnEpisodeMouseDown(n0035, n0036);
+				OnEpisodeMouseDown(sender, e);
 				break;
 			case 3:
-				OnOptionsMouseDown(n0035, n0036);
+				OnOptionsMouseDown(sender, e);
 				break;
 			case 4:
-				OnAlbumMouseDown(n0035, n0036);
+				OnAlbumMouseDown(sender, e);
 				break;
 			}
 		}
 
-		private void OnMouseMove(object n0035, MouseEventArgs n0036)
+		private void OnMouseMove(object sender, MouseEventArgs e)
 		{
 			switch (gameMode)
 			{
 			case 0:
-				OnMenuMouseMove(n0035, n0036);
+				OnMenuMouseMove(sender, e);
 				break;
 			case 1:
 				break;
 			case 2:
-				OnEpisodeMouseMove(n0035, n0036);
+				OnEpisodeMouseMove(sender, e);
 				break;
 			case 3:
-				OnOptionsMouseMove(n0035, n0036);
+				OnOptionsMouseMove(sender, e);
 				break;
 			case 4:
-				OnAlbumMouseMove(n0035, n0036);
+				OnAlbumMouseMove(sender, e);
 				break;
 			}
 		}
 
-		private void OnPaint(object n0035, PaintEventArgs n0036)
+		private void OnPaint(object sender, PaintEventArgs e)
 		{
 			if (gameMode == -2)
 			{
@@ -1262,11 +1262,11 @@ namespace Yukihota
 			device.Clear(ClearFlags.Target, Color.White, 1f, 0);
 			device.BeginScene();
 			sprite.Begin(SpriteFlags.AlphaBlend);
-			for (int i = 0; i < n0216.Count; i++)
+			for (int i = 0; i < layerTextures.Count; i++)
 			{
-				if (n0216[i] != null)
+				if (layerTextures[i] != null)
 				{
-					sprite.Draw2D((Texture)n0216[i], (Rectangle)n0217[i], (Rectangle)n0218[i], Point.Empty, 0f, (Point)n0219[i], (Color)n0220[i]);
+					sprite.Draw2D((Texture)layerTextures[i], (Rectangle)layerSourceRects[i], (Rectangle)layerDestRects[i], Point.Empty, 0f, (Point)layerPositions[i], (Color)layerColors[i]);
 					continue;
 				}
 				for (int j = 0; j < overlayText.Length; j++)
@@ -1305,7 +1305,7 @@ namespace Yukihota
 			}
 		}
 
-		private void OnScenarioTimerTick(object n0035, EventArgs n0036)
+		private void OnScenarioTimerTick(object sender, EventArgs e)
 		{
 			bool flag = false;
 			switch (PollJoystick())
@@ -1357,11 +1357,11 @@ namespace Yukihota
 			}
 		}
 
-		private void OnMenuCancelClick(object n0035, EventArgs n0036)
+		private void OnMenuCancelClick(object sender, EventArgs e)
 		{
 		}
 
-		private void OnMenuOptionsClick(object n0035, EventArgs n0036)
+		private void OnMenuOptionsClick(object sender, EventArgs e)
 		{
 			director.SetAutoMode(false);
 			director.SetPaused(true, false);
@@ -1370,27 +1370,27 @@ namespace Yukihota
 			OpenOptions();
 		}
 
-		private void OnMenuDisplayModeClick(object n0035, EventArgs n0036)
+		private void OnMenuDisplayModeClick(object sender, EventArgs e)
 		{
 			ApplyFullscreen();
 		}
 
-		private void OnMenuSkipClick(object n0035, EventArgs n0036)
+		private void OnMenuSkipClick(object sender, EventArgs e)
 		{
 			director.instant();
 		}
 
-		private void OnMenuAutoClick(object n0035, EventArgs n0036)
+		private void OnMenuAutoClick(object sender, EventArgs e)
 		{
 			director.SetAutoMode();
 		}
 
-		private void OnMenuHideWindowClick(object n0035, EventArgs n0036)
+		private void OnMenuHideWindowClick(object sender, EventArgs e)
 		{
 			director.HideDialogue();
 		}
 
-		private void OnMenuSimplifiedClick(object n0035, EventArgs n0036)
+		private void OnMenuSimplifiedClick(object sender, EventArgs e)
 		{
 			menuSimplifiedItem.Checked = true;
 			menuTraditionalItem.Checked = false;
@@ -1400,7 +1400,7 @@ namespace Yukihota
 			director.SetButtonLayout(ButtonLayout.SimplifiedChinese);
 		}
 
-		private void OnMenuTraditionalClick(object n0035, EventArgs n0036)
+		private void OnMenuTraditionalClick(object sender, EventArgs e)
 		{
 			menuSimplifiedItem.Checked = false;
 			menuTraditionalItem.Checked = true;
@@ -1410,7 +1410,7 @@ namespace Yukihota
 			director.SetButtonLayout(ButtonLayout.TraditionalChinese);
 		}
 
-		private void OnMenuJapaneseClick(object n0035, EventArgs n0036)
+		private void OnMenuJapaneseClick(object sender, EventArgs e)
 		{
 			menuSimplifiedItem.Checked = false;
 			menuTraditionalItem.Checked = false;
@@ -1420,7 +1420,7 @@ namespace Yukihota
 			director.SetButtonLayout(ButtonLayout.Japanese);
 		}
 
-		private void OnMenuFontClick(object n0035, EventArgs n0036)
+		private void OnMenuFontClick(object sender, EventArgs e)
 		{
 			if (fontDialog.ShowDialog() == DialogResult.OK)
 			{
@@ -1429,12 +1429,12 @@ namespace Yukihota
 			}
 		}
 
-		private void OnMenuBackToTitleClick(object n0035, EventArgs n0036)
+		private void OnMenuBackToTitleClick(object sender, EventArgs e)
 		{
 			ReturnToTitle();
 		}
 
-		private void OnMenuExitClick(object n0035, EventArgs n0036)
+		private void OnMenuExitClick(object sender, EventArgs e)
 		{
 			director.Stop();
 			director.Dispose();
@@ -1454,9 +1454,9 @@ namespace Yukihota
 				return;
 			}
 			ReadSetting(xmlDocument, "sys/win/font", ref fontName);
-			string n880 = null;
-			ReadSetting(xmlDocument, "sys/win/mode", ref n880);
-			switch (n880)
+			string optionsForm = null;
+			ReadSetting(xmlDocument, "sys/win/mode", ref optionsForm);
+			switch (optionsForm)
 			{
 			case "Fullscreen":
 				fullscreen = true;
@@ -1465,9 +1465,9 @@ namespace Yukihota
 				fullscreen = false;
 				break;
 			}
-			n880 = null;
-			ReadSetting(xmlDocument, "sys/win/language", ref n880);
-			switch (n880)
+			optionsForm = null;
+			ReadSetting(xmlDocument, "sys/win/language", ref optionsForm);
+			switch (optionsForm)
 			{
 			case "SC":
 				language = ButtonLayout.SimplifiedChinese;
@@ -1484,9 +1484,9 @@ namespace Yukihota
 			ReadSetting(xmlDocument, "sys/options/env", ref envEnabled);
 			ReadSetting(xmlDocument, "sys/options/sun", ref sunEnabled);
 			ReadSetting(xmlDocument, "sys/options/shock", ref shockEnabled);
-			n880 = null;
-			ReadSetting(xmlDocument, "sys/options/color", ref n880);
-			switch (n880)
+			optionsForm = null;
+			ReadSetting(xmlDocument, "sys/options/color", ref optionsForm);
+			switch (optionsForm)
 			{
 			case "Green":
 				textColor = Color.FromArgb(128, 255, 128);
@@ -1798,7 +1798,7 @@ namespace Yukihota
 		{
 			try
 			{
-				director = new SceneDirector("Yukihota", n0246, device, sprite, new FrameCallback(ResetDevice), n0135, forceFeedbackEffect, new System.Drawing.Font(fontName, 24f), language, textColor);
+				director = new SceneDirector("Yukihota", n0246, device, sprite, new FrameCallback(ResetDevice), whiteTexture, forceFeedbackEffect, new System.Drawing.Font(fontName, 24f), language, textColor);
 				director.SetFadeEnabled(fadeEnabled);
 				director.SetSunEffectEnabled(sunEnabled);
 				director.SetEffectEnabled(envEnabled);
@@ -1811,11 +1811,11 @@ namespace Yukihota
 				MessageBox.Show(ex.Message);
 				Application.Exit();
 			}
-			n0216.Clear();
-			n0217.Clear();
-			n0218.Clear();
-			n0219.Clear();
-			n0220.Clear();
+			layerTextures.Clear();
+			layerSourceRects.Clear();
+			layerDestRects.Clear();
+			layerPositions.Clear();
+			layerColors.Clear();
 			overlayText = null;
 			gameMode = 1;
 			menuBgmPlayer.Stop();
@@ -1853,17 +1853,17 @@ namespace Yukihota
 		private void QueueDraw(Texture n0262, Rectangle n0263, Rectangle n0264, Point n0265, Color n0266)
 		{
 			sprite.Draw2D(n0262, n0263, n0264, Point.Empty, 0f, n0265, n0266);
-			n0216.Add(n0262);
-			n0217.Add(n0263);
-			n0218.Add(n0264);
-			n0219.Add(n0265);
-			n0220.Add(n0266);
+			layerTextures.Add(n0262);
+			layerSourceRects.Add(n0263);
+			layerDestRects.Add(n0264);
+			layerPositions.Add(n0265);
+			layerColors.Add(n0266);
 		}
 
 		private void LoadLogoTexture()
 		{
 			logoTexture = TextureLoader.FromStream(device, systemArchive.ReadEntry("KID_LOGO"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
-			if (n0125)
+			if (noOperationMode)
 			{
 				logoFrame = 0;
 				gameMode = -1;
@@ -1879,7 +1879,7 @@ namespace Yukihota
 		private void InitOpeningMovie()
 		{
 			gameMode = -2;
-			if (!n0125)
+			if (!noOperationMode)
 			{
 				movieBox.Visible = true;
 				openingMovie = new MediaPackage("Op");
@@ -1889,9 +1889,9 @@ namespace Yukihota
 			logoFadeTimer.Start();
 		}
 
-		private void OnLogoFadeTimerTick(object n0035, EventArgs n0036)
+		private void OnLogoFadeTimerTick(object sender, EventArgs e)
 		{
-			if (gameMode == -2 && !n0125)
+			if (gameMode == -2 && !noOperationMode)
 			{
 				if (openingMovie.GetPosition() < openingMovie.GetLength() && openingMovie.GetLength() != -1)
 				{
@@ -1906,11 +1906,11 @@ namespace Yukihota
 				openingMovie = null;
 			}
 			device.Clear(ClearFlags.Target, Color.White, 1f, 0);
-			n0216.Clear();
-			n0217.Clear();
-			n0218.Clear();
-			n0219.Clear();
-			n0220.Clear();
+			layerTextures.Clear();
+			layerSourceRects.Clear();
+			layerDestRects.Clear();
+			layerPositions.Clear();
+			layerColors.Clear();
 			overlayText = null;
 			device.BeginScene();
 			sprite.Begin(SpriteFlags.AlphaBlend);
@@ -2035,7 +2035,7 @@ namespace Yukihota
 			}
 		}
 
-		private void OnMenuTimerTick(object n0035, EventArgs n0036)
+		private void OnMenuTimerTick(object sender, EventArgs e)
 		{
 			GC.Collect();
 			int num = PollJoystick();
@@ -2060,24 +2060,24 @@ namespace Yukihota
 			}
 			bool flag = false;
 			device.Clear(ClearFlags.Target, Color.White, 1f, 0);
-			n0216.Clear();
-			n0217.Clear();
-			n0218.Clear();
-			n0219.Clear();
-			n0220.Clear();
+			layerTextures.Clear();
+			layerSourceRects.Clear();
+			layerDestRects.Clear();
+			layerPositions.Clear();
+			layerColors.Clear();
 			overlayText = null;
 			device.BeginScene();
 			sprite.Begin(SpriteFlags.AlphaBlend);
 			QueueDraw(titleTextures[(int)language], Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
 			for (int i = 0; i < 5; i++)
 			{
-				Rectangle n880 = new Rectangle((menuSelection - 1 != i) ? 180 : 0, 32 * (menuItemEnabled[i] ? i : 5), 180, 32);
-				QueueDraw(menuButtonTexture, n880, Rectangle.Empty, new Point(310, 368 + 32 * i), Color.White);
+				Rectangle optionsForm = new Rectangle((menuSelection - 1 != i) ? 180 : 0, 32 * (menuItemEnabled[i] ? i : 5), 180, 32);
+				QueueDraw(menuButtonTexture, optionsForm, Rectangle.Empty, new Point(310, 368 + 32 * i), Color.White);
 			}
 			if (menuFadeCounter > 0)
 			{
 				int alpha = (int)((double)(menuFadeIn ? menuFadeCounter : (10 - menuFadeCounter)) / 10.0 * 255.0);
-				QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb(alpha, Color.White));
+				QueueDraw(whiteTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb(alpha, Color.White));
 				menuFadeCounter--;
 				if (!menuFadeIn && menuFadeCounter == 0)
 				{
@@ -2130,12 +2130,12 @@ namespace Yukihota
 			}
 		}
 
-		private void OnMenuMouseDown(object n0035, MouseEventArgs n0036)
+		private void OnMenuMouseDown(object sender, MouseEventArgs e)
 		{
-			if (menuFadeCounter == 0 && n0036.Button == MouseButtons.Left)
+			if (menuFadeCounter == 0 && e.Button == MouseButtons.Left)
 			{
 				lastCursorPosition = Point.Empty;
-				OnMenuMouseMove(n0035, n0036);
+				OnMenuMouseMove(sender, e);
 				if (menuSelection > 0 && menuItemEnabled[menuSelection - 1])
 				{
 					CloseMenu();
@@ -2143,7 +2143,7 @@ namespace Yukihota
 			}
 		}
 
-		private void OnMenuMouseMove(object n0035, MouseEventArgs n0036)
+		private void OnMenuMouseMove(object sender, MouseEventArgs e)
 		{
 			if (Cursor.Position.Equals(lastCursorPosition))
 			{
@@ -2152,9 +2152,9 @@ namespace Yukihota
 			lastCursorPosition = Cursor.Position;
 			if (menuFadeCounter == 0)
 			{
-				if (n0036.X >= 310 && n0036.X < 490 && n0036.Y >= 368 && n0036.Y < 528)
+				if (e.X >= 310 && e.X < 490 && e.Y >= 368 && e.Y < 528)
 				{
-					menuSelection = (n0036.Y - 368) / 32 + 1;
+					menuSelection = (e.Y - 368) / 32 + 1;
 				}
 				else
 				{
@@ -2416,7 +2416,7 @@ namespace Yukihota
 			}
 		}
 
-		private void OnOptionsTimerTick(object n0035, EventArgs n0036)
+		private void OnOptionsTimerTick(object sender, EventArgs e)
 		{
 			int num = PollJoystick();
 			switch (num)
@@ -2436,11 +2436,11 @@ namespace Yukihota
 				MoveOptionSelection(num - 4);
 			}
 			device.Clear(ClearFlags.Target, Color.White, 1f, 0);
-			n0216.Clear();
-			n0217.Clear();
-			n0218.Clear();
-			n0219.Clear();
-			n0220.Clear();
+			layerTextures.Clear();
+			layerSourceRects.Clear();
+			layerDestRects.Clear();
+			layerPositions.Clear();
+			layerColors.Clear();
 			overlayText = null;
 			device.BeginScene();
 			sprite.Begin(SpriteFlags.AlphaBlend);
@@ -2522,8 +2522,8 @@ namespace Yukihota
 			{
 				if (optionItemVisible[j])
 				{
-					Rectangle n880 = new Rectangle(optionSourceX[j], optionSourceY[j], optionSourceWidth[j], optionSourceHeight[j]);
-					QueueDraw(optionsLabelTextures[(int)language], n880, Rectangle.Empty, new Point(optionLabelX[j], optionLabelY[j]), Color.White);
+					Rectangle optionsForm = new Rectangle(optionSourceX[j], optionSourceY[j], optionSourceWidth[j], optionSourceHeight[j]);
+					QueueDraw(optionsLabelTextures[(int)language], optionsForm, Rectangle.Empty, new Point(optionLabelX[j], optionLabelY[j]), Color.White);
 				}
 			}
 			if (optionSelection > 0)
@@ -2542,7 +2542,7 @@ namespace Yukihota
 			if (optionsFadeCounter > 0)
 			{
 				int alpha = (int)((double)(optionsFadeIn ? optionsFadeCounter : (10 - optionsFadeCounter)) / 10.0 * 255.0);
-				QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb(alpha, Color.White));
+				QueueDraw(whiteTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb(alpha, Color.White));
 				optionsFadeCounter--;
 				if (!optionsFadeIn && optionsFadeCounter == 0)
 				{
@@ -2553,11 +2553,11 @@ namespace Yukihota
 					}
 					else if (returnMode == 1)
 					{
-						n0216.Clear();
-						n0217.Clear();
-						n0218.Clear();
-						n0219.Clear();
-						n0220.Clear();
+						layerTextures.Clear();
+						layerSourceRects.Clear();
+						layerDestRects.Clear();
+						layerPositions.Clear();
+						layerColors.Clear();
 						overlayText = null;
 						gameMode = 1;
 						director.SetFadeEnabled(fadeEnabled);
@@ -2600,28 +2600,28 @@ namespace Yukihota
 			}
 		}
 
-		private void OnOptionsMouseDown(object n0035, MouseEventArgs n0036)
+		private void OnOptionsMouseDown(object sender, MouseEventArgs e)
 		{
 			if (optionsFadeCounter != 0)
 			{
 				return;
 			}
-			if (n0036.Button == MouseButtons.Left)
+			if (e.Button == MouseButtons.Left)
 			{
 				lastCursorPosition = Point.Empty;
-				OnOptionsMouseMove(n0035, n0036);
+				OnOptionsMouseMove(sender, e);
 				if (optionSelection > 0)
 				{
 					ApplyOptionValue(optionSelection - 1);
 				}
 			}
-			else if (n0036.Button == MouseButtons.Right)
+			else if (e.Button == MouseButtons.Right)
 			{
 				CloseOptions();
 			}
 		}
 
-		private void OnOptionsMouseMove(object n0035, MouseEventArgs n0036)
+		private void OnOptionsMouseMove(object sender, MouseEventArgs e)
 		{
 			if (Cursor.Position.Equals(lastCursorPosition))
 			{
@@ -2632,7 +2632,7 @@ namespace Yukihota
 			{
 				for (int i = 0; i < 23; i++)
 				{
-					if (n0036.X >= optionLabelX[i] && n0036.X < optionLabelX[i] + optionSourceWidth[i] && n0036.Y >= optionLabelY[i] && n0036.Y < optionLabelY[i] + optionSourceHeight[i])
+					if (e.X >= optionLabelX[i] && e.X < optionLabelX[i] + optionSourceWidth[i] && e.Y >= optionLabelY[i] && e.Y < optionLabelY[i] + optionSourceHeight[i])
 					{
 						optionSelection = i + 1;
 						return;
@@ -2705,7 +2705,7 @@ namespace Yukihota
 			}
 		}
 
-		private void OnEpisodeTimerTick(object n0035, EventArgs n0036)
+		private void OnEpisodeTimerTick(object sender, EventArgs e)
 		{
 			switch (PollJoystick())
 			{
@@ -2728,20 +2728,20 @@ namespace Yukihota
 			}
 			int num = 0;
 			device.Clear(ClearFlags.Target, Color.White, 1f, 0);
-			n0216.Clear();
-			n0217.Clear();
-			n0218.Clear();
-			ArrayList arrayList = n0219;
+			layerTextures.Clear();
+			layerSourceRects.Clear();
+			layerDestRects.Clear();
+			ArrayList arrayList = layerPositions;
 			arrayList.Clear();
-			n0220.Clear();
+			layerColors.Clear();
 			overlayText = null;
 			device.BeginScene();
 			sprite.Begin(SpriteFlags.AlphaBlend);
 			QueueDraw(episodeBackTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
 			for (int i = 0; i < unlockedEpisodeCount; i++)
 			{
-				Rectangle n880 = new Rectangle((episodeSelection - 1 != i) ? 280 : 0, 28 * i, 280, 28);
-				QueueDraw(episodeMenuTexture, n880, Rectangle.Empty, new Point(episodeColumnX[(i >= 8) ? 1 : 0], 80 + 40 * (i % 8)), Color.White);
+				Rectangle optionsForm = new Rectangle((episodeSelection - 1 != i) ? 280 : 0, 28 * i, 280, 28);
+				QueueDraw(episodeMenuTexture, optionsForm, Rectangle.Empty, new Point(episodeColumnX[(i >= 8) ? 1 : 0], 80 + 40 * (i % 8)), Color.White);
 			}
 			for (int j = unlockedEpisodeCount; j < 16; j++)
 			{
@@ -2751,7 +2751,7 @@ namespace Yukihota
 			if (episodeFadeCounter > 0)
 			{
 				int alpha = (int)((double)(episodeFadeIn ? episodeFadeCounter : (10 - episodeFadeCounter)) / 10.0 * 255.0);
-				QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb(alpha, Color.White));
+				QueueDraw(whiteTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb(alpha, Color.White));
 				episodeFadeCounter--;
 				if (!episodeFadeIn && episodeFadeCounter == 0)
 				{
@@ -2793,29 +2793,29 @@ namespace Yukihota
 			}
 		}
 
-		private void OnEpisodeMouseDown(object n0035, MouseEventArgs n0036)
+		private void OnEpisodeMouseDown(object sender, MouseEventArgs e)
 		{
 			if (episodeFadeCounter != 0)
 			{
 				return;
 			}
-			if (n0036.Button == MouseButtons.Left)
+			if (e.Button == MouseButtons.Left)
 			{
 				lastCursorPosition = Point.Empty;
-				OnEpisodeMouseMove(n0035, n0036);
+				OnEpisodeMouseMove(sender, e);
 				if (episodeSelection > 0 && unlockedEpisodeCount >= episodeSelection)
 				{
 					CloseEpisodeSelect();
 				}
 			}
-			else if (n0036.Button == MouseButtons.Right)
+			else if (e.Button == MouseButtons.Right)
 			{
 				episodeSelection = 0;
 				CloseEpisodeSelect();
 			}
 		}
 
-		private void OnEpisodeMouseMove(object n0035, MouseEventArgs n0036)
+		private void OnEpisodeMouseMove(object sender, MouseEventArgs e)
 		{
 			if (Cursor.Position.Equals(lastCursorPosition))
 			{
@@ -2829,7 +2829,7 @@ namespace Yukihota
 			episodeSelection = 0;
 			for (int i = 0; i < 16; i++)
 			{
-				if (n0036.X > episodeColumnX[(i >= 8) ? 1 : 0] && n0036.X < episodeColumnX[(i >= 8) ? 1 : 0] + 280 && n0036.Y >= 80 + 40 * (i % 8) && n0036.Y < 80 + 40 * (i % 8) + 28)
+				if (e.X > episodeColumnX[(i >= 8) ? 1 : 0] && e.X < episodeColumnX[(i >= 8) ? 1 : 0] + 280 && e.Y >= 80 + 40 * (i % 8) && e.Y < 80 + 40 * (i % 8) + 28)
 				{
 					episodeSelection = i + 1;
 					break;
@@ -2936,7 +2936,7 @@ namespace Yukihota
 			}
 		}
 
-		private void OnAlbumTimerTick(object n0035, EventArgs n0036)
+		private void OnAlbumTimerTick(object sender, EventArgs e)
 		{
 			switch (PollJoystick())
 			{
@@ -2977,11 +2977,11 @@ namespace Yukihota
 				break;
 			}
 			device.Clear(ClearFlags.Target, Color.White, 1f, 0);
-			n0216.Clear();
-			n0217.Clear();
-			n0218.Clear();
-			n0219.Clear();
-			n0220.Clear();
+			layerTextures.Clear();
+			layerSourceRects.Clear();
+			layerDestRects.Clear();
+			layerPositions.Clear();
+			layerColors.Clear();
 			overlayText = null;
 			device.BeginScene();
 			sprite.Begin(SpriteFlags.AlphaBlend);
@@ -3007,11 +3007,11 @@ namespace Yukihota
 						int num3 = 1;
 						num = num2 + num3;
 					}
-					n0216.Add(null);
-					n0217.Add(null);
-					n0218.Add(null);
-					n0219.Add(null);
-					n0220.Add(null);
+					layerTextures.Add(null);
+					layerSourceRects.Add(null);
+					layerDestRects.Add(null);
+					layerPositions.Add(null);
+					layerColors.Add(null);
 					overlayText = albumTitles[albumSelection - 1];
 				}
 			}
@@ -3026,7 +3026,7 @@ namespace Yukihota
 			if (albumFadeCounter > 0)
 			{
 				int alpha = (int)((double)(albumFadeIn ? albumFadeCounter : (10 - albumFadeCounter)) / 10.0 * 255.0);
-				QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb(alpha, Color.White));
+				QueueDraw(whiteTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb(alpha, Color.White));
 				albumFadeCounter--;
 				if (!albumFadeIn && albumFadeCounter == 0)
 				{
@@ -3074,13 +3074,13 @@ namespace Yukihota
 			}
 		}
 
-		private void OnAlbumMouseDown(object n0035, MouseEventArgs n0036)
+		private void OnAlbumMouseDown(object sender, MouseEventArgs e)
 		{
 			if (albumFadeCounter != 0)
 			{
 				return;
 			}
-			if (n0036.Button == MouseButtons.Left)
+			if (e.Button == MouseButtons.Left)
 			{
 				if (albumGroup != 0)
 				{
@@ -3088,13 +3088,13 @@ namespace Yukihota
 					return;
 				}
 				lastCursorPosition = Point.Empty;
-				OnAlbumMouseMove(n0035, n0036);
+				OnAlbumMouseMove(sender, e);
 				if (albumSelection > 0 && unlockedAlbumCount >= albumSelection)
 				{
 					ShowAlbumImage(albumSelection, 0);
 				}
 			}
-			else if (n0036.Button == MouseButtons.Right)
+			else if (e.Button == MouseButtons.Right)
 			{
 				if (albumGroup == 0)
 				{
@@ -3107,7 +3107,7 @@ namespace Yukihota
 			}
 		}
 
-		private void OnAlbumMouseMove(object n0035, MouseEventArgs n0036)
+		private void OnAlbumMouseMove(object sender, MouseEventArgs e)
 		{
 			if (Cursor.Position.Equals(lastCursorPosition))
 			{
@@ -3121,7 +3121,7 @@ namespace Yukihota
 			albumSelection = 0;
 			for (int i = 0; i < 7; i++)
 			{
-				if (n0036.X > albumThumbX[i] && n0036.X < albumThumbX[i] + 120 && n0036.Y >= albumThumbY[i] && n0036.Y < albumThumbY[i] + 90)
+				if (e.X > albumThumbX[i] && e.X < albumThumbX[i] + 120 && e.Y >= albumThumbY[i] && e.Y < albumThumbY[i] + 90)
 				{
 					albumSelection = i + 1;
 					break;

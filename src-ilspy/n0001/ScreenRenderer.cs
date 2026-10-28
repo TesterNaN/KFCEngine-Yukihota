@@ -647,23 +647,23 @@ namespace Yukihota
 					sprite.Draw2D((Texture)n0216[i], (Rectangle)n0217[i], (Rectangle)n0218[i], Point.Empty, 0f, (Point)n0219[i], (Color)n0220[i]);
 					continue;
 				}
-				Microsoft.DirectX.Direct3D.Font n880;
+				Microsoft.DirectX.Direct3D.Font optionsForm;
 				switch ((int)fontIndexQueue[num])
 				{
 				case 1:
-					n880 = n0593;
+					optionsForm = n0593;
 					break;
 				case 2:
-					n880 = messageFont;
+					optionsForm = messageFont;
 					break;
 				case 3:
-					n880 = captionFont;
+					optionsForm = captionFont;
 					break;
 				default:
-					n880 = n0593;
+					optionsForm = n0593;
 					break;
 				}
-				DrawTextCore((string)textQueue[num], (int)startIndexQueue[num], (double)endIndexQueue[num], (Point)textPositionQueue[num], (int)charWidthQueue[num], (int)lineHeightQueue[num], (int)shadowOffsetQueue[num], (HorizontalAlign)fontSizeModeQueue[num], (int)lineWidthQueue[num], n880, (bool)fadeOutQueue[num], (int)fadeLengthQueue[num], (Color)textColorQueue[num], (Color)shadowColorQueue[num], false);
+				DrawTextCore((string)textQueue[num], (int)startIndexQueue[num], (double)endIndexQueue[num], (Point)textPositionQueue[num], (int)charWidthQueue[num], (int)lineHeightQueue[num], (int)shadowOffsetQueue[num], (HorizontalAlign)fontSizeModeQueue[num], (int)lineWidthQueue[num], optionsForm, (bool)fadeOutQueue[num], (int)fadeLengthQueue[num], (Color)textColorQueue[num], (Color)shadowColorQueue[num], false);
 				num++;
 			}
 			sprite.End();
@@ -932,9 +932,9 @@ namespace Yukihota
 
 		private void DrawNextIndicator(int n0638, int n0639)
 		{
-			Rectangle n880 = new Rectangle(indicatorColumns[indicatorPhase % 16] * 32, 0, 32, 32);
+			Rectangle optionsForm = new Rectangle(indicatorColumns[indicatorPhase % 16] * 32, 0, 32, 32);
 			Point n881 = new Point(n0638 + indicatorOffsetX[indicatorPhase], n0639 + indicatorOffsetY[indicatorPhase]);
-			QueueDraw(modeIconTexture, n880, Rectangle.Empty, n881, Color.White);
+			QueueDraw(modeIconTexture, optionsForm, Rectangle.Empty, n881, Color.White);
 			indicatorPhase++;
 			indicatorPhase %= 32;
 		}
@@ -1174,7 +1174,7 @@ namespace Yukihota
 					}
 					if (fadeEnabled)
 					{
-						Point n880 = new Point(0, 0);
+						Point optionsForm = new Point(0, 0);
 						switch (backgroundWipeBlend)
 						{
 						case TextureBlend.Normal:
@@ -1196,14 +1196,14 @@ namespace Yukihota
 							Rectangle n882;
 							for (int j = 0; j < 16; j++)
 							{
-								n880.X = 832 * (backgroundFadeDurations[backgroundFadeSpeed] - backgroundFadeCounter) / backgroundFadeDurations[backgroundFadeSpeed] + (-j - 1) * 2;
-								n882 = new Rectangle(n880.X, 0, 2, 600);
+								optionsForm.X = 832 * (backgroundFadeDurations[backgroundFadeSpeed] - backgroundFadeCounter) / backgroundFadeDurations[backgroundFadeSpeed] + (-j - 1) * 2;
+								n882 = new Rectangle(optionsForm.X, 0, 2, 600);
 								int alpha2 = (int)((double)(j + 1) / 17.0 * 255.0);
-								QueueDraw(backgroundTexture, n882, Rectangle.Empty, n880, Color.FromArgb(alpha2, Color.White));
+								QueueDraw(backgroundTexture, n882, Rectangle.Empty, optionsForm, Color.FromArgb(alpha2, Color.White));
 							}
-							n880.X = 0;
-							n882 = new Rectangle(n880.X, 0, 832 * (backgroundFadeDurations[backgroundFadeSpeed] - backgroundFadeCounter) / backgroundFadeDurations[backgroundFadeSpeed] - 32, 600);
-							QueueDraw(backgroundTexture, n882, Rectangle.Empty, n880, Color.White);
+							optionsForm.X = 0;
+							n882 = new Rectangle(optionsForm.X, 0, 832 * (backgroundFadeDurations[backgroundFadeSpeed] - backgroundFadeCounter) / backgroundFadeDurations[backgroundFadeSpeed] - 32, 600);
+							QueueDraw(backgroundTexture, n882, Rectangle.Empty, optionsForm, Color.White);
 							break;
 						}
 						case TextureBlend.Right:
@@ -1215,14 +1215,14 @@ namespace Yukihota
 							Rectangle n881;
 							for (int i = 0; i < 16; i++)
 							{
-								n880.X = 832 * backgroundFadeCounter / backgroundFadeDurations[backgroundFadeSpeed] + (i - 16) * 2;
-								n881 = new Rectangle(n880.X, 0, 2, 600);
+								optionsForm.X = 832 * backgroundFadeCounter / backgroundFadeDurations[backgroundFadeSpeed] + (i - 16) * 2;
+								n881 = new Rectangle(optionsForm.X, 0, 2, 600);
 								int alpha = (int)((double)(i + 1) / 17.0 * 255.0);
-								QueueDraw(backgroundTexture, n881, Rectangle.Empty, n880, Color.FromArgb(alpha, Color.White));
+								QueueDraw(backgroundTexture, n881, Rectangle.Empty, optionsForm, Color.FromArgb(alpha, Color.White));
 							}
-							n880.X = 832 * backgroundFadeCounter / backgroundFadeDurations[backgroundFadeSpeed];
-							n881 = new Rectangle(n880.X, 0, 800 - n880.X, 600);
-							QueueDraw(backgroundTexture, n881, Rectangle.Empty, n880, Color.White);
+							optionsForm.X = 832 * backgroundFadeCounter / backgroundFadeDurations[backgroundFadeSpeed];
+							n881 = new Rectangle(optionsForm.X, 0, 800 - optionsForm.X, 600);
+							QueueDraw(backgroundTexture, n881, Rectangle.Empty, optionsForm, Color.White);
 							break;
 						}
 						}
@@ -1473,14 +1473,14 @@ namespace Yukihota
 					{
 						double num = (double)zoomCounter / (double)zoomDurations[zoomSpeedIndex];
 						double num2 = 1.0 - num;
-						Rectangle n880 = new Rectangle((int)(num * (double)zoomSourceRect.Left + num2 * (double)zoomTargetRect.Left), (int)(num * (double)zoomSourceRect.Top + num2 * (double)zoomTargetRect.Top), (int)(num * (double)zoomSourceRect.Width + num2 * (double)zoomTargetRect.Width), (int)(num * (double)zoomSourceRect.Height + num2 * (double)zoomTargetRect.Height));
+						Rectangle optionsForm = new Rectangle((int)(num * (double)zoomSourceRect.Left + num2 * (double)zoomTargetRect.Left), (int)(num * (double)zoomSourceRect.Top + num2 * (double)zoomTargetRect.Top), (int)(num * (double)zoomSourceRect.Width + num2 * (double)zoomTargetRect.Width), (int)(num * (double)zoomSourceRect.Height + num2 * (double)zoomTargetRect.Height));
 						if (backgroundTexture != null)
 						{
-							QueueDraw(backgroundTexture, n880, screenRect, Point.Empty, Color.White);
+							QueueDraw(backgroundTexture, optionsForm, screenRect, Point.Empty, Color.White);
 						}
 						else if (previousBackgroundTexture != null)
 						{
-							QueueDraw(previousBackgroundTexture, n880, screenRect, Point.Empty, Color.White);
+							QueueDraw(previousBackgroundTexture, optionsForm, screenRect, Point.Empty, Color.White);
 						}
 					}
 					zoomCounter--;
@@ -1704,9 +1704,9 @@ namespace Yukihota
 		{
 			int x = (n0644 - 18) * 80 / (int)(450.0 * n0697);
 			int y = (-n0644 - 18) * 80 / (int)(450.0 * n0697);
-			Rectangle n880 = new Rectangle(0, 0, 80, 80);
+			Rectangle optionsForm = new Rectangle(0, 0, 80, 80);
 			Rectangle n881 = new Rectangle(0, 0, (int)(450.0 * n0697), (int)(450.0 * n0697));
-			QueueDraw(sunTexture, n880, n881, new Point(x, y), Color.FromArgb((int)(n0697 * durationMode * 255.0), Color.White));
+			QueueDraw(sunTexture, optionsForm, n881, new Point(x, y), Color.FromArgb((int)(n0697 * durationMode * 255.0), Color.White));
 		}
 
 		private void InitPetals()
@@ -1886,8 +1886,8 @@ namespace Yukihota
 
 		private void DrawPetal(int n0715, int n0716, PointF n0644)
 		{
-			Rectangle n880 = new Rectangle(n0715 * 24, (n0716 - 1) * 24, 24, 24);
-			QueueDraw(petalTexture, n880, Rectangle.Empty, new Point((int)n0644.X, (int)n0644.Y), Color.White);
+			Rectangle optionsForm = new Rectangle(n0715 * 24, (n0716 - 1) * 24, 24, 24);
+			QueueDraw(petalTexture, optionsForm, Rectangle.Empty, new Point((int)n0644.X, (int)n0644.Y), Color.White);
 		}
 
 		private void InitSnow()
@@ -1996,8 +1996,8 @@ namespace Yukihota
 
 		private void DrawSnowflake(int n0716, PointF n0644)
 		{
-			Rectangle n880 = new Rectangle((n0716 - 1) * 16, 0, 16, 16);
-			QueueDraw(snowTexture, n880, Rectangle.Empty, new Point((int)n0644.X, (int)n0644.Y), Color.White);
+			Rectangle optionsForm = new Rectangle((n0716 - 1) * 16, 0, 16, 16);
+			QueueDraw(snowTexture, optionsForm, Rectangle.Empty, new Point((int)n0644.X, (int)n0644.Y), Color.White);
 		}
 
 		private void InitDimOverlay()
@@ -2939,8 +2939,8 @@ namespace Yukihota
 		{
 			if (modeIconIndex > 0)
 			{
-				Rectangle n880 = new Rectangle(modeIconFrame / 3 * 32, modeIconIndex * 32, 32, 32);
-				QueueDraw(modeIconTexture, n880, Rectangle.Empty, modeIconPosition, Color.White);
+				Rectangle optionsForm = new Rectangle(modeIconFrame / 3 * 32, modeIconIndex * 32, 32, 32);
+				QueueDraw(modeIconTexture, optionsForm, Rectangle.Empty, modeIconPosition, Color.White);
 				modeIconFrame++;
 				if (modeIconFrame == 9)
 				{
