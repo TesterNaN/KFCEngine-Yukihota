@@ -43,9 +43,9 @@ namespace Yukihota
 
 		private static int seSlotIndex = 0;
 
-		public ScenarioScript(string n0348, int n0246, Device n0349)
+		public ScenarioScript(string scriptPath, int episode, Device device)
 		{
-			device = n0349;
+			device = device;
 			for (int i = 0; i < 3; i++)
 			{
 				documents[i] = new XmlDocument();
@@ -55,14 +55,14 @@ namespace Yukihota
 			documents[2].Load(scriptArchive.ReadEntry("JP"));
 			for (int j = 0; j < 3; j++)
 			{
-				episodeNodes[j] = documents[j].SelectNodes(n0348 + "/episode")[n0246 - 1];
+				episodeNodes[j] = documents[j].SelectNodes(scriptPath + "/episode")[episode - 1];
 				if (episodeNodes[j] == null)
 				{
 					throw new Exception(errorMessage);
 				}
 				currentNodes[j] = episodeNodes[j];
 			}
-			episodeNumber = n0246;
+			episodeNumber = episode;
 			maxAlbumIndex = 0;
 		}
 
@@ -109,10 +109,10 @@ namespace Yukihota
 			GC.SuppressFinalize(this);
 		}
 
-		public ScenarioResult Advance(out object n0479, out object n0480, bool instant)
+		public ScenarioResult Advance(out object resultData, out object resultOption, bool instant)
 		{
-			n0479 = null;
-			n0480 = null;
+			resultData = null;
+			resultOption = null;
 			if (currentNodes[0] == null)
 			{
 				return ScenarioResult.Error;
@@ -193,11 +193,11 @@ namespace Yukihota
 			{
 				if (currentNodes[0].PreviousSibling != null && (currentNodes[0].PreviousSibling.Name == "dialogue" || currentNodes[0].PreviousSibling.Name == "paragraph") && currentNodes[0].PreviousSibling.Attributes["voice"] != null)
 				{
-					n0480 = true;
+					resultOption = true;
 				}
 				else
 				{
-					n0480 = false;
+					resultOption = false;
 				}
 				return ScenarioResult.Click;
 			}
@@ -208,7 +208,7 @@ namespace Yukihota
 					GC.Collect();
 					try
 					{
-						n0479 = TextureLoader.FromStream(device, bgArchive.ReadEntry(currentNodes[0].Attributes["background"].Value), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+						resultData = TextureLoader.FromStream(device, bgArchive.ReadEntry(currentNodes[0].Attributes["background"].Value), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 					}
 					catch (Exception ex)
 					{
@@ -220,7 +220,7 @@ namespace Yukihota
 				{
 					try
 					{
-						n0479 = Color.FromName(currentNodes[0].Attributes["backcolor"].Value);
+						resultData = Color.FromName(currentNodes[0].Attributes["backcolor"].Value);
 					}
 					catch (Exception ex2)
 					{
@@ -230,15 +230,15 @@ namespace Yukihota
 				}
 				else
 				{
-					n0479 = Color.Black;
+					resultData = Color.Black;
 				}
 				if (currentNodes[0].Attributes["time"] == null || currentNodes[0].Attributes["time"].Value == "short")
 				{
-					n0480 = 1;
+					resultOption = 1;
 				}
 				else if (currentNodes[0].Attributes["time"].Value == "long")
 				{
-					n0480 = 2;
+					resultOption = 2;
 				}
 				else
 				{
@@ -247,7 +247,7 @@ namespace Yukihota
 						MessageBox.Show(errorMessage);
 						return ScenarioResult.Error;
 					}
-					n0480 = 0;
+					resultOption = 0;
 				}
 				if (currentNodes[0].Attributes["album"] != null)
 				{
@@ -301,7 +301,7 @@ namespace Yukihota
 						}
 						File.Move(tempDirectory + "\\" + currentNodes[0].Attributes["name"].Value + ".wav", tempDirectory + "\\bgm" + bgmSlotIndex + ".wav");
 						GC.Collect();
-						n0479 = tempDirectory + "\\bgm" + bgmSlotIndex + ".wav";
+						resultData = tempDirectory + "\\bgm" + bgmSlotIndex + ".wav";
 						bgmSlotIndex = (bgmSlotIndex + 1) % 4;
 					}
 					catch (Exception ex5)
@@ -313,7 +313,7 @@ namespace Yukihota
 					{
 						try
 						{
-							n0480 = double.Parse(currentNodes[0].Attributes["position"].Value);
+							resultOption = double.Parse(currentNodes[0].Attributes["position"].Value);
 							return ScenarioResult.Bgm;
 						}
 						catch (Exception ex6)
@@ -322,13 +322,13 @@ namespace Yukihota
 							return ScenarioResult.Error;
 						}
 					}
-					n0480 = 0.0;
+					resultOption = 0.0;
 					return ScenarioResult.Bgm;
 				}
 				if (currentNodes[0].Attributes["mute"] != null && currentNodes[0].Attributes["mute"].Value == "true")
 				{
-					n0479 = null;
-					n0480 = 0.0;
+					resultData = null;
+					resultOption = 0.0;
 					return ScenarioResult.Bgm;
 				}
 				if (currentNodes[0].Attributes["volume"] == null)
@@ -336,15 +336,15 @@ namespace Yukihota
 					MessageBox.Show(errorMessage);
 					return ScenarioResult.Error;
 				}
-				n0479 = null;
+				resultData = null;
 				if (currentNodes[0].Attributes["volume"].Value == "down")
 				{
-					n0480 = false;
+					resultOption = false;
 					return ScenarioResult.Bgm;
 				}
 				if (currentNodes[0].Attributes["volume"].Value == "up")
 				{
-					n0480 = true;
+					resultOption = true;
 					return ScenarioResult.Bgm;
 				}
 				MessageBox.Show(errorMessage);
@@ -352,11 +352,11 @@ namespace Yukihota
 			}
 			if (currentNodes[0].Name == "chara")
 			{
-				n0480 = new SpriteState();
-				((SpriteState)n0480).level = 0;
+				resultOption = new SpriteState();
+				((SpriteState)resultOption).level = 0;
 				try
 				{
-					((SpriteState)n0480).index = int.Parse(currentNodes[0].Attributes["index"].Value);
+					((SpriteState)resultOption).index = int.Parse(currentNodes[0].Attributes["index"].Value);
 				}
 				catch (Exception ex7)
 				{
@@ -365,23 +365,23 @@ namespace Yukihota
 				}
 				if (currentNodes[0].Attributes["action"] != null && !(currentNodes[0].Attributes["action"].Value == "show"))
 				{
-					n0479 = null;
+					resultData = null;
 					if (currentNodes[0].Attributes["action"].Value == "hide")
 					{
-						((SpriteState)n0480).action = SpriteMode.Static;
+						((SpriteState)resultOption).action = SpriteMode.Static;
 					}
 					else if (currentNodes[0].Attributes["action"].Value == "shock")
 					{
-						((SpriteState)n0480).action = SpriteMode.Shaking;
+						((SpriteState)resultOption).action = SpriteMode.Shaking;
 						if (currentNodes[0].Attributes["level"] == null)
 						{
-							((SpriteState)n0480).level = 0;
+							((SpriteState)resultOption).level = 0;
 						}
 						else
 						{
 							try
 							{
-								((SpriteState)n0480).level = int.Parse(currentNodes[0].Attributes["level"].Value);
+								((SpriteState)resultOption).level = int.Parse(currentNodes[0].Attributes["level"].Value);
 							}
 							catch (Exception ex8)
 							{
@@ -396,21 +396,21 @@ namespace Yukihota
 					try
 					{
 						ImageInformation imageInformation = TextureLoader.ImageInformationFromStream(charaArchive.ReadEntry(currentNodes[0].Attributes["code"].Value));
-						n0479 = TextureLoader.FromStream(device, charaArchive.ReadEntry(currentNodes[0].Attributes["code"].Value), imageInformation.Width, imageInformation.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
-						((SpriteState)n0480).size = new Size(imageInformation.Width, imageInformation.Height);
+						resultData = TextureLoader.FromStream(device, charaArchive.ReadEntry(currentNodes[0].Attributes["code"].Value), imageInformation.Width, imageInformation.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+						((SpriteState)resultOption).size = new Size(imageInformation.Width, imageInformation.Height);
 					}
 					catch (Exception ex9)
 					{
 						MessageBox.Show(ex9.Message);
 						return ScenarioResult.Error;
 					}
-					((SpriteState)n0480).action = SpriteMode.Static;
+					((SpriteState)resultOption).action = SpriteMode.Static;
 				}
 				if (currentNodes[0].Attributes["location"] != null)
 				{
 					try
 					{
-						((SpriteState)n0480).location = int.Parse(currentNodes[0].Attributes["location"].Value);
+						((SpriteState)resultOption).location = int.Parse(currentNodes[0].Attributes["location"].Value);
 					}
 					catch (Exception ex10)
 					{
@@ -420,11 +420,11 @@ namespace Yukihota
 				}
 				else
 				{
-					((SpriteState)n0480).location = int.MaxValue;
+					((SpriteState)resultOption).location = int.MaxValue;
 				}
 				if (currentNodes[0].Attributes["transparent"] == null || currentNodes[0].Attributes["transparent"].Value == "false")
 				{
-					((SpriteState)n0480).isTransparent = false;
+					((SpriteState)resultOption).isTransparent = false;
 				}
 				else
 				{
@@ -433,11 +433,11 @@ namespace Yukihota
 						MessageBox.Show(errorMessage);
 						return ScenarioResult.Error;
 					}
-					((SpriteState)n0480).isTransparent = true;
+					((SpriteState)resultOption).isTransparent = true;
 				}
 				if (currentNodes[0].Attributes["animation"] == null || currentNodes[0].Attributes["animation"].Value == "true")
 				{
-					((SpriteState)n0480).isAnimated = true;
+					((SpriteState)resultOption).isAnimated = true;
 				}
 				else
 				{
@@ -446,15 +446,15 @@ namespace Yukihota
 						MessageBox.Show(errorMessage);
 						return ScenarioResult.Error;
 					}
-					((SpriteState)n0480).isAnimated = false;
+					((SpriteState)resultOption).isAnimated = false;
 				}
 				if (currentNodes[0].Attributes["synchro"] == null)
 				{
-					((SpriteState)n0480).sync = !((SpriteState)n0480).isAnimated;
+					((SpriteState)resultOption).sync = !((SpriteState)resultOption).isAnimated;
 				}
 				else if (currentNodes[0].Attributes["synchro"].Value == "false")
 				{
-					((SpriteState)n0480).sync = false;
+					((SpriteState)resultOption).sync = false;
 				}
 				else
 				{
@@ -463,7 +463,7 @@ namespace Yukihota
 						MessageBox.Show(errorMessage);
 						return ScenarioResult.Error;
 					}
-					((SpriteState)n0480).sync = true;
+					((SpriteState)resultOption).sync = true;
 				}
 				return ScenarioResult.Character;
 			}
@@ -471,10 +471,10 @@ namespace Yukihota
 			{
 				if (currentNodes[0].Name == "sound")
 				{
-					n0480 = new InputState();
+					resultOption = new InputState();
 					if (currentNodes[0].Attributes["loop"] == null || currentNodes[0].Attributes["loop"].Value == "false")
 					{
-						((InputState)n0480).loop = false;
+						((InputState)resultOption).loop = false;
 					}
 					else
 					{
@@ -483,11 +483,11 @@ namespace Yukihota
 							MessageBox.Show(errorMessage);
 							return ScenarioResult.Error;
 						}
-						((InputState)n0480).loop = true;
+						((InputState)resultOption).loop = true;
 					}
 					if (currentNodes[0].Attributes["animation"] == null || currentNodes[0].Attributes["animation"].Value == "true")
 					{
-						((InputState)n0480).wait = true;
+						((InputState)resultOption).wait = true;
 					}
 					else
 					{
@@ -496,7 +496,7 @@ namespace Yukihota
 							MessageBox.Show(errorMessage);
 							return ScenarioResult.Error;
 						}
-						((InputState)n0480).wait = false;
+						((InputState)resultOption).wait = false;
 					}
 					if (currentNodes[0].Attributes["mute"] == null || currentNodes[0].Attributes["mute"].Value == "false")
 					{
@@ -535,7 +535,7 @@ namespace Yukihota
 							}
 							File.Move(tempDirectory + "\\" + currentNodes[0].Attributes["name"].Value + ".wav", tempDirectory + "\\Se" + seSlotIndex + ".wav");
 							GC.Collect();
-							n0479 = tempDirectory + "\\se" + seSlotIndex + ".wav";
+							resultData = tempDirectory + "\\se" + seSlotIndex + ".wav";
 							seSlotIndex = (seSlotIndex + 1) % 4;
 							return ScenarioResult.Sound;
 						}
@@ -550,7 +550,7 @@ namespace Yukihota
 						MessageBox.Show(errorMessage);
 						return ScenarioResult.Error;
 					}
-					n0479 = null;
+					resultData = null;
 					return ScenarioResult.Sound;
 				}
 				if (currentNodes[0].Name == "wait")
@@ -562,15 +562,15 @@ namespace Yukihota
 					}
 					if (currentNodes[0].Attributes["time"].Value == "no")
 					{
-						n0480 = 0;
+						resultOption = 0;
 					}
 					else if (currentNodes[0].Attributes["time"].Value == "short")
 					{
-						n0480 = 1;
+						resultOption = 1;
 					}
 					else if (currentNodes[0].Attributes["time"].Value == "middle")
 					{
-						n0480 = 2;
+						resultOption = 2;
 					}
 					else
 					{
@@ -579,7 +579,7 @@ namespace Yukihota
 							MessageBox.Show(errorMessage);
 							return ScenarioResult.Error;
 						}
-						n0480 = 3;
+						resultOption = 3;
 					}
 					return ScenarioResult.Jump;
 				}
@@ -587,7 +587,7 @@ namespace Yukihota
 				{
 					if (currentNodes[0].Attributes["animation"] == null || currentNodes[0].Attributes["animation"].Value == "false")
 					{
-						n0480 = false;
+						resultOption = false;
 						return ScenarioResult.Dismiss;
 					}
 					XmlNode[] array = currentNodes;
@@ -596,12 +596,12 @@ namespace Yukihota
 						MessageBox.Show(errorMessage);
 						return ScenarioResult.Error;
 					}
-					n0480 = true;
+					resultOption = true;
 					return ScenarioResult.Dismiss;
 				}
 				if (currentNodes[0].Name == "title")
 				{
-					n0479 = new string[3];
+					resultData = new string[3];
 					for (int num4 = 0; num4 < 3; num4++)
 					{
 						if (episodeNodes[num4].Attributes["title"] == null)
@@ -609,7 +609,7 @@ namespace Yukihota
 							MessageBox.Show(errorMessage);
 							return ScenarioResult.Error;
 						}
-						((string[])n0479)[num4] = episodeNodes[num4].Attributes["title"].Value;
+						((string[])resultData)[num4] = episodeNodes[num4].Attributes["title"].Value;
 					}
 					return ScenarioResult.Notice;
 				}
@@ -622,17 +622,17 @@ namespace Yukihota
 					}
 					if (currentNodes[0].Attributes["type"].Value == "zoom")
 					{
-						n0480 = new AnimItem();
-						((AnimItem)n0480).type = DrawItemType.Zoom;
+						resultOption = new AnimItem();
+						((AnimItem)resultOption).type = DrawItemType.Zoom;
 						if (currentNodes[0].Attributes["left"] == null)
 						{
-							((AnimItem)n0480).left = 0.0;
+							((AnimItem)resultOption).left = 0.0;
 						}
 						else
 						{
 							try
 							{
-								((AnimItem)n0480).left = double.Parse(currentNodes[0].Attributes["left"].Value);
+								((AnimItem)resultOption).left = double.Parse(currentNodes[0].Attributes["left"].Value);
 							}
 							catch (Exception ex13)
 							{
@@ -642,13 +642,13 @@ namespace Yukihota
 						}
 						if (currentNodes[0].Attributes["right"] == null)
 						{
-							((AnimItem)n0480).right = 1.0;
+							((AnimItem)resultOption).right = 1.0;
 						}
 						else
 						{
 							try
 							{
-								((AnimItem)n0480).right = double.Parse(currentNodes[0].Attributes["right"].Value);
+								((AnimItem)resultOption).right = double.Parse(currentNodes[0].Attributes["right"].Value);
 							}
 							catch (Exception ex14)
 							{
@@ -658,13 +658,13 @@ namespace Yukihota
 						}
 						if (currentNodes[0].Attributes["top"] == null)
 						{
-							((AnimItem)n0480).top = 0.0;
+							((AnimItem)resultOption).top = 0.0;
 						}
 						else
 						{
 							try
 							{
-								((AnimItem)n0480).top = double.Parse(currentNodes[0].Attributes["top"].Value);
+								((AnimItem)resultOption).top = double.Parse(currentNodes[0].Attributes["top"].Value);
 							}
 							catch (Exception ex15)
 							{
@@ -676,7 +676,7 @@ namespace Yukihota
 						{
 							try
 							{
-								((AnimItem)n0480).bottom = double.Parse(currentNodes[0].Attributes["bottom"].Value);
+								((AnimItem)resultOption).bottom = double.Parse(currentNodes[0].Attributes["bottom"].Value);
 							}
 							catch (Exception ex16)
 							{
@@ -686,11 +686,11 @@ namespace Yukihota
 						}
 						else
 						{
-							((AnimItem)n0480).bottom = 1.0;
+							((AnimItem)resultOption).bottom = 1.0;
 						}
 						if (currentNodes[0].Attributes["time"] == null || currentNodes[0].Attributes["time"].Value == "short")
 						{
-							((AnimItem)n0480).durationMode = 1;
+							((AnimItem)resultOption).durationMode = 1;
 						}
 						else
 						{
@@ -699,68 +699,68 @@ namespace Yukihota
 								MessageBox.Show(errorMessage);
 								return ScenarioResult.Error;
 							}
-							((AnimItem)n0480).durationMode = 2;
+							((AnimItem)resultOption).durationMode = 2;
 						}
 					}
 					else if (currentNodes[0].Attributes["type"].Value == "dark")
 					{
-						n0480 = new DrawItem();
-						((DrawItem)n0480).type = DrawItemType.Dim;
+						resultOption = new DrawItem();
+						((DrawItem)resultOption).type = DrawItemType.Dim;
 					}
 					else if (currentNodes[0].Attributes["type"].Value == "think")
 					{
-						n0480 = new DrawItem();
-						((DrawItem)n0480).type = DrawItemType.Think;
+						resultOption = new DrawItem();
+						((DrawItem)resultOption).type = DrawItemType.Think;
 					}
 					else if (currentNodes[0].Attributes["type"].Value == "sun")
 					{
-						n0480 = new DrawItem();
-						((DrawItem)n0480).type = DrawItemType.Sun;
+						resultOption = new DrawItem();
+						((DrawItem)resultOption).type = DrawItemType.Sun;
 					}
 					else if (currentNodes[0].Attributes["type"].Value == "sakura")
 					{
-						n0480 = new DrawItem();
-						((DrawItem)n0480).type = DrawItemType.Petals;
+						resultOption = new DrawItem();
+						((DrawItem)resultOption).type = DrawItemType.Petals;
 					}
 					else if (currentNodes[0].Attributes["type"].Value == "snow")
 					{
-						n0480 = new DrawItem();
-						((DrawItem)n0480).type = DrawItemType.Snow;
+						resultOption = new DrawItem();
+						((DrawItem)resultOption).type = DrawItemType.Snow;
 					}
 					else if (currentNodes[0].Attributes["type"].Value == "shock")
 					{
-						n0480 = new FlagItem();
-						((FlagItem)n0480).type = DrawItemType.Shake;
+						resultOption = new FlagItem();
+						((FlagItem)resultOption).type = DrawItemType.Shake;
 						if (currentNodes[0].Attributes["loop"] != null && !(currentNodes[0].Attributes["loop"].Value == "false"))
 						{
 							if (currentNodes[0].Attributes["loop"].Value == "true")
 							{
-								((FlagItem)n0480).loop = true;
+								((FlagItem)resultOption).loop = true;
 							}
 						}
 						else
 						{
-							((FlagItem)n0480).loop = false;
+							((FlagItem)resultOption).loop = false;
 						}
 					}
 					else
 					{
 						if (!(currentNodes[0].Attributes["type"].Value == "back"))
 						{
-							n0479 = null;
-							n0480 = null;
+							resultData = null;
+							resultOption = null;
 							return ScenarioResult.None;
 						}
-						n0480 = new TextureItem();
-						((TextureItem)n0480).type = DrawItemType.Background;
-						((TextureItem)n0480).texture = TextureLoader.FromStream(device, bgArchive.ReadEntry(currentNodes[0].Attributes["ground"].Value), 0, 0, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+						resultOption = new TextureItem();
+						((TextureItem)resultOption).type = DrawItemType.Background;
+						((TextureItem)resultOption).texture = TextureLoader.FromStream(device, bgArchive.ReadEntry(currentNodes[0].Attributes["ground"].Value), 0, 0, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 						if (currentNodes[0].Attributes["trans"] == null || currentNodes[0].Attributes["trans"].Value == "fade")
 						{
-							((TextureItem)n0480).blend = TextureBlend.Normal;
+							((TextureItem)resultOption).blend = TextureBlend.Normal;
 						}
 						else if (currentNodes[0].Attributes["trans"].Value == "left")
 						{
-							((TextureItem)n0480).blend = TextureBlend.Left;
+							((TextureItem)resultOption).blend = TextureBlend.Left;
 						}
 						else
 						{
@@ -769,15 +769,15 @@ namespace Yukihota
 								MessageBox.Show(errorMessage);
 								return ScenarioResult.Error;
 							}
-							((TextureItem)n0480).blend = TextureBlend.Right;
+							((TextureItem)resultOption).blend = TextureBlend.Right;
 						}
 						if (currentNodes[0].Attributes["time"] == null || currentNodes[0].Attributes["time"].Value == "short")
 						{
-							((TextureItem)n0480).durationMode = 1;
+							((TextureItem)resultOption).durationMode = 1;
 						}
 						else if (currentNodes[0].Attributes["time"].Value == "long")
 						{
-							((TextureItem)n0480).durationMode = 2;
+							((TextureItem)resultOption).durationMode = 2;
 						}
 						else
 						{
@@ -786,7 +786,7 @@ namespace Yukihota
 								MessageBox.Show(errorMessage);
 								return ScenarioResult.Error;
 							}
-							((TextureItem)n0480).durationMode = 0;
+							((TextureItem)resultOption).durationMode = 0;
 						}
 						if (currentNodes[0].Attributes["album"] != null)
 						{
@@ -807,7 +807,7 @@ namespace Yukihota
 					}
 					if (currentNodes[0].Attributes["animation"] == null || currentNodes[0].Attributes["animation"].Value == "false")
 					{
-						object obj = n0480;
+						object obj = resultOption;
 						((DrawItem)obj).isAnimated = false;
 					}
 					else
@@ -817,15 +817,15 @@ namespace Yukihota
 							MessageBox.Show(errorMessage);
 							return ScenarioResult.Error;
 						}
-						((DrawItem)n0480).isAnimated = true;
+						((DrawItem)resultOption).isAnimated = true;
 					}
 					if (currentNodes[0].Attributes["synchro"] == null)
 					{
-						((DrawItem)n0480).sync = !((DrawItem)n0480).isAnimated;
+						((DrawItem)resultOption).sync = !((DrawItem)resultOption).isAnimated;
 					}
 					else if (currentNodes[0].Attributes["synchro"].Value == "false")
 					{
-						((DrawItem)n0480).sync = false;
+						((DrawItem)resultOption).sync = false;
 					}
 					else
 					{
@@ -834,11 +834,11 @@ namespace Yukihota
 							MessageBox.Show(errorMessage);
 							return ScenarioResult.Error;
 						}
-						((DrawItem)n0480).sync = true;
+						((DrawItem)resultOption).sync = true;
 					}
 					if (currentNodes[0].Attributes["finish"] == null || currentNodes[0].Attributes["finish"].Value == "false")
 					{
-						((DrawItem)n0480).finish = false;
+						((DrawItem)resultOption).finish = false;
 					}
 					else
 					{
@@ -847,7 +847,7 @@ namespace Yukihota
 							MessageBox.Show(errorMessage);
 							return ScenarioResult.Error;
 						}
-						((DrawItem)n0480).finish = true;
+						((DrawItem)resultOption).finish = true;
 					}
 					return ScenarioResult.Draw;
 				}
@@ -892,21 +892,21 @@ namespace Yukihota
 					array2[1].Load(scriptArchive.ReadEntry("ED_TC"));
 					array2[2].Load(scriptArchive.ReadEntry("ED_JP"));
 					StaffRoll inputInfo = new StaffRoll(instance, charaArchive, bgArchive, array2);
-					n0479 = inputInfo;
+					resultData = inputInfo;
 					return ScenarioResult.StaffRoll;
 				}
 				return ScenarioResult.None;
 			}
 			if (!currentNodes[0].HasChildNodes)
 			{
-				n0479 = null;
+				resultData = null;
 			}
 			else
 			{
-				n0479 = new string[3];
+				resultData = new string[3];
 				for (int num8 = 0; num8 < 3; num8++)
 				{
-					string[] array3 = (string[])n0479;
+					string[] array3 = (string[])resultData;
 					array3[num8] = "";
 					if (currentNodes[num8].HasChildNodes)
 					{
@@ -918,7 +918,7 @@ namespace Yukihota
 								{
 									string[] array4;
 									IntPtr intPtr;
-									(array4 = (string[])n0479)[(int)(intPtr = (IntPtr)num8)] = array4[(int)intPtr] + "\n";
+									(array4 = (string[])resultData)[(int)(intPtr = (IntPtr)num8)] = array4[(int)intPtr] + "\n";
 									continue;
 								}
 								int num10 = 1;
@@ -935,7 +935,7 @@ namespace Yukihota
 								{
 									string[] array5;
 									IntPtr intPtr2;
-									(array5 = (string[])n0479)[(int)(intPtr2 = (IntPtr)num8)] = array5[(int)intPtr2] + "\n";
+									(array5 = (string[])resultData)[(int)(intPtr2 = (IntPtr)num8)] = array5[(int)intPtr2] + "\n";
 								}
 							}
 							else
@@ -947,7 +947,7 @@ namespace Yukihota
 								}
 								string[] array6;
 								IntPtr intPtr3;
-								(array6 = (string[])n0479)[(int)(intPtr3 = (IntPtr)num8)] = array6[(int)intPtr3] + currentNodes[num8].ChildNodes[num9].Value;
+								(array6 = (string[])resultData)[(int)(intPtr3 = (IntPtr)num8)] = array6[(int)intPtr3] + currentNodes[num8].ChildNodes[num9].Value;
 							}
 						}
 						continue;
@@ -956,13 +956,13 @@ namespace Yukihota
 					return ScenarioResult.Error;
 				}
 			}
-			string n538 = null;
-			bool n539 = false;
+			string voicePath = null;
+			bool hasVoice = false;
 			if (currentNodes[0].Attributes["voice"] != null)
 			{
 				if (instant)
 				{
-					n539 = true;
+					hasVoice = true;
 				}
 				else
 				{
@@ -995,7 +995,7 @@ namespace Yukihota
 							voiceSlotIndex = (voiceSlotIndex + 1) % 4;
 						}
 						File.Move(tempDirectory + "\\" + currentNodes[0].Attributes["voice"].Value + ".wav", tempDirectory + "\\voice" + voiceSlotIndex + ".wav");
-						n538 = tempDirectory + "\\voice" + voiceSlotIndex + ".wav";
+						voicePath = tempDirectory + "\\voice" + voiceSlotIndex + ".wav";
 						voiceSlotIndex = (voiceSlotIndex + 1) % 4;
 					}
 					catch (Exception ex21)
@@ -1007,12 +1007,12 @@ namespace Yukihota
 			}
 			if (currentNodes[0].Name == "paragraph")
 			{
-				n0480 = new MessageCommand();
+				resultOption = new MessageCommand();
 				if (currentNodes[0].Attributes["align"] != null && !(currentNodes[0].Attributes["align"].Value == "left"))
 				{
 					if (currentNodes[0].Attributes["align"].Value == "center")
 					{
-						((MessageCommand)n0480).align = HorizontalAlign.Center;
+						((MessageCommand)resultOption).align = HorizontalAlign.Center;
 					}
 					else
 					{
@@ -1021,30 +1021,30 @@ namespace Yukihota
 							MessageBox.Show(errorMessage);
 							return ScenarioResult.Error;
 						}
-						((MessageCommand)n0480).align = HorizontalAlign.Right;
+						((MessageCommand)resultOption).align = HorizontalAlign.Right;
 					}
 				}
 				else
 				{
-					((MessageCommand)n0480).align = HorizontalAlign.Left;
+					((MessageCommand)resultOption).align = HorizontalAlign.Left;
 				}
 				if (currentNodes[0].Attributes["show"] == null || currentNodes[0].Attributes["show"].Value == "print")
 				{
-					((MessageCommand)n0480).showMode = TextRevealMode.Typewriter;
+					((MessageCommand)resultOption).showMode = TextRevealMode.Typewriter;
 				}
 				else if (currentNodes[0].Attributes["show"].Value == "fade")
 				{
-					((MessageCommand)n0480).showMode = TextRevealMode.Fade;
+					((MessageCommand)resultOption).showMode = TextRevealMode.Fade;
 				}
 				if (currentNodes[0].Attributes["fore"] == null)
 				{
-					((MessageCommand)n0480).foreColor = Color.White;
+					((MessageCommand)resultOption).foreColor = Color.White;
 				}
 				else
 				{
 					try
 					{
-						((MessageCommand)n0480).foreColor = Color.FromName(currentNodes[0].Attributes["fore"].Value);
+						((MessageCommand)resultOption).foreColor = Color.FromName(currentNodes[0].Attributes["fore"].Value);
 					}
 					catch (Exception ex22)
 					{
@@ -1056,7 +1056,7 @@ namespace Yukihota
 				{
 					try
 					{
-						((MessageCommand)n0480).shadowColor = Color.FromName(currentNodes[0].Attributes["back"].Value);
+						((MessageCommand)resultOption).shadowColor = Color.FromName(currentNodes[0].Attributes["back"].Value);
 					}
 					catch (Exception ex23)
 					{
@@ -1066,7 +1066,7 @@ namespace Yukihota
 				}
 				else
 				{
-					((MessageCommand)n0480).shadowColor = Color.Black;
+					((MessageCommand)resultOption).shadowColor = Color.Black;
 				}
 				XmlNode nextSibling = currentNodes[0].NextSibling;
 				while (nextSibling != null && nextSibling.NodeType == XmlNodeType.Comment)
@@ -1075,17 +1075,17 @@ namespace Yukihota
 				}
 				if (nextSibling != null && nextSibling.Name == "click")
 				{
-					((MessageCommand)n0480).waitClick = true;
+					((MessageCommand)resultOption).waitClick = true;
 				}
 				else
 				{
-					((MessageCommand)n0480).waitClick = false;
+					((MessageCommand)resultOption).waitClick = false;
 				}
-				((MessageCommand)n0480).voice = n538;
-				((MessageCommand)n0480).instant = n539;
+				((MessageCommand)resultOption).voice = voicePath;
+				((MessageCommand)resultOption).instant = hasVoice;
 				return ScenarioResult.Message;
 			}
-			n0480 = new CaptionCommand();
+			resultOption = new CaptionCommand();
 			if (currentNodes[0].Attributes["chara"] != null)
 			{
 				for (int num13 = 0; num13 < 3; num13++)
@@ -1095,16 +1095,16 @@ namespace Yukihota
 						MessageBox.Show(errorMessage);
 						return ScenarioResult.Error;
 					}
-					((CaptionCommand)n0480).charaNames[num13] = currentNodes[num13].Attributes["chara"].Value;
+					((CaptionCommand)resultOption).charaNames[num13] = currentNodes[num13].Attributes["chara"].Value;
 				}
 			}
 			else
 			{
-				((CaptionCommand)n0480).charaNames = null;
+				((CaptionCommand)resultOption).charaNames = null;
 			}
 			if (currentNodes[0].Attributes["disappear"] == null || currentNodes[0].Attributes["disappear"].Value == "false")
 			{
-				((CaptionCommand)n0480).disappear = false;
+				((CaptionCommand)resultOption).disappear = false;
 			}
 			else
 			{
@@ -1113,11 +1113,11 @@ namespace Yukihota
 					MessageBox.Show(errorMessage);
 					return ScenarioResult.Error;
 				}
-				((CaptionCommand)n0480).disappear = true;
+				((CaptionCommand)resultOption).disappear = true;
 			}
 			if (currentNodes[0].Attributes["continue"] == null || currentNodes[0].Attributes["continue"].Value == "false")
 			{
-				((CaptionCommand)n0480).isContinuous = false;
+				((CaptionCommand)resultOption).isContinuous = false;
 			}
 			else
 			{
@@ -1126,10 +1126,10 @@ namespace Yukihota
 					MessageBox.Show(errorMessage);
 					return ScenarioResult.Error;
 				}
-				((CaptionCommand)n0480).isContinuous = true;
+				((CaptionCommand)resultOption).isContinuous = true;
 			}
-			((CaptionCommand)n0480).hideCharaName = ((CaptionCommand)n0480).disappear;
-			if (((CaptionCommand)n0480).charaNames != null)
+			((CaptionCommand)resultOption).hideCharaName = ((CaptionCommand)resultOption).disappear;
+			if (((CaptionCommand)resultOption).charaNames != null)
 			{
 				XmlNode nextSibling2 = currentNodes[0].NextSibling;
 				while (nextSibling2 != null && nextSibling2.Name != "dialogue")
@@ -1140,16 +1140,16 @@ namespace Yukihota
 				{
 					if (nextSibling2.Attributes["chara"] == null)
 					{
-						((CaptionCommand)n0480).hideCharaName = true;
+						((CaptionCommand)resultOption).hideCharaName = true;
 					}
 				}
 				else
 				{
-					((CaptionCommand)n0480).hideCharaName = true;
+					((CaptionCommand)resultOption).hideCharaName = true;
 				}
 			}
-			((CaptionCommand)n0480).voice = n538;
-			((CaptionCommand)n0480).instant = n539;
+			((CaptionCommand)resultOption).voice = voicePath;
+			((CaptionCommand)resultOption).instant = hasVoice;
 			return ScenarioResult.Caption;
 		}
 
