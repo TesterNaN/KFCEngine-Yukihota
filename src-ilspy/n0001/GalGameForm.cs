@@ -1586,34 +1586,34 @@ namespace Yukihota
 			}
 		}
 
-		private void ReadSetting(XmlDocument n0239, string n0240, ref string n0241)
+		private void ReadSetting(XmlDocument document, string xpath, ref string value)
 		{
-			XmlNode xmlNode = n0239.SelectSingleNode(n0240);
+			XmlNode xmlNode = document.SelectSingleNode(xpath);
 			if (xmlNode != null)
 			{
-				n0241 = xmlNode.InnerText;
+				value = xmlNode.InnerText;
 			}
 		}
 
-		private void ReadSetting(XmlDocument n0239, string n0240, ref bool n0241)
+		private void ReadSetting(XmlDocument document, string xpath, ref bool value)
 		{
-			XmlNode xmlNode = n0239.SelectSingleNode(n0240);
+			XmlNode xmlNode = document.SelectSingleNode(xpath);
 			if (xmlNode != null)
 			{
 				if (xmlNode.InnerText == "True")
 				{
-					n0241 = true;
+					value = true;
 				}
 				else if (xmlNode.InnerText == "False")
 				{
-					n0241 = false;
+					value = false;
 				}
 			}
 		}
 
-		private void ReadSetting(XmlDocument n0239, string n0240, int n0242, int n0243, ref int n0241)
+		private void ReadSetting(XmlDocument document, string xpath, int min, int max, ref int value)
 		{
-			XmlNode xmlNode = n0239.SelectSingleNode(n0240);
+			XmlNode xmlNode = document.SelectSingleNode(xpath);
 			if (xmlNode == null)
 			{
 				return;
@@ -1621,9 +1621,9 @@ namespace Yukihota
 			try
 			{
 				int num = int.Parse(xmlNode.InnerText);
-				if (num >= n0242 && num <= n0243)
+				if (num >= min && num <= max)
 				{
-					n0241 = num;
+					value = num;
 				}
 			}
 			catch
@@ -1631,7 +1631,7 @@ namespace Yukihota
 			}
 		}
 
-		private void ResetDevice(bool n0244)
+		private void ResetDevice(bool fullscreenEnabled)
 		{
 			PresentParameters presentParameters = new PresentParameters();
 			presentParameters.SwapEffect = SwapEffect.Flip;
@@ -1644,9 +1644,9 @@ namespace Yukihota
 			ResetDevice(FormBorderStyle == FormBorderStyle.None);
 		}
 
-		private void ApplyFullscreen(bool n0244)
+		private void ApplyFullscreen(bool fullscreenEnabled)
 		{
-			if (n0244)
+			if (fullscreenEnabled)
 			{
 				TopMost = true;
 				FormBorderStyle = FormBorderStyle.None;
@@ -1678,9 +1678,9 @@ namespace Yukihota
 			}
 		}
 
-		private void ApplyLanguage(ButtonLayout n0046)
+		private void ApplyLanguage(ButtonLayout layout)
 		{
-			switch (n0046)
+			switch (layout)
 			{
 			case ButtonLayout.SimplifiedChinese:
 				menuCancelItem.Text = "取消(&C)";
@@ -1794,11 +1794,11 @@ namespace Yukihota
 			return -1;
 		}
 
-		private void StartScenario(int n0246)
+		private void StartScenario(int episode)
 		{
 			try
 			{
-				director = new SceneDirector("Yukihota", n0246, device, sprite, new FrameCallback(ResetDevice), whiteTexture, forceFeedbackEffect, new System.Drawing.Font(fontName, 24f), language, textColor);
+				director = new SceneDirector("Yukihota", episode, device, sprite, new FrameCallback(ResetDevice), whiteTexture, forceFeedbackEffect, new System.Drawing.Font(fontName, 24f), language, textColor);
 				director.SetFadeEnabled(fadeEnabled);
 				director.SetSunEffectEnabled(sunEnabled);
 				director.SetEffectEnabled(envEnabled);
@@ -1850,14 +1850,14 @@ namespace Yukihota
 			EnterTitleMenu();
 		}
 
-		private void QueueDraw(Texture n0262, Rectangle n0263, Rectangle n0264, Point n0265, Color n0266)
+		private void QueueDraw(Texture texture, Rectangle destRect, Rectangle srcRect, Point position, Color color)
 		{
-			sprite.Draw2D(n0262, n0263, n0264, Point.Empty, 0f, n0265, n0266);
-			layerTextures.Add(n0262);
-			layerSourceRects.Add(n0263);
-			layerDestRects.Add(n0264);
-			layerPositions.Add(n0265);
-			layerColors.Add(n0266);
+			sprite.Draw2D(texture, destRect, srcRect, Point.Empty, 0f, position, color);
+			layerTextures.Add(texture);
+			layerSourceRects.Add(destRect);
+			layerDestRects.Add(srcRect);
+			layerPositions.Add(position);
+			layerColors.Add(color);
 		}
 
 		private void LoadLogoTexture()
@@ -2000,13 +2000,13 @@ namespace Yukihota
 			menuFadeIn = false;
 		}
 
-		private void MoveMenuSelection(int n0277)
+		private void MoveMenuSelection(int direction)
 		{
 			if (menuFadeCounter > 0)
 			{
 				return;
 			}
-			switch (n0277)
+			switch (direction)
 			{
 			case 0:
 				if (menuSelection == 0)
@@ -2216,7 +2216,7 @@ namespace Yukihota
 			optionsFadeIn = false;
 		}
 
-		private void MoveOptionSelection(int n0277)
+		private void MoveOptionSelection(int direction)
 		{
 			if (optionsFadeCounter > 0)
 			{
@@ -2226,7 +2226,7 @@ namespace Yukihota
 			{
 				if (optionSelection >= 1 && optionSelection <= 8)
 				{
-					switch (n0277)
+					switch (direction)
 					{
 					case 0:
 					case 1:
@@ -2246,7 +2246,7 @@ namespace Yukihota
 				}
 				else if (optionSelection >= 9 && optionSelection <= 15)
 				{
-					switch (n0277)
+					switch (direction)
 					{
 					case 0:
 						optionSelection--;
@@ -2286,7 +2286,7 @@ namespace Yukihota
 				}
 				else if (optionSelection >= 16 && optionSelection <= 21)
 				{
-					switch (n0277)
+					switch (direction)
 					{
 					case 0:
 						optionSelection--;
@@ -2319,7 +2319,7 @@ namespace Yukihota
 				}
 				else if (optionSelection >= 22 && optionSelection <= 23)
 				{
-					switch (n0277)
+					switch (direction)
 					{
 					case 0:
 					case 1:
@@ -2336,7 +2336,7 @@ namespace Yukihota
 			}
 			else
 			{
-				switch (n0277)
+				switch (direction)
 				{
 				case 0:
 				case 2:
@@ -2350,9 +2350,9 @@ namespace Yukihota
 			}
 		}
 
-		private void ApplyOptionValue(int n0287)
+		private void ApplyOptionValue(int optionValue)
 		{
-			switch (n0287)
+			switch (optionValue)
 			{
 			case 0:
 				fadeEnabled = true;
@@ -2405,7 +2405,7 @@ namespace Yukihota
 			case 18:
 			case 19:
 			case 20:
-				textSpeed = n0287 - 14;
+				textSpeed = optionValue - 14;
 				break;
 			case 21:
 				voiceSynchro = false;
@@ -2528,10 +2528,10 @@ namespace Yukihota
 			}
 			if (optionSelection > 0)
 			{
-				Rectangle n881 = new Rectangle(225 + 16 * optionCursorFrames[optionCursorFrame], 25, 16, 25);
-				QueueDraw(optionsLabelTextures[(int)language], n881, Rectangle.Empty, new Point(optionLabelX[optionSelection - 1] - 16, optionLabelY[optionSelection - 1]), Color.White);
-				n881 = new Rectangle(273 + 16 * optionCursorFrames[optionCursorFrame], 25, 16, 25);
-				QueueDraw(optionsLabelTextures[(int)language], n881, Rectangle.Empty, new Point(optionLabelX[optionSelection - 1] + optionSourceWidth[optionSelection - 1], optionLabelY[optionSelection - 1]), Color.White);
+				Rectangle cursorRect = new Rectangle(225 + 16 * optionCursorFrames[optionCursorFrame], 25, 16, 25);
+				QueueDraw(optionsLabelTextures[(int)language], cursorRect, Rectangle.Empty, new Point(optionLabelX[optionSelection - 1] - 16, optionLabelY[optionSelection - 1]), Color.White);
+				cursorRect = new Rectangle(273 + 16 * optionCursorFrames[optionCursorFrame], 25, 16, 25);
+				QueueDraw(optionsLabelTextures[(int)language], cursorRect, Rectangle.Empty, new Point(optionLabelX[optionSelection - 1] + optionSourceWidth[optionSelection - 1], optionLabelY[optionSelection - 1]), Color.White);
 				optionCursorFrame++;
 				if (optionCursorFrame == 6)
 				{
@@ -2670,13 +2670,13 @@ namespace Yukihota
 			episodeFadeIn = false;
 		}
 
-		private void MoveEpisodeSelection(int n0277)
+		private void MoveEpisodeSelection(int direction)
 		{
 			if (episodeFadeCounter > 0)
 			{
 				return;
 			}
-			switch (n0277)
+			switch (direction)
 			{
 			case 0:
 				if (episodeSelection == 0)
@@ -2745,8 +2745,8 @@ namespace Yukihota
 			}
 			for (int j = unlockedEpisodeCount; j < 16; j++)
 			{
-				Rectangle n881 = new Rectangle((episodeSelection - 1 != j) ? 280 : 0, 448, 280, 28);
-				QueueDraw(episodeMenuTexture, n881, Rectangle.Empty, new Point(episodeColumnX[(j >= 8) ? 1 : 0], 80 + 40 * (j % 8)), Color.White);
+				Rectangle cursorRect = new Rectangle((episodeSelection - 1 != j) ? 280 : 0, 448, 280, 28);
+				QueueDraw(episodeMenuTexture, cursorRect, Rectangle.Empty, new Point(episodeColumnX[(j >= 8) ? 1 : 0], 80 + 40 * (j % 8)), Color.White);
 			}
 			if (episodeFadeCounter > 0)
 			{
@@ -2870,14 +2870,14 @@ namespace Yukihota
 			albumFadeIn = false;
 		}
 
-		private void ShowAlbumImage(int n0308, int index)
+		private void ShowAlbumImage(int groupIndex, int index)
 		{
-			if (index >= albumImageCounts[n0308 - 1])
+			if (index >= albumImageCounts[groupIndex - 1])
 			{
 				BackToAlbumGrid();
 				return;
 			}
-			albumGroup = n0308;
+			albumGroup = groupIndex;
 			albumImageIndex = index;
 			albumImageTransition = 10;
 			if (albumPrevTexture != null)
@@ -2885,7 +2885,7 @@ namespace Yukihota
 				albumPrevTexture.Dispose();
 			}
 			albumPrevTexture = albumCurrentTexture;
-			albumCurrentTexture = TextureLoader.FromStream(device, bgArchive.ReadEntry("EV_HP0" + n0308 + (char)(index + 65)), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			albumCurrentTexture = TextureLoader.FromStream(device, bgArchive.ReadEntry("EV_HP0" + groupIndex + (char)(index + 65)), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 		}
 
 		private void BackToAlbumGrid()
@@ -2901,13 +2901,13 @@ namespace Yukihota
 			albumCurrentTexture = null;
 		}
 
-		private void MoveAlbumSelection(int n0277)
+		private void MoveAlbumSelection(int direction)
 		{
 			if (albumFadeCounter > 0 || albumImageTransition > 0)
 			{
 				return;
 			}
-			switch (n0277)
+			switch (direction)
 			{
 			case 0:
 				if (albumSelection == 0)
