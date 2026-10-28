@@ -179,17 +179,17 @@ namespace Yukihota
 
 		protected readonly Rectangle screenRect = new Rectangle(0, 0, 800, 600);
 
-		protected Texture n0135;
+		protected Texture whiteTexture;
 
-		protected ArrayList n0216 = new ArrayList();
+		protected ArrayList textureQueue = new ArrayList();
 
-		protected ArrayList n0217 = new ArrayList();
+		protected ArrayList destRectQueue = new ArrayList();
 
-		protected ArrayList n0218 = new ArrayList();
+		protected ArrayList srcRectQueue = new ArrayList();
 
-		protected ArrayList n0219 = new ArrayList();
+		protected ArrayList drawPositionQueue = new ArrayList();
 
-		protected ArrayList n0220 = new ArrayList();
+		protected ArrayList colorQueue = new ArrayList();
 
 		protected ArrayList textQueue = new ArrayList();
 
@@ -529,16 +529,16 @@ namespace Yukihota
 
 		protected readonly Size modeIconTextureSize = new Size(128, 96);
 
-		public ScreenRenderer(Device n0349, Sprite n0350, FrameCallback ResetDevice, Texture n0351, System.Drawing.Font n0353, ButtonLayout n0046, Color n0266, AudioManager n0557)
+		public ScreenRenderer(Device d3dDevice, Sprite d3dSprite, FrameCallback frameCallback, Texture defaultTexture, System.Drawing.Font font, ButtonLayout buttonLayout, Color color, AudioManager audio)
 		{
-			device = n0349;
-			sprite = n0350;
-			resetCallback = ResetDevice;
-			n0135 = n0351;
-			dialogueColor = n0266;
-			baseFont = n0353;
-			layoutIndex = n0046;
-			audioManager = n0557;
+			device = d3dDevice;
+			sprite = d3dSprite;
+			resetCallback = frameCallback;
+			whiteTexture = defaultTexture;
+			dialogueColor = color;
+			baseFont = font;
+			layoutIndex = buttonLayout;
+			audioManager = audio;
 			dialogueHidden = false;
 			modeIconIndex = 0;
 			systemArchive = new ArchiveFile("System", ArchiveMode.Read);
@@ -555,11 +555,11 @@ namespace Yukihota
 
 		~ScreenRenderer()
 		{
-			n0216.Clear();
-			n0217.Clear();
-			n0218.Clear();
-			n0219.Clear();
-			n0220.Clear();
+			textureQueue.Clear();
+			destRectQueue.Clear();
+			srcRectQueue.Clear();
+			drawPositionQueue.Clear();
+			colorQueue.Clear();
 			textQueue.Clear();
 			startIndexQueue.Clear();
 			endIndexQueue.Clear();
@@ -579,11 +579,11 @@ namespace Yukihota
 		public void Render()
 		{
 			device.Clear(ClearFlags.Target, Color.Black, 1f, 0);
-			n0216.Clear();
-			n0217.Clear();
-			n0218.Clear();
-			n0219.Clear();
-			n0220.Clear();
+			textureQueue.Clear();
+			destRectQueue.Clear();
+			srcRectQueue.Clear();
+			drawPositionQueue.Clear();
+			colorQueue.Clear();
 			textQueue.Clear();
 			startIndexQueue.Clear();
 			endIndexQueue.Clear();
@@ -640,11 +640,11 @@ namespace Yukihota
 			device.BeginScene();
 			sprite.Begin(SpriteFlags.AlphaBlend);
 			int num = 0;
-			for (int i = 0; i < n0216.Count; i++)
+			for (int i = 0; i < textureQueue.Count; i++)
 			{
-				if (n0216[i] != null)
+				if (textureQueue[i] != null)
 				{
-					sprite.Draw2D((Texture)n0216[i], (Rectangle)n0217[i], (Rectangle)n0218[i], Point.Empty, 0f, (Point)n0219[i], (Color)n0220[i]);
+					sprite.Draw2D((Texture)textureQueue[i], (Rectangle)destRectQueue[i], (Rectangle)srcRectQueue[i], Point.Empty, 0f, (Point)drawPositionQueue[i], (Color)colorQueue[i]);
 					continue;
 				}
 				Microsoft.DirectX.Direct3D.Font optionsForm;
@@ -834,36 +834,36 @@ namespace Yukihota
 			}
 		}
 
-		public void SetButtonLayout(ButtonLayout n0046)
+		public void SetButtonLayout(ButtonLayout buttonLayout)
 		{
-			if (layoutIndex != n0046)
+			if (layoutIndex != buttonLayout)
 			{
-				layoutIndex = n0046;
+				layoutIndex = buttonLayout;
 				RebuildNoticeFont();
 				RebuildMessageFont();
 				RebuildCaptionFont();
 			}
 		}
 
-		public void SetFont(System.Drawing.Font n0353)
+		public void SetFont(System.Drawing.Font font)
 		{
-			if (baseFont != n0353)
+			if (baseFont != font)
 			{
-				baseFont = n0353;
+				baseFont = font;
 				RebuildNoticeFont();
 				RebuildMessageFont();
 				RebuildCaptionFont();
 			}
 		}
 
-		private void QueueDraw(Texture n0262, Rectangle n0263, Rectangle n0264, Point n0265, Color n0266)
+		private void QueueDraw(Texture n0262, Rectangle n0263, Rectangle n0264, Point n0265, Color color)
 		{
-			sprite.Draw2D(n0262, n0263, n0264, Point.Empty, 0f, n0265, n0266);
-			n0216.Add(n0262);
-			n0217.Add(n0263);
-			n0218.Add(n0264);
-			n0219.Add(n0265);
-			n0220.Add(n0266);
+			sprite.Draw2D(n0262, n0263, n0264, Point.Empty, 0f, n0265, color);
+			textureQueue.Add(n0262);
+			destRectQueue.Add(n0263);
+			srcRectQueue.Add(n0264);
+			drawPositionQueue.Add(n0265);
+			colorQueue.Add(color);
 		}
 
 		public void Dispose()
@@ -939,40 +939,40 @@ namespace Yukihota
 			indicatorPhase %= 32;
 		}
 
-		private Point DrawTextCore(string n0241, Point n0644, int n0645, int n0646, int offset, Microsoft.DirectX.Direct3D.Font n0353, Color foreColor, Color shadowColor)
+		private Point DrawTextCore(string n0241, Point n0644, int n0645, int n0646, int offset, Microsoft.DirectX.Direct3D.Font font, Color foreColor, Color shadowColor)
 		{
-			return DrawTextCore(n0241, 0, n0241.Length, n0644, n0645, n0646, offset, HorizontalAlign.Left, 0, n0353, foreColor, shadowColor);
+			return DrawTextCore(n0241, 0, n0241.Length, n0644, n0645, n0646, offset, HorizontalAlign.Left, 0, font, foreColor, shadowColor);
 		}
 
-		private Point DrawTextCore(string n0241, int n0647, int n0648, Point n0644, int n0645, int n0646, int offset, HorizontalAlign align, int n0649, Microsoft.DirectX.Direct3D.Font n0353, Color foreColor, Color shadowColor)
+		private Point DrawTextCore(string n0241, int n0647, int n0648, Point n0644, int n0645, int n0646, int offset, HorizontalAlign align, int n0649, Microsoft.DirectX.Direct3D.Font font, Color foreColor, Color shadowColor)
 		{
-			return DrawTextCore(n0241, n0647, n0648, n0644, n0645, n0646, offset, align, n0649, n0353, false, 0, foreColor, shadowColor);
+			return DrawTextCore(n0241, n0647, n0648, n0644, n0645, n0646, offset, align, n0649, font, false, 0, foreColor, shadowColor);
 		}
 
-		private Point DrawTextCore(string n0241, double n0648, Point n0644, int n0645, int n0646, int offset, Microsoft.DirectX.Direct3D.Font n0353, int LanguageCount, Color foreColor, Color shadowColor)
+		private Point DrawTextCore(string n0241, double n0648, Point n0644, int n0645, int n0646, int offset, Microsoft.DirectX.Direct3D.Font font, int LanguageCount, Color foreColor, Color shadowColor)
 		{
-			return DrawTextCore(n0241, 0, n0648, n0644, n0645, n0646, offset, HorizontalAlign.Left, 0, n0353, true, LanguageCount, foreColor, shadowColor);
+			return DrawTextCore(n0241, 0, n0648, n0644, n0645, n0646, offset, HorizontalAlign.Left, 0, font, true, LanguageCount, foreColor, shadowColor);
 		}
 
-		private Point DrawTextCore(string n0241, double n0648, Point n0644, int n0645, int n0646, int offset, HorizontalAlign align, int n0649, Microsoft.DirectX.Direct3D.Font n0353, int LanguageCount, Color foreColor, Color shadowColor)
+		private Point DrawTextCore(string n0241, double n0648, Point n0644, int n0645, int n0646, int offset, HorizontalAlign align, int n0649, Microsoft.DirectX.Direct3D.Font font, int LanguageCount, Color foreColor, Color shadowColor)
 		{
-			return DrawTextCore(n0241, 0, n0648, n0644, n0645, n0646, offset, align, n0649, n0353, true, LanguageCount, foreColor, shadowColor);
+			return DrawTextCore(n0241, 0, n0648, n0644, n0645, n0646, offset, align, n0649, font, true, LanguageCount, foreColor, shadowColor);
 		}
 
-		private Point DrawTextCore(string n0241, int n0647, double n0648, Point n0644, int n0645, int n0646, int offset, HorizontalAlign align, int n0649, Microsoft.DirectX.Direct3D.Font n0353, bool Typewriter, int LanguageCount, Color foreColor, Color shadowColor)
+		private Point DrawTextCore(string n0241, int n0647, double n0648, Point n0644, int n0645, int n0646, int offset, HorizontalAlign align, int n0649, Microsoft.DirectX.Direct3D.Font font, bool Typewriter, int LanguageCount, Color foreColor, Color shadowColor)
 		{
-			return DrawTextCore(n0241, n0647, n0648, n0644, n0645, n0646, offset, align, n0649, n0353, Typewriter, LanguageCount, foreColor, shadowColor, true);
+			return DrawTextCore(n0241, n0647, n0648, n0644, n0645, n0646, offset, align, n0649, font, Typewriter, LanguageCount, foreColor, shadowColor, true);
 		}
 
-		private Point DrawTextCore(string n0241, int n0647, double n0648, Point n0644, int n0645, int n0646, int offset, HorizontalAlign align, int n0649, Microsoft.DirectX.Direct3D.Font n0353, bool Typewriter, int LanguageCount, Color foreColor, Color shadowColor, bool n0650)
+		private Point DrawTextCore(string n0241, int n0647, double n0648, Point n0644, int n0645, int n0646, int offset, HorizontalAlign align, int n0649, Microsoft.DirectX.Direct3D.Font font, bool Typewriter, int LanguageCount, Color foreColor, Color shadowColor, bool n0650)
 		{
 			if (n0650)
 			{
-				n0216.Add(null);
-				n0217.Add(null);
-				n0218.Add(null);
-				n0219.Add(null);
-				n0220.Add(null);
+				textureQueue.Add(null);
+				destRectQueue.Add(null);
+				srcRectQueue.Add(null);
+				drawPositionQueue.Add(null);
+				colorQueue.Add(null);
 				textQueue.Add(n0241);
 				startIndexQueue.Add(n0647);
 				endIndexQueue.Add(n0648);
@@ -1058,18 +1058,18 @@ namespace Yukihota
 					if (fadeEnabled)
 					{
 						Sprite spriteLocal = this.sprite;
-						n0353.DrawText(spriteLocal, n0241[i].ToString(), num + offset, num4 + offset, shadowColor);
+						font.DrawText(spriteLocal, n0241[i].ToString(), num + offset, num4 + offset, shadowColor);
 					}
 					Sprite sprite2 = sprite;
-					n0353.DrawText(sprite2, n0241[i].ToString(), num, num4, foreColor);
+					font.DrawText(sprite2, n0241[i].ToString(), num, num4, foreColor);
 				}
 				else if (Typewriter && i >= n0647 && (double)i >= n0648 && (double)i < n0648 + (double)LanguageCount && fadeEnabled)
 				{
 					int alpha = (int)(255.0 * ((double)(LanguageCount - i) + n0648) / (double)LanguageCount);
 					Sprite sprite3 = sprite;
-					n0353.DrawText(sprite3, n0241[i].ToString(), num + offset, num4 + offset, (shadowColor == Color.Transparent) ? Color.Transparent : Color.FromArgb(alpha, shadowColor));
+					font.DrawText(sprite3, n0241[i].ToString(), num + offset, num4 + offset, (shadowColor == Color.Transparent) ? Color.Transparent : Color.FromArgb(alpha, shadowColor));
 					Sprite sprite4 = sprite;
-					n0353.DrawText(sprite4, n0241[i].ToString(), num, num4, Color.FromArgb(alpha, foreColor));
+					font.DrawText(sprite4, n0241[i].ToString(), num, num4, Color.FromArgb(alpha, foreColor));
 				}
 				num += n0645;
 			}
@@ -1170,7 +1170,7 @@ namespace Yukihota
 					}
 					else
 					{
-						QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, previousBackgroundColor);
+						QueueDraw(whiteTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, previousBackgroundColor);
 					}
 					if (fadeEnabled)
 					{
@@ -1254,7 +1254,7 @@ namespace Yukihota
 						}
 						else
 						{
-							QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, previousBackgroundColor);
+							QueueDraw(whiteTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, previousBackgroundColor);
 						}
 					}
 					backgroundDrawnAsColor = false;
@@ -1276,7 +1276,7 @@ namespace Yukihota
 						}
 						else
 						{
-							QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, backgroundColor);
+							QueueDraw(whiteTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, backgroundColor);
 						}
 					}
 					backgroundDrawnAsColor = true;
@@ -1311,7 +1311,7 @@ namespace Yukihota
 				}
 				else
 				{
-					QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, backgroundColor);
+					QueueDraw(whiteTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, backgroundColor);
 				}
 			}
 			backgroundDrawnAsColor = true;
@@ -1327,7 +1327,7 @@ namespace Yukihota
 			{
 				if (backgroundDrawnAsColor && previousBackgroundIsColor)
 				{
-					QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)(255.0 * (double)backgroundFadeCounter / (double)backgroundFadeDurations[backgroundFadeSpeed]), previousBackgroundColor));
+					QueueDraw(whiteTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)(255.0 * (double)backgroundFadeCounter / (double)backgroundFadeDurations[backgroundFadeSpeed]), previousBackgroundColor));
 				}
 				else
 				{
@@ -1335,7 +1335,7 @@ namespace Yukihota
 					{
 						throw new Exception("Not Implement Yet");
 					}
-					QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)(255.0 * (double)(backgroundFadeDurations[backgroundFadeSpeed] - backgroundFadeCounter) / (double)backgroundFadeDurations[backgroundFadeSpeed]), backgroundColor));
+					QueueDraw(whiteTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)(255.0 * (double)(backgroundFadeDurations[backgroundFadeSpeed] - backgroundFadeCounter) / (double)backgroundFadeDurations[backgroundFadeSpeed]), backgroundColor));
 				}
 				backgroundFadeCounter--;
 			}
@@ -1514,7 +1514,7 @@ namespace Yukihota
 			}
 			if (!shakeActive || !shakeLoop)
 			{
-				QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.Transparent);
+				QueueDraw(whiteTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.Transparent);
 			}
 		}
 
@@ -1613,7 +1613,7 @@ namespace Yukihota
 			}
 			if (rectangle != Rectangle.Empty)
 			{
-				QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.Transparent);
+				QueueDraw(whiteTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.Transparent);
 			}
 		}
 
@@ -1697,7 +1697,7 @@ namespace Yukihota
 					sunOffsets[j] = 0;
 				}
 			}
-			QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.Transparent);
+			QueueDraw(whiteTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.Transparent);
 		}
 
 		private void DrawSunSprite(int n0644, double n0697, double durationMode)
@@ -2047,12 +2047,12 @@ namespace Yukihota
 				if (fadeEnabled)
 				{
 					float num = (dimReverse ? ((float)dimCounter / 10f) : ((float)(10 - dimCounter) / 10f));
-					QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)(128f * num), Color.Black));
+					QueueDraw(whiteTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)(128f * num), Color.Black));
 					dimCounter--;
 				}
 				else
 				{
-					QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb(128, Color.Black));
+					QueueDraw(whiteTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb(128, Color.Black));
 					dimCounter = 0;
 				}
 				if (dimReverse && dimCounter == 0)
@@ -2062,7 +2062,7 @@ namespace Yukihota
 			}
 			else
 			{
-				QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb(128, Color.Black));
+				QueueDraw(whiteTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb(128, Color.Black));
 			}
 		}
 
@@ -2718,7 +2718,7 @@ namespace Yukihota
 						float num4 = num * (float)dialogueRect.Width;
 						float num5 = num * (float)dialogueRect.Height;
 						QueueDraw(dialogueTexture, new Rectangle(0, 0, dialogueRect.Width, dialogueRect.Height), new Rectangle(0, 0, (int)num4, (int)num5), new Point((int)num2, (int)num3), dialogueColor);
-						QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.Transparent);
+						QueueDraw(whiteTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.Transparent);
 					}
 					else if (dialogueClosing && dialogueCounter > 0)
 					{
@@ -2728,7 +2728,7 @@ namespace Yukihota
 						float num9 = num6 * (float)dialogueRect.Width;
 						float num10 = num6 * (float)dialogueRect.Height;
 						QueueDraw(dialogueTexture, new Rectangle(0, 0, dialogueRect.Width, dialogueRect.Height), new Rectangle(0, 0, (int)num9, (int)num10), new Point((int)num7, (int)num8), dialogueColor);
-						QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.Transparent);
+						QueueDraw(whiteTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.Transparent);
 					}
 					dialogueCounter--;
 				}
