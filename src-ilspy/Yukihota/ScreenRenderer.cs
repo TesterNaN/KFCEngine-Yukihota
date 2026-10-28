@@ -639,7 +639,7 @@ namespace Yukihota
 			device.Clear(ClearFlags.Target, Color.White, 1f, 0);
 			device.BeginScene();
 			sprite.Begin(SpriteFlags.AlphaBlend);
-			int num = 0;
+			int layerIndex = 0;
 			for (int i = 0; i < textureQueue.Count; i++)
 			{
 				if (textureQueue[i] != null)
@@ -648,7 +648,7 @@ namespace Yukihota
 					continue;
 				}
 				Microsoft.DirectX.Direct3D.Font textFont;
-				switch ((int)fontIndexQueue[num])
+				switch ((int)fontIndexQueue[layerIndex])
 				{
 				case 1:
 					textFont = noticeFont;
@@ -663,8 +663,8 @@ namespace Yukihota
 					textFont = noticeFont;
 					break;
 				}
-				DrawTextCore((string)textQueue[num], (int)startIndexQueue[num], (double)endIndexQueue[num], (Point)textPositionQueue[num], (int)charWidthQueue[num], (int)lineHeightQueue[num], (int)shadowOffsetQueue[num], (HorizontalAlign)fontSizeModeQueue[num], (int)lineWidthQueue[num], textFont, (bool)fadeOutQueue[num], (int)fadeLengthQueue[num], (Color)textColorQueue[num], (Color)shadowColorQueue[num], false);
-				num++;
+				DrawTextCore((string)textQueue[layerIndex], (int)startIndexQueue[layerIndex], (double)endIndexQueue[layerIndex], (Point)textPositionQueue[layerIndex], (int)charWidthQueue[layerIndex], (int)lineHeightQueue[layerIndex], (int)shadowOffsetQueue[layerIndex], (HorizontalAlign)fontSizeModeQueue[layerIndex], (int)lineWidthQueue[layerIndex], textFont, (bool)fadeOutQueue[layerIndex], (int)fadeLengthQueue[layerIndex], (Color)textColorQueue[layerIndex], (Color)shadowColorQueue[layerIndex], false);
+				layerIndex++;
 			}
 			sprite.End();
 			device.EndScene();
@@ -987,37 +987,37 @@ namespace Yukihota
 				textColorQueue.Add(foreColor);
 				shadowColorQueue.Add(shadowColor);
 			}
-			int num;
+			int cursor;
 			switch (align)
 			{
 			case HorizontalAlign.Left:
-				num = origin.X;
+				cursor = origin.X;
 				break;
 			case HorizontalAlign.Center:
 			{
-				int num3 = content.IndexOf('\n');
-				if (num3 == -1)
+				int firstBreak = content.IndexOf('\n');
+				if (firstBreak == -1)
 				{
-					num3 = content.Length;
+					firstBreak = content.Length;
 				}
-				num = origin.X + charWidth * (lineWidth - num3) / 2;
+				cursor = origin.X + charWidth * (lineWidth - firstBreak) / 2;
 				break;
 			}
 			case HorizontalAlign.Right:
 			{
-				int num2 = content.IndexOf('\n');
-				if (num2 == -1)
+				int lineBreak = content.IndexOf('\n');
+				if (lineBreak == -1)
 				{
-					num2 = content.Length;
+					lineBreak = content.Length;
 				}
-				num = origin.X + charWidth * (lineWidth - num2);
+				cursor = origin.X + charWidth * (lineWidth - lineBreak);
 				break;
 			}
 			default:
-				num = origin.X;
+				cursor = origin.X;
 				break;
 			}
-			int num4 = origin.Y;
+			int lineY = origin.Y;
 			for (int i = 0; i < content.Length; i++)
 			{
 				if (content[i] == '\n')
@@ -1025,32 +1025,32 @@ namespace Yukihota
 					switch (align)
 					{
 					case HorizontalAlign.Left:
-						num = origin.X;
+						cursor = origin.X;
 						break;
 					case HorizontalAlign.Center:
 					{
-						int num7 = content.IndexOf('\n', i + 1);
-						if (num7 == -1)
+						int nextBreak2 = content.IndexOf('\n', i + 1);
+						if (nextBreak2 == -1)
 						{
-							num7 = content.Length;
+							nextBreak2 = content.Length;
 						}
-						int num8 = num7 - i - 1;
-						num = origin.X + charWidth * (lineWidth - num8) / 2;
+						int segmentLength2 = nextBreak2 - i - 1;
+						cursor = origin.X + charWidth * (lineWidth - segmentLength2) / 2;
 						break;
 					}
 					case HorizontalAlign.Right:
 					{
-						int num5 = content.IndexOf('\n', i + 1);
-						if (num5 == -1)
+						int nextBreak = content.IndexOf('\n', i + 1);
+						if (nextBreak == -1)
 						{
-							num5 = content.Length;
+							nextBreak = content.Length;
 						}
-						int num6 = num5 - i - 1;
-						num = origin.X + charWidth * (lineWidth - num6);
+						int segmentLength = nextBreak - i - 1;
+						cursor = origin.X + charWidth * (lineWidth - segmentLength);
 						break;
 					}
 					}
-					num4 += lineHeight;
+					lineY += lineHeight;
 					continue;
 				}
 				if (i >= startIndex && (double)i < endIndex)
@@ -1058,22 +1058,22 @@ namespace Yukihota
 					if (fadeEnabled)
 					{
 						Sprite spriteLocal = this.sprite;
-						font.DrawText(spriteLocal, content[i].ToString(), num + offset, num4 + offset, shadowColor);
+						font.DrawText(spriteLocal, content[i].ToString(), cursor + offset, lineY + offset, shadowColor);
 					}
 					Sprite sprite2 = sprite;
-					font.DrawText(sprite2, content[i].ToString(), num, num4, foreColor);
+					font.DrawText(sprite2, content[i].ToString(), cursor, lineY, foreColor);
 				}
 				else if (Typewriter && i >= startIndex && (double)i >= endIndex && (double)i < endIndex + (double)LanguageCount && fadeEnabled)
 				{
 					int alpha = (int)(255.0 * ((double)(LanguageCount - i) + endIndex) / (double)LanguageCount);
 					Sprite sprite3 = sprite;
-					font.DrawText(sprite3, content[i].ToString(), num + offset, num4 + offset, (shadowColor == Color.Transparent) ? Color.Transparent : Color.FromArgb(alpha, shadowColor));
+					font.DrawText(sprite3, content[i].ToString(), cursor + offset, lineY + offset, (shadowColor == Color.Transparent) ? Color.Transparent : Color.FromArgb(alpha, shadowColor));
 					Sprite sprite4 = sprite;
-					font.DrawText(sprite4, content[i].ToString(), num, num4, Color.FromArgb(alpha, foreColor));
+					font.DrawText(sprite4, content[i].ToString(), cursor, lineY, Color.FromArgb(alpha, foreColor));
 				}
-				num += charWidth;
+				cursor += charWidth;
 			}
-			return new Point(num, num4);
+			return new Point(cursor, lineY);
 		}
 
 		private void InitBackground()
@@ -1295,9 +1295,9 @@ namespace Yukihota
 					{
 						if (thinkCounter > 0)
 						{
-							float num = (thinkReverse ? ((float)thinkCounter / 10f) : ((float)(10 - thinkCounter) / 10f));
+							float fadeRatio = (thinkReverse ? ((float)thinkCounter / 10f) : ((float)(10 - thinkCounter) / 10f));
 							QueueDraw(backgroundTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
-							QueueDraw(desaturatedBackgroundTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)(255f * num), Color.White));
+							QueueDraw(desaturatedBackgroundTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)(255f * fadeRatio), Color.White));
 						}
 						else
 						{
@@ -1362,9 +1362,9 @@ namespace Yukihota
 			{
 				for (int j = 0; j < 600; j++)
 				{
-					uint num = array[i, j];
-					uint num2 = ((num & 0xFF) + ((num >> 8) & 0xFF) + ((num >> 16) & 0xFF)) / 3;
-					array2[i, j] = (uint)(-16777216 + (int)(num2 << 16) + (int)(num2 << 8)) + num2;
+					uint pixel = array[i, j];
+					uint gray = ((pixel & 0xFF) + ((pixel >> 8) & 0xFF) + ((pixel >> 16) & 0xFF)) / 3;
+					array2[i, j] = (uint)(-16777216 + (int)(gray << 16) + (int)(gray << 8)) + gray;
 				}
 			}
 			backgroundTexture.UnlockRectangle(0);
@@ -1471,9 +1471,9 @@ namespace Yukihota
 				{
 					if (!shakeActive || !shakeLoop)
 					{
-						double num = (double)zoomCounter / (double)zoomDurations[zoomSpeedIndex];
-						double num2 = 1.0 - num;
-						Rectangle zoomRect = new Rectangle((int)(num * (double)zoomSourceRect.Left + num2 * (double)zoomTargetRect.Left), (int)(num * (double)zoomSourceRect.Top + num2 * (double)zoomTargetRect.Top), (int)(num * (double)zoomSourceRect.Width + num2 * (double)zoomTargetRect.Width), (int)(num * (double)zoomSourceRect.Height + num2 * (double)zoomTargetRect.Height));
+						double progress = (double)zoomCounter / (double)zoomDurations[zoomSpeedIndex];
+						double inverse = 1.0 - progress;
+						Rectangle zoomRect = new Rectangle((int)(progress * (double)zoomSourceRect.Left + inverse * (double)zoomTargetRect.Left), (int)(progress * (double)zoomSourceRect.Top + inverse * (double)zoomTargetRect.Top), (int)(progress * (double)zoomSourceRect.Width + inverse * (double)zoomTargetRect.Width), (int)(progress * (double)zoomSourceRect.Height + inverse * (double)zoomTargetRect.Height));
 						if (backgroundTexture != null)
 						{
 							QueueDraw(backgroundTexture, zoomRect, screenRect, Point.Empty, Color.White);
@@ -1585,9 +1585,9 @@ namespace Yukihota
 			{
 				if (zoomCounter > 0 && fadeEnabled)
 				{
-					double num = (double)zoomCounter / (double)zoomDurations[zoomSpeedIndex];
-					double num2 = 1.0 - num;
-					rectangle = new Rectangle((int)(num * (double)zoomSourceRect.Left + num2 * (double)zoomTargetRect.Left), (int)(num * (double)zoomSourceRect.Top + num2 * (double)zoomTargetRect.Top), (int)(num * (double)zoomSourceRect.Width + num2 * (double)zoomTargetRect.Width), (int)(num * (double)zoomSourceRect.Height + num2 * (double)zoomTargetRect.Height));
+					double progress = (double)zoomCounter / (double)zoomDurations[zoomSpeedIndex];
+					double inverse = 1.0 - progress;
+					rectangle = new Rectangle((int)(progress * (double)zoomSourceRect.Left + inverse * (double)zoomTargetRect.Left), (int)(progress * (double)zoomSourceRect.Top + inverse * (double)zoomTargetRect.Top), (int)(progress * (double)zoomSourceRect.Width + inverse * (double)zoomTargetRect.Width), (int)(progress * (double)zoomSourceRect.Height + inverse * (double)zoomTargetRect.Height));
 				}
 				else
 				{
@@ -1655,21 +1655,21 @@ namespace Yukihota
 			{
 				return;
 			}
-			int num = -1;
+			int freeSlot = -1;
 			for (int i = 0; i < 5; i++)
 			{
 				if (sunLifeTotals[i] == 0)
 				{
-					num = i;
+					freeSlot = i;
 					break;
 				}
 			}
-			if (num >= 0 && sunRandom.NextDouble() < 0.25)
+			if (freeSlot >= 0 && sunRandom.NextDouble() < 0.25)
 			{
-				sunLifeCounters[num] = 0;
-				sunLifeTotals[num] = (int)(20.0 + 60.0 * sunRandom.NextDouble());
-				sunScales[num] = 0.5 + 0.5 * sunRandom.NextDouble();
-				sunOffsets[num] = (int)(-75.0 + 150.0 * sunRandom.NextDouble());
+				sunLifeCounters[freeSlot] = 0;
+				sunLifeTotals[freeSlot] = (int)(20.0 + 60.0 * sunRandom.NextDouble());
+				sunScales[freeSlot] = 0.5 + 0.5 * sunRandom.NextDouble();
+				sunOffsets[freeSlot] = (int)(-75.0 + 150.0 * sunRandom.NextDouble());
 			}
 			for (int j = 0; j < 5; j++)
 			{
@@ -1780,37 +1780,37 @@ namespace Yukihota
 			{
 				return;
 			}
-			int num = -1;
+			int freeSlot = -1;
 			for (int i = ((!upperHalf) ? 1 : 0); i < 30; i += 2)
 			{
 				if (petalLifeCounters[i] == 0)
 				{
-					num = i;
+					freeSlot = i;
 					break;
 				}
 			}
-			if (num >= 0 && (petalActiveCount < 20 || !(petalRandom.NextDouble() >= 0.2)))
+			if (freeSlot >= 0 && (petalActiveCount < 20 || !(petalRandom.NextDouble() >= 0.2)))
 			{
-				petalFrames[num] = petalRandom.Next(4);
-				int num2 = petalRandom.Next(-3297, 624);
-				petalVelocitiesY[num] = (float)(petalRandom.NextDouble() * 16.0);
-				petalVelocitiesX[num] = (float)(petalRandom.NextDouble() * 8.0 * 2.0 - 8.0);
-				petalTargetVelocitiesY[num] = petalVelocitiesY[num];
-				petalTargetVelocitiesX[num] = petalVelocitiesX[num];
-				if (num2 < 0)
+				petalFrames[freeSlot] = petalRandom.Next(4);
+				int randomX = petalRandom.Next(-3297, 624);
+				petalVelocitiesY[freeSlot] = (float)(petalRandom.NextDouble() * 16.0);
+				petalVelocitiesX[freeSlot] = (float)(petalRandom.NextDouble() * 8.0 * 2.0 - 8.0);
+				petalTargetVelocitiesY[freeSlot] = petalVelocitiesY[freeSlot];
+				petalTargetVelocitiesX[freeSlot] = petalVelocitiesX[freeSlot];
+				if (randomX < 0)
 				{
-					petalPositions[num] = new PointF((0f - (float)num2 - 1f) % 824f - 24f, -24f);
+					petalPositions[freeSlot] = new PointF((0f - (float)randomX - 1f) % 824f - 24f, -24f);
 				}
-				else if (petalVelocitiesX[num] > 0f)
+				else if (petalVelocitiesX[freeSlot] > 0f)
 				{
-					petalPositions[num] = new PointF(-24f, num2 - 24);
+					petalPositions[freeSlot] = new PointF(-24f, randomX - 24);
 				}
 				else
 				{
-					petalPositions[num] = new PointF(800f, num2 - 24);
+					petalPositions[freeSlot] = new PointF(800f, randomX - 24);
 				}
-				petalTurnTimers[num] = petalRandom.Next(40, 200);
-				petalLifeCounters[num] = petalRandom.Next(1, 9);
+				petalTurnTimers[freeSlot] = petalRandom.Next(40, 200);
+				petalLifeCounters[freeSlot] = petalRandom.Next(1, 9);
 				petalActiveCount++;
 			}
 			for (int j = ((!upperHalf) ? 1 : 0); j < 30; j += 2)
@@ -1836,18 +1836,18 @@ namespace Yukihota
 				}
 				if (petalVelocitiesX[j] != petalTargetVelocitiesX[j] || petalVelocitiesY[j] != petalTargetVelocitiesY[j])
 				{
-					float num3 = petalTargetVelocitiesY[j] - petalVelocitiesY[j];
-					float num4 = petalTargetVelocitiesX[j] - petalVelocitiesX[j];
-					float num5 = ((num3 == 0f) ? float.NaN : Math.Abs(num4 / num3));
-					if (Math.Abs(num4) > Math.Abs(num3))
+					float deltaY = petalTargetVelocitiesY[j] - petalVelocitiesY[j];
+					float deltaX = petalTargetVelocitiesX[j] - petalVelocitiesX[j];
+					float velocityRatio = ((deltaY == 0f) ? float.NaN : Math.Abs(deltaX / deltaY));
+					if (Math.Abs(deltaX) > Math.Abs(deltaY))
 					{
-						if (Math.Abs(num4) > 0.1f)
+						if (Math.Abs(deltaX) > 0.1f)
 						{
 							float[] array2;
-							(array2 = petalVelocitiesX)[(int)(intPtr = (IntPtr)j)] = array2[(int)intPtr] + ((num4 > 0f) ? 0.1f : (-0.1f));
-							if (!float.IsNaN(num5))
+							(array2 = petalVelocitiesX)[(int)(intPtr = (IntPtr)j)] = array2[(int)intPtr] + ((deltaX > 0f) ? 0.1f : (-0.1f));
+							if (!float.IsNaN(velocityRatio))
 							{
-								(array2 = petalVelocitiesY)[(int)(intPtr = (IntPtr)j)] = array2[(int)intPtr] + ((num3 > 0f) ? 0.1f : (-0.1f)) / num5;
+								(array2 = petalVelocitiesY)[(int)(intPtr = (IntPtr)j)] = array2[(int)intPtr] + ((deltaY > 0f) ? 0.1f : (-0.1f)) / velocityRatio;
 							}
 						}
 						else
@@ -1856,11 +1856,11 @@ namespace Yukihota
 							petalVelocitiesY[j] = petalTargetVelocitiesY[j];
 						}
 					}
-					else if (Math.Abs(num3) > 0.1f)
+					else if (Math.Abs(deltaY) > 0.1f)
 					{
 						float[] array3;
-						(array3 = petalVelocitiesY)[(int)(intPtr = (IntPtr)j)] = array3[(int)intPtr] + ((num3 > 0f) ? 0.1f : (-0.1f));
-						(array3 = petalVelocitiesX)[(int)(intPtr = (IntPtr)j)] = array3[(int)intPtr] + ((num4 > 0f) ? 0.1f : (-0.1f)) * num5;
+						(array3 = petalVelocitiesY)[(int)(intPtr = (IntPtr)j)] = array3[(int)intPtr] + ((deltaY > 0f) ? 0.1f : (-0.1f));
+						(array3 = petalVelocitiesX)[(int)(intPtr = (IntPtr)j)] = array3[(int)intPtr] + ((deltaX > 0f) ? 0.1f : (-0.1f)) * velocityRatio;
 					}
 					else
 					{
@@ -1955,23 +1955,23 @@ namespace Yukihota
 			{
 				return;
 			}
-			int num = -1;
+			int freeSlot = -1;
 			for (int i = 0; i < 25; i++)
 			{
 				if (snowLifeCounters[i] == 0)
 				{
-					num = i;
+					freeSlot = i;
 					break;
 				}
 			}
-			if (num >= 0 && (snowActiveCount < 15 || snowRandom.NextDouble() < 0.2))
+			if (freeSlot >= 0 && (snowActiveCount < 15 || snowRandom.NextDouble() < 0.2))
 			{
-				snowPositions[num] = new PointF(snowRandom.Next(-16, 800), -16f);
-				snowSpeeds[num] = (float)(snowRandom.NextDouble() * 4.0 + 2.0);
-				snowSwayAmplitudes[num] = (float)(snowRandom.NextDouble() * 16.0 + 8.0);
-				snowSwayFrequencies[num] = (float)(snowRandom.NextDouble() * 0.009999999776482582 + 0.009999999776482582);
-				snowSwayPhases[num] = (float)(snowRandom.NextDouble() * (Math.PI * 2.0));
-				snowLifeCounters[num] = snowRandom.Next(1, 5);
+				snowPositions[freeSlot] = new PointF(snowRandom.Next(-16, 800), -16f);
+				snowSpeeds[freeSlot] = (float)(snowRandom.NextDouble() * 4.0 + 2.0);
+				snowSwayAmplitudes[freeSlot] = (float)(snowRandom.NextDouble() * 16.0 + 8.0);
+				snowSwayFrequencies[freeSlot] = (float)(snowRandom.NextDouble() * 0.009999999776482582 + 0.009999999776482582);
+				snowSwayPhases[freeSlot] = (float)(snowRandom.NextDouble() * (Math.PI * 2.0));
+				snowLifeCounters[freeSlot] = snowRandom.Next(1, 5);
 				snowActiveCount++;
 			}
 			for (int j = 0; j < 25; j++)
@@ -2046,8 +2046,8 @@ namespace Yukihota
 			{
 				if (fadeEnabled)
 				{
-					float num = (dimReverse ? ((float)dimCounter / 10f) : ((float)(10 - dimCounter) / 10f));
-					QueueDraw(whiteTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)(128f * num), Color.Black));
+					float fadeRatio = (dimReverse ? ((float)dimCounter / 10f) : ((float)(10 - dimCounter) / 10f));
+					QueueDraw(whiteTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)(128f * fadeRatio), Color.Black));
 					dimCounter--;
 				}
 				else
@@ -2120,8 +2120,8 @@ namespace Yukihota
 			{
 				if (fadeEnabled)
 				{
-					float num = (thinkReverse ? ((float)thinkCounter / 10f) : ((float)(10 - thinkCounter) / 10f));
-					QueueDraw(thinkTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)(255f * num), Color.White));
+					float fadeRatio = (thinkReverse ? ((float)thinkCounter / 10f) : ((float)(10 - thinkCounter) / 10f));
+					QueueDraw(thinkTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)(255f * fadeRatio), Color.White));
 					thinkCounter--;
 				}
 				else
@@ -2327,9 +2327,9 @@ namespace Yukihota
 					{
 						if (thinkCounter > 0)
 						{
-							float num = (thinkReverse ? ((float)thinkCounter / 10f) : ((float)(10 - thinkCounter) / 10f));
+							float fadeRatio = (thinkReverse ? ((float)thinkCounter / 10f) : ((float)(10 - thinkCounter) / 10f));
 							QueueDraw(characterTextures[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + characterOffsets[i] * 15 - characterSizes[i].Width / 2, 600 - characterSizes[i].Height), Color.White);
-							QueueDraw(characterShadowTextures[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + characterOffsets[i] * 15 - characterSizes[i].Width / 2, 600 - characterSizes[i].Height), Color.FromArgb((int)(255f * num), Color.White));
+							QueueDraw(characterShadowTextures[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + characterOffsets[i] * 15 - characterSizes[i].Width / 2, 600 - characterSizes[i].Height), Color.FromArgb((int)(255f * fadeRatio), Color.White));
 						}
 						else
 						{
@@ -2363,10 +2363,10 @@ namespace Yukihota
 				{
 					for (int k = 0; k < characterSizes[i].Height; k++)
 					{
-						uint num = array[j, k];
-						uint num2 = ((num & 0xFF) + ((num >> 8) & 0xFF) + ((num >> 16) & 0xFF)) / 3;
-						uint num3 = (num >> 24) & 0xFF;
-						array2[j, k] = (num3 << 24) + (num2 << 16) + (num2 << 8) + num2;
+						uint pixel = array[j, k];
+						uint gray = ((pixel & 0xFF) + ((pixel >> 8) & 0xFF) + ((pixel >> 16) & 0xFF)) / 3;
+						uint sourceAlpha = (pixel >> 24) & 0xFF;
+						array2[j, k] = (sourceAlpha << 24) + (gray << 16) + (gray << 8) + gray;
 					}
 				}
 				characterTextures[i].UnlockRectangle(0);
@@ -2475,16 +2475,16 @@ namespace Yukihota
 			{
 				return;
 			}
-			bool flag = false;
+			bool created = false;
 			for (int i = 0; i < 3; i++)
 			{
 				if (messageStartIndexes[i] + messageVisibleChars >= messageLines[i].Length)
 				{
-					flag = true;
+					created = true;
 					break;
 				}
 			}
-			if (flag)
+			if (created)
 			{
 				messageVisibleChars = messageLines[(int)layoutIndex].Length - messageStartIndexes[(int)layoutIndex];
 				if (messageAlignMode == TextRevealMode.Typewriter)
@@ -2597,8 +2597,8 @@ namespace Yukihota
 					{
 						try
 						{
-							double num = audioManager.GetVoicePosition() / messageVoiceLength;
-							messageProgress = (double)(messageLines[(int)layoutIndex].Length - messageStartIndexes[(int)layoutIndex] + 4) * num;
+							double voiceProgress = audioManager.GetVoicePosition() / messageVoiceLength;
+							messageProgress = (double)(messageLines[(int)layoutIndex].Length - messageStartIndexes[(int)layoutIndex] + 4) * voiceProgress;
 						}
 						catch (NullReferenceException)
 						{
@@ -2712,22 +2712,22 @@ namespace Yukihota
 				{
 					if (!dialogueClosing && dialogueCounter < 3)
 					{
-						float num = (float)(3 - dialogueCounter) / 3f;
-						float num2 = ((float)dialogueRect.X + (1f - num) / 2f * (float)dialogueRect.Width) / num;
-						float num3 = ((float)dialogueRect.Y + (1f - num) / 2f * (float)dialogueRect.Height) / num;
-						float num4 = num * (float)dialogueRect.Width;
-						float num5 = num * (float)dialogueRect.Height;
-						QueueDraw(dialogueTexture, new Rectangle(0, 0, dialogueRect.Width, dialogueRect.Height), new Rectangle(0, 0, (int)num4, (int)num5), new Point((int)num2, (int)num3), dialogueColor);
+						float closeRatio = (float)(3 - dialogueCounter) / 3f;
+						float closeX = ((float)dialogueRect.X + (1f - closeRatio) / 2f * (float)dialogueRect.Width) / closeRatio;
+						float closeY = ((float)dialogueRect.Y + (1f - closeRatio) / 2f * (float)dialogueRect.Height) / closeRatio;
+						float closeWidth = closeRatio * (float)dialogueRect.Width;
+						float closeHeight = closeRatio * (float)dialogueRect.Height;
+						QueueDraw(dialogueTexture, new Rectangle(0, 0, dialogueRect.Width, dialogueRect.Height), new Rectangle(0, 0, (int)closeWidth, (int)closeHeight), new Point((int)closeX, (int)closeY), dialogueColor);
 						QueueDraw(whiteTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.Transparent);
 					}
 					else if (dialogueClosing && dialogueCounter > 0)
 					{
-						float num6 = (float)dialogueCounter / 3f;
-						float num7 = ((float)dialogueRect.X + (1f - num6) / 2f * (float)dialogueRect.Width) / num6;
-						float num8 = ((float)dialogueRect.Y + (1f - num6) / 2f * (float)dialogueRect.Height) / num6;
-						float num9 = num6 * (float)dialogueRect.Width;
-						float num10 = num6 * (float)dialogueRect.Height;
-						QueueDraw(dialogueTexture, new Rectangle(0, 0, dialogueRect.Width, dialogueRect.Height), new Rectangle(0, 0, (int)num9, (int)num10), new Point((int)num7, (int)num8), dialogueColor);
+						float openRatio = (float)dialogueCounter / 3f;
+						float openX = ((float)dialogueRect.X + (1f - openRatio) / 2f * (float)dialogueRect.Width) / openRatio;
+						float openY = ((float)dialogueRect.Y + (1f - openRatio) / 2f * (float)dialogueRect.Height) / openRatio;
+						float openWidth = openRatio * (float)dialogueRect.Width;
+						float openHeight = openRatio * (float)dialogueRect.Height;
+						QueueDraw(dialogueTexture, new Rectangle(0, 0, dialogueRect.Width, dialogueRect.Height), new Rectangle(0, 0, (int)openWidth, (int)openHeight), new Point((int)openX, (int)openY), dialogueColor);
 						QueueDraw(whiteTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.Transparent);
 					}
 					dialogueCounter--;
@@ -2782,16 +2782,16 @@ namespace Yukihota
 			{
 				return;
 			}
-			bool flag = false;
+			bool created = false;
 			for (int i = 0; i < 3; i++)
 			{
 				if (captionStartIndexes[i] + captionVisibleChars >= captionLines[i].Length)
 				{
-					flag = true;
+					created = true;
 					break;
 				}
 			}
-			if (flag)
+			if (created)
 			{
 				captionVisibleChars = captionLines[(int)layoutIndex].Length - captionStartIndexes[(int)layoutIndex];
 				captionProgress = captionLines[(int)layoutIndex].Length - captionStartIndexes[(int)layoutIndex] + 4;
@@ -2882,8 +2882,8 @@ namespace Yukihota
 					{
 						try
 						{
-							double num = audioManager.GetVoicePosition() / captionVoiceLength;
-							captionProgress = (double)(captionLines[(int)layoutIndex].Length - captionStartIndexes[(int)layoutIndex] + 4) * num;
+							double voiceProgress = audioManager.GetVoicePosition() / captionVoiceLength;
+							captionProgress = (double)(captionLines[(int)layoutIndex].Length - captionStartIndexes[(int)layoutIndex] + 4) * voiceProgress;
 						}
 						catch (NullReferenceException)
 						{
