@@ -1,6 +1,6 @@
 namespace n0001
 {
-	public enum n0040
+	public enum ButtonLayout
 	{
 		n0041,
 		n0042,

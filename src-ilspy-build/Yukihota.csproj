@@ -52,7 +52,7 @@
 
   <!-- 源文件 -->
   <ItemGroup>
-    <Compile Include="**\*.cs" />
+    <Compile Include="..\src-ilspy\**\*.cs" />
     
   </ItemGroup>
 
@@ -72,10 +72,10 @@
   <!-- 窗体资源：原始 .NET 1.1 格式 .resources（ResGen 4.x 的 v2 格式 1.1 运行时不认） -->
   <ItemGroup>
     <EmbeddedResource Include="resources\res1.bin">
-      <LogicalName>n0001.n0002.resources</LogicalName>
+      <LogicalName>n0001.OptionsForm.resources</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="resources\res2.bin">
-      <LogicalName>n0001.n0063.resources</LogicalName>
+      <LogicalName>n0001.GalGameForm.resources</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
 

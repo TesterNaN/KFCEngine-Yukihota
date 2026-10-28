@@ -1,6 +1,6 @@
 namespace n0001
 {
-	public enum n0486
+	public enum TextureBlend
 	{
 		n0487,
 		n0437,

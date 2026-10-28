@@ -1,6 +1,6 @@
 namespace n0001
 {
-	public enum n0433
+	public enum DrawItemType
 	{
 		n0434,
 		n0443,

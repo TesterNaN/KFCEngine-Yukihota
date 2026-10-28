@@ -1,6 +1,6 @@
 namespace n0001
 {
-	public enum n0490
+	public enum HorizontalAlign
 	{
 		n0437,
 		n0491,

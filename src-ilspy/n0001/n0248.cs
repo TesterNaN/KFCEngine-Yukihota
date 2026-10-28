@@ -1,4 +1,4 @@
 namespace n0001
 {
-	public delegate void n0248();
+	public delegate void FrameCallback();
 }

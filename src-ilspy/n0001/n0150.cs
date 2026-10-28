@@ -1,6 +1,6 @@
 namespace n0001
 {
-	public enum n0150
+	public enum ArchiveMode
 	{
 		n0496,
 		n0151

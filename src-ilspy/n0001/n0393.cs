@@ -1,6 +1,6 @@
 namespace n0001
 {
-	public enum n0393
+	public enum SpriteMode
 	{
 		n0394,
 		n0400

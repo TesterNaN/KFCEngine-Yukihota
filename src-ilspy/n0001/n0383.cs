@@ -1,6 +1,6 @@
 namespace n0001
 {
-	public enum n0383
+	public enum ScenarioResult
 	{
 		n0485,
 		n0174,
