@@ -35,7 +35,13 @@ namespace Yukihota
 
 		protected static ArchiveFile voiceArchive = new ArchiveFile("Voice", ArchiveMode.Read);
 
-		private static string tempDirectory = tempDirectory.Substring(0, tempDirectory.Length - 1);
+		private static string tempDirectory;
+
+		static ScenarioScript()
+		{
+			tempDirectory = Path.GetTempPath();
+			tempDirectory = tempDirectory.Substring(0, tempDirectory.Length - 1);
+		}
 
 		private static int bgmSlotIndex = 0;
 
@@ -43,9 +49,9 @@ namespace Yukihota
 
 		private static int seSlotIndex = 0;
 
-		public ScenarioScript(string scriptPath, int episode, Device device)
+		public ScenarioScript(string scriptPath, int episode, Device d3dDevice)
 		{
-			device = device;
+			device = d3dDevice;
 			for (int i = 0; i < 3; i++)
 			{
 				documents[i] = new XmlDocument();
