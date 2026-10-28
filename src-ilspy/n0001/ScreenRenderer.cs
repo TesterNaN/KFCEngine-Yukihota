@@ -529,11 +529,11 @@ namespace Yukihota
 
 		protected readonly Size modeIconTextureSize = new Size(128, 96);
 
-		public ScreenRenderer(Device n0349, Sprite n0350, FrameCallback n0225, Texture n0351, System.Drawing.Font n0353, ButtonLayout n0046, Color n0266, AudioManager n0557)
+		public ScreenRenderer(Device n0349, Sprite n0350, FrameCallback ResetDevice, Texture n0351, System.Drawing.Font n0353, ButtonLayout n0046, Color n0266, AudioManager n0557)
 		{
 			device = n0349;
 			sprite = n0350;
-			resetCallback = n0225;
+			resetCallback = ResetDevice;
 			n0135 = n0351;
 			dialogueColor = n0266;
 			baseFont = n0353;

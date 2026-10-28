@@ -1153,12 +1153,12 @@ namespace Yukihota
 			return ScenarioResult.Caption;
 		}
 
-		public int n0157()
+		public int GetEpisode()
 		{
 			return episodeNumber;
 		}
 
-		public int n0159()
+		public int GetAlbumIndex()
 		{
 			return maxAlbumIndex;
 		}

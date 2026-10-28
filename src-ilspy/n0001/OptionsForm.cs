@@ -143,7 +143,7 @@ namespace Yukihota
 			n0012.Size = new Size(96, 23);
 			n0012.TabIndex = 0;
 			n0012.Text = "确定(&O)";
-			n0012.Click += new EventHandler(this.n0027);
+			n0012.Click += new EventHandler(this.OnSimplifiedCheckedChanged);
 			n0013.DialogResult = DialogResult.Cancel;
 			n0013.Location = new Point(184, 280);
 			n0013.Name = "btnCancel";
@@ -168,13 +168,13 @@ namespace Yukihota
 			n0004.Name = "cbbGamepad";
 			n0004.Size = new Size(288, 20);
 			n0004.TabIndex = 3;
-			n0004.SelectedIndexChanged += new EventHandler(this.n0028);
+			n0004.SelectedIndexChanged += new EventHandler(this.OnTraditionalCheckedChanged);
 			n0016.Location = new Point(104, 112);
 			n0016.Name = "btnFont";
 			n0016.Size = new Size(104, 23);
 			n0016.TabIndex = 5;
 			n0016.Text = "字体(&F)";
-			n0016.Click += new EventHandler(this.n0029);
+			n0016.Click += new EventHandler(this.OnJapaneseCheckedChanged);
 			n0017.AllowVerticalFonts = false;
 			n0017.Font = new Font("黑体", 24f, FontStyle.Regular, GraphicsUnit.Point, 134);
 			n0017.FontMustExist = true;
@@ -222,14 +222,14 @@ namespace Yukihota
 			n0022.TabIndex = 0;
 			n0022.TabStop = true;
 			n0022.Text = "简体中文(&S)";
-			n0022.CheckedChanged += new EventHandler(this.n0030);
+			n0022.CheckedChanged += new EventHandler(this.OnManualLinkClicked);
 			n0023.BackColor = Color.Transparent;
 			n0023.Location = new Point(8, 48);
 			n0023.Name = "rbtTC";
 			n0023.Size = new Size(136, 24);
 			n0023.TabIndex = 1;
 			n0023.Text = "繁體中文(&T)";
-			n0023.CheckedChanged += new EventHandler(this.n0031);
+			n0023.CheckedChanged += new EventHandler(this.ApplyButtonLayout);
 			n0024.BackColor = Color.Transparent;
 			n0024.Enabled = false;
 			n0024.Location = new Point(8, 72);
@@ -279,13 +279,13 @@ namespace Yukihota
 			base.Name = "Options";
 			StartPosition = FormStartPosition.CenterScreen;
 			Text = "选项";
-			Load += new EventHandler(this.n0034);
+			Load += new EventHandler(this.OnFontClick);
 			n0018.ResumeLayout(false);
 			n0021.ResumeLayout(false);
 			base.ResumeLayout(false);
 		}
 
-		private void n0034(object n0035, EventArgs n0036)
+		private void OnFontClick(object n0035, EventArgs n0036)
 		{
 			n0017.Font = n0037;
 			if (n0038)
@@ -311,7 +311,7 @@ namespace Yukihota
 			ApplyLanguage(n0039);
 		}
 
-		private void n0027(object n0035, EventArgs n0036)
+		private void OnSimplifiedCheckedChanged(object n0035, EventArgs n0036)
 		{
 			if (n0004.SelectedItem != null)
 			{
@@ -339,7 +339,7 @@ namespace Yukihota
 			n0045 = !n0025.Checked;
 		}
 
-		private void n0028(object n0035, EventArgs n0036)
+		private void OnTraditionalCheckedChanged(object n0035, EventArgs n0036)
 		{
 			if (((ComboBox)n0035).SelectedItem != null)
 			{
@@ -355,7 +355,7 @@ namespace Yukihota
 			}
 		}
 
-		private void n0029(object n0035, EventArgs n0036)
+		private void OnJapaneseCheckedChanged(object n0035, EventArgs n0036)
 		{
 			if (n0017.ShowDialog() == DialogResult.OK)
 			{
@@ -363,12 +363,12 @@ namespace Yukihota
 			}
 		}
 
-		private void n0030(object n0035, EventArgs n0036)
+		private void OnManualLinkClicked(object n0035, EventArgs n0036)
 		{
 			ApplyLanguage(ButtonLayout.SimplifiedChinese);
 		}
 
-		private void n0031(object n0035, EventArgs n0036)
+		private void ApplyButtonLayout(object n0035, EventArgs n0036)
 		{
 			ApplyLanguage(ButtonLayout.TraditionalChinese);
 		}

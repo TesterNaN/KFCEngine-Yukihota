@@ -559,14 +559,14 @@ namespace Yukihota
 			buttonLayout = layout;
 		}
 
-		public int n0157()
+		public int GetEpisode()
 		{
-			return scenario.n0157();
+			return scenario.GetEpisode();
 		}
 
-		public int n0159()
+		public int GetAlbumIndex()
 		{
-			return scenario.n0159();
+			return scenario.GetAlbumIndex();
 		}
 
 		public void SetPaused(bool enabled, bool n0469)
