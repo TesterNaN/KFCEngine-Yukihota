@@ -108,7 +108,7 @@ namespace n0001
 			n0543 = new Point(0, 560);
 			n0544 = new Size(30, 40);
 			n0067 = new MediaPackage("ED");
-			n0067.n0155(n0387);
+			n0067.Open(n0387);
 			n0482 = n0390;
 			n0153 = n0385;
 			n0545 = n0348;
@@ -124,7 +124,7 @@ namespace n0001
 			n0550 = null;
 		}
 
-		public void n0461(Device n0349, Sprite n0350, FrameCallback n0225, Texture n0351, System.Drawing.Font n0353, ButtonLayout n0046)
+		public void Initialize(Device n0349, Sprite n0350, FrameCallback n0225, Texture n0351, System.Drawing.Font n0353, ButtonLayout n0046)
 		{
 			n0006 = n0349;
 			n0144 = n0350;
@@ -134,11 +134,11 @@ namespace n0001
 			n0363 = n0046;
 		}
 
-		public bool n0228()
+		public bool Update()
 		{
 			if (n0549)
 			{
-				n0067.n0164(false);
+				n0067.Play(false);
 				n0549 = false;
 				n0553 = -1;
 				n0554 = -1;
@@ -202,8 +202,8 @@ namespace n0001
 					{
 						n0550.Dispose();
 					}
-					n0555 = TextureLoader.ImageInformationFromStream(n0482.n0137(n0538[num5]));
-					n0550 = TextureLoader.FromStream(n0006, n0482.n0137(n0538[num5]), n0555.Width, n0555.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+					n0555 = TextureLoader.ImageInformationFromStream(n0482.ReadEntry(n0538[num5]));
+					n0550 = TextureLoader.FromStream(n0006, n0482.ReadEntry(n0538[num5]), n0555.Width, n0555.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 					n0553 = num5;
 				}
 				if (num6 < 0.5)
@@ -244,8 +244,8 @@ namespace n0001
 					{
 						n0551.Dispose();
 					}
-					n0555 = TextureLoader.ImageInformationFromStream(n0153.n0137(n0540[num8]));
-					n0551 = TextureLoader.FromStream(n0006, n0153.n0137(n0540[num8]), n0555.Width, n0555.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+					n0555 = TextureLoader.ImageInformationFromStream(n0153.ReadEntry(n0540[num8]));
+					n0551 = TextureLoader.FromStream(n0006, n0153.ReadEntry(n0540[num8]), n0555.Width, n0555.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 					n0554 = num8;
 				}
 				if (n0550 != null)
@@ -384,11 +384,11 @@ namespace n0001
 			}
 		}
 
-		public void n0166(bool n0241)
+		public void SetPaused(bool n0241)
 		{
 			if (n0241)
 			{
-				n0067.n0166();
+				n0067.SetPaused();
 			}
 			else
 			{
@@ -396,7 +396,7 @@ namespace n0001
 			}
 		}
 
-		public void n0206(ButtonLayout n0046)
+		public void SetButtonLayout(ButtonLayout n0046)
 		{
 			n0363 = n0046;
 		}

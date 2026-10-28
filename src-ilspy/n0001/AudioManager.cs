@@ -37,14 +37,14 @@ namespace n0001
 			GC.SuppressFinalize(this);
 		}
 
-		public void n0405(string n0241)
+		public void PlayVoice(string n0241)
 		{
 			n0856 = false;
 			n0857.n0162();
 			if (n0241 != null)
 			{
-				n0857.n0155(n0241);
-				n0857.n0164();
+				n0857.Open(n0241);
+				n0857.Play();
 			}
 		}
 
@@ -72,13 +72,13 @@ namespace n0001
 			return n0857.n0276() && !n0856;
 		}
 
-		public void n0389(string n0241, int n0860)
+		public void PlayBgm(string n0241, int n0860)
 		{
 			n0067.n0162();
 			if (n0241 != null)
 			{
-				n0067.n0155(n0241);
-				n0067.n0164(true, n0860);
+				n0067.Open(n0241);
+				n0067.Play(true, n0860);
 			}
 		}
 
@@ -87,18 +87,18 @@ namespace n0001
 			n0067.n0162();
 		}
 
-		public void n0388(bool n0861)
+		public void SetBgmVolume(bool n0861)
 		{
-			n0067.n0862(n0861 ? 1000 : 200);
+			n0067.SetVolume(n0861 ? 1000 : 200);
 		}
 
-		public void n0422(string n0241, bool n0424, bool n0399)
+		public void PlaySe(string n0241, bool n0424, bool n0399)
 		{
 			n0858.n0162();
 			if (n0241 != null)
 			{
-				n0858.n0155(n0241);
-				n0858.n0164(n0424);
+				n0858.Open(n0241);
+				n0858.Play(n0424);
 				n0855 = n0399 && !n0424;
 			}
 		}
@@ -119,21 +119,21 @@ namespace n0001
 			n0856 = true;
 		}
 
-		public void n0166(bool n0241, bool n0469)
+		public void SetPaused(bool n0241, bool n0469)
 		{
 			if (n0241)
 			{
 				if (n0857.n0859())
 				{
-					n0857.n0166();
+					n0857.SetPaused();
 				}
 				if (n0858.n0859())
 				{
-					n0858.n0166();
+					n0858.SetPaused();
 				}
 				if (n0469 && n0067.n0859())
 				{
-					n0067.n0166();
+					n0067.SetPaused();
 				}
 			}
 			else

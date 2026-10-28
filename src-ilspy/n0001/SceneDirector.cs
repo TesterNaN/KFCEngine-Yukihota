@@ -68,8 +68,8 @@ namespace n0001
 			n0354 = new ScenarioScript(n0348, n0246, n0349);
 			n0356 = new AudioManager();
 			n0358 = new ScreenRenderer(n0349, n0350, n0225, n0351, n0353, n0046, n0266, n0356);
-			n0358.n0229(n0353);
-			n0358.n0206(n0046);
+			n0358.SetFont(n0353);
+			n0358.SetButtonLayout(n0046);
 			n0133 = n0349;
 			n0360 = n0350;
 			n0361 = n0225;
@@ -88,7 +88,7 @@ namespace n0001
 			n0372 = false;
 			n0373 = null;
 			n0374 = false;
-			n0375 = n0354.n0376(out n0377, out n0378, false);
+			n0375 = n0354.Advance(out n0377, out n0378, false);
 		}
 
 		public void Dispose()
@@ -99,11 +99,11 @@ namespace n0001
 			GC.SuppressFinalize(this);
 		}
 
-		public bool n0228()
+		public bool Update()
 		{
 			if (n0374)
 			{
-				if (!n0373.n0228())
+				if (!n0373.Update())
 				{
 					n0373.Dispose();
 					n0373 = null;
@@ -116,7 +116,7 @@ namespace n0001
 				n0364 = false;
 				if (n0370)
 				{
-					n0358.n0379(n0371, n0372, n0365);
+					n0358.CloseDialogue(n0371, n0372, n0365);
 					n0370 = false;
 					n0371 = false;
 					n0372 = false;
@@ -136,7 +136,7 @@ namespace n0001
 				{
 					n0368--;
 				}
-				else if (!n0358.n0380() && !n0356.n0381() && !n0356.n0382())
+				else if (!n0358.IsBusy() && !n0356.n0381() && !n0356.n0382())
 				{
 					bool flag = false;
 					do
@@ -154,27 +154,27 @@ namespace n0001
 						case ScenarioResult.n0385:
 							if (n0377.GetType().Equals(Color.Transparent.GetType()))
 							{
-								n0358.n0386((Color)n0377, (int)n0378);
+								n0358.SetBackground((Color)n0377, (int)n0378);
 							}
 							else
 							{
-								n0358.n0386((Texture)n0377, (int)n0378);
+								n0358.SetBackground((Texture)n0377, (int)n0378);
 							}
 							goto default;
 						case ScenarioResult.n0387:
 							if (n0378.GetType().Equals(false.GetType()))
 							{
-								n0356.n0388((bool)n0378);
+								n0356.SetBgmVolume((bool)n0378);
 							}
 							else
 							{
-								n0356.n0389((string)n0377, (int)((double)n0378 * 1000.0));
+								n0356.PlayBgm((string)n0377, (int)((double)n0378 * 1000.0));
 							}
 							goto default;
 						case ScenarioResult.n0390:
 							if (((SpriteState)n0378).n0392 == SpriteMode.n0394)
 							{
-								n0358.n0395((Texture)n0377, ((SpriteState)n0378).n0396, ((SpriteState)n0378).n0309 - 1, ((SpriteState)n0378).n0397, ((SpriteState)n0378).n0398, ((SpriteState)n0378).n0399);
+								n0358.SetCharacter((Texture)n0377, ((SpriteState)n0378).n0396, ((SpriteState)n0378).n0309 - 1, ((SpriteState)n0378).n0397, ((SpriteState)n0378).n0398, ((SpriteState)n0378).n0399);
 							}
 							else if (((SpriteState)n0378).n0392 == SpriteMode.n0400)
 							{
@@ -189,9 +189,9 @@ namespace n0001
 						case ScenarioResult.n0404:
 							if (!n0365)
 							{
-								n0356.n0405(((ScriptCommand)n0378).n0407);
+								n0356.PlayVoice(((ScriptCommand)n0378).n0407);
 							}
-							n0358.n0408((string[])n0377, ((MessageCommand)n0378).n0410, ((MessageCommand)n0378).n0411, ((MessageCommand)n0378).n0174, ((MessageCommand)n0378).n0412, ((MessageCommand)n0378).n0413, n0356.n0414());
+							n0358.SetMessage((string[])n0377, ((MessageCommand)n0378).n0410, ((MessageCommand)n0378).n0411, ((MessageCommand)n0378).n0174, ((MessageCommand)n0378).n0412, ((MessageCommand)n0378).n0413, n0356.n0414());
 							if (((MessageCommand)n0378).n0168)
 							{
 								n0358.n0168();
@@ -203,16 +203,16 @@ namespace n0001
 							n0372 = ((CaptionCommand)n0378).n0418;
 							if (!n0365)
 							{
-								n0356.n0405(((ScriptCommand)n0378).n0407);
+								n0356.PlayVoice(((ScriptCommand)n0378).n0407);
 							}
-							n0358.n0419((string[])n0377, ((CaptionCommand)n0378).n0390, n0356.n0414(), ((CaptionCommand)n0378).n0420, ((CaptionCommand)n0378).n0168 || n0367 || n0365);
+							n0358.SetCaption((string[])n0377, ((CaptionCommand)n0378).n0390, n0356.n0414(), ((CaptionCommand)n0378).n0420, ((CaptionCommand)n0378).n0168 || n0367 || n0365);
 							if (((CaptionCommand)n0378).n0168)
 							{
 								n0358.n0168();
 							}
 							goto default;
 						case ScenarioResult.n0421:
-							n0356.n0422((string)n0377, ((InputState)n0378).n0424, ((InputState)n0378).n0399);
+							n0356.PlaySe((string)n0377, ((InputState)n0378).n0424, ((InputState)n0378).n0399);
 							goto default;
 						case ScenarioResult.n0425:
 							if ((int)n0378 > 0)
@@ -224,13 +224,13 @@ namespace n0001
 							n0358.n0427((bool)n0378);
 							goto default;
 						case ScenarioResult.n0428:
-							n0358.n0429((string[])n0377);
+							n0358.ShowNotice((string[])n0377);
 							goto default;
 						case ScenarioResult.n0430:
 							switch (((DrawItem)n0378).n0432)
 							{
 							case DrawItemType.n0434:
-								n0358.n0435(((AnimItem)n0378).n0437, ((AnimItem)n0378).n0438, ((AnimItem)n0378).n0439, ((AnimItem)n0378).n0440, ((AnimItem)n0378).n0441, ((AnimItem)n0378).n0399, ((AnimItem)n0378).n0442);
+								n0358.ZoomBackground(((AnimItem)n0378).n0437, ((AnimItem)n0378).n0438, ((AnimItem)n0378).n0439, ((AnimItem)n0378).n0440, ((AnimItem)n0378).n0441, ((AnimItem)n0378).n0399, ((AnimItem)n0378).n0442);
 								n0367 = false;
 								break;
 							case DrawItemType.n0443:
@@ -251,7 +251,7 @@ namespace n0001
 								n0367 = false;
 								break;
 							case DrawItemType.n0413:
-								n0358.n0453(((TextureItem)n0378).n0455, ((TextureItem)n0378).n0456, ((TextureItem)n0378).n0399, ((TextureItem)n0378).n0441);
+								n0358.SetBackgroundWithWipe(((TextureItem)n0378).n0455, ((TextureItem)n0378).n0456, ((TextureItem)n0378).n0399, ((TextureItem)n0378).n0441);
 								n0367 = false;
 								break;
 							case DrawItemType.n0400:
@@ -277,7 +277,7 @@ namespace n0001
 							goto default;
 						case ScenarioResult.n0459:
 							n0373 = (StaffRoll)n0377;
-							n0373.n0461(n0133, n0360, new FrameCallback(n0361), n0135, new System.Drawing.Font(n0362.FontFamily, 24f), n0363);
+							n0373.Initialize(n0133, n0360, new FrameCallback(n0361), n0135, new System.Drawing.Font(n0362.FontFamily, 24f), n0363);
 							n0374 = true;
 							goto default;
 						default:
@@ -285,7 +285,7 @@ namespace n0001
 							{
 								n0367 = false;
 							}
-							n0375 = n0354.n0376(out n0377, out n0378, n0365);
+							n0375 = n0354.Advance(out n0377, out n0378, n0365);
 							if (flag)
 							{
 								break;
@@ -360,7 +360,7 @@ namespace n0001
 			}
 			else
 			{
-				n0373.n0228();
+				n0373.Update();
 			}
 		}
 
@@ -393,7 +393,7 @@ namespace n0001
 				n0356.n0465();
 				if (n0370)
 				{
-					n0358.n0379(n0371, n0372, false);
+					n0358.CloseDialogue(n0371, n0372, false);
 					n0370 = false;
 					n0371 = false;
 					n0372 = false;
@@ -445,7 +445,7 @@ namespace n0001
 			{
 				if (n0364 && n0370)
 				{
-					n0358.n0379(n0371, n0372, true);
+					n0358.CloseDialogue(n0371, n0372, true);
 					n0370 = false;
 					n0371 = false;
 					n0372 = false;
@@ -498,7 +498,7 @@ namespace n0001
 				n0364 = false;
 				if (n0370)
 				{
-					n0358.n0379(n0371, n0372, false);
+					n0358.CloseDialogue(n0371, n0372, false);
 					n0370 = false;
 					n0371 = false;
 					n0372 = false;
@@ -540,22 +540,22 @@ namespace n0001
 			}
 		}
 
-		public void n0229(System.Drawing.Font n0353)
+		public void SetFont(System.Drawing.Font n0353)
 		{
 			if (!n0374)
 			{
-				n0358.n0229(n0353);
+				n0358.SetFont(n0353);
 				n0362 = n0353;
 			}
 		}
 
-		public void n0206(ButtonLayout n0046)
+		public void SetButtonLayout(ButtonLayout n0046)
 		{
 			if (n0374)
 			{
-				n0373.n0206(n0046);
+				n0373.SetButtonLayout(n0046);
 			}
-			n0358.n0206(n0046);
+			n0358.SetButtonLayout(n0046);
 			n0363 = n0046;
 		}
 
@@ -569,15 +569,15 @@ namespace n0001
 			return n0354.n0159();
 		}
 
-		public void n0166(bool n0241, bool n0469)
+		public void SetPaused(bool n0241, bool n0469)
 		{
 			if (!n0374)
 			{
-				n0356.n0166(n0241, n0469);
+				n0356.SetPaused(n0241, n0469);
 			}
 			else
 			{
-				n0373.n0166(n0241);
+				n0373.SetPaused(n0241);
 			}
 		}
 
@@ -606,14 +606,14 @@ namespace n0001
 			n0358.n0252(n0049);
 		}
 
-		public void n0296(Color n0049)
+		public void SetDialogueColor(Color n0049)
 		{
-			n0358.n0296(n0049);
+			n0358.SetDialogueColor(n0049);
 		}
 
-		public void n0253(int n0049)
+		public void SetTextSpeed(int n0049)
 		{
-			n0358.n0253(n0049);
+			n0358.SetTextSpeed(n0049);
 		}
 
 		public void n0254(bool n0049)

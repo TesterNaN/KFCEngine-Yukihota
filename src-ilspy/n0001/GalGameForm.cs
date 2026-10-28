@@ -370,7 +370,7 @@ namespace n0001
 
 		public GalGameForm()
 		{
-			n0003();
+			InitializeComponent();
 			base.GotFocus += new EventHandler(this.n0064);
 			base.LostFocus += new EventHandler(this.n0065);
 			n0066 = -2;
@@ -386,7 +386,7 @@ namespace n0001
 			base.Dispose(n0010);
 		}
 
-		private void n0003()
+		private void InitializeComponent()
 		{
 			n0011 = new Container();
 			System.Resources.ResourceManager resourceManager = new System.Resources.ResourceManager(typeof(GalGameForm));
@@ -521,11 +521,11 @@ namespace n0001
 			Text = "秋之回忆 ～雪萤～";
 			base.KeyDown += new KeyEventHandler(this.n0115);
 			base.MouseDown += new MouseEventHandler(this.n0116);
-			Closing += new CancelEventHandler(this.n0117);
+			Closing += new CancelEventHandler(this.OnClosing);
 			Load += new EventHandler(this.n0118);
 			base.KeyUp += new KeyEventHandler(this.n0119);
 			Activated += new EventHandler(this.n0120);
-			base.Paint += new PaintEventHandler(this.n0121);
+			base.Paint += new PaintEventHandler(this.OnPaint);
 			base.MouseMove += new MouseEventHandler(this.n0122);
 			base.ResumeLayout(false);
 		}
@@ -581,7 +581,7 @@ namespace n0001
 		{
 			n0127();
 			OptionsForm n880 = new OptionsForm();
-			n880.n0048(new System.Drawing.Font(n0037, 24f));
+			n880.SetFontName(new System.Drawing.Font(n0037, 24f));
 			n880.n0055(n0038);
 			n880.n0057(n0039);
 			n880.n0059(n0045);
@@ -590,16 +590,16 @@ namespace n0001
 				Application.Exit();
 				return;
 			}
-			n0037 = n880.n0047().Name;
+			n0037 = n880.GetFontName().Name;
 			n0038 = n880.n0054();
-			n0039 = n880.n0056();
+			n0039 = n880.GetButtonLayout();
 			n0045 = n880.n0058();
 			ArchiveFile.n0129("Mullen");
 			for (int i = 0; i < 8; i++)
 			{
 				n0130[i] = false;
 			}
-			n0131 = n880.n0050();
+			n0131 = n880.GetDevice();
 			if (n0131 != null)
 			{
 				try
@@ -710,8 +710,8 @@ namespace n0001
 			{
 				string tempPath = Path.GetTempPath();
 				tempPath = tempPath.Substring(0, tempPath.Length - 1);
-				n0152.n0154("BGM12", tempPath);
-				n0067.n0155(tempPath + "\\BGM12.wav");
+				n0152.Extract("BGM12", tempPath);
+				n0067.Open(tempPath + "\\BGM12.wav");
 			}
 			catch (Exception ex4)
 			{
@@ -719,7 +719,7 @@ namespace n0001
 				Application.Exit();
 				return;
 			}
-			n0044(n0039);
+			ApplyLanguage(n0039);
 			switch (n0039)
 			{
 			case ButtonLayout.n0041:
@@ -733,7 +733,7 @@ namespace n0001
 				break;
 			}
 			n0134 = Cursor.Position;
-			n0135 = TextureLoader.FromStream(n0133, n0136.n0137("WHITE"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			n0135 = TextureLoader.FromStream(n0133, n0136.ReadEntry("WHITE"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 			try
 			{
 				n0138();
@@ -750,7 +750,7 @@ namespace n0001
 			}
 		}
 
-		private void n0117(object n0035, CancelEventArgs n0036)
+		private void OnClosing(object n0035, CancelEventArgs n0036)
 		{
 			if (n0066 == 1)
 			{
@@ -819,7 +819,7 @@ namespace n0001
 			case -2:
 				if (n0163 != null)
 				{
-					n0163.n0164();
+					n0163.Play();
 				}
 				break;
 			case -1:
@@ -831,7 +831,7 @@ namespace n0001
 				break;
 			case 1:
 				n0069.Start();
-				n0156.n0166(false, true);
+				n0156.SetPaused(false, true);
 				break;
 			case 2:
 				n0094.Start();
@@ -845,7 +845,7 @@ namespace n0001
 				}
 				else if (n0167 == 1)
 				{
-					n0156.n0166(false, true);
+					n0156.SetPaused(false, true);
 				}
 				break;
 			case 4:
@@ -876,7 +876,7 @@ namespace n0001
 			case -2:
 				if (n0163 != null)
 				{
-					n0163.n0166();
+					n0163.SetPaused();
 				}
 				break;
 			case -1:
@@ -884,30 +884,30 @@ namespace n0001
 				break;
 			case 0:
 				n0070.Stop();
-				n0067.n0166();
+				n0067.SetPaused();
 				break;
 			case 1:
 				n0069.Stop();
-				n0156.n0166(true, true);
+				n0156.SetPaused(true, true);
 				break;
 			case 2:
 				n0094.Stop();
-				n0067.n0166();
+				n0067.SetPaused();
 				break;
 			case 3:
 				n0071.Stop();
 				if (n0167 == 0)
 				{
-					n0067.n0166();
+					n0067.SetPaused();
 				}
 				else if (n0167 == 1)
 				{
-					n0156.n0166(true, true);
+					n0156.SetPaused(true, true);
 				}
 				break;
 			case 4:
 				n0095.Stop();
-				n0067.n0166();
+				n0067.SetPaused();
 				break;
 			}
 		}
@@ -961,11 +961,11 @@ namespace n0001
 					{
 						if (n0183 != 0)
 						{
-							n0184(n0183, n0185 + 1);
+							ShowAlbumImage(n0183, n0185 + 1);
 						}
 						else if (n0186 > 0 && n0160 >= n0186)
 						{
-							n0184(n0186, 0);
+							ShowAlbumImage(n0186, 0);
 						}
 					}
 					break;
@@ -1110,7 +1110,7 @@ namespace n0001
 					if (n0066 == 1 && !n0156.n0188())
 					{
 						n0156.n0200(false);
-						n0156.n0166(true, false);
+						n0156.SetPaused(true, false);
 						n0069.Stop();
 						n0140();
 						n0202();
@@ -1153,8 +1153,8 @@ namespace n0001
 						n0085.Checked = true;
 						break;
 					}
-					n0044(n0039);
-					n0156.n0206(n0039);
+					ApplyLanguage(n0039);
+					n0156.SetButtonLayout(n0039);
 				}
 				break;
 			}
@@ -1208,10 +1208,10 @@ namespace n0001
 				}
 				else if (n0036.Button == MouseButtons.Right && !n0156.n0188())
 				{
-					n0156.n0166(true, false);
+					n0156.SetPaused(true, false);
 					n0069.Stop();
 					n0072.Show((Control)n0035, new Point(n0036.X, n0036.Y));
-					n0156.n0166(false, false);
+					n0156.SetPaused(false, false);
 					n0069.Start();
 				}
 				break;
@@ -1248,7 +1248,7 @@ namespace n0001
 			}
 		}
 
-		private void n0121(object n0035, PaintEventArgs n0036)
+		private void OnPaint(object n0035, PaintEventArgs n0036)
 		{
 			if (n0066 == -2)
 			{
@@ -1308,7 +1308,7 @@ namespace n0001
 		private void n0097(object n0035, EventArgs n0036)
 		{
 			bool flag = false;
-			switch (n0226())
+			switch (PollJoystick())
 			{
 			case 0:
 				n0156.n0174();
@@ -1326,7 +1326,7 @@ namespace n0001
 				if (!n0156.n0188())
 				{
 					n0156.n0200(false);
-					n0156.n0166(true, false);
+					n0156.SetPaused(true, false);
 					n0069.Stop();
 					n0140();
 					n0202();
@@ -1347,11 +1347,11 @@ namespace n0001
 				n0084.Checked = true;
 				n0085.Checked = false;
 				n0086.Checked = false;
-				n0044(n0039);
-				n0156.n0206(n0039);
+				ApplyLanguage(n0039);
+				n0156.SetButtonLayout(n0039);
 				n0205 = false;
 			}
-			if (!flag && !n0156.n0228())
+			if (!flag && !n0156.Update())
 			{
 				n0227();
 			}
@@ -1364,7 +1364,7 @@ namespace n0001
 		private void n0101(object n0035, EventArgs n0036)
 		{
 			n0156.n0200(false);
-			n0156.n0166(true, false);
+			n0156.SetPaused(true, false);
 			n0069.Stop();
 			n0140();
 			n0202();
@@ -1396,8 +1396,8 @@ namespace n0001
 			n0085.Checked = false;
 			n0086.Checked = false;
 			n0039 = ButtonLayout.n0041;
-			n0044(ButtonLayout.n0041);
-			n0156.n0206(ButtonLayout.n0041);
+			ApplyLanguage(ButtonLayout.n0041);
+			n0156.SetButtonLayout(ButtonLayout.n0041);
 		}
 
 		private void n0107(object n0035, EventArgs n0036)
@@ -1406,8 +1406,8 @@ namespace n0001
 			n0085.Checked = true;
 			n0086.Checked = false;
 			n0039 = ButtonLayout.n0042;
-			n0044(ButtonLayout.n0042);
-			n0156.n0206(ButtonLayout.n0042);
+			ApplyLanguage(ButtonLayout.n0042);
+			n0156.SetButtonLayout(ButtonLayout.n0042);
 		}
 
 		private void n0108(object n0035, EventArgs n0036)
@@ -1416,15 +1416,15 @@ namespace n0001
 			n0085.Checked = false;
 			n0086.Checked = true;
 			n0039 = ButtonLayout.n0043;
-			n0044(ButtonLayout.n0043);
-			n0156.n0206(ButtonLayout.n0043);
+			ApplyLanguage(ButtonLayout.n0043);
+			n0156.SetButtonLayout(ButtonLayout.n0043);
 		}
 
 		private void n0109(object n0035, EventArgs n0036)
 		{
 			if (n0017.ShowDialog() == DialogResult.OK)
 			{
-				n0156.n0229(n0017.Font);
+				n0156.SetFont(n0017.Font);
 				n0037 = n0017.Font.Name;
 			}
 		}
@@ -1453,9 +1453,9 @@ namespace n0001
 			{
 				return;
 			}
-			n0231(xmlDocument, "sys/win/font", ref n0037);
+			ReadSetting(xmlDocument, "sys/win/font", ref n0037);
 			string n880 = null;
-			n0231(xmlDocument, "sys/win/mode", ref n880);
+			ReadSetting(xmlDocument, "sys/win/mode", ref n880);
 			switch (n880)
 			{
 			case "Fullscreen":
@@ -1466,7 +1466,7 @@ namespace n0001
 				break;
 			}
 			n880 = null;
-			n0231(xmlDocument, "sys/win/language", ref n880);
+			ReadSetting(xmlDocument, "sys/win/language", ref n880);
 			switch (n880)
 			{
 			case "SC":
@@ -1479,13 +1479,13 @@ namespace n0001
 				n0039 = ButtonLayout.n0043;
 				break;
 			}
-			n0231(xmlDocument, "sys/win/show", ref n0045);
-			n0231(xmlDocument, "sys/options/fade", ref n0232);
-			n0231(xmlDocument, "sys/options/env", ref n0233);
-			n0231(xmlDocument, "sys/options/sun", ref n0234);
-			n0231(xmlDocument, "sys/options/shock", ref n0235);
+			ReadSetting(xmlDocument, "sys/win/show", ref n0045);
+			ReadSetting(xmlDocument, "sys/options/fade", ref n0232);
+			ReadSetting(xmlDocument, "sys/options/env", ref n0233);
+			ReadSetting(xmlDocument, "sys/options/sun", ref n0234);
+			ReadSetting(xmlDocument, "sys/options/shock", ref n0235);
 			n880 = null;
-			n0231(xmlDocument, "sys/options/color", ref n880);
+			ReadSetting(xmlDocument, "sys/options/color", ref n880);
 			switch (n880)
 			{
 			case "Green":
@@ -1510,10 +1510,10 @@ namespace n0001
 				n0236 = Color.FromArgb(128, 128, 128);
 				break;
 			}
-			n0231(xmlDocument, "sys/options/speed", 1, 6, ref n0237);
-			n0231(xmlDocument, "sys/options/synchro", ref n0238);
-			n0231(xmlDocument, "sys/save/episode", 0, 16, ref n0158);
-			n0231(xmlDocument, "sys/save/album", 0, 7, ref n0160);
+			ReadSetting(xmlDocument, "sys/options/speed", 1, 6, ref n0237);
+			ReadSetting(xmlDocument, "sys/options/synchro", ref n0238);
+			ReadSetting(xmlDocument, "sys/save/episode", 0, 16, ref n0158);
+			ReadSetting(xmlDocument, "sys/save/album", 0, 7, ref n0160);
 		}
 
 		private void n0161()
@@ -1586,7 +1586,7 @@ namespace n0001
 			}
 		}
 
-		private void n0231(XmlDocument n0239, string n0240, ref string n0241)
+		private void ReadSetting(XmlDocument n0239, string n0240, ref string n0241)
 		{
 			XmlNode xmlNode = n0239.SelectSingleNode(n0240);
 			if (xmlNode != null)
@@ -1595,7 +1595,7 @@ namespace n0001
 			}
 		}
 
-		private void n0231(XmlDocument n0239, string n0240, ref bool n0241)
+		private void ReadSetting(XmlDocument n0239, string n0240, ref bool n0241)
 		{
 			XmlNode xmlNode = n0239.SelectSingleNode(n0240);
 			if (xmlNode != null)
@@ -1611,7 +1611,7 @@ namespace n0001
 			}
 		}
 
-		private void n0231(XmlDocument n0239, string n0240, int n0242, int n0243, ref int n0241)
+		private void ReadSetting(XmlDocument n0239, string n0240, int n0242, int n0243, ref int n0241)
 		{
 			XmlNode xmlNode = n0239.SelectSingleNode(n0240);
 			if (xmlNode == null)
@@ -1678,7 +1678,7 @@ namespace n0001
 			}
 		}
 
-		private void n0044(ButtonLayout n0046)
+		private void ApplyLanguage(ButtonLayout n0046)
 		{
 			switch (n0046)
 			{
@@ -1724,7 +1724,7 @@ namespace n0001
 			}
 		}
 
-		private int n0226()
+		private int PollJoystick()
 		{
 			if (n0131 != null)
 			{
@@ -1803,7 +1803,7 @@ namespace n0001
 				n0156.n0250(n0234);
 				n0156.n0251(n0233);
 				n0156.n0252(n0235);
-				n0156.n0253(n0237);
+				n0156.SetTextSpeed(n0237);
 				n0156.n0254(n0238);
 			}
 			catch (Exception ex)
@@ -1850,7 +1850,7 @@ namespace n0001
 			n0260();
 		}
 
-		private void n0261(Texture n0262, Rectangle n0263, Rectangle n0264, Point n0265, Color n0266)
+		private void QueueDraw(Texture n0262, Rectangle n0263, Rectangle n0264, Point n0265, Color n0266)
 		{
 			n0144.Draw2D(n0262, n0263, n0264, Point.Empty, 0f, n0265, n0266);
 			n0216.Add(n0262);
@@ -1862,7 +1862,7 @@ namespace n0001
 
 		private void n0141()
 		{
-			n0267 = TextureLoader.FromStream(n0133, n0136.n0137("KID_LOGO"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			n0267 = TextureLoader.FromStream(n0133, n0136.ReadEntry("KID_LOGO"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 			if (n0125)
 			{
 				n0268 = 0;
@@ -1883,8 +1883,8 @@ namespace n0001
 			{
 				n0096.Visible = true;
 				n0163 = new MediaPackage("Op");
-				n0163.n0155("Movie\\KFC.wmv", n0096);
-				n0163.n0164();
+				n0163.Open("Movie\\KFC.wmv", n0096);
+				n0163.Play();
 			}
 			n0093.Start();
 		}
@@ -1933,7 +1933,7 @@ namespace n0001
 				n0260();
 				alpha = 0;
 			}
-			n0261(n0267, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb(alpha, Color.White));
+			QueueDraw(n0267, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb(alpha, Color.White));
 			n0268++;
 			n0144.End();
 			n0133.EndScene();
@@ -1959,10 +1959,10 @@ namespace n0001
 
 		private void n0139()
 		{
-			n0272[0] = TextureLoader.FromStream(n0133, n0136.n0137("TITLESC"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
-			n0272[1] = TextureLoader.FromStream(n0133, n0136.n0137("TITLETC"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
-			n0272[2] = TextureLoader.FromStream(n0133, n0136.n0137("TITLEJP"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
-			n0273 = TextureLoader.FromStream(n0133, n0136.n0137("MENU"), n0274.Width, n0274.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			n0272[0] = TextureLoader.FromStream(n0133, n0136.ReadEntry("TITLESC"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			n0272[1] = TextureLoader.FromStream(n0133, n0136.ReadEntry("TITLETC"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			n0272[2] = TextureLoader.FromStream(n0133, n0136.ReadEntry("TITLEJP"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			n0273 = TextureLoader.FromStream(n0133, n0136.ReadEntry("MENU"), n0274.Width, n0274.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 		}
 
 		private void n0255()
@@ -1989,7 +1989,7 @@ namespace n0001
 			n0172[3] = n0160 > 0;
 			if (!n0067.n0276())
 			{
-				n0067.n0164(true);
+				n0067.Play(true);
 			}
 			n0070.Start();
 		}
@@ -2038,7 +2038,7 @@ namespace n0001
 		private void n0098(object n0035, EventArgs n0036)
 		{
 			GC.Collect();
-			int num = n0226();
+			int num = PollJoystick();
 			if (num == 0)
 			{
 				if (n0171 > 0 && n0172[n0171 - 1])
@@ -2068,16 +2068,16 @@ namespace n0001
 			n0221 = null;
 			n0133.BeginScene();
 			n0144.Begin(SpriteFlags.AlphaBlend);
-			n0261(n0272[(int)n0039], Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
+			QueueDraw(n0272[(int)n0039], Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
 			for (int i = 0; i < 5; i++)
 			{
 				Rectangle n880 = new Rectangle((n0171 - 1 != i) ? 180 : 0, 32 * (n0172[i] ? i : 5), 180, 32);
-				n0261(n0273, n880, Rectangle.Empty, new Point(310, 368 + 32 * i), Color.White);
+				QueueDraw(n0273, n880, Rectangle.Empty, new Point(310, 368 + 32 * i), Color.White);
 			}
 			if (n0170 > 0)
 			{
 				int alpha = (int)((double)(n0275 ? n0170 : (10 - n0170)) / 10.0 * 255.0);
-				n0261(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb(alpha, Color.White));
+				QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb(alpha, Color.White));
 				n0170--;
 				if (!n0275 && n0170 == 0)
 				{
@@ -2166,25 +2166,25 @@ namespace n0001
 		private void n0140()
 		{
 			n0280 = 0;
-			n0281[0] = TextureLoader.FromStream(n0133, n0136.n0137("OPT_BGSC"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
-			n0281[1] = TextureLoader.FromStream(n0133, n0136.n0137("OPT_BGTC"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
-			n0281[2] = TextureLoader.FromStream(n0133, n0136.n0137("OPT_BGJP"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			n0281[0] = TextureLoader.FromStream(n0133, n0136.ReadEntry("OPT_BGSC"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			n0281[1] = TextureLoader.FromStream(n0133, n0136.ReadEntry("OPT_BGTC"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			n0281[2] = TextureLoader.FromStream(n0133, n0136.ReadEntry("OPT_BGJP"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 			Texture[] array = n0282;
 			int num = 0;
 			Microsoft.DirectX.Direct3D.Device device = n0133;
-			Stream stream = n0136.n0137("OPTIONSC");
+			Stream stream = n0136.ReadEntry("OPTIONSC");
 			int num2 = n0283.Width;
 			array[num] = TextureLoader.FromStream(device, stream, num2, n0283.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 			Texture[] array2 = n0282;
 			int num3 = 1;
 			Microsoft.DirectX.Direct3D.Device device2 = n0133;
-			Stream stream2 = n0136.n0137("OPTIONTC");
+			Stream stream2 = n0136.ReadEntry("OPTIONTC");
 			int num4 = n0283.Width;
 			array2[num3] = TextureLoader.FromStream(device2, stream2, num4, n0283.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 			Texture[] array3 = n0282;
 			int num5 = 2;
 			Microsoft.DirectX.Direct3D.Device device3 = n0133;
-			Stream stream3 = n0136.n0137("OPTIONJP");
+			Stream stream3 = n0136.ReadEntry("OPTIONJP");
 			int num6 = n0283.Width;
 			array3[num5] = TextureLoader.FromStream(device3, stream3, num6, n0283.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 		}
@@ -2418,7 +2418,7 @@ namespace n0001
 
 		private void n0099(object n0035, EventArgs n0036)
 		{
-			int num = n0226();
+			int num = PollJoystick();
 			switch (num)
 			{
 			case 0:
@@ -2444,7 +2444,7 @@ namespace n0001
 			n0221 = null;
 			n0133.BeginScene();
 			n0144.Begin(SpriteFlags.AlphaBlend);
-			n0261(n0281[(int)n0039], Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
+			QueueDraw(n0281[(int)n0039], Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
 			for (int i = 0; i < 23; i++)
 			{
 				n0288[i] = false;
@@ -2523,15 +2523,15 @@ namespace n0001
 				if (n0288[j])
 				{
 					Rectangle n880 = new Rectangle(n0289[j], n0290[j], n0291[j], n0292[j]);
-					n0261(n0282[(int)n0039], n880, Rectangle.Empty, new Point(n0293[j], n0294[j]), Color.White);
+					QueueDraw(n0282[(int)n0039], n880, Rectangle.Empty, new Point(n0293[j], n0294[j]), Color.White);
 				}
 			}
 			if (n0179 > 0)
 			{
 				Rectangle n881 = new Rectangle(225 + 16 * n0295[n0280], 25, 16, 25);
-				n0261(n0282[(int)n0039], n881, Rectangle.Empty, new Point(n0293[n0179 - 1] - 16, n0294[n0179 - 1]), Color.White);
+				QueueDraw(n0282[(int)n0039], n881, Rectangle.Empty, new Point(n0293[n0179 - 1] - 16, n0294[n0179 - 1]), Color.White);
 				n881 = new Rectangle(273 + 16 * n0295[n0280], 25, 16, 25);
-				n0261(n0282[(int)n0039], n881, Rectangle.Empty, new Point(n0293[n0179 - 1] + n0291[n0179 - 1], n0294[n0179 - 1]), Color.White);
+				QueueDraw(n0282[(int)n0039], n881, Rectangle.Empty, new Point(n0293[n0179 - 1] + n0291[n0179 - 1], n0294[n0179 - 1]), Color.White);
 				n0280++;
 				if (n0280 == 6)
 				{
@@ -2542,7 +2542,7 @@ namespace n0001
 			if (n0178 > 0)
 			{
 				int alpha = (int)((double)(n0286 ? n0178 : (10 - n0178)) / 10.0 * 255.0);
-				n0261(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb(alpha, Color.White));
+				QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb(alpha, Color.White));
 				n0178--;
 				if (!n0286 && n0178 == 0)
 				{
@@ -2564,10 +2564,10 @@ namespace n0001
 						n0156.n0250(n0234);
 						n0156.n0251(n0233);
 						n0156.n0252(n0235);
-						n0156.n0296(n0236);
-						n0156.n0253(n0237);
+						n0156.SetDialogueColor(n0236);
+						n0156.SetTextSpeed(n0237);
 						n0156.n0254(n0238);
-						n0156.n0166(false, false);
+						n0156.SetPaused(false, false);
 						n0069.Start();
 						flag = true;
 					}
@@ -2644,8 +2644,8 @@ namespace n0001
 
 		private void n0142()
 		{
-			n0297 = TextureLoader.FromStream(n0133, n0136.n0137("SCUT_BG"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
-			n0298 = TextureLoader.FromStream(n0133, n0136.n0137("SCUTMENU"), n0299.Width, n0299.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			n0297 = TextureLoader.FromStream(n0133, n0136.ReadEntry("SCUT_BG"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			n0298 = TextureLoader.FromStream(n0133, n0136.ReadEntry("SCUTMENU"), n0299.Width, n0299.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 		}
 
 		private void n0258()
@@ -2707,7 +2707,7 @@ namespace n0001
 
 		private void n0113(object n0035, EventArgs n0036)
 		{
-			switch (n0226())
+			switch (PollJoystick())
 			{
 			case 0:
 				if (n0176 > 0 && n0158 >= n0176)
@@ -2737,21 +2737,21 @@ namespace n0001
 			n0221 = null;
 			n0133.BeginScene();
 			n0144.Begin(SpriteFlags.AlphaBlend);
-			n0261(n0297, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
+			QueueDraw(n0297, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
 			for (int i = 0; i < n0158; i++)
 			{
 				Rectangle n880 = new Rectangle((n0176 - 1 != i) ? 280 : 0, 28 * i, 280, 28);
-				n0261(n0298, n880, Rectangle.Empty, new Point(n0301[(i >= 8) ? 1 : 0], 80 + 40 * (i % 8)), Color.White);
+				QueueDraw(n0298, n880, Rectangle.Empty, new Point(n0301[(i >= 8) ? 1 : 0], 80 + 40 * (i % 8)), Color.White);
 			}
 			for (int j = n0158; j < 16; j++)
 			{
 				Rectangle n881 = new Rectangle((n0176 - 1 != j) ? 280 : 0, 448, 280, 28);
-				n0261(n0298, n881, Rectangle.Empty, new Point(n0301[(j >= 8) ? 1 : 0], 80 + 40 * (j % 8)), Color.White);
+				QueueDraw(n0298, n881, Rectangle.Empty, new Point(n0301[(j >= 8) ? 1 : 0], 80 + 40 * (j % 8)), Color.White);
 			}
 			if (n0175 > 0)
 			{
 				int alpha = (int)((double)(n0300 ? n0175 : (10 - n0175)) / 10.0 * 255.0);
-				n0261(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb(alpha, Color.White));
+				QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb(alpha, Color.White));
 				n0175--;
 				if (!n0300 && n0175 == 0)
 				{
@@ -2839,8 +2839,8 @@ namespace n0001
 
 		private void n0143()
 		{
-			n0302 = TextureLoader.FromStream(n0133, n0136.n0137("ALBUMBG"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
-			n0303 = TextureLoader.FromStream(n0133, n0136.n0137("AL_PIC"), n0304.Width, n0304.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			n0302 = TextureLoader.FromStream(n0133, n0136.ReadEntry("ALBUMBG"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			n0303 = TextureLoader.FromStream(n0133, n0136.ReadEntry("AL_PIC"), n0304.Width, n0304.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 		}
 
 		private void n0259()
@@ -2870,7 +2870,7 @@ namespace n0001
 			n0305 = false;
 		}
 
-		private void n0184(int n0308, int n0309)
+		private void ShowAlbumImage(int n0308, int n0309)
 		{
 			if (n0309 >= n0310[n0308 - 1])
 			{
@@ -2885,7 +2885,7 @@ namespace n0001
 				n0306.Dispose();
 			}
 			n0306 = n0307;
-			n0307 = TextureLoader.FromStream(n0133, n0153.n0137("EV_HP0" + n0308 + (char)(n0309 + 65)), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			n0307 = TextureLoader.FromStream(n0133, n0153.ReadEntry("EV_HP0" + n0308 + (char)(n0309 + 65)), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 		}
 
 		private void n0191()
@@ -2938,19 +2938,19 @@ namespace n0001
 
 		private void n0114(object n0035, EventArgs n0036)
 		{
-			switch (n0226())
+			switch (PollJoystick())
 			{
 			case 0:
 				if (n0183 == 0)
 				{
 					if (n0186 > 0 && n0160 >= n0186)
 					{
-						n0184(n0186, 0);
+						ShowAlbumImage(n0186, 0);
 					}
 				}
 				else
 				{
-					n0184(n0183, n0185 + 1);
+					ShowAlbumImage(n0183, n0185 + 1);
 				}
 				break;
 			case 1:
@@ -2987,14 +2987,14 @@ namespace n0001
 			n0144.Begin(SpriteFlags.AlphaBlend);
 			if (n0183 == 0 || (n0185 == 0 && n0182 > 0))
 			{
-				n0261(n0302, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
+				QueueDraw(n0302, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
 				for (int i = 0; i < n0160; i++)
 				{
-					n0261(n0303, new Rectangle(0, 90 * i, 120, 90), Rectangle.Empty, new Point(n0311[i], n0312[i]), (n0186 - 1 == i) ? Color.White : Color.FromArgb(n0313, Color.White));
+					QueueDraw(n0303, new Rectangle(0, 90 * i, 120, 90), Rectangle.Empty, new Point(n0311[i], n0312[i]), (n0186 - 1 == i) ? Color.White : Color.FromArgb(n0313, Color.White));
 				}
 				for (int j = n0160; j < 7; j++)
 				{
-					n0261(n0303, new Rectangle(0, 630, 120, 90), Rectangle.Empty, new Point(n0311[j], n0312[j]), (n0186 - 1 == j) ? Color.White : Color.FromArgb(n0313, Color.White));
+					QueueDraw(n0303, new Rectangle(0, 630, 120, 90), Rectangle.Empty, new Point(n0311[j], n0312[j]), (n0186 - 1 == j) ? Color.White : Color.FromArgb(n0313, Color.White));
 				}
 				if (n0186 > 0 && n0160 >= n0186)
 				{
@@ -3017,16 +3017,16 @@ namespace n0001
 			}
 			else if (n0182 == 0)
 			{
-				n0261(n0307, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
+				QueueDraw(n0307, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
 			}
 			else
 			{
-				n0261(n0306, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
+				QueueDraw(n0306, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
 			}
 			if (n0181 > 0)
 			{
 				int alpha = (int)((double)(n0305 ? n0181 : (10 - n0181)) / 10.0 * 255.0);
-				n0261(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb(alpha, Color.White));
+				QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb(alpha, Color.White));
 				n0181--;
 				if (!n0305 && n0181 == 0)
 				{
@@ -3039,11 +3039,11 @@ namespace n0001
 			{
 				if (n0183 > 0)
 				{
-					n0261(n0307, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)((double)(10 - n0182) / 10.0 * 255.0), Color.White));
+					QueueDraw(n0307, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)((double)(10 - n0182) / 10.0 * 255.0), Color.White));
 				}
 				else
 				{
-					n0261(n0306, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)((double)n0182 / 10.0 * 255.0), Color.White));
+					QueueDraw(n0306, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)((double)n0182 / 10.0 * 255.0), Color.White));
 				}
 				n0182--;
 			}
@@ -3084,14 +3084,14 @@ namespace n0001
 			{
 				if (n0183 != 0)
 				{
-					n0184(n0183, n0185 + 1);
+					ShowAlbumImage(n0183, n0185 + 1);
 					return;
 				}
 				n0134 = Point.Empty;
 				n0214(n0035, n0036);
 				if (n0186 > 0 && n0160 >= n0186)
 				{
-					n0184(n0186, 0);
+					ShowAlbumImage(n0186, 0);
 				}
 			}
 			else if (n0036.Button == MouseButtons.Right)

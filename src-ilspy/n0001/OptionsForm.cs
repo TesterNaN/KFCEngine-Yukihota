@@ -10,16 +10,16 @@ namespace n0001
 {
 	public class OptionsForm : Form
 	{
-		private struct n0005
+		private struct InputDeviceInfo
 		{
 			private DeviceInstance n0061;
 
-			public n0005(DeviceInstance n0060)
+			public InputDeviceInfo(DeviceInstance n0060)
 			{
 				n0061 = n0060;
 			}
 
-			public Guid n0007()
+			public Guid GetInstanceGuid()
 			{
 				return n0061.InstanceGuid;
 			}
@@ -80,17 +80,17 @@ namespace n0001
 
 		public OptionsForm()
 		{
-			n0003();
+			InitializeComponent();
 			foreach (object device in Manager.GetDevices(DeviceClass.GameControl, EnumDevicesFlags.AttachedOnly))
 			{
 				DeviceInstance n536 = (DeviceInstance)device;
-				n0004.Items.Add(new n0005(n536));
+				n0004.Items.Add(new InputDeviceInfo(n536));
 			}
 			if (n0004.Items.Count > 0)
 			{
 				n0004.SelectedIndex = 0;
-				n0005 n537 = (n0005)n0004.SelectedItem;
-				n0006 = new Device(n537.n0007());
+				InputDeviceInfo n537 = (InputDeviceInfo)n0004.SelectedItem;
+				n0006 = new Device(n537.GetInstanceGuid());
 				Control control = n0008;
 				control.Enabled = n0006.Caps.ForceFeedback;
 				CheckBox checkBox = n0008;
@@ -114,7 +114,7 @@ namespace n0001
 			base.Dispose(n0010);
 		}
 
-		private void n0003()
+		private void InitializeComponent()
 		{
 			ResourceManager resourceManager = new ResourceManager(typeof(OptionsForm));
 			n0012 = new System.Windows.Forms.Button();
@@ -252,7 +252,7 @@ namespace n0001
 			n0026.TabStop = true;
 			n0026.Text = "手册(&M)";
 			n0026.TextAlign = ContentAlignment.MiddleCenter;
-			n0026.LinkClicked += new LinkLabelLinkClickedEventHandler(this.n0033);
+			n0026.LinkClicked += new LinkLabelLinkClickedEventHandler(this.OnManualLinkClicked);
 			n0008.BackColor = Color.Transparent;
 			n0008.Location = new Point(208, 64);
 			n0008.Name = "ckbEffect";
@@ -308,15 +308,15 @@ namespace n0001
 				n0024.Checked = true;
 				break;
 			}
-			n0044(n0039);
+			ApplyLanguage(n0039);
 		}
 
 		private void n0027(object n0035, EventArgs n0036)
 		{
 			if (n0004.SelectedItem != null)
 			{
-				n0005 n536 = (n0005)n0004.SelectedItem;
-				n0006 = new Device(n536.n0007());
+				InputDeviceInfo n536 = (InputDeviceInfo)n0004.SelectedItem;
+				n0006 = new Device(n536.GetInstanceGuid());
 			}
 			else
 			{
@@ -343,8 +343,8 @@ namespace n0001
 		{
 			if (((ComboBox)n0035).SelectedItem != null)
 			{
-				n0005 n536 = (n0005)((ComboBox)n0035).SelectedItem;
-				Device device = new Device(n536.n0007());
+				InputDeviceInfo n536 = (InputDeviceInfo)((ComboBox)n0035).SelectedItem;
+				Device device = new Device(n536.GetInstanceGuid());
 				n0008.Enabled = device.Caps.ForceFeedback;
 				n0008.Checked = device.Caps.ForceFeedback;
 			}
@@ -365,20 +365,20 @@ namespace n0001
 
 		private void n0030(object n0035, EventArgs n0036)
 		{
-			n0044(ButtonLayout.n0041);
+			ApplyLanguage(ButtonLayout.n0041);
 		}
 
 		private void n0031(object n0035, EventArgs n0036)
 		{
-			n0044(ButtonLayout.n0042);
+			ApplyLanguage(ButtonLayout.n0042);
 		}
 
 		private void n0032(object n0035, EventArgs n0036)
 		{
-			n0044(ButtonLayout.n0043);
+			ApplyLanguage(ButtonLayout.n0043);
 		}
 
-		private void n0033(object n0035, LinkLabelLinkClickedEventArgs n0036)
+		private void OnManualLinkClicked(object n0035, LinkLabelLinkClickedEventArgs n0036)
 		{
 			try
 			{
@@ -401,7 +401,7 @@ namespace n0001
 			}
 		}
 
-		private void n0044(ButtonLayout n0046)
+		private void ApplyLanguage(ButtonLayout n0046)
 		{
 			switch (n0046)
 			{
@@ -450,22 +450,22 @@ namespace n0001
 			}
 		}
 
-		public Font n0047()
+		public Font GetFontName()
 		{
 			return n0037;
 		}
 
-		public void n0048(Font n0049)
+		public void SetFontName(Font n0049)
 		{
 			n0037 = n0049;
 		}
 
-		public Device n0050()
+		public Device GetDevice()
 		{
 			return n0006;
 		}
 
-		public void n0051(Device n0049)
+		public void SetDevice(Device n0049)
 		{
 			n0006 = n0049;
 		}
@@ -490,7 +490,7 @@ namespace n0001
 			n0038 = n0049;
 		}
 
-		public ButtonLayout n0056()
+		public ButtonLayout GetButtonLayout()
 		{
 			return n0039;
 		}

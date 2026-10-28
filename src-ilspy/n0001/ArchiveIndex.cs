@@ -116,7 +116,7 @@ namespace n0001
 			n0525.RemoveAt(num);
 		}
 
-		public void n0518(int n0533, out int n0534)
+		public void AppendEntrySize(int n0533, out int n0534)
 		{
 			if (!n0530)
 			{
@@ -152,7 +152,7 @@ namespace n0001
 			return (string)n0524[n0527];
 		}
 
-		public void n0510(string n0494, out int n0534, out int n0533)
+		public void FindEntry(string n0494, out int n0534, out int n0533)
 		{
 			int num = n0524.IndexOf(n0494);
 			if (num == -1)
@@ -164,12 +164,12 @@ namespace n0001
 			n0533 = (int)n0526[num];
 		}
 
-		public void n0510(string n0494, out int n0309)
+		public void FindEntry(string n0494, out int n0309)
 		{
 			n0309 = n0524.IndexOf(n0494);
 		}
 
-		public void n0510(int n0309, out string n0494)
+		public void FindEntry(int n0309, out string n0494)
 		{
 			if (n0309 >= n0524.Count || n0309 < 0)
 			{
@@ -178,7 +178,7 @@ namespace n0001
 			n0494 = (string)n0524[n0309];
 		}
 
-		public void n0501()
+		public void Lock()
 		{
 			n0530 = true;
 		}

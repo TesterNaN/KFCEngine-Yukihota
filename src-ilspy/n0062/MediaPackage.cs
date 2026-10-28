@@ -35,7 +35,7 @@ namespace n0062
 			n0872 = new Timer();
 			n0872.Interval = 50;
 			n0872.Enabled = true;
-			n0872.Tick += new EventHandler(this.n0873);
+			n0872.Tick += new EventHandler(this.OnTimerTick);
 			n0874 = "";
 			n0875 = true;
 		}
@@ -50,7 +50,7 @@ namespace n0062
 			return n0868;
 		}
 
-		public void n0155(string n0494)
+		public void Open(string n0494)
 		{
 			if (n0868)
 			{
@@ -65,7 +65,7 @@ namespace n0062
 			n0875 = true;
 		}
 
-		public void n0155(string n0494, PictureBox n0876)
+		public void Open(string n0494, PictureBox n0876)
 		{
 			if (n0868)
 			{
@@ -95,7 +95,7 @@ namespace n0062
 			}
 		}
 
-		public void n0164(bool n0424, int n0860)
+		public void Play(bool n0424, int n0860)
 		{
 			if (n0868)
 			{
@@ -108,14 +108,14 @@ namespace n0062
 			}
 		}
 
-		public void n0164(bool n0424)
+		public void Play(bool n0424)
 		{
-			n0164(n0424, 0);
+			Play(n0424, 0);
 		}
 
-		public void n0164()
+		public void Play()
 		{
-			n0164(false, 0);
+			Play(false, 0);
 		}
 
 		public void n0230()
@@ -129,7 +129,7 @@ namespace n0062
 			}
 		}
 
-		public void n0166()
+		public void SetPaused()
 		{
 			if (n0868 && n0869 && !n0870)
 			{
@@ -210,7 +210,7 @@ namespace n0062
 			return 0;
 		}
 
-		public void n0862(int n0049)
+		public void SetVolume(int n0049)
 		{
 			if (n0868 && n0869 && !n0870 && n0049 >= 0 && n0049 <= 1000)
 			{
@@ -237,14 +237,14 @@ namespace n0062
 			}
 		}
 
-		private void n0873(object n0035, EventArgs n0036)
+		private void OnTimerTick(object n0035, EventArgs n0036)
 		{
 			if (n0869 && !n0870 && n0269() >= n0270())
 			{
 				if (n0877)
 				{
 					n0230();
-					n0164(true);
+					Play(true);
 				}
 				else
 				{

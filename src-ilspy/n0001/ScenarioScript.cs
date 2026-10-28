@@ -50,9 +50,9 @@ namespace n0001
 			{
 				n0472[i] = new XmlDocument();
 			}
-			n0472[0].Load(n0473.n0137("SC"));
-			n0472[1].Load(n0473.n0137("TC"));
-			n0472[2].Load(n0473.n0137("JP"));
+			n0472[0].Load(n0473.ReadEntry("SC"));
+			n0472[1].Load(n0473.ReadEntry("TC"));
+			n0472[2].Load(n0473.ReadEntry("JP"));
 			for (int j = 0; j < 3; j++)
 			{
 				n0158[j] = n0472[j].SelectNodes(n0348 + "/episode")[n0246 - 1];
@@ -109,7 +109,7 @@ namespace n0001
 			GC.SuppressFinalize(this);
 		}
 
-		public ScenarioResult n0376(out object n0479, out object n0480, bool n0168)
+		public ScenarioResult Advance(out object n0479, out object n0480, bool n0168)
 		{
 			n0479 = null;
 			n0480 = null;
@@ -208,7 +208,7 @@ namespace n0001
 					GC.Collect();
 					try
 					{
-						n0479 = TextureLoader.FromStream(n0133, n0153.n0137(n0475[0].Attributes["background"].Value), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+						n0479 = TextureLoader.FromStream(n0133, n0153.ReadEntry(n0475[0].Attributes["background"].Value), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 					}
 					catch (Exception ex)
 					{
@@ -273,7 +273,7 @@ namespace n0001
 				{
 					try
 					{
-						n0152.n0154(n0475[0].Attributes["name"].Value, n0478);
+						n0152.Extract(n0475[0].Attributes["name"].Value, n0478);
 						for (int num2 = 0; num2 < 4; num2++)
 						{
 							bool flag2 = false;
@@ -395,8 +395,8 @@ namespace n0001
 				{
 					try
 					{
-						ImageInformation imageInformation = TextureLoader.ImageInformationFromStream(n0482.n0137(n0475[0].Attributes["code"].Value));
-						n0479 = TextureLoader.FromStream(n0133, n0482.n0137(n0475[0].Attributes["code"].Value), imageInformation.Width, imageInformation.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+						ImageInformation imageInformation = TextureLoader.ImageInformationFromStream(n0482.ReadEntry(n0475[0].Attributes["code"].Value));
+						n0479 = TextureLoader.FromStream(n0133, n0482.ReadEntry(n0475[0].Attributes["code"].Value), imageInformation.Width, imageInformation.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 						((SpriteState)n0480).n0396 = new Size(imageInformation.Width, imageInformation.Height);
 					}
 					catch (Exception ex9)
@@ -507,7 +507,7 @@ namespace n0001
 						}
 						try
 						{
-							n0483.n0154(n0475[0].Attributes["name"].Value, n0478);
+							n0483.Extract(n0475[0].Attributes["name"].Value, n0478);
 							for (int num3 = 0; num3 < 4; num3++)
 							{
 								bool flag3 = false;
@@ -753,7 +753,7 @@ namespace n0001
 						}
 						n0480 = new TextureItem();
 						((TextureItem)n0480).n0432 = DrawItemType.n0413;
-						((TextureItem)n0480).n0455 = TextureLoader.FromStream(n0133, n0153.n0137(n0475[0].Attributes["ground"].Value), 0, 0, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+						((TextureItem)n0480).n0455 = TextureLoader.FromStream(n0133, n0153.ReadEntry(n0475[0].Attributes["ground"].Value), 0, 0, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 						if (n0475[0].Attributes["trans"] == null || n0475[0].Attributes["trans"].Value == "fade")
 						{
 							((TextureItem)n0480).n0456 = TextureBlend.n0487;
@@ -853,7 +853,7 @@ namespace n0001
 				}
 				if (n0475[0].Name == "ed")
 				{
-					n0152.n0154("BGM37", n0478);
+					n0152.Extract("BGM37", n0478);
 					for (int num6 = 0; num6 < 4; num6++)
 					{
 						bool flag4 = false;
@@ -888,9 +888,9 @@ namespace n0001
 					{
 						array2[num7] = new XmlDocument();
 					}
-					array2[0].Load(n0473.n0137("ED_SC"));
-					array2[1].Load(n0473.n0137("ED_TC"));
-					array2[2].Load(n0473.n0137("ED_JP"));
+					array2[0].Load(n0473.ReadEntry("ED_SC"));
+					array2[1].Load(n0473.ReadEntry("ED_TC"));
+					array2[2].Load(n0473.ReadEntry("ED_JP"));
 					StaffRoll n537 = new StaffRoll(n536, n0482, n0153, array2);
 					n0479 = n537;
 					return ScenarioResult.n0459;
@@ -968,7 +968,7 @@ namespace n0001
 				{
 					try
 					{
-						n0488.n0154(n0475[0].Attributes["voice"].Value, n0478);
+						n0488.Extract(n0475[0].Attributes["voice"].Value, n0478);
 						for (int num12 = 0; num12 < 4; num12++)
 						{
 							bool flag5 = false;

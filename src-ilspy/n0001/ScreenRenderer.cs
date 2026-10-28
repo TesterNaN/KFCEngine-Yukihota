@@ -663,7 +663,7 @@ namespace n0001
 					n880 = n0593;
 					break;
 				}
-				n0596((string)n0570[num], (int)n0571[num], (double)n0572[num], (Point)n0573[num], (int)n0574[num], (int)n0575[num], (int)n0576[num], (HorizontalAlign)n0577[num], (int)n0578[num], n880, (bool)n0580[num], (int)n0581[num], (Color)n0582[num], (Color)n0583[num], false);
+				DrawTextCore((string)n0570[num], (int)n0571[num], (double)n0572[num], (Point)n0573[num], (int)n0574[num], (int)n0575[num], (int)n0576[num], (HorizontalAlign)n0577[num], (int)n0578[num], n880, (bool)n0580[num], (int)n0581[num], (Color)n0582[num], (Color)n0583[num], false);
 				num++;
 			}
 			n0144.End();
@@ -688,7 +688,7 @@ namespace n0001
 			}
 		}
 
-		public bool n0380()
+		public bool IsBusy()
 		{
 			if (n0597 > 0 || n0598 > 0 || n0599 > 0 || n0600 > 0 || n0601 > 0 || (n0369 > 0 && !n0602))
 			{
@@ -834,7 +834,7 @@ namespace n0001
 			}
 		}
 
-		public void n0206(ButtonLayout n0046)
+		public void SetButtonLayout(ButtonLayout n0046)
 		{
 			if (n0363 != n0046)
 			{
@@ -845,7 +845,7 @@ namespace n0001
 			}
 		}
 
-		public void n0229(System.Drawing.Font n0353)
+		public void SetFont(System.Drawing.Font n0353)
 		{
 			if (n0362 != n0353)
 			{
@@ -856,7 +856,7 @@ namespace n0001
 			}
 		}
 
-		private void n0261(Texture n0262, Rectangle n0263, Rectangle n0264, Point n0265, Color n0266)
+		private void QueueDraw(Texture n0262, Rectangle n0263, Rectangle n0264, Point n0265, Color n0266)
 		{
 			n0144.Draw2D(n0262, n0263, n0264, Point.Empty, 0f, n0265, n0266);
 			n0216.Add(n0262);
@@ -905,12 +905,12 @@ namespace n0001
 			n0235 = n0049;
 		}
 
-		public void n0296(Color n0049)
+		public void SetDialogueColor(Color n0049)
 		{
 			n0236 = n0049;
 		}
 
-		public void n0253(int n0049)
+		public void SetTextSpeed(int n0049)
 		{
 			if (n0049 > 0)
 			{
@@ -934,37 +934,37 @@ namespace n0001
 		{
 			Rectangle n880 = new Rectangle(n0640[n0636 % 16] * 32, 0, 32, 32);
 			Point n881 = new Point(n0638 + n0641[n0636], n0639 + n0642[n0636]);
-			n0261(n0643, n880, Rectangle.Empty, n881, Color.White);
+			QueueDraw(n0643, n880, Rectangle.Empty, n881, Color.White);
 			n0636++;
 			n0636 %= 32;
 		}
 
-		private Point n0596(string n0241, Point n0644, int n0645, int n0646, int n0534, Microsoft.DirectX.Direct3D.Font n0353, Color n0412, Color n0413)
+		private Point DrawTextCore(string n0241, Point n0644, int n0645, int n0646, int n0534, Microsoft.DirectX.Direct3D.Font n0353, Color n0412, Color n0413)
 		{
-			return n0596(n0241, 0, n0241.Length, n0644, n0645, n0646, n0534, HorizontalAlign.n0437, 0, n0353, n0412, n0413);
+			return DrawTextCore(n0241, 0, n0241.Length, n0644, n0645, n0646, n0534, HorizontalAlign.n0437, 0, n0353, n0412, n0413);
 		}
 
-		private Point n0596(string n0241, int n0647, int n0648, Point n0644, int n0645, int n0646, int n0534, HorizontalAlign n0410, int n0649, Microsoft.DirectX.Direct3D.Font n0353, Color n0412, Color n0413)
+		private Point DrawTextCore(string n0241, int n0647, int n0648, Point n0644, int n0645, int n0646, int n0534, HorizontalAlign n0410, int n0649, Microsoft.DirectX.Direct3D.Font n0353, Color n0412, Color n0413)
 		{
-			return n0596(n0241, n0647, n0648, n0644, n0645, n0646, n0534, n0410, n0649, n0353, false, 0, n0412, n0413);
+			return DrawTextCore(n0241, n0647, n0648, n0644, n0645, n0646, n0534, n0410, n0649, n0353, false, 0, n0412, n0413);
 		}
 
-		private Point n0596(string n0241, double n0648, Point n0644, int n0645, int n0646, int n0534, Microsoft.DirectX.Direct3D.Font n0353, int n0204, Color n0412, Color n0413)
+		private Point DrawTextCore(string n0241, double n0648, Point n0644, int n0645, int n0646, int n0534, Microsoft.DirectX.Direct3D.Font n0353, int n0204, Color n0412, Color n0413)
 		{
-			return n0596(n0241, 0, n0648, n0644, n0645, n0646, n0534, HorizontalAlign.n0437, 0, n0353, true, n0204, n0412, n0413);
+			return DrawTextCore(n0241, 0, n0648, n0644, n0645, n0646, n0534, HorizontalAlign.n0437, 0, n0353, true, n0204, n0412, n0413);
 		}
 
-		private Point n0596(string n0241, double n0648, Point n0644, int n0645, int n0646, int n0534, HorizontalAlign n0410, int n0649, Microsoft.DirectX.Direct3D.Font n0353, int n0204, Color n0412, Color n0413)
+		private Point DrawTextCore(string n0241, double n0648, Point n0644, int n0645, int n0646, int n0534, HorizontalAlign n0410, int n0649, Microsoft.DirectX.Direct3D.Font n0353, int n0204, Color n0412, Color n0413)
 		{
-			return n0596(n0241, 0, n0648, n0644, n0645, n0646, n0534, n0410, n0649, n0353, true, n0204, n0412, n0413);
+			return DrawTextCore(n0241, 0, n0648, n0644, n0645, n0646, n0534, n0410, n0649, n0353, true, n0204, n0412, n0413);
 		}
 
-		private Point n0596(string n0241, int n0647, double n0648, Point n0644, int n0645, int n0646, int n0534, HorizontalAlign n0410, int n0649, Microsoft.DirectX.Direct3D.Font n0353, bool n0493, int n0204, Color n0412, Color n0413)
+		private Point DrawTextCore(string n0241, int n0647, double n0648, Point n0644, int n0645, int n0646, int n0534, HorizontalAlign n0410, int n0649, Microsoft.DirectX.Direct3D.Font n0353, bool n0493, int n0204, Color n0412, Color n0413)
 		{
-			return n0596(n0241, n0647, n0648, n0644, n0645, n0646, n0534, n0410, n0649, n0353, n0493, n0204, n0412, n0413, true);
+			return DrawTextCore(n0241, n0647, n0648, n0644, n0645, n0646, n0534, n0410, n0649, n0353, n0493, n0204, n0412, n0413, true);
 		}
 
-		private Point n0596(string n0241, int n0647, double n0648, Point n0644, int n0645, int n0646, int n0534, HorizontalAlign n0410, int n0649, Microsoft.DirectX.Direct3D.Font n0353, bool n0493, int n0204, Color n0412, Color n0413, bool n0650)
+		private Point DrawTextCore(string n0241, int n0647, double n0648, Point n0644, int n0645, int n0646, int n0534, HorizontalAlign n0410, int n0649, Microsoft.DirectX.Direct3D.Font n0353, bool n0493, int n0204, Color n0412, Color n0413, bool n0650)
 		{
 			if (n0650)
 			{
@@ -1103,7 +1103,7 @@ namespace n0001
 			}
 		}
 
-		public void n0386(Texture n0241, int n0441)
+		public void SetBackground(Texture n0241, int n0441)
 		{
 			if (n0653 != null)
 			{
@@ -1129,7 +1129,7 @@ namespace n0001
 			}
 		}
 
-		public void n0386(Color n0241, int n0441)
+		public void SetBackground(Color n0241, int n0441)
 		{
 			if (n0653 != null)
 			{
@@ -1161,16 +1161,16 @@ namespace n0001
 					{
 						if (n0661)
 						{
-							n0261(n0653, n0662, n0663, Point.Empty, Color.White);
+							QueueDraw(n0653, n0662, n0663, Point.Empty, Color.White);
 						}
 						else
 						{
-							n0261(n0653, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
+							QueueDraw(n0653, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
 						}
 					}
 					else
 					{
-						n0261(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, n0652);
+						QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, n0652);
 					}
 					if (n0232)
 					{
@@ -1180,11 +1180,11 @@ namespace n0001
 						case TextureBlend.n0487:
 							if (n0661)
 							{
-								n0261(n0551, n0665, n0663, Point.Empty, Color.FromArgb((int)(255.0 * (double)(n0659[n0658] - n0597) / (double)n0659[n0658]), Color.White));
+								QueueDraw(n0551, n0665, n0663, Point.Empty, Color.FromArgb((int)(255.0 * (double)(n0659[n0658] - n0597) / (double)n0659[n0658]), Color.White));
 							}
 							else
 							{
-								n0261(n0551, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)(255.0 * (double)(n0659[n0658] - n0597) / (double)n0659[n0658]), Color.White));
+								QueueDraw(n0551, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)(255.0 * (double)(n0659[n0658] - n0597) / (double)n0659[n0658]), Color.White));
 							}
 							break;
 						case TextureBlend.n0437:
@@ -1199,11 +1199,11 @@ namespace n0001
 								n880.X = 832 * (n0659[n0658] - n0597) / n0659[n0658] + (-j - 1) * 2;
 								n882 = new Rectangle(n880.X, 0, 2, 600);
 								int alpha2 = (int)((double)(j + 1) / 17.0 * 255.0);
-								n0261(n0551, n882, Rectangle.Empty, n880, Color.FromArgb(alpha2, Color.White));
+								QueueDraw(n0551, n882, Rectangle.Empty, n880, Color.FromArgb(alpha2, Color.White));
 							}
 							n880.X = 0;
 							n882 = new Rectangle(n880.X, 0, 832 * (n0659[n0658] - n0597) / n0659[n0658] - 32, 600);
-							n0261(n0551, n882, Rectangle.Empty, n880, Color.White);
+							QueueDraw(n0551, n882, Rectangle.Empty, n880, Color.White);
 							break;
 						}
 						case TextureBlend.n0438:
@@ -1218,11 +1218,11 @@ namespace n0001
 								n880.X = 832 * n0597 / n0659[n0658] + (i - 16) * 2;
 								n881 = new Rectangle(n880.X, 0, 2, 600);
 								int alpha = (int)((double)(i + 1) / 17.0 * 255.0);
-								n0261(n0551, n881, Rectangle.Empty, n880, Color.FromArgb(alpha, Color.White));
+								QueueDraw(n0551, n881, Rectangle.Empty, n880, Color.FromArgb(alpha, Color.White));
 							}
 							n880.X = 832 * n0597 / n0659[n0658];
 							n881 = new Rectangle(n880.X, 0, 800 - n880.X, 600);
-							n0261(n0551, n881, Rectangle.Empty, n880, Color.White);
+							QueueDraw(n0551, n881, Rectangle.Empty, n880, Color.White);
 							break;
 						}
 						}
@@ -1245,16 +1245,16 @@ namespace n0001
 						{
 							if (n0621)
 							{
-								n0261(n0654, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
+								QueueDraw(n0654, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
 							}
 							else
 							{
-								n0261(n0653, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
+								QueueDraw(n0653, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
 							}
 						}
 						else
 						{
-							n0261(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, n0652);
+							QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, n0652);
 						}
 					}
 					n0657 = false;
@@ -1267,16 +1267,16 @@ namespace n0001
 						{
 							if (n0621)
 							{
-								n0261(n0654, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
+								QueueDraw(n0654, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
 							}
 							else
 							{
-								n0261(n0551, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
+								QueueDraw(n0551, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
 							}
 						}
 						else
 						{
-							n0261(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, n0651);
+							QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, n0651);
 						}
 					}
 					n0657 = true;
@@ -1296,22 +1296,22 @@ namespace n0001
 						if (n0619 > 0)
 						{
 							float num = (n0620 ? ((float)n0619 / 10f) : ((float)(10 - n0619) / 10f));
-							n0261(n0551, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
-							n0261(n0654, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)(255f * num), Color.White));
+							QueueDraw(n0551, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
+							QueueDraw(n0654, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)(255f * num), Color.White));
 						}
 						else
 						{
-							n0261(n0654, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
+							QueueDraw(n0654, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
 						}
 					}
 					else
 					{
-						n0261(n0551, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
+						QueueDraw(n0551, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
 					}
 				}
 				else
 				{
-					n0261(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, n0651);
+					QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, n0651);
 				}
 			}
 			n0657 = true;
@@ -1327,7 +1327,7 @@ namespace n0001
 			{
 				if (n0657 && n0656)
 				{
-					n0261(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)(255.0 * (double)n0597 / (double)n0659[n0658]), n0652));
+					QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)(255.0 * (double)n0597 / (double)n0659[n0658]), n0652));
 				}
 				else
 				{
@@ -1335,7 +1335,7 @@ namespace n0001
 					{
 						throw new Exception("Not Implement Yet");
 					}
-					n0261(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)(255.0 * (double)(n0659[n0658] - n0597) / (double)n0659[n0658]), n0651));
+					QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)(255.0 * (double)(n0659[n0658] - n0597) / (double)n0659[n0658]), n0651));
 				}
 				n0597--;
 			}
@@ -1355,7 +1355,7 @@ namespace n0001
 			{
 				return;
 			}
-			n0654 = TextureLoader.FromStream(n0006, n0136.n0137("WHITE"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			n0654 = TextureLoader.FromStream(n0006, n0136.ReadEntry("WHITE"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 			uint[,] array = (uint[,])n0551.LockRectangle(typeof(uint), 0, LockFlags.None, 800, 600);
 			uint[,] array2 = (uint[,])n0654.LockRectangle(typeof(uint), 0, LockFlags.None, 800, 600);
 			for (int i = 0; i < 800; i++)
@@ -1396,7 +1396,7 @@ namespace n0001
 			n0664 = TextureBlend.n0487;
 		}
 
-		public void n0453(Texture n0455, TextureBlend n0456, bool n0399, int n0441)
+		public void SetBackgroundWithWipe(Texture n0455, TextureBlend n0456, bool n0399, int n0441)
 		{
 			if (n0653 != null)
 			{
@@ -1429,7 +1429,7 @@ namespace n0001
 			n0679 = 0;
 		}
 
-		public void n0435(double n0437, double n0438, double n0439, double n0440, int n0680, bool n0399, bool n0442)
+		public void ZoomBackground(double n0437, double n0438, double n0439, double n0440, int n0680, bool n0399, bool n0442)
 		{
 			if (n0442)
 			{
@@ -1476,11 +1476,11 @@ namespace n0001
 						Rectangle n880 = new Rectangle((int)(num * (double)n0662.Left + num2 * (double)n0665.Left), (int)(num * (double)n0662.Top + num2 * (double)n0665.Top), (int)(num * (double)n0662.Width + num2 * (double)n0665.Width), (int)(num * (double)n0662.Height + num2 * (double)n0665.Height));
 						if (n0551 != null)
 						{
-							n0261(n0551, n880, n0663, Point.Empty, Color.White);
+							QueueDraw(n0551, n880, n0663, Point.Empty, Color.White);
 						}
 						else if (n0653 != null)
 						{
-							n0261(n0653, n880, n0663, Point.Empty, Color.White);
+							QueueDraw(n0653, n880, n0663, Point.Empty, Color.White);
 						}
 					}
 					n0598--;
@@ -1491,11 +1491,11 @@ namespace n0001
 					{
 						if (n0551 != null)
 						{
-							n0261(n0551, n0665, n0663, Point.Empty, Color.White);
+							QueueDraw(n0551, n0665, n0663, Point.Empty, Color.White);
 						}
 						else if (n0653 != null)
 						{
-							n0261(n0653, n0665, n0663, Point.Empty, Color.White);
+							QueueDraw(n0653, n0665, n0663, Point.Empty, Color.White);
 						}
 					}
 					n0598 = 0;
@@ -1505,16 +1505,16 @@ namespace n0001
 			{
 				if (n0551 != null)
 				{
-					n0261(n0551, n0665, n0663, Point.Empty, Color.White);
+					QueueDraw(n0551, n0665, n0663, Point.Empty, Color.White);
 				}
 				else if (n0653 != null)
 				{
-					n0261(n0653, n0665, n0663, Point.Empty, Color.White);
+					QueueDraw(n0653, n0665, n0663, Point.Empty, Color.White);
 				}
 			}
 			if (!n0666 || !n0602)
 			{
-				n0261(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.Transparent);
+				QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.Transparent);
 			}
 		}
 
@@ -1566,11 +1566,11 @@ namespace n0001
 				{
 					if (n0551 != null)
 					{
-						n0261(n0551, Rectangle.Empty, Rectangle.Empty, new Point(n0684[16 - n0369], n0685[16 - n0369]), Color.FromArgb(128, Color.White));
+						QueueDraw(n0551, Rectangle.Empty, Rectangle.Empty, new Point(n0684[16 - n0369], n0685[16 - n0369]), Color.FromArgb(128, Color.White));
 					}
 					else if (n0653 != null)
 					{
-						n0261(n0653, Rectangle.Empty, Rectangle.Empty, new Point(n0684[16 - n0369], n0685[16 - n0369]), Color.FromArgb(128, Color.White));
+						QueueDraw(n0653, Rectangle.Empty, Rectangle.Empty, new Point(n0684[16 - n0369], n0685[16 - n0369]), Color.FromArgb(128, Color.White));
 					}
 				}
 				n0369--;
@@ -1600,11 +1600,11 @@ namespace n0001
 			}
 			if (n0551 != null)
 			{
-				n0261(n0551, rectangle, n0663, new Point(n0686[n0369], n0687[n0369]), Color.White);
+				QueueDraw(n0551, rectangle, n0663, new Point(n0686[n0369], n0687[n0369]), Color.White);
 			}
 			else if (n0653 != null)
 			{
-				n0261(n0653, rectangle, n0663, new Point(n0686[n0369], n0687[n0369]), Color.White);
+				QueueDraw(n0653, rectangle, n0663, new Point(n0686[n0369], n0687[n0369]), Color.White);
 			}
 			n0369++;
 			if (n0369 == 16)
@@ -1613,13 +1613,13 @@ namespace n0001
 			}
 			if (rectangle != Rectangle.Empty)
 			{
-				n0261(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.Transparent);
+				QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.Transparent);
 			}
 		}
 
 		private void n0670()
 		{
-			n0688 = TextureLoader.FromStream(n0006, n0136.n0137("SUN"), 80, 80, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			n0688 = TextureLoader.FromStream(n0006, n0136.ReadEntry("SUN"), 80, 80, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 			n0689 = false;
 			for (int i = 0; i < 5; i++)
 			{
@@ -1677,7 +1677,7 @@ namespace n0001
 				{
 					if ((double)n0690[j] < (double)n0691[j] / 2.0)
 					{
-						n0696(n0693[j], n0692[j], (double)n0690[j] / ((double)n0691[j] / 2.0));
+						DrawSunSprite(n0693[j], n0692[j], (double)n0690[j] / ((double)n0691[j] / 2.0));
 						int[] array;
 						IntPtr intPtr;
 						(array = n0690)[(int)(intPtr = (IntPtr)j)] = array[(int)intPtr] + 1;
@@ -1685,7 +1685,7 @@ namespace n0001
 					}
 					if (n0690[j] < n0691[j])
 					{
-						n0696(n0693[j], n0692[j], (double)(n0691[j] - n0690[j]) / ((double)n0691[j] / 2.0));
+						DrawSunSprite(n0693[j], n0692[j], (double)(n0691[j] - n0690[j]) / ((double)n0691[j] / 2.0));
 						int[] array2;
 						IntPtr intPtr2;
 						(array2 = n0690)[(int)(intPtr2 = (IntPtr)j)] = array2[(int)intPtr2] + 1;
@@ -1697,21 +1697,21 @@ namespace n0001
 					n0693[j] = 0;
 				}
 			}
-			n0261(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.Transparent);
+			QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.Transparent);
 		}
 
-		private void n0696(int n0644, double n0697, double n0441)
+		private void DrawSunSprite(int n0644, double n0697, double n0441)
 		{
 			int x = (n0644 - 18) * 80 / (int)(450.0 * n0697);
 			int y = (-n0644 - 18) * 80 / (int)(450.0 * n0697);
 			Rectangle n880 = new Rectangle(0, 0, 80, 80);
 			Rectangle n881 = new Rectangle(0, 0, (int)(450.0 * n0697), (int)(450.0 * n0697));
-			n0261(n0688, n880, n881, new Point(x, y), Color.FromArgb((int)(n0697 * n0441 * 255.0), Color.White));
+			QueueDraw(n0688, n880, n881, new Point(x, y), Color.FromArgb((int)(n0697 * n0441 * 255.0), Color.White));
 		}
 
 		private void n0671()
 		{
-			n0698 = TextureLoader.FromStream(n0006, n0136.n0137("SAKURA"), n0699.Width, n0699.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			n0698 = TextureLoader.FromStream(n0006, n0136.ReadEntry("SAKURA"), n0699.Width, n0699.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 			n0700 = false;
 			for (int i = 0; i < 30; i++)
 			{
@@ -1819,7 +1819,7 @@ namespace n0001
 				{
 					continue;
 				}
-				n0714(n0701[j], n0708[j], n0702[j]);
+				DrawPetal(n0701[j], n0708[j], n0702[j]);
 				int[] array;
 				IntPtr intPtr;
 				(array = n0701)[(int)(intPtr = (IntPtr)j)] = array[(int)intPtr] + 1;
@@ -1884,15 +1884,15 @@ namespace n0001
 			}
 		}
 
-		private void n0714(int n0715, int n0716, PointF n0644)
+		private void DrawPetal(int n0715, int n0716, PointF n0644)
 		{
 			Rectangle n880 = new Rectangle(n0715 * 24, (n0716 - 1) * 24, 24, 24);
-			n0261(n0698, n880, Rectangle.Empty, new Point((int)n0644.X, (int)n0644.Y), Color.White);
+			QueueDraw(n0698, n880, Rectangle.Empty, new Point((int)n0644.X, (int)n0644.Y), Color.White);
 		}
 
 		private void n0672()
 		{
-			n0717 = TextureLoader.FromStream(n0006, n0136.n0137("SNOW"), n0718.Width, n0718.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			n0717 = TextureLoader.FromStream(n0006, n0136.ReadEntry("SNOW"), n0718.Width, n0718.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 			n0719 = false;
 			for (int i = 0; i < 25; i++)
 			{
@@ -1978,7 +1978,7 @@ namespace n0001
 			{
 				if (n0725[j] > 0)
 				{
-					n0730(n0725[j], new PointF((float)((double)n0720[j].X + (double)n0722[j] * Math.Sin(n0723[j] * n0720[j].Y + n0724[j])), n0720[j].Y));
+					DrawSnowflake(n0725[j], new PointF((float)((double)n0720[j].X + (double)n0722[j] * Math.Sin(n0723[j] * n0720[j].Y + n0724[j])), n0720[j].Y));
 					n0720[j] = new PointF(n0720[j].X, n0720[j].Y + n0721[j]);
 					if (n0720[j].Y > 600f)
 					{
@@ -1994,10 +1994,10 @@ namespace n0001
 			}
 		}
 
-		private void n0730(int n0716, PointF n0644)
+		private void DrawSnowflake(int n0716, PointF n0644)
 		{
 			Rectangle n880 = new Rectangle((n0716 - 1) * 16, 0, 16, 16);
-			n0261(n0717, n880, Rectangle.Empty, new Point((int)n0644.X, (int)n0644.Y), Color.White);
+			QueueDraw(n0717, n880, Rectangle.Empty, new Point((int)n0644.X, (int)n0644.Y), Color.White);
 		}
 
 		private void n0673()
@@ -2047,12 +2047,12 @@ namespace n0001
 				if (n0232)
 				{
 					float num = (n0617 ? ((float)n0599 / 10f) : ((float)(10 - n0599) / 10f));
-					n0261(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)(128f * num), Color.Black));
+					QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)(128f * num), Color.Black));
 					n0599--;
 				}
 				else
 				{
-					n0261(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb(128, Color.Black));
+					QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb(128, Color.Black));
 					n0599 = 0;
 				}
 				if (n0617 && n0599 == 0)
@@ -2062,13 +2062,13 @@ namespace n0001
 			}
 			else
 			{
-				n0261(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb(128, Color.Black));
+				QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb(128, Color.Black));
 			}
 		}
 
 		private void n0674()
 		{
-			n0732 = TextureLoader.FromStream(n0006, n0136.n0137("THINK"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			n0732 = TextureLoader.FromStream(n0006, n0136.ReadEntry("THINK"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 			n0621 = false;
 			n0620 = false;
 			n0619 = 0;
@@ -2121,12 +2121,12 @@ namespace n0001
 				if (n0232)
 				{
 					float num = (n0620 ? ((float)n0619 / 10f) : ((float)(10 - n0619) / 10f));
-					n0261(n0732, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)(255f * num), Color.White));
+					QueueDraw(n0732, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)(255f * num), Color.White));
 					n0619--;
 				}
 				else
 				{
-					n0261(n0732, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
+					QueueDraw(n0732, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
 					n0619 = 0;
 				}
 				if (n0620 && n0619 == 0)
@@ -2136,7 +2136,7 @@ namespace n0001
 			}
 			else
 			{
-				n0261(n0732, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
+				QueueDraw(n0732, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
 			}
 		}
 
@@ -2207,7 +2207,7 @@ namespace n0001
 			}
 		}
 
-		public void n0395(Texture n0241, Size n0396, int n0309, int n0397, bool n0398, bool n0399)
+		public void SetCharacter(Texture n0241, Size n0396, int n0309, int n0397, bool n0398, bool n0399)
 		{
 			if (n0737[n0309] != null)
 			{
@@ -2264,19 +2264,19 @@ namespace n0001
 							if (n0603[i] > 2)
 							{
 								int alpha = (int)(Math.Pow((double)(8 - n0603[i]) / 6.0, 2.0) * 255.0 / (double)((!n0743[i]) ? 1 : 2));
-								n0261(n0737[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + n0740[i] * 15 - n0742[i].Width / 2, 600 - n0742[i].Height), n0743[i] ? Color.FromArgb(128, Color.White) : Color.White);
-								n0261(n0550[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + n0739[i] * 15 - n0741[i].Width / 2, 600 - n0741[i].Height), Color.FromArgb(alpha, Color.White));
+								QueueDraw(n0737[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + n0740[i] * 15 - n0742[i].Width / 2, 600 - n0742[i].Height), n0743[i] ? Color.FromArgb(128, Color.White) : Color.White);
+								QueueDraw(n0550[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + n0739[i] * 15 - n0741[i].Width / 2, 600 - n0741[i].Height), Color.FromArgb(alpha, Color.White));
 							}
 							else
 							{
 								int alpha2 = (int)(Math.Pow((double)n0603[i] / 2.0, 2.0) * 255.0 / (double)((!n0743[i]) ? 1 : 2));
-								n0261(n0737[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + n0739[i] * 15 - n0742[i].Width / 2, 600 - n0742[i].Height), Color.FromArgb(alpha2, Color.White));
-								n0261(n0550[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + n0739[i] * 15 - n0741[i].Width / 2, 600 - n0741[i].Height), n0743[i] ? Color.FromArgb(128, Color.White) : Color.White);
+								QueueDraw(n0737[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + n0739[i] * 15 - n0742[i].Width / 2, 600 - n0742[i].Height), Color.FromArgb(alpha2, Color.White));
+								QueueDraw(n0550[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + n0739[i] * 15 - n0741[i].Width / 2, 600 - n0741[i].Height), n0743[i] ? Color.FromArgb(128, Color.White) : Color.White);
 							}
 						}
 						else if (n0737[i] != null)
 						{
-							n0261(n0737[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + n0740[i] * 15 - n0742[i].Width / 2, 600 - n0742[i].Height), Color.FromArgb((int)((float)n0603[i] / 8f * 255f / (float)((!n0743[i]) ? 1 : 2)), Color.White));
+							QueueDraw(n0737[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + n0740[i] * 15 - n0742[i].Width / 2, 600 - n0742[i].Height), Color.FromArgb((int)((float)n0603[i] / 8f * 255f / (float)((!n0743[i]) ? 1 : 2)), Color.White));
 						}
 						else
 						{
@@ -2284,7 +2284,7 @@ namespace n0001
 							{
 								throw new Exception("No Chara");
 							}
-							n0261(n0550[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + n0739[i] * 15 - n0741[i].Width / 2, 600 - n0741[i].Height), Color.FromArgb((int)((float)(8 - n0603[i]) / 8f * 255f / (float)((!n0743[i]) ? 1 : 2)), Color.White));
+							QueueDraw(n0550[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + n0739[i] * 15 - n0741[i].Width / 2, 600 - n0741[i].Height), Color.FromArgb((int)((float)(8 - n0603[i]) / 8f * 255f / (float)((!n0743[i]) ? 1 : 2)), Color.White));
 						}
 						int[] array;
 						IntPtr intPtr;
@@ -2294,7 +2294,7 @@ namespace n0001
 					{
 						if (n0550[i] != null)
 						{
-							n0261(n0550[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + n0739[i] * 15 - n0741[i].Width / 2, 600 - n0741[i].Height), Color.White);
+							QueueDraw(n0550[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + n0739[i] * 15 - n0741[i].Width / 2, 600 - n0741[i].Height), Color.White);
 						}
 						n0603[i] = 0;
 					}
@@ -2309,11 +2309,11 @@ namespace n0001
 					{
 						if (n0232 && n0743[i])
 						{
-							n0261(n0550[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + n0739[i] * 15 - n0741[i].Width / 2 + n0735[n0744[i]][n0745[n0744[i]] - n0604[i]], 600 - n0741[i].Height + n0736[n0744[i]][n0745[n0744[i]] - n0604[i]]), n0746);
+							QueueDraw(n0550[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + n0739[i] * 15 - n0741[i].Width / 2 + n0735[n0744[i]][n0745[n0744[i]] - n0604[i]], 600 - n0741[i].Height + n0736[n0744[i]][n0745[n0744[i]] - n0604[i]]), n0746);
 						}
 						else
 						{
-							n0261(n0550[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + n0739[i] * 15 - n0741[i].Width / 2 + n0735[n0744[i]][n0745[n0744[i]] - n0604[i]], 600 - n0741[i].Height + n0736[n0744[i]][n0745[n0744[i]] - n0604[i]]), Color.White);
+							QueueDraw(n0550[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + n0739[i] * 15 - n0741[i].Width / 2 + n0735[n0744[i]][n0745[n0744[i]] - n0604[i]], 600 - n0741[i].Height + n0736[n0744[i]][n0745[n0744[i]] - n0604[i]]), Color.White);
 						}
 						int[] array2;
 						IntPtr intPtr2;
@@ -2321,24 +2321,24 @@ namespace n0001
 					}
 					else if (n0232 && n0743[i])
 					{
-						n0261(n0550[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + n0739[i] * 15 - n0741[i].Width / 2, 600 - n0741[i].Height), n0746);
+						QueueDraw(n0550[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + n0739[i] * 15 - n0741[i].Width / 2, 600 - n0741[i].Height), n0746);
 					}
 					else if (n0621)
 					{
 						if (n0619 > 0)
 						{
 							float num = (n0620 ? ((float)n0619 / 10f) : ((float)(10 - n0619) / 10f));
-							n0261(n0550[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + n0739[i] * 15 - n0741[i].Width / 2, 600 - n0741[i].Height), Color.White);
-							n0261(n0738[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + n0739[i] * 15 - n0741[i].Width / 2, 600 - n0741[i].Height), Color.FromArgb((int)(255f * num), Color.White));
+							QueueDraw(n0550[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + n0739[i] * 15 - n0741[i].Width / 2, 600 - n0741[i].Height), Color.White);
+							QueueDraw(n0738[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + n0739[i] * 15 - n0741[i].Width / 2, 600 - n0741[i].Height), Color.FromArgb((int)(255f * num), Color.White));
 						}
 						else
 						{
-							n0261(n0738[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + n0739[i] * 15 - n0741[i].Width / 2, 600 - n0741[i].Height), Color.White);
+							QueueDraw(n0738[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + n0739[i] * 15 - n0741[i].Width / 2, 600 - n0741[i].Height), Color.White);
 						}
 					}
 					else
 					{
-						n0261(n0550[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + n0739[i] * 15 - n0741[i].Width / 2, 600 - n0741[i].Height), Color.White);
+						QueueDraw(n0550[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + n0739[i] * 15 - n0741[i].Width / 2, 600 - n0741[i].Height), Color.White);
 					}
 				}
 			}
@@ -2356,7 +2356,7 @@ namespace n0001
 				{
 					continue;
 				}
-				n0738[i] = TextureLoader.FromStream(n0006, n0136.n0137("WHITE"), n0741[i].Width, n0741[i].Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+				n0738[i] = TextureLoader.FromStream(n0006, n0136.ReadEntry("WHITE"), n0741[i].Width, n0741[i].Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 				uint[,] array = (uint[,])n0550[i].LockRectangle(typeof(uint), 0, LockFlags.None, n0741[i].Width, n0741[i].Height);
 				uint[,] array2 = (uint[,])n0738[i].LockRectangle(typeof(uint), 0, LockFlags.None, n0741[i].Width, n0741[i].Height);
 				for (int j = 0; j < n0741[i].Width; j++)
@@ -2398,7 +2398,7 @@ namespace n0001
 			n0593 = new Microsoft.DirectX.Direct3D.Font(n0006, new System.Drawing.Font(n0362.FontFamily, 24f));
 		}
 
-		public void n0429(string[] n0241)
+		public void ShowNotice(string[] n0241)
 		{
 			n0747 = n0241;
 			n0748 = 70;
@@ -2429,7 +2429,7 @@ namespace n0001
 				{
 					alpha = 255;
 				}
-				n0596(n0747[(int)n0363], 0, n0747[(int)n0363].Length, n0749, n0750.Width, n0750.Height, 2, HorizontalAlign.n0438, 15, n0593, Color.FromArgb(alpha, Color.White), Color.FromArgb(alpha, Color.Black));
+				DrawTextCore(n0747[(int)n0363], 0, n0747[(int)n0363].Length, n0749, n0750.Width, n0750.Height, 2, HorizontalAlign.n0438, 15, n0593, Color.FromArgb(alpha, Color.White), Color.FromArgb(alpha, Color.Black));
 				n0579.Add(1);
 				n0748--;
 			}
@@ -2494,7 +2494,7 @@ namespace n0001
 			}
 		}
 
-		public void n0408(string[] n0241, HorizontalAlign n0410, TextRevealMode n0411, bool n0758, Color n0412, Color n0413, double n0533)
+		public void SetMessage(string[] n0241, HorizontalAlign n0410, TextRevealMode n0411, bool n0758, Color n0412, Color n0413, double n0533)
 		{
 			if (n0241 == null)
 			{
@@ -2562,7 +2562,7 @@ namespace n0001
 				if (n0232)
 				{
 					int alpha = (int)((float)n0600 / 10f * 255f);
-					n0596(n0605[(int)n0363], 0, n0605[(int)n0363].Length, n0757, n0759.Width, n0759.Height, 2, n0751, 25, n0594, Color.FromArgb(alpha, n0753), (n0754 == Color.Transparent) ? Color.Transparent : Color.FromArgb(alpha, n0754));
+					DrawTextCore(n0605[(int)n0363], 0, n0605[(int)n0363].Length, n0757, n0759.Width, n0759.Height, 2, n0751, 25, n0594, Color.FromArgb(alpha, n0753), (n0754 == Color.Transparent) ? Color.Transparent : Color.FromArgb(alpha, n0754));
 					n0579.Add(2);
 					n0600--;
 				}
@@ -2590,7 +2590,7 @@ namespace n0001
 				{
 					if (n0608[(int)n0363] > 0)
 					{
-						n0756 = n0596(n0605[(int)n0363], 0, n0608[(int)n0363], n0757, n0759.Width, n0759.Height, 2, n0751, 25, n0594, n0753, n0754);
+						n0756 = DrawTextCore(n0605[(int)n0363], 0, n0608[(int)n0363], n0757, n0759.Width, n0759.Height, 2, n0751, 25, n0594, n0753, n0754);
 						n0579.Add(2);
 					}
 					if (n0755 > 0.0 && n0238)
@@ -2609,7 +2609,7 @@ namespace n0001
 					{
 						n0607 += (double)n0237 / 6.0;
 					}
-					n0756 = n0596(n0605[(int)n0363], n0608[(int)n0363], (double)n0608[(int)n0363] + n0607 - 4.0, n0757, n0759.Width, n0759.Height, 2, n0751, 25, n0594, true, 4, n0753, n0754);
+					n0756 = DrawTextCore(n0605[(int)n0363], n0608[(int)n0363], (double)n0608[(int)n0363] + n0607 - 4.0, n0757, n0759.Width, n0759.Height, 2, n0751, 25, n0594, true, 4, n0753, n0754);
 					n0579.Add(2);
 					n0624 = (int)(n0607 - 4.0);
 					if (n0624 < 0)
@@ -2619,14 +2619,14 @@ namespace n0001
 				}
 				else
 				{
-					n0756 = n0596(n0605[(int)n0363], n0605[(int)n0363].Length, n0757, n0759.Width, n0759.Height, 2, n0751, 25, n0594, 4, n0753, n0754);
+					n0756 = DrawTextCore(n0605[(int)n0363], n0605[(int)n0363].Length, n0757, n0759.Width, n0759.Height, 2, n0751, 25, n0594, 4, n0753, n0754);
 					n0579.Add(2);
 				}
 				break;
 			case TextRevealMode.n0487:
 				if (n0608[(int)n0363] + n0624 > 0)
 				{
-					n0756 = n0596(n0605[(int)n0363], 0, n0608[(int)n0363] + n0624, n0757, n0759.Width, n0759.Height, 2, n0751, 25, n0594, n0753, n0754);
+					n0756 = DrawTextCore(n0605[(int)n0363], 0, n0608[(int)n0363] + n0624, n0757, n0759.Width, n0759.Height, 2, n0751, 25, n0594, n0753, n0754);
 					n0579.Add(2);
 				}
 				if (n0609 > 0)
@@ -2634,13 +2634,13 @@ namespace n0001
 					if (n0232)
 					{
 						int alpha2 = (int)((float)(10 - n0609) / 10f * 255f);
-						n0756 = n0596(n0605[(int)n0363], n0608[(int)n0363], n0605[(int)n0363].Length, n0757, n0759.Width, n0759.Height, 2, n0751, 25, n0594, Color.FromArgb(alpha2, n0753), (n0754 == Color.Transparent) ? Color.Transparent : Color.FromArgb(alpha2, n0754));
+						n0756 = DrawTextCore(n0605[(int)n0363], n0608[(int)n0363], n0605[(int)n0363].Length, n0757, n0759.Width, n0759.Height, 2, n0751, 25, n0594, Color.FromArgb(alpha2, n0753), (n0754 == Color.Transparent) ? Color.Transparent : Color.FromArgb(alpha2, n0754));
 						n0579.Add(2);
 						n0609--;
 					}
 					else
 					{
-						n0756 = n0596(n0605[(int)n0363], n0608[(int)n0363], n0605[(int)n0363].Length, n0757, n0759.Width, n0759.Height, 2, n0751, 25, n0594, n0753, n0754);
+						n0756 = DrawTextCore(n0605[(int)n0363], n0608[(int)n0363], n0605[(int)n0363].Length, n0757, n0759.Width, n0759.Height, 2, n0751, 25, n0594, n0753, n0754);
 						n0579.Add(2);
 						n0609 = 0;
 					}
@@ -2674,8 +2674,8 @@ namespace n0001
 
 		private void n0567()
 		{
-			n0761 = TextureLoader.FromStream(n0006, n0136.n0137("DIALOGUE"), n0762.Width, n0762.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
-			n0763 = TextureLoader.FromStream(n0006, n0136.n0137("CHARA"), n0764.Width, n0764.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			n0761 = TextureLoader.FromStream(n0006, n0136.ReadEntry("DIALOGUE"), n0762.Width, n0762.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			n0763 = TextureLoader.FromStream(n0006, n0136.ReadEntry("CHARA"), n0764.Width, n0764.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 			n0601 = 0;
 			n0622 = false;
 			n0623 = false;
@@ -2688,12 +2688,12 @@ namespace n0001
 			n0763.Dispose();
 		}
 
-		protected bool n0766(bool n0390)
+		protected bool DrawDialogueFrame(bool n0390)
 		{
 			if (n0390)
 			{
 				n0765 = true;
-				n0261(n0763, Rectangle.Empty, Rectangle.Empty, n0767, n0236);
+				QueueDraw(n0763, Rectangle.Empty, Rectangle.Empty, n0767, n0236);
 				return true;
 			}
 			if (!n0623)
@@ -2717,8 +2717,8 @@ namespace n0001
 						float num3 = ((float)n0762.Y + (1f - num) / 2f * (float)n0762.Height) / num;
 						float num4 = num * (float)n0762.Width;
 						float num5 = num * (float)n0762.Height;
-						n0261(n0761, new Rectangle(0, 0, n0762.Width, n0762.Height), new Rectangle(0, 0, (int)num4, (int)num5), new Point((int)num2, (int)num3), n0236);
-						n0261(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.Transparent);
+						QueueDraw(n0761, new Rectangle(0, 0, n0762.Width, n0762.Height), new Rectangle(0, 0, (int)num4, (int)num5), new Point((int)num2, (int)num3), n0236);
+						QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.Transparent);
 					}
 					else if (n0622 && n0601 > 0)
 					{
@@ -2727,14 +2727,14 @@ namespace n0001
 						float num8 = ((float)n0762.Y + (1f - num6) / 2f * (float)n0762.Height) / num6;
 						float num9 = num6 * (float)n0762.Width;
 						float num10 = num6 * (float)n0762.Height;
-						n0261(n0761, new Rectangle(0, 0, n0762.Width, n0762.Height), new Rectangle(0, 0, (int)num9, (int)num10), new Point((int)num7, (int)num8), n0236);
-						n0261(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.Transparent);
+						QueueDraw(n0761, new Rectangle(0, 0, n0762.Width, n0762.Height), new Rectangle(0, 0, (int)num9, (int)num10), new Point((int)num7, (int)num8), n0236);
+						QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.Transparent);
 					}
 					n0601--;
 				}
 				else
 				{
-					n0261(n0761, Rectangle.Empty, Rectangle.Empty, n0762.Location, n0236);
+					QueueDraw(n0761, Rectangle.Empty, Rectangle.Empty, n0762.Location, n0236);
 					n0601 = 0;
 				}
 				if (n0622 && n0601 == 0)
@@ -2743,7 +2743,7 @@ namespace n0001
 				}
 				return false;
 			}
-			n0261(n0761, Rectangle.Empty, Rectangle.Empty, n0762.Location, n0236);
+			QueueDraw(n0761, Rectangle.Empty, Rectangle.Empty, n0762.Location, n0236);
 			return true;
 		}
 
@@ -2798,7 +2798,7 @@ namespace n0001
 			}
 		}
 
-		public void n0419(string[] n0241, string[] n0390, double n0533, bool n0420, bool n0168)
+		public void SetCaption(string[] n0241, string[] n0390, double n0533, bool n0420, bool n0168)
 		{
 			if (n0241 == null)
 			{
@@ -2827,7 +2827,7 @@ namespace n0001
 			n0611 = 0.0;
 		}
 
-		public void n0379(bool n0413, bool n0773, bool n0168)
+		public void CloseDialogue(bool n0413, bool n0773, bool n0168)
 		{
 			if (n0770)
 			{
@@ -2863,16 +2863,16 @@ namespace n0001
 			{
 				if (n0623)
 				{
-					n0766(false);
+					DrawDialogueFrame(false);
 				}
 				if (n0765)
 				{
-					n0766(true);
+					DrawDialogueFrame(true);
 				}
 			}
 			else
 			{
-				if (!n0766(false))
+				if (!DrawDialogueFrame(false))
 				{
 					return;
 				}
@@ -2894,7 +2894,7 @@ namespace n0001
 					{
 						n0611 += (double)n0237 / 6.0;
 					}
-					n0771 = n0596(n0610[(int)n0363], (double)n0612[(int)n0363] + n0611 - 4.0, n0772, n0774.Width, n0774.Height, 2, n0595, 4, Color.White, Color.Black);
+					n0771 = DrawTextCore(n0610[(int)n0363], (double)n0612[(int)n0363] + n0611 - 4.0, n0772, n0774.Width, n0774.Height, 2, n0595, 4, Color.White, Color.Black);
 					n0579.Add(3);
 					n0613 = (int)(n0611 - 4.0);
 					if (n0613 < 0)
@@ -2904,16 +2904,16 @@ namespace n0001
 				}
 				else
 				{
-					n0771 = n0596(n0610[(int)n0363], n0610[(int)n0363].Length, n0772, n0774.Width, n0774.Height, 2, n0595, 4, Color.White, Color.Black);
+					n0771 = DrawTextCore(n0610[(int)n0363], n0610[(int)n0363].Length, n0772, n0774.Width, n0774.Height, 2, n0595, 4, Color.White, Color.Black);
 					n0579.Add(3);
 				}
 				if ((n0238 || !n0558.n0382()) && n0611 >= (double)n0610[(int)n0363].Length - (double)n0612[(int)n0363] + 4.0)
 				{
 					n0637(n0771.X, n0771.Y);
 				}
-				if (n0769 != null && n0766(true))
+				if (n0769 != null && DrawDialogueFrame(true))
 				{
-					n0596(n0769[(int)n0363], new Point(n0775.X - n0774.Width * n0769[(int)n0363].Length / 2, n0775.Y), n0774.Width, n0774.Height, 2, n0595, Color.White, Color.Black);
+					DrawTextCore(n0769[(int)n0363], new Point(n0775.X - n0774.Width * n0769[(int)n0363].Length / 2, n0775.Y), n0774.Width, n0774.Height, 2, n0595, Color.White, Color.Black);
 					n0579.Add(3);
 				}
 			}
@@ -2926,7 +2926,7 @@ namespace n0001
 
 		private void n0569()
 		{
-			n0643 = TextureLoader.FromStream(n0006, n0136.n0137("ICON"), n0776.Width, n0776.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			n0643 = TextureLoader.FromStream(n0006, n0136.ReadEntry("ICON"), n0776.Width, n0776.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 			n0777 = 0;
 		}
 
@@ -2940,7 +2940,7 @@ namespace n0001
 			if (n0560 > 0)
 			{
 				Rectangle n880 = new Rectangle(n0777 / 3 * 32, n0560 * 32, 32, 32);
-				n0261(n0643, n880, Rectangle.Empty, n0778, Color.White);
+				QueueDraw(n0643, n880, Rectangle.Empty, n0778, Color.White);
 				n0777++;
 				if (n0777 == 9)
 				{

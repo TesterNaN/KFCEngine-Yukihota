@@ -33,7 +33,7 @@ namespace n0001
 				n0497 = new FileStream(n0494 + ".dat", FileMode.Open, FileAccess.Read);
 				n0498 = new ArchiveIndex();
 				n0498.n0500(n0497);
-				n0498.n0501();
+				n0498.Lock();
 				return;
 			}
 			throw new ArgumentException("Invalid CodeType");
@@ -56,7 +56,7 @@ namespace n0001
 			}
 		}
 
-		public ArchiveIndex n0506()
+		public ArchiveIndex GetIndex()
 		{
 			if (!n0503)
 			{
@@ -65,17 +65,17 @@ namespace n0001
 			return n0498;
 		}
 
-		public void n0507()
+		public void SaveIndex()
 		{
 			if (!n0503)
 			{
 				throw new ArchiveException();
 			}
 			n0498.n0508(n0497);
-			n0498.n0501();
+			n0498.Lock();
 		}
 
-		public void n0154(string n0494, Stream n0509)
+		public void Extract(string n0494, Stream n0509)
 		{
 			if (!n0503)
 			{
@@ -92,7 +92,7 @@ namespace n0001
 			byte[] buffer = new byte[1024];
 			int n536;
 			int n537;
-			n0498.n0510(n0494, out n536, out n537);
+			n0498.FindEntry(n0494, out n536, out n537);
 			if (n536 == -1)
 			{
 				throw new FileNotFoundException(n0494 + " is not in the Package");
@@ -151,14 +151,14 @@ namespace n0001
 			GC.Collect();
 		}
 
-		public void n0154(string n0494, string n0512)
+		public void Extract(string n0494, string n0512)
 		{
 			if (!n0503)
 			{
 				throw new ArchiveException();
 			}
 			FileStream fileStream = new FileStream(n0512 + "\\" + n0494 + "." + n0498.n0513(), FileMode.Create, FileAccess.Write);
-			n0154(n0494, fileStream);
+			Extract(n0494, fileStream);
 			fileStream.Close();
 			GC.Collect();
 		}
@@ -173,24 +173,24 @@ namespace n0001
 			for (int i = 0; i < num; i++)
 			{
 				string n536;
-				n0498.n0510(i, out n536);
-				n0154(n536, n0512);
+				n0498.FindEntry(i, out n536);
+				Extract(n536, n0512);
 			}
 		}
 
-		public MemoryStream n0137(string n0494)
+		public MemoryStream ReadEntry(string n0494)
 		{
 			if (!n0503)
 			{
 				throw new ArchiveException();
 			}
 			MemoryStream memoryStream = new MemoryStream();
-			n0154(n0494, memoryStream);
+			Extract(n0494, memoryStream);
 			memoryStream.Position = 0L;
 			return memoryStream;
 		}
 
-		public void n0516(Stream n0509)
+		public void AddEntry(Stream n0509)
 		{
 			if (!n0503)
 			{
@@ -242,7 +242,7 @@ namespace n0001
 				throw new IOException("Error Encode " + text);
 			}
 			int n536;
-			n0498.n0518(num2, out n536);
+			n0498.AppendEntrySize(num2, out n536);
 			try
 			{
 				n0497.Position = n536;
@@ -267,7 +267,7 @@ namespace n0001
 			GC.Collect();
 		}
 
-		public void n0516(string n0512)
+		public void AddEntry(string n0512)
 		{
 			if (!n0503)
 			{
@@ -275,7 +275,7 @@ namespace n0001
 			}
 			string text = n0498.n0517();
 			FileStream fileStream = new FileStream(n0512 + "\\" + text + "." + n0498.n0513(), FileMode.Open, FileAccess.Read);
-			n0516(fileStream);
+			AddEntry(fileStream);
 			fileStream.Close();
 			GC.Collect();
 		}
@@ -295,12 +295,12 @@ namespace n0001
 				n0498.n0521(files[i].Name.Substring(0, files[i].Name.Length - files[i].Extension.Length));
 			}
 			n0498.n0522(n0520);
-			n0507();
+			SaveIndex();
 			for (int j = 0; j < num; j++)
 			{
-				n0516(n0512);
+				AddEntry(n0512);
 			}
-			n0507();
+			SaveIndex();
 		}
 	}
 }
