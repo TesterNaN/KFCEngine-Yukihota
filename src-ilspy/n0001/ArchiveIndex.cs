@@ -164,18 +164,18 @@ namespace n0001
 			n0533 = (int)lengths[num];
 		}
 
-		public void FindEntry(string n0494, out int n0309)
+		public void FindEntry(string n0494, out int index)
 		{
-			n0309 = n0524.IndexOf(n0494);
+			index = n0524.IndexOf(n0494);
 		}
 
-		public void FindEntry(int n0309, out string n0494)
+		public void FindEntry(int index, out string n0494)
 		{
-			if (n0309 >= n0524.Count || n0309 < 0)
+			if (index >= n0524.Count || index < 0)
 			{
 				throw new ArgumentException("Invalid Index");
 			}
-			n0494 = (string)n0524[n0309];
+			n0494 = (string)n0524[index];
 		}
 
 		public void Lock()

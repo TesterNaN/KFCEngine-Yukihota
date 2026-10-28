@@ -11,14 +11,14 @@ namespace n0001
 
 		private MediaPackage sePackage;
 
-		protected bool n0855;
+		protected bool seBlocksScript;
 
-		protected bool n0856;
+		protected bool voiceSkipped;
 
 		public AudioManager()
 		{
-			n0855 = false;
-			n0856 = false;
+			seBlocksScript = false;
+			voiceSkipped = false;
 			voicePackage = new MediaPackage("VOICE");
 			bgmPackage = new MediaPackage("BGM");
 			sePackage = new MediaPackage("SE");
@@ -39,7 +39,7 @@ namespace n0001
 
 		public void PlayVoice(string n0241)
 		{
-			n0856 = false;
+			voiceSkipped = false;
 			voicePackage.n0162();
 			if (n0241 != null)
 			{
@@ -69,7 +69,7 @@ namespace n0001
 
 		public bool n0382()
 		{
-			return voicePackage.n0276() && !n0856;
+			return voicePackage.n0276() && !voiceSkipped;
 		}
 
 		public void PlayBgm(string n0241, int n0860)
@@ -92,14 +92,14 @@ namespace n0001
 			bgmPackage.SetVolume(n0861 ? 1000 : 200);
 		}
 
-		public void PlaySe(string n0241, bool n0424, bool n0399)
+		public void PlaySe(string n0241, bool loop, bool n0399)
 		{
 			sePackage.n0162();
 			if (n0241 != null)
 			{
 				sePackage.Open(n0241);
-				sePackage.Play(n0424);
-				n0855 = n0399 && !n0424;
+				sePackage.Play(loop);
+				seBlocksScript = n0399 && !loop;
 			}
 		}
 
@@ -110,13 +110,13 @@ namespace n0001
 
 		public bool n0381()
 		{
-			return sePackage.n0276() && n0855;
+			return sePackage.n0276() && seBlocksScript;
 		}
 
-		public void n0168()
+		public void instant()
 		{
-			n0855 = false;
-			n0856 = true;
+			seBlocksScript = false;
+			voiceSkipped = true;
 		}
 
 		public void SetPaused(bool n0241, bool n0469)

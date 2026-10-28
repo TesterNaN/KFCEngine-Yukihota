@@ -11,31 +11,31 @@ namespace n0001
 
 		public const int n0471 = 600;
 
-		protected ScenarioScript n0354;
+		protected ScenarioScript scenario;
 
-		protected ScreenRenderer n0358;
+		protected ScreenRenderer renderer;
 
-		protected AudioManager n0356;
+		protected AudioManager audio;
 
-		protected EffectObject n0009;
+		protected EffectObject shakeEffect;
 
-		protected ScenarioResult n0375;
+		protected ScenarioResult currentResult;
 
-		protected object n0377;
+		protected object resultData;
 
-		protected object n0378;
+		protected object resultOption;
 
-		protected bool n0364;
+		protected bool waitingForClick;
 
-		protected bool n0365;
+		protected bool skipMode;
 
-		protected bool n0366;
+		protected bool autoMode;
 
-		protected bool n0367;
+		protected bool finishingAnimation;
 
-		protected readonly int[] n0384 = new int[3] { 10, 20, 40 };
+		protected readonly int[] waitFrames = new int[3] { 10, 20, 40 };
 
-		protected readonly int[] n0401 = new int[3] { 4, 6, 16 };
+		protected readonly int[] shockFrames = new int[3] { 4, 6, 16 };
 
 		private int waitFramesLeft;
 
@@ -65,22 +65,22 @@ namespace n0001
 
 		public SceneDirector(string n0348, int n0246, Microsoft.DirectX.Direct3D.Device n0349, Sprite n0350, FrameCallback n0225, Texture n0351, EffectObject n0352, System.Drawing.Font n0353, ButtonLayout n0046, Color n0266)
 		{
-			n0354 = new ScenarioScript(n0348, n0246, n0349);
-			n0356 = new AudioManager();
-			n0358 = new ScreenRenderer(n0349, n0350, n0225, n0351, n0353, n0046, n0266, n0356);
-			n0358.SetFont(n0353);
-			n0358.SetButtonLayout(n0046);
+			scenario = new ScenarioScript(n0348, n0246, n0349);
+			audio = new AudioManager();
+			renderer = new ScreenRenderer(n0349, n0350, n0225, n0351, n0353, n0046, n0266, audio);
+			renderer.SetFont(n0353);
+			renderer.SetButtonLayout(n0046);
 			graphicsDevice = n0349;
 			spriteBatch = n0350;
 			frameHandler = n0225;
 			whiteTexture = n0351;
 			uiFont = n0353;
 			buttonLayout = n0046;
-			n0009 = n0352;
-			n0364 = false;
-			n0365 = false;
-			n0366 = false;
-			n0367 = false;
+			shakeEffect = n0352;
+			waitingForClick = false;
+			skipMode = false;
+			autoMode = false;
+			finishingAnimation = false;
 			waitFramesLeft = 0;
 			shockFramesLeft = 0;
 			captionCommitPending = false;
@@ -88,14 +88,14 @@ namespace n0001
 			captionHideName = false;
 			staffRoll = null;
 			staffRollPlaying = false;
-			n0375 = n0354.Advance(out n0377, out n0378, false);
+			currentResult = scenario.Advance(out resultData, out resultOption, false);
 		}
 
 		public void Dispose()
 		{
-			n0356.Dispose();
-			n0354.Dispose();
-			n0358.Dispose();
+			audio.Dispose();
+			scenario.Dispose();
+			renderer.Dispose();
 			GC.SuppressFinalize(this);
 		}
 
@@ -111,158 +111,158 @@ namespace n0001
 				}
 				return true;
 			}
-			if ((n0365 && n0364) || (n0366 && n0364 && waitFramesLeft == 0))
+			if ((skipMode && waitingForClick) || (autoMode && waitingForClick && waitFramesLeft == 0))
 			{
-				n0364 = false;
+				waitingForClick = false;
 				if (captionCommitPending)
 				{
-					n0358.CloseDialogue(captionDisappear, captionHideName, n0365);
+					renderer.CloseDialogue(captionDisappear, captionHideName, skipMode);
 					captionCommitPending = false;
 					captionDisappear = false;
 					captionHideName = false;
 				}
 			}
-			if (n0366 || !n0364)
+			if (autoMode || !waitingForClick)
 			{
 				if (shockFramesLeft > 0)
 				{
 					shockFramesLeft--;
 					if (shockFramesLeft == 0)
 					{
-						n0009.Stop();
+						shakeEffect.Stop();
 					}
 				}
 				if (waitFramesLeft > 0)
 				{
 					waitFramesLeft--;
 				}
-				else if (!n0358.IsBusy() && !n0356.n0381() && !n0356.n0382())
+				else if (!renderer.IsBusy() && !audio.n0381() && !audio.n0382())
 				{
 					bool flag = false;
 					do
 					{
-						switch (n0375)
+						switch (currentResult)
 						{
-						case ScenarioResult.n0174:
-							if (n0366)
+						case ScenarioResult.waitClick:
+							if (autoMode)
 							{
-								waitFramesLeft = (((bool)n0378) ? n0384[0] : n0384[2]);
+								waitFramesLeft = (((bool)resultOption) ? waitFrames[0] : waitFrames[2]);
 							}
-							n0364 = true;
+							waitingForClick = true;
 							flag = true;
 							goto default;
 						case ScenarioResult.n0385:
-							if (n0377.GetType().Equals(Color.Transparent.GetType()))
+							if (resultData.GetType().Equals(Color.Transparent.GetType()))
 							{
-								n0358.SetBackground((Color)n0377, (int)n0378);
+								renderer.SetBackground((Color)resultData, (int)resultOption);
 							}
 							else
 							{
-								n0358.SetBackground((Texture)n0377, (int)n0378);
+								renderer.SetBackground((Texture)resultData, (int)resultOption);
 							}
 							goto default;
 						case ScenarioResult.n0387:
-							if (n0378.GetType().Equals(false.GetType()))
+							if (resultOption.GetType().Equals(false.GetType()))
 							{
-								n0356.SetBgmVolume((bool)n0378);
+								audio.SetBgmVolume((bool)resultOption);
 							}
 							else
 							{
-								n0356.PlayBgm((string)n0377, (int)((double)n0378 * 1000.0));
+								audio.PlayBgm((string)resultData, (int)((double)resultOption * 1000.0));
 							}
 							goto default;
-						case ScenarioResult.n0390:
-							if (((SpriteState)n0378).n0392 == SpriteMode.n0394)
+						case ScenarioResult.charaNames:
+							if (((SpriteState)resultOption).action == SpriteMode.n0394)
 							{
-								n0358.SetCharacter((Texture)n0377, ((SpriteState)n0378).n0396, ((SpriteState)n0378).n0309 - 1, ((SpriteState)n0378).n0397, ((SpriteState)n0378).n0398, ((SpriteState)n0378).n0399);
+								renderer.SetCharacter((Texture)resultData, ((SpriteState)resultOption).size, ((SpriteState)resultOption).index - 1, ((SpriteState)resultOption).location, ((SpriteState)resultOption).isTransparent, ((SpriteState)resultOption).n0399);
 							}
-							else if (((SpriteState)n0378).n0392 == SpriteMode.n0400)
+							else if (((SpriteState)resultOption).action == SpriteMode.n0400)
 							{
-								if (n0009 != null)
+								if (shakeEffect != null)
 								{
-									n0009.Start(1);
-									shockFramesLeft = n0401[((SpriteState)n0378).n0402];
+									shakeEffect.Start(1);
+									shockFramesLeft = shockFrames[((SpriteState)resultOption).level];
 								}
-								n0358.n0403(((SpriteState)n0378).n0309 - 1, ((SpriteState)n0378).n0402);
+								renderer.n0403(((SpriteState)resultOption).index - 1, ((SpriteState)resultOption).level);
 							}
 							goto default;
 						case ScenarioResult.n0404:
-							if (!n0365)
+							if (!skipMode)
 							{
-								n0356.PlayVoice(((ScriptCommand)n0378).n0407);
+								audio.PlayVoice(((ScriptCommand)resultOption).voice);
 							}
-							n0358.SetMessage((string[])n0377, ((MessageCommand)n0378).n0410, ((MessageCommand)n0378).n0411, ((MessageCommand)n0378).n0174, ((MessageCommand)n0378).n0412, ((MessageCommand)n0378).n0413, n0356.n0414());
-							if (((MessageCommand)n0378).n0168)
+							renderer.SetMessage((string[])resultData, ((MessageCommand)resultOption).align, ((MessageCommand)resultOption).showMode, ((MessageCommand)resultOption).waitClick, ((MessageCommand)resultOption).foreColor, ((MessageCommand)resultOption).shadowColor, audio.n0414());
+							if (((MessageCommand)resultOption).instant)
 							{
-								n0358.n0168();
+								renderer.instant();
 							}
 							goto default;
 						case ScenarioResult.n0415:
 							captionCommitPending = true;
-							captionDisappear = ((CaptionCommand)n0378).n0417;
-							captionHideName = ((CaptionCommand)n0378).n0418;
-							if (!n0365)
+							captionDisappear = ((CaptionCommand)resultOption).disappear;
+							captionHideName = ((CaptionCommand)resultOption).hideCharaName;
+							if (!skipMode)
 							{
-								n0356.PlayVoice(((ScriptCommand)n0378).n0407);
+								audio.PlayVoice(((ScriptCommand)resultOption).voice);
 							}
-							n0358.SetCaption((string[])n0377, ((CaptionCommand)n0378).n0390, n0356.n0414(), ((CaptionCommand)n0378).n0420, ((CaptionCommand)n0378).n0168 || n0367 || n0365);
-							if (((CaptionCommand)n0378).n0168)
+							renderer.SetCaption((string[])resultData, ((CaptionCommand)resultOption).charaNames, audio.n0414(), ((CaptionCommand)resultOption).isContinuous, ((CaptionCommand)resultOption).instant || finishingAnimation || skipMode);
+							if (((CaptionCommand)resultOption).instant)
 							{
-								n0358.n0168();
+								renderer.instant();
 							}
 							goto default;
 						case ScenarioResult.n0421:
-							n0356.PlaySe((string)n0377, ((InputState)n0378).n0424, ((InputState)n0378).n0399);
+							audio.PlaySe((string)resultData, ((InputState)resultOption).loop, ((InputState)resultOption).n0399);
 							goto default;
 						case ScenarioResult.n0425:
-							if ((int)n0378 > 0)
+							if ((int)resultOption > 0)
 							{
-								waitFramesLeft = n0384[(int)n0378 - 1];
+								waitFramesLeft = waitFrames[(int)resultOption - 1];
 							}
 							goto default;
 						case ScenarioResult.n0426:
-							n0358.n0427((bool)n0378);
+							renderer.n0427((bool)resultOption);
 							goto default;
 						case ScenarioResult.n0428:
-							n0358.ShowNotice((string[])n0377);
+							renderer.ShowNotice((string[])resultData);
 							goto default;
 						case ScenarioResult.n0430:
-							switch (((DrawItem)n0378).n0432)
+							switch (((DrawItem)resultOption).type)
 							{
 							case DrawItemType.n0434:
-								n0358.ZoomBackground(((AnimItem)n0378).n0437, ((AnimItem)n0378).n0438, ((AnimItem)n0378).n0439, ((AnimItem)n0378).n0440, ((AnimItem)n0378).n0441, ((AnimItem)n0378).n0399, ((AnimItem)n0378).n0442);
-								n0367 = false;
+								renderer.ZoomBackground(((AnimItem)resultOption).left, ((AnimItem)resultOption).right, ((AnimItem)resultOption).top, ((AnimItem)resultOption).bottom, ((AnimItem)resultOption).durationMode, ((AnimItem)resultOption).n0399, ((AnimItem)resultOption).finish);
+								finishingAnimation = false;
 								break;
 							case DrawItemType.n0443:
-								n0358.n0444(((DrawItem)n0378).n0399, ((DrawItem)n0378).n0442);
-								n0367 = false;
+								renderer.n0444(((DrawItem)resultOption).n0399, ((DrawItem)resultOption).finish);
+								finishingAnimation = false;
 								break;
 							case DrawItemType.n0445:
-								n0358.n0446(((DrawItem)n0378).n0442);
+								renderer.n0446(((DrawItem)resultOption).finish);
 								break;
 							case DrawItemType.n0447:
-								n0358.n0448(((DrawItem)n0378).n0442);
+								renderer.n0448(((DrawItem)resultOption).finish);
 								break;
 							case DrawItemType.n0449:
-								n0358.n0450(((DrawItem)n0378).n0442);
+								renderer.n0450(((DrawItem)resultOption).finish);
 								break;
 							case DrawItemType.n0451:
-								n0358.n0452(((DrawItem)n0378).n0399, ((DrawItem)n0378).n0442);
-								n0367 = false;
+								renderer.n0452(((DrawItem)resultOption).n0399, ((DrawItem)resultOption).finish);
+								finishingAnimation = false;
 								break;
-							case DrawItemType.n0413:
-								n0358.SetBackgroundWithWipe(((TextureItem)n0378).n0455, ((TextureItem)n0378).n0456, ((TextureItem)n0378).n0399, ((TextureItem)n0378).n0441);
-								n0367 = false;
+							case DrawItemType.shadowColor:
+								renderer.SetBackgroundWithWipe(((TextureItem)resultOption).texture, ((TextureItem)resultOption).blend, ((TextureItem)resultOption).n0399, ((TextureItem)resultOption).durationMode);
+								finishingAnimation = false;
 								break;
 							case DrawItemType.n0400:
-								if (n0009 != null)
+								if (shakeEffect != null)
 								{
-									n0009.Start(1);
-									if (!((FlagItem)n0378).n0424)
+									shakeEffect.Start(1);
+									if (!((FlagItem)resultOption).loop)
 									{
-										shockFramesLeft = n0401[2];
+										shockFramesLeft = shockFrames[2];
 									}
-									else if (!((FlagItem)n0378).n0442)
+									else if (!((FlagItem)resultOption).finish)
 									{
 										shockFramesLeft = int.MaxValue;
 									}
@@ -271,52 +271,52 @@ namespace n0001
 										shockFramesLeft = 0;
 									}
 								}
-								n0358.n0458(((FlagItem)n0378).n0424, ((FlagItem)n0378).n0442);
+								renderer.n0458(((FlagItem)resultOption).loop, ((FlagItem)resultOption).finish);
 								break;
 							}
 							goto default;
 						case ScenarioResult.n0459:
-							staffRoll = (StaffRoll)n0377;
+							staffRoll = (StaffRoll)resultData;
 							staffRoll.Initialize(graphicsDevice, spriteBatch, new FrameCallback(frameHandler), whiteTexture, new System.Drawing.Font(uiFont.FontFamily, 24f), buttonLayout);
 							staffRollPlaying = true;
 							goto default;
 						default:
-							if (n0375 == ScenarioResult.n0174 || n0375 == ScenarioResult.n0385 || n0375 == ScenarioResult.n0390 || (n0375 == ScenarioResult.n0421 && ((InputState)n0378).n0399) || n0375 == ScenarioResult.n0428 || (n0375 == ScenarioResult.n0430 && ((DrawItem)n0378).n0399) || n0375 == ScenarioResult.n0459 || n0375 == ScenarioResult.n0442)
+							if (currentResult == ScenarioResult.waitClick || currentResult == ScenarioResult.n0385 || currentResult == ScenarioResult.charaNames || (currentResult == ScenarioResult.n0421 && ((InputState)resultOption).n0399) || currentResult == ScenarioResult.n0428 || (currentResult == ScenarioResult.n0430 && ((DrawItem)resultOption).n0399) || currentResult == ScenarioResult.n0459 || currentResult == ScenarioResult.finish)
 							{
-								n0367 = false;
+								finishingAnimation = false;
 							}
-							n0375 = n0354.Advance(out n0377, out n0378, n0365);
+							currentResult = scenario.Advance(out resultData, out resultOption, skipMode);
 							if (flag)
 							{
 								break;
 							}
-							if (n0375 != ScenarioResult.n0174 && n0375 != ScenarioResult.n0385 && n0375 != ScenarioResult.n0404 && n0375 != ScenarioResult.n0415 && n0375 != ScenarioResult.n0425 && n0375 != ScenarioResult.n0428 && n0375 != ScenarioResult.n0459 && n0375 != ScenarioResult.n0442)
+							if (currentResult != ScenarioResult.waitClick && currentResult != ScenarioResult.n0385 && currentResult != ScenarioResult.n0404 && currentResult != ScenarioResult.n0415 && currentResult != ScenarioResult.n0425 && currentResult != ScenarioResult.n0428 && currentResult != ScenarioResult.n0459 && currentResult != ScenarioResult.finish)
 							{
-								if (n0375 == ScenarioResult.n0390)
+								if (currentResult == ScenarioResult.charaNames)
 								{
-									flag = !((SpriteState)n0378).n0462;
+									flag = !((SpriteState)resultOption).sync;
 								}
-								else if (n0375 == ScenarioResult.n0421)
+								else if (currentResult == ScenarioResult.n0421)
 								{
-									flag = ((InputState)n0378).n0399;
+									flag = ((InputState)resultOption).n0399;
 								}
-								else if (n0375 == ScenarioResult.n0426)
+								else if (currentResult == ScenarioResult.n0426)
 								{
-									flag = (bool)n0378;
+									flag = (bool)resultOption;
 								}
-								else if (n0375 == ScenarioResult.n0430)
+								else if (currentResult == ScenarioResult.n0430)
 								{
-									flag = !((DrawItem)n0378).n0462;
+									flag = !((DrawItem)resultOption).sync;
 								}
 							}
 							else
 							{
 								flag = true;
 							}
-							if (n0367 || n0365)
+							if (finishingAnimation || skipMode)
 							{
-								n0358.n0168();
-								n0356.n0168();
+								renderer.instant();
+								audio.instant();
 								if (waitFramesLeft > 0)
 								{
 									waitFramesLeft = 0;
@@ -327,7 +327,7 @@ namespace n0001
 								}
 							}
 							break;
-						case ScenarioResult.n0442:
+						case ScenarioResult.finish:
 							n0230();
 							return false;
 						}
@@ -335,10 +335,10 @@ namespace n0001
 					while (!flag);
 				}
 			}
-			if (n0367 || n0365)
+			if (finishingAnimation || skipMode)
 			{
-				n0358.n0168();
-				n0356.n0168();
+				renderer.instant();
+				audio.instant();
 				if (waitFramesLeft > 0)
 				{
 					waitFramesLeft = 0;
@@ -348,7 +348,7 @@ namespace n0001
 					shockFramesLeft = 1;
 				}
 			}
-			n0358.n0463();
+			renderer.n0463();
 			return true;
 		}
 
@@ -356,7 +356,7 @@ namespace n0001
 		{
 			if (!staffRollPlaying)
 			{
-				n0358.n0215();
+				renderer.n0215();
 			}
 			else
 			{
@@ -368,9 +368,9 @@ namespace n0001
 		{
 			if (!staffRollPlaying)
 			{
-				n0356.n0464();
-				n0356.n0465();
-				n0356.n0466();
+				audio.n0464();
+				audio.n0465();
+				audio.n0466();
 			}
 			else
 			{
@@ -381,19 +381,19 @@ namespace n0001
 			}
 		}
 
-		public void n0174()
+		public void waitClick()
 		{
 			if (staffRollPlaying)
 			{
 				return;
 			}
-			if (n0364)
+			if (waitingForClick)
 			{
-				n0364 = false;
-				n0356.n0465();
+				waitingForClick = false;
+				audio.n0465();
 				if (captionCommitPending)
 				{
-					n0358.CloseDialogue(captionDisappear, captionHideName, false);
+					renderer.CloseDialogue(captionDisappear, captionHideName, false);
 					captionCommitPending = false;
 					captionDisappear = false;
 					captionHideName = false;
@@ -401,8 +401,8 @@ namespace n0001
 			}
 			else
 			{
-				n0358.n0168();
-				n0356.n0168();
+				renderer.instant();
+				audio.instant();
 				if (waitFramesLeft > 0)
 				{
 					waitFramesLeft = 0;
@@ -411,47 +411,47 @@ namespace n0001
 				{
 					shockFramesLeft = 1;
 				}
-				n0367 = true;
+				finishingAnimation = true;
 			}
-			n0365 = false;
-			n0366 = false;
-			n0358.n0197(false);
-			n0358.n0467(0);
+			skipMode = false;
+			autoMode = false;
+			renderer.n0197(false);
+			renderer.n0467(0);
 		}
 
-		public void n0168(bool n0241, bool n0468)
+		public void instant(bool n0241, bool n0468)
 		{
 			if (staffRollPlaying)
 			{
 				return;
 			}
-			n0356.n0465();
+			audio.n0465();
 			if (n0241 && !n0468)
 			{
-				n0358.n0467(1);
+				renderer.n0467(1);
 			}
 			else
 			{
-				n0358.n0467(0);
+				renderer.n0467(0);
 			}
-			if (n0365 == n0241)
+			if (skipMode == n0241)
 			{
 				return;
 			}
-			n0365 = n0241;
-			n0366 = false;
-			n0358.n0197(false);
-			if (n0365)
+			skipMode = n0241;
+			autoMode = false;
+			renderer.n0197(false);
+			if (skipMode)
 			{
-				if (n0364 && captionCommitPending)
+				if (waitingForClick && captionCommitPending)
 				{
-					n0358.CloseDialogue(captionDisappear, captionHideName, true);
+					renderer.CloseDialogue(captionDisappear, captionHideName, true);
 					captionCommitPending = false;
 					captionDisappear = false;
 					captionHideName = false;
 				}
-				n0358.n0168();
-				n0356.n0168();
+				renderer.instant();
+				audio.instant();
 				if (waitFramesLeft > 0)
 				{
 					waitFramesLeft = 0;
@@ -460,19 +460,19 @@ namespace n0001
 				{
 					shockFramesLeft = 1;
 				}
-				n0364 = false;
+				waitingForClick = false;
 			}
 		}
 
-		public void n0168()
+		public void instant()
 		{
-			if (n0365)
+			if (skipMode)
 			{
-				n0168(false, false);
+				instant(false, false);
 			}
 			else
 			{
-				n0168(true, false);
+				instant(true, false);
 			}
 		}
 
@@ -484,21 +484,21 @@ namespace n0001
 			}
 			if (n0241)
 			{
-				n0358.n0467(2);
+				renderer.n0467(2);
 			}
 			else
 			{
-				n0358.n0467(0);
+				renderer.n0467(0);
 			}
-			n0366 = n0241;
-			n0365 = false;
-			n0358.n0197(false);
-			if (n0366 && n0364)
+			autoMode = n0241;
+			skipMode = false;
+			renderer.n0197(false);
+			if (autoMode && waitingForClick)
 			{
-				n0364 = false;
+				waitingForClick = false;
 				if (captionCommitPending)
 				{
-					n0358.CloseDialogue(captionDisappear, captionHideName, false);
+					renderer.CloseDialogue(captionDisappear, captionHideName, false);
 					captionCommitPending = false;
 					captionDisappear = false;
 					captionHideName = false;
@@ -508,7 +508,7 @@ namespace n0001
 
 		public void n0200()
 		{
-			if (n0366)
+			if (autoMode)
 			{
 				n0200(false);
 			}
@@ -522,10 +522,10 @@ namespace n0001
 		{
 			if (!staffRollPlaying)
 			{
-				n0366 = false;
-				n0365 = false;
-				n0358.n0197(n0241);
-				n0358.n0467(0);
+				autoMode = false;
+				skipMode = false;
+				renderer.n0197(n0241);
+				renderer.n0467(0);
 			}
 		}
 
@@ -533,10 +533,10 @@ namespace n0001
 		{
 			if (!staffRollPlaying)
 			{
-				n0366 = false;
-				n0365 = false;
-				n0358.n0197();
-				n0358.n0467(0);
+				autoMode = false;
+				skipMode = false;
+				renderer.n0197();
+				renderer.n0467(0);
 			}
 		}
 
@@ -544,7 +544,7 @@ namespace n0001
 		{
 			if (!staffRollPlaying)
 			{
-				n0358.SetFont(n0353);
+				renderer.SetFont(n0353);
 				uiFont = n0353;
 			}
 		}
@@ -555,25 +555,25 @@ namespace n0001
 			{
 				staffRoll.SetButtonLayout(n0046);
 			}
-			n0358.SetButtonLayout(n0046);
+			renderer.SetButtonLayout(n0046);
 			buttonLayout = n0046;
 		}
 
 		public int n0157()
 		{
-			return n0354.n0157();
+			return scenario.n0157();
 		}
 
 		public int n0159()
 		{
-			return n0354.n0159();
+			return scenario.n0159();
 		}
 
 		public void SetPaused(bool n0241, bool n0469)
 		{
 			if (!staffRollPlaying)
 			{
-				n0356.SetPaused(n0241, n0469);
+				audio.SetPaused(n0241, n0469);
 			}
 			else
 			{
@@ -588,37 +588,37 @@ namespace n0001
 
 		public void n0249(bool n0049)
 		{
-			n0358.n0249(n0049);
+			renderer.n0249(n0049);
 		}
 
 		public void n0250(bool n0049)
 		{
-			n0358.n0250(n0049);
+			renderer.n0250(n0049);
 		}
 
 		public void n0251(bool n0049)
 		{
-			n0358.n0251(n0049);
+			renderer.n0251(n0049);
 		}
 
 		public void n0252(bool n0049)
 		{
-			n0358.n0252(n0049);
+			renderer.n0252(n0049);
 		}
 
 		public void SetDialogueColor(Color n0049)
 		{
-			n0358.SetDialogueColor(n0049);
+			renderer.SetDialogueColor(n0049);
 		}
 
 		public void SetTextSpeed(int n0049)
 		{
-			n0358.SetTextSpeed(n0049);
+			renderer.SetTextSpeed(n0049);
 		}
 
 		public void n0254(bool n0049)
 		{
-			n0358.n0254(n0049);
+			renderer.n0254(n0049);
 		}
 	}
 }

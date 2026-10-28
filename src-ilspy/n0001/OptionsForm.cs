@@ -34,7 +34,7 @@ namespace n0001
 
 		private Device n0006;
 
-		private bool n0009;
+		private bool shakeEffect;
 
 		private bool n0038;
 
@@ -95,13 +95,13 @@ namespace n0001
 				control.Enabled = n0006.Caps.ForceFeedback;
 				CheckBox checkBox = n0008;
 				checkBox.Checked = n0006.Caps.ForceFeedback;
-				n0009 = n0006.Caps.ForceFeedback;
+				shakeEffect = n0006.Caps.ForceFeedback;
 			}
 			else
 			{
 				n0008.Enabled = false;
 				n0008.Checked = false;
-				n0009 = false;
+				shakeEffect = false;
 			}
 		}
 
@@ -322,7 +322,7 @@ namespace n0001
 			{
 				n0006 = null;
 			}
-			n0009 = n0008.Checked;
+			shakeEffect = n0008.Checked;
 			n0038 = n0019.Checked;
 			if (n0024.Checked)
 			{
@@ -472,12 +472,12 @@ namespace n0001
 
 		public bool n0052()
 		{
-			return n0009;
+			return shakeEffect;
 		}
 
 		public void n0053(bool n0049)
 		{
-			n0009 = n0049;
+			shakeEffect = n0049;
 		}
 
 		public bool n0054()

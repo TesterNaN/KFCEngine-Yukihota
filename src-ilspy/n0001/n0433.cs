@@ -8,7 +8,7 @@ namespace n0001
 		n0447,
 		n0449,
 		n0451,
-		n0413,
+		shadowColor,
 		n0400,
 		n0485
 	}

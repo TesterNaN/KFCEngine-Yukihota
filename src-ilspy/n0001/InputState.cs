@@ -2,7 +2,7 @@ namespace n0001
 {
 	public class InputState
 	{
-		public bool n0424;
+		public bool loop;
 
 		public bool n0399;
 	}

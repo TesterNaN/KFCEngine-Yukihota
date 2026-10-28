@@ -2,14 +2,14 @@ namespace n0001
 {
 	public class AnimItem : DrawItem
 	{
-		public double n0437;
+		public double left;
 
-		public double n0438;
+		public double right;
 
-		public double n0439;
+		public double top;
 
-		public double n0440;
+		public double bottom;
 
-		public int n0441;
+		public int durationMode;
 	}
 }

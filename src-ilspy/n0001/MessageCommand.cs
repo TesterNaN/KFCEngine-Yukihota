@@ -4,14 +4,14 @@ namespace n0001
 {
 	public class MessageCommand : ScriptCommand
 	{
-		public HorizontalAlign n0410;
+		public HorizontalAlign align;
 
-		public TextRevealMode n0411;
+		public TextRevealMode showMode;
 
-		public bool n0174;
+		public bool waitClick;
 
-		public Color n0412;
+		public Color foreColor;
 
-		public Color n0413;
+		public Color shadowColor;
 	}
 }

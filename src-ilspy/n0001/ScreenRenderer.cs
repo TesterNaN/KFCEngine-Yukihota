@@ -21,7 +21,7 @@ namespace n0001
 
 		protected const int n0785 = 8;
 
-		protected const int n0401 = 16;
+		protected const int shockFrames = 16;
 
 		protected const int n0786 = 16;
 
@@ -157,7 +157,7 @@ namespace n0001
 
 		protected const int n0852 = 32;
 
-		protected ArchiveFile n0136;
+		protected ArchiveFile systemArchive;
 
 		private ButtonLayout layoutIndex;
 
@@ -177,7 +177,7 @@ namespace n0001
 
 		private FrameCallback resetCallback;
 
-		protected readonly Rectangle n0663 = new Rectangle(0, 0, 800, 600);
+		protected readonly Rectangle screenRect = new Rectangle(0, 0, 800, 600);
 
 		protected Texture n0135;
 
@@ -191,33 +191,33 @@ namespace n0001
 
 		protected ArrayList n0220 = new ArrayList();
 
-		protected ArrayList n0570 = new ArrayList();
+		protected ArrayList textQueue = new ArrayList();
 
-		protected ArrayList n0571 = new ArrayList();
+		protected ArrayList startIndexQueue = new ArrayList();
 
-		protected ArrayList n0572 = new ArrayList();
+		protected ArrayList endIndexQueue = new ArrayList();
 
-		protected ArrayList n0573 = new ArrayList();
+		protected ArrayList textPositionQueue = new ArrayList();
 
-		protected ArrayList n0574 = new ArrayList();
+		protected ArrayList charWidthQueue = new ArrayList();
 
-		protected ArrayList n0575 = new ArrayList();
+		protected ArrayList lineHeightQueue = new ArrayList();
 
-		protected ArrayList n0576 = new ArrayList();
+		protected ArrayList shadowOffsetQueue = new ArrayList();
 
-		protected ArrayList n0577 = new ArrayList();
+		protected ArrayList fontSizeModeQueue = new ArrayList();
 
-		protected ArrayList n0578 = new ArrayList();
+		protected ArrayList lineWidthQueue = new ArrayList();
 
-		protected ArrayList n0579 = new ArrayList();
+		protected ArrayList fontIndexQueue = new ArrayList();
 
-		protected ArrayList n0580 = new ArrayList();
+		protected ArrayList fadeOutQueue = new ArrayList();
 
-		protected ArrayList n0581 = new ArrayList();
+		protected ArrayList fadeLengthQueue = new ArrayList();
 
-		protected ArrayList n0582 = new ArrayList();
+		protected ArrayList textColorQueue = new ArrayList();
 
-		protected ArrayList n0583 = new ArrayList();
+		protected ArrayList shadowColorQueue = new ArrayList();
 
 		private bool fadeEnabled;
 
@@ -235,13 +235,13 @@ namespace n0001
 
 		private int indicatorPhase;
 
-		protected readonly int[] n0640 = new int[16]
+		protected readonly int[] indicatorColumns = new int[16]
 		{
 			3, 3, 2, 2, 1, 1, 0, 0, 0, 0,
 			1, 1, 2, 2, 3, 3
 		};
 
-		protected readonly int[] n0641 = new int[32]
+		protected readonly int[] indicatorOffsetX = new int[32]
 		{
 			-2, -1, -1, 0, 0, 1, 1, 2, 2, 1,
 			1, 0, 0, -1, -1, -2, -2, -1, -1, 0,
@@ -249,7 +249,7 @@ namespace n0001
 			-1, -2
 		};
 
-		protected readonly int[] n0642 = new int[32]
+		protected readonly int[] indicatorOffsetY = new int[32]
 		{
 			-1, -1, 0, 0, 0, 0, 1, 1, 1, 1,
 			2, 2, 2, 2, 1, 1, 1, 1, 0, 0,
@@ -279,7 +279,7 @@ namespace n0001
 
 		private int backgroundFadeSpeed;
 
-		protected readonly int[] n0659 = new int[3] { 1, 10, 40 };
+		protected readonly int[] backgroundFadeDurations = new int[3] { 1, 10, 40 };
 
 		private bool backgroundRedrawPending;
 
@@ -295,7 +295,7 @@ namespace n0001
 
 		private int zoomSpeedIndex;
 
-		protected readonly int[] n0681 = new int[3] { 1, 10, 40 };
+		protected readonly int[] zoomDurations = new int[3] { 1, 10, 40 };
 
 		private bool shakeActive;
 
@@ -303,25 +303,25 @@ namespace n0001
 
 		private int shakeFrame;
 
-		protected readonly int[] n0684 = new int[16]
+		protected readonly int[] shakeOffsetTableX = new int[16]
 		{
 			-16, -8, 0, 8, 16, 8, 0, -8, -8, 0,
 			8, 0, -4, 0, 4, 0
 		};
 
-		protected readonly int[] n0685 = new int[16]
+		protected readonly int[] shakeOffsetTableY = new int[16]
 		{
 			-16, 16, 0, 0, -16, 16, 0, 0, -8, 8,
 			0, 0, -4, 4, 0, 0
 		};
 
-		protected readonly int[] n0686 = new int[16]
+		protected readonly int[] quakeOffsetTableX = new int[16]
 		{
 			-4, -3, -2, -1, 0, 1, 2, 3, 4, 3,
 			2, 1, 0, -1, -2, -3
 		};
 
-		protected readonly int[] n0687 = new int[16]
+		protected readonly int[] quakeOffsetTableY = new int[16]
 		{
 			-4, -2, 0, 2, 4, 2, 0, -2, -4, -2,
 			0, 2, 4, 2, 0, -2
@@ -365,7 +365,7 @@ namespace n0001
 
 		private int petalActiveCount;
 
-		protected readonly Size n0699 = new Size(96, 192);
+		protected readonly Size petalFrameSize = new Size(96, 192);
 
 		private bool snowActive;
 
@@ -387,7 +387,7 @@ namespace n0001
 
 		private int snowActiveCount;
 
-		protected readonly Size n0718 = new Size(64, 16);
+		protected readonly Size snowFrameSize = new Size(64, 16);
 
 		private bool dimActive;
 
@@ -425,21 +425,21 @@ namespace n0001
 
 		private int[] characterShakePatterns = new int[3];
 
-		protected readonly int[] n0745 = new int[3] { 4, 6, 16 };
+		protected readonly int[] characterShakePatternLengths = new int[3] { 4, 6, 16 };
 
-		protected readonly Color n0746 = Color.FromArgb(128, Color.White);
+		protected readonly Color semiTransparentWhite = Color.FromArgb(128, Color.White);
 
-		protected int[][] n0735;
+		protected int[][] characterShakeTableX;
 
-		protected int[][] n0736;
+		protected int[][] characterShakeTableY;
 
 		private string[] n0747;
 
 		private int n0748;
 
-		protected readonly Point n0749 = new Point(300, 20);
+		protected readonly Point noticePosition = new Point(300, 20);
 
-		protected readonly Size n0750 = new Size(30, 40);
+		protected readonly Size noticeCharSize = new Size(30, 40);
 
 		private Microsoft.DirectX.Direct3D.Font n0593;
 
@@ -469,9 +469,9 @@ namespace n0001
 
 		private Point lastTextPosition;
 
-		protected readonly Point n0757 = new Point(20, 60);
+		protected readonly Point messagePosition = new Point(20, 60);
 
-		protected readonly Size n0759 = new Size(30, 40);
+		protected readonly Size messageCharSize = new Size(30, 40);
 
 		private Microsoft.DirectX.Direct3D.Font messageFont;
 
@@ -479,23 +479,23 @@ namespace n0001
 
 		private bool characterPanelVisible;
 
-		protected Texture n0761;
+		protected Texture dialogueTexture;
 
-		protected Texture n0763;
+		protected Texture characterPanelTexture;
 
 		private bool dialogueClosing;
 
 		private int dialogueCounter;
 
-		protected readonly Rectangle n0762 = new Rectangle(10, 440, 780, 150);
+		protected readonly Rectangle dialogueRect = new Rectangle(10, 440, 780, 150);
 
-		protected readonly Point n0853 = new Point(400, 515);
+		protected readonly Point dialogueTextAnchor = new Point(400, 515);
 
-		protected readonly Point n0767 = new Point(10, 380);
+		protected readonly Point characterPanelPosition = new Point(10, 380);
 
-		protected readonly Point n0854 = new Point(110, 410);
+		protected readonly Point captionOptionAnchor = new Point(110, 410);
 
-		protected readonly Size n0764 = new Size(200, 60);
+		protected readonly Size characterPanelSize = new Size(200, 60);
 
 		private string[] captionLines;
 
@@ -515,19 +515,19 @@ namespace n0001
 
 		private bool skipCaptionAnimation;
 
-		protected readonly Point n0772 = new Point(25, 455);
+		protected readonly Point captionPosition = new Point(25, 455);
 
-		protected readonly Size n0774 = new Size(30, 40);
+		protected readonly Size captionCharSize = new Size(30, 40);
 
-		protected readonly Point n0775 = new Point(110, 390);
+		protected readonly Point captionOptionPosition = new Point(110, 390);
 
 		private Microsoft.DirectX.Direct3D.Font captionFont;
 
 		private int modeIconFrame;
 
-		protected readonly Point n0778 = new Point(40, 20);
+		protected readonly Point modeIconPosition = new Point(40, 20);
 
-		protected readonly Size n0776 = new Size(128, 96);
+		protected readonly Size modeIconTextureSize = new Size(128, 96);
 
 		public ScreenRenderer(Device n0349, Sprite n0350, FrameCallback n0225, Texture n0351, System.Drawing.Font n0353, ButtonLayout n0046, Color n0266, AudioManager n0557)
 		{
@@ -541,7 +541,7 @@ namespace n0001
 			audioManager = n0557;
 			dialogueHidden = false;
 			modeIconIndex = 0;
-			n0136 = new ArchiveFile("System", ArchiveMode.n0151);
+			systemArchive = new ArchiveFile("System", ArchiveMode.n0151);
 			n0561();
 			n0562();
 			n0563();
@@ -560,20 +560,20 @@ namespace n0001
 			n0218.Clear();
 			n0219.Clear();
 			n0220.Clear();
-			n0570.Clear();
-			n0571.Clear();
-			n0572.Clear();
-			n0573.Clear();
-			n0574.Clear();
-			n0575.Clear();
-			n0576.Clear();
-			n0577.Clear();
-			n0578.Clear();
-			n0579.Clear();
-			n0580.Clear();
-			n0581.Clear();
-			n0582.Clear();
-			n0583.Clear();
+			textQueue.Clear();
+			startIndexQueue.Clear();
+			endIndexQueue.Clear();
+			textPositionQueue.Clear();
+			charWidthQueue.Clear();
+			lineHeightQueue.Clear();
+			shadowOffsetQueue.Clear();
+			fontSizeModeQueue.Clear();
+			lineWidthQueue.Clear();
+			fontIndexQueue.Clear();
+			fadeOutQueue.Clear();
+			fadeLengthQueue.Clear();
+			textColorQueue.Clear();
+			shadowColorQueue.Clear();
 		}
 
 		public void n0463()
@@ -584,20 +584,20 @@ namespace n0001
 			n0218.Clear();
 			n0219.Clear();
 			n0220.Clear();
-			n0570.Clear();
-			n0571.Clear();
-			n0572.Clear();
-			n0573.Clear();
-			n0574.Clear();
-			n0575.Clear();
-			n0576.Clear();
-			n0577.Clear();
-			n0578.Clear();
-			n0579.Clear();
-			n0580.Clear();
-			n0581.Clear();
-			n0582.Clear();
-			n0583.Clear();
+			textQueue.Clear();
+			startIndexQueue.Clear();
+			endIndexQueue.Clear();
+			textPositionQueue.Clear();
+			charWidthQueue.Clear();
+			lineHeightQueue.Clear();
+			shadowOffsetQueue.Clear();
+			fontSizeModeQueue.Clear();
+			lineWidthQueue.Clear();
+			fontIndexQueue.Clear();
+			fadeOutQueue.Clear();
+			fadeLengthQueue.Clear();
+			textColorQueue.Clear();
+			shadowColorQueue.Clear();
 			device.BeginScene();
 			sprite.Begin(SpriteFlags.AlphaBlend);
 			n0584();
@@ -648,7 +648,7 @@ namespace n0001
 					continue;
 				}
 				Microsoft.DirectX.Direct3D.Font n880;
-				switch ((int)n0579[num])
+				switch ((int)fontIndexQueue[num])
 				{
 				case 1:
 					n880 = n0593;
@@ -663,7 +663,7 @@ namespace n0001
 					n880 = n0593;
 					break;
 				}
-				DrawTextCore((string)n0570[num], (int)n0571[num], (double)n0572[num], (Point)n0573[num], (int)n0574[num], (int)n0575[num], (int)n0576[num], (HorizontalAlign)n0577[num], (int)n0578[num], n880, (bool)n0580[num], (int)n0581[num], (Color)n0582[num], (Color)n0583[num], false);
+				DrawTextCore((string)textQueue[num], (int)startIndexQueue[num], (double)endIndexQueue[num], (Point)textPositionQueue[num], (int)charWidthQueue[num], (int)lineHeightQueue[num], (int)shadowOffsetQueue[num], (HorizontalAlign)fontSizeModeQueue[num], (int)lineWidthQueue[num], n880, (bool)fadeOutQueue[num], (int)fadeLengthQueue[num], (Color)textColorQueue[num], (Color)shadowColorQueue[num], false);
 				num++;
 			}
 			sprite.End();
@@ -742,7 +742,7 @@ namespace n0001
 			}
 		}
 
-		public void n0168()
+		public void instant()
 		{
 			if (backgroundFadeCounter > 0)
 			{
@@ -932,39 +932,39 @@ namespace n0001
 
 		private void n0637(int n0638, int n0639)
 		{
-			Rectangle n880 = new Rectangle(n0640[indicatorPhase % 16] * 32, 0, 32, 32);
-			Point n881 = new Point(n0638 + n0641[indicatorPhase], n0639 + n0642[indicatorPhase]);
+			Rectangle n880 = new Rectangle(indicatorColumns[indicatorPhase % 16] * 32, 0, 32, 32);
+			Point n881 = new Point(n0638 + indicatorOffsetX[indicatorPhase], n0639 + indicatorOffsetY[indicatorPhase]);
 			QueueDraw(modeIconTexture, n880, Rectangle.Empty, n881, Color.White);
 			indicatorPhase++;
 			indicatorPhase %= 32;
 		}
 
-		private Point DrawTextCore(string n0241, Point n0644, int n0645, int n0646, int n0534, Microsoft.DirectX.Direct3D.Font n0353, Color n0412, Color n0413)
+		private Point DrawTextCore(string n0241, Point n0644, int n0645, int n0646, int n0534, Microsoft.DirectX.Direct3D.Font n0353, Color foreColor, Color shadowColor)
 		{
-			return DrawTextCore(n0241, 0, n0241.Length, n0644, n0645, n0646, n0534, HorizontalAlign.n0437, 0, n0353, n0412, n0413);
+			return DrawTextCore(n0241, 0, n0241.Length, n0644, n0645, n0646, n0534, HorizontalAlign.left, 0, n0353, foreColor, shadowColor);
 		}
 
-		private Point DrawTextCore(string n0241, int n0647, int n0648, Point n0644, int n0645, int n0646, int n0534, HorizontalAlign n0410, int n0649, Microsoft.DirectX.Direct3D.Font n0353, Color n0412, Color n0413)
+		private Point DrawTextCore(string n0241, int n0647, int n0648, Point n0644, int n0645, int n0646, int n0534, HorizontalAlign align, int n0649, Microsoft.DirectX.Direct3D.Font n0353, Color foreColor, Color shadowColor)
 		{
-			return DrawTextCore(n0241, n0647, n0648, n0644, n0645, n0646, n0534, n0410, n0649, n0353, false, 0, n0412, n0413);
+			return DrawTextCore(n0241, n0647, n0648, n0644, n0645, n0646, n0534, align, n0649, n0353, false, 0, foreColor, shadowColor);
 		}
 
-		private Point DrawTextCore(string n0241, double n0648, Point n0644, int n0645, int n0646, int n0534, Microsoft.DirectX.Direct3D.Font n0353, int n0204, Color n0412, Color n0413)
+		private Point DrawTextCore(string n0241, double n0648, Point n0644, int n0645, int n0646, int n0534, Microsoft.DirectX.Direct3D.Font n0353, int n0204, Color foreColor, Color shadowColor)
 		{
-			return DrawTextCore(n0241, 0, n0648, n0644, n0645, n0646, n0534, HorizontalAlign.n0437, 0, n0353, true, n0204, n0412, n0413);
+			return DrawTextCore(n0241, 0, n0648, n0644, n0645, n0646, n0534, HorizontalAlign.left, 0, n0353, true, n0204, foreColor, shadowColor);
 		}
 
-		private Point DrawTextCore(string n0241, double n0648, Point n0644, int n0645, int n0646, int n0534, HorizontalAlign n0410, int n0649, Microsoft.DirectX.Direct3D.Font n0353, int n0204, Color n0412, Color n0413)
+		private Point DrawTextCore(string n0241, double n0648, Point n0644, int n0645, int n0646, int n0534, HorizontalAlign align, int n0649, Microsoft.DirectX.Direct3D.Font n0353, int n0204, Color foreColor, Color shadowColor)
 		{
-			return DrawTextCore(n0241, 0, n0648, n0644, n0645, n0646, n0534, n0410, n0649, n0353, true, n0204, n0412, n0413);
+			return DrawTextCore(n0241, 0, n0648, n0644, n0645, n0646, n0534, align, n0649, n0353, true, n0204, foreColor, shadowColor);
 		}
 
-		private Point DrawTextCore(string n0241, int n0647, double n0648, Point n0644, int n0645, int n0646, int n0534, HorizontalAlign n0410, int n0649, Microsoft.DirectX.Direct3D.Font n0353, bool n0493, int n0204, Color n0412, Color n0413)
+		private Point DrawTextCore(string n0241, int n0647, double n0648, Point n0644, int n0645, int n0646, int n0534, HorizontalAlign align, int n0649, Microsoft.DirectX.Direct3D.Font n0353, bool n0493, int n0204, Color foreColor, Color shadowColor)
 		{
-			return DrawTextCore(n0241, n0647, n0648, n0644, n0645, n0646, n0534, n0410, n0649, n0353, n0493, n0204, n0412, n0413, true);
+			return DrawTextCore(n0241, n0647, n0648, n0644, n0645, n0646, n0534, align, n0649, n0353, n0493, n0204, foreColor, shadowColor, true);
 		}
 
-		private Point DrawTextCore(string n0241, int n0647, double n0648, Point n0644, int n0645, int n0646, int n0534, HorizontalAlign n0410, int n0649, Microsoft.DirectX.Direct3D.Font n0353, bool n0493, int n0204, Color n0412, Color n0413, bool n0650)
+		private Point DrawTextCore(string n0241, int n0647, double n0648, Point n0644, int n0645, int n0646, int n0534, HorizontalAlign align, int n0649, Microsoft.DirectX.Direct3D.Font n0353, bool n0493, int n0204, Color foreColor, Color shadowColor, bool n0650)
 		{
 			if (n0650)
 			{
@@ -973,24 +973,24 @@ namespace n0001
 				n0218.Add(null);
 				n0219.Add(null);
 				n0220.Add(null);
-				n0570.Add(n0241);
-				n0571.Add(n0647);
-				n0572.Add(n0648);
-				n0573.Add(n0644);
-				n0574.Add(n0645);
-				n0575.Add(n0646);
-				n0576.Add(n0534);
-				n0577.Add(n0410);
-				n0578.Add(n0649);
-				n0580.Add(n0493);
-				n0581.Add(n0204);
-				n0582.Add(n0412);
-				n0583.Add(n0413);
+				textQueue.Add(n0241);
+				startIndexQueue.Add(n0647);
+				endIndexQueue.Add(n0648);
+				textPositionQueue.Add(n0644);
+				charWidthQueue.Add(n0645);
+				lineHeightQueue.Add(n0646);
+				shadowOffsetQueue.Add(n0534);
+				fontSizeModeQueue.Add(align);
+				lineWidthQueue.Add(n0649);
+				fadeOutQueue.Add(n0493);
+				fadeLengthQueue.Add(n0204);
+				textColorQueue.Add(foreColor);
+				shadowColorQueue.Add(shadowColor);
 			}
 			int num;
-			switch (n0410)
+			switch (align)
 			{
-			case HorizontalAlign.n0437:
+			case HorizontalAlign.left:
 				num = n0644.X;
 				break;
 			case HorizontalAlign.n0491:
@@ -1003,7 +1003,7 @@ namespace n0001
 				num = n0644.X + n0645 * (n0649 - num3) / 2;
 				break;
 			}
-			case HorizontalAlign.n0438:
+			case HorizontalAlign.right:
 			{
 				int num2 = n0241.IndexOf('\n');
 				if (num2 == -1)
@@ -1022,9 +1022,9 @@ namespace n0001
 			{
 				if (n0241[i] == '\n')
 				{
-					switch (n0410)
+					switch (align)
 					{
-					case HorizontalAlign.n0437:
+					case HorizontalAlign.left:
 						num = n0644.X;
 						break;
 					case HorizontalAlign.n0491:
@@ -1038,7 +1038,7 @@ namespace n0001
 						num = n0644.X + n0645 * (n0649 - num8) / 2;
 						break;
 					}
-					case HorizontalAlign.n0438:
+					case HorizontalAlign.right:
 					{
 						int num5 = n0241.IndexOf('\n', i + 1);
 						if (num5 == -1)
@@ -1058,18 +1058,18 @@ namespace n0001
 					if (fadeEnabled)
 					{
 						Sprite spriteLocal = this.sprite;
-						n0353.DrawText(spriteLocal, n0241[i].ToString(), num + n0534, num4 + n0534, n0413);
+						n0353.DrawText(spriteLocal, n0241[i].ToString(), num + n0534, num4 + n0534, shadowColor);
 					}
 					Sprite sprite2 = sprite;
-					n0353.DrawText(sprite2, n0241[i].ToString(), num, num4, n0412);
+					n0353.DrawText(sprite2, n0241[i].ToString(), num, num4, foreColor);
 				}
 				else if (n0493 && i >= n0647 && (double)i >= n0648 && (double)i < n0648 + (double)n0204 && fadeEnabled)
 				{
 					int alpha = (int)(255.0 * ((double)(n0204 - i) + n0648) / (double)n0204);
 					Sprite sprite3 = sprite;
-					n0353.DrawText(sprite3, n0241[i].ToString(), num + n0534, num4 + n0534, (n0413 == Color.Transparent) ? Color.Transparent : Color.FromArgb(alpha, n0413));
+					n0353.DrawText(sprite3, n0241[i].ToString(), num + n0534, num4 + n0534, (shadowColor == Color.Transparent) ? Color.Transparent : Color.FromArgb(alpha, shadowColor));
 					Sprite sprite4 = sprite;
-					n0353.DrawText(sprite4, n0241[i].ToString(), num, num4, Color.FromArgb(alpha, n0412));
+					n0353.DrawText(sprite4, n0241[i].ToString(), num, num4, Color.FromArgb(alpha, foreColor));
 				}
 				num += n0645;
 			}
@@ -1103,7 +1103,7 @@ namespace n0001
 			}
 		}
 
-		public void SetBackground(Texture n0241, int n0441)
+		public void SetBackground(Texture n0241, int durationMode)
 		{
 			if (previousBackgroundTexture != null)
 			{
@@ -1115,8 +1115,8 @@ namespace n0001
 			backgroundColor = Color.White;
 			previousBackgroundIsColor = backgroundIsColor;
 			backgroundIsColor = false;
-			backgroundFadeSpeed = n0441;
-			backgroundFadeCounter = n0659[n0441];
+			backgroundFadeSpeed = durationMode;
+			backgroundFadeCounter = backgroundFadeDurations[durationMode];
 			backgroundWipeActive = false;
 			if (thinkActive)
 			{
@@ -1129,7 +1129,7 @@ namespace n0001
 			}
 		}
 
-		public void SetBackground(Color n0241, int n0441)
+		public void SetBackground(Color n0241, int durationMode)
 		{
 			if (previousBackgroundTexture != null)
 			{
@@ -1141,8 +1141,8 @@ namespace n0001
 			backgroundTexture = null;
 			previousBackgroundIsColor = backgroundIsColor;
 			backgroundIsColor = true;
-			backgroundFadeSpeed = n0441;
-			backgroundFadeCounter = n0659[n0441];
+			backgroundFadeSpeed = durationMode;
+			backgroundFadeCounter = backgroundFadeDurations[durationMode];
 			backgroundWipeActive = false;
 			if (!thinkActive && desaturatedBackgroundTexture != null)
 			{
@@ -1161,7 +1161,7 @@ namespace n0001
 					{
 						if (zoomActive)
 						{
-							QueueDraw(previousBackgroundTexture, zoomSourceRect, n0663, Point.Empty, Color.White);
+							QueueDraw(previousBackgroundTexture, zoomSourceRect, screenRect, Point.Empty, Color.White);
 						}
 						else
 						{
@@ -1180,14 +1180,14 @@ namespace n0001
 						case TextureBlend.n0487:
 							if (zoomActive)
 							{
-								QueueDraw(backgroundTexture, zoomTargetRect, n0663, Point.Empty, Color.FromArgb((int)(255.0 * (double)(n0659[backgroundFadeSpeed] - backgroundFadeCounter) / (double)n0659[backgroundFadeSpeed]), Color.White));
+								QueueDraw(backgroundTexture, zoomTargetRect, screenRect, Point.Empty, Color.FromArgb((int)(255.0 * (double)(backgroundFadeDurations[backgroundFadeSpeed] - backgroundFadeCounter) / (double)backgroundFadeDurations[backgroundFadeSpeed]), Color.White));
 							}
 							else
 							{
-								QueueDraw(backgroundTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)(255.0 * (double)(n0659[backgroundFadeSpeed] - backgroundFadeCounter) / (double)n0659[backgroundFadeSpeed]), Color.White));
+								QueueDraw(backgroundTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)(255.0 * (double)(backgroundFadeDurations[backgroundFadeSpeed] - backgroundFadeCounter) / (double)backgroundFadeDurations[backgroundFadeSpeed]), Color.White));
 							}
 							break;
-						case TextureBlend.n0437:
+						case TextureBlend.left:
 						{
 							if (zoomActive)
 							{
@@ -1196,17 +1196,17 @@ namespace n0001
 							Rectangle n882;
 							for (int j = 0; j < 16; j++)
 							{
-								n880.X = 832 * (n0659[backgroundFadeSpeed] - backgroundFadeCounter) / n0659[backgroundFadeSpeed] + (-j - 1) * 2;
+								n880.X = 832 * (backgroundFadeDurations[backgroundFadeSpeed] - backgroundFadeCounter) / backgroundFadeDurations[backgroundFadeSpeed] + (-j - 1) * 2;
 								n882 = new Rectangle(n880.X, 0, 2, 600);
 								int alpha2 = (int)((double)(j + 1) / 17.0 * 255.0);
 								QueueDraw(backgroundTexture, n882, Rectangle.Empty, n880, Color.FromArgb(alpha2, Color.White));
 							}
 							n880.X = 0;
-							n882 = new Rectangle(n880.X, 0, 832 * (n0659[backgroundFadeSpeed] - backgroundFadeCounter) / n0659[backgroundFadeSpeed] - 32, 600);
+							n882 = new Rectangle(n880.X, 0, 832 * (backgroundFadeDurations[backgroundFadeSpeed] - backgroundFadeCounter) / backgroundFadeDurations[backgroundFadeSpeed] - 32, 600);
 							QueueDraw(backgroundTexture, n882, Rectangle.Empty, n880, Color.White);
 							break;
 						}
-						case TextureBlend.n0438:
+						case TextureBlend.right:
 						{
 							if (zoomActive)
 							{
@@ -1215,12 +1215,12 @@ namespace n0001
 							Rectangle n881;
 							for (int i = 0; i < 16; i++)
 							{
-								n880.X = 832 * backgroundFadeCounter / n0659[backgroundFadeSpeed] + (i - 16) * 2;
+								n880.X = 832 * backgroundFadeCounter / backgroundFadeDurations[backgroundFadeSpeed] + (i - 16) * 2;
 								n881 = new Rectangle(n880.X, 0, 2, 600);
 								int alpha = (int)((double)(i + 1) / 17.0 * 255.0);
 								QueueDraw(backgroundTexture, n881, Rectangle.Empty, n880, Color.FromArgb(alpha, Color.White));
 							}
-							n880.X = 832 * backgroundFadeCounter / n0659[backgroundFadeSpeed];
+							n880.X = 832 * backgroundFadeCounter / backgroundFadeDurations[backgroundFadeSpeed];
 							n881 = new Rectangle(n880.X, 0, 800 - n880.X, 600);
 							QueueDraw(backgroundTexture, n881, Rectangle.Empty, n880, Color.White);
 							break;
@@ -1327,7 +1327,7 @@ namespace n0001
 			{
 				if (backgroundDrawnAsColor && previousBackgroundIsColor)
 				{
-					QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)(255.0 * (double)backgroundFadeCounter / (double)n0659[backgroundFadeSpeed]), previousBackgroundColor));
+					QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)(255.0 * (double)backgroundFadeCounter / (double)backgroundFadeDurations[backgroundFadeSpeed]), previousBackgroundColor));
 				}
 				else
 				{
@@ -1335,7 +1335,7 @@ namespace n0001
 					{
 						throw new Exception("Not Implement Yet");
 					}
-					QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)(255.0 * (double)(n0659[backgroundFadeSpeed] - backgroundFadeCounter) / (double)n0659[backgroundFadeSpeed]), backgroundColor));
+					QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.FromArgb((int)(255.0 * (double)(backgroundFadeDurations[backgroundFadeSpeed] - backgroundFadeCounter) / (double)backgroundFadeDurations[backgroundFadeSpeed]), backgroundColor));
 				}
 				backgroundFadeCounter--;
 			}
@@ -1355,7 +1355,7 @@ namespace n0001
 			{
 				return;
 			}
-			desaturatedBackgroundTexture = TextureLoader.FromStream(device, n0136.ReadEntry("WHITE"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			desaturatedBackgroundTexture = TextureLoader.FromStream(device, systemArchive.ReadEntry("WHITE"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 			uint[,] array = (uint[,])backgroundTexture.LockRectangle(typeof(uint), 0, LockFlags.None, 800, 600);
 			uint[,] array2 = (uint[,])desaturatedBackgroundTexture.LockRectangle(typeof(uint), 0, LockFlags.None, 800, 600);
 			for (int i = 0; i < 800; i++)
@@ -1396,7 +1396,7 @@ namespace n0001
 			backgroundWipeBlend = TextureBlend.n0487;
 		}
 
-		public void SetBackgroundWithWipe(Texture n0455, TextureBlend n0456, bool n0399, int n0441)
+		public void SetBackgroundWithWipe(Texture texture, TextureBlend blend, bool n0399, int durationMode)
 		{
 			if (previousBackgroundTexture != null)
 			{
@@ -1404,37 +1404,37 @@ namespace n0001
 			}
 			previousBackgroundTexture = backgroundTexture;
 			previousBackgroundColor = backgroundColor;
-			backgroundTexture = n0455;
+			backgroundTexture = texture;
 			backgroundColor = Color.White;
 			previousBackgroundIsColor = backgroundIsColor;
 			backgroundIsColor = false;
-			backgroundFadeSpeed = n0441;
+			backgroundFadeSpeed = durationMode;
 			if (n0399)
 			{
-				backgroundFadeCounter = n0659[n0441];
+				backgroundFadeCounter = backgroundFadeDurations[durationMode];
 			}
 			else
 			{
 				backgroundFadeCounter = 0;
 			}
 			backgroundWipeActive = true;
-			backgroundWipeBlend = n0456;
+			backgroundWipeBlend = blend;
 		}
 
 		private void n0668()
 		{
 			zoomActive = false;
-			zoomTargetRect = (zoomSourceRect = n0663);
+			zoomTargetRect = (zoomSourceRect = screenRect);
 			zoomCounter = 0;
 			zoomSpeedIndex = 0;
 		}
 
-		public void ZoomBackground(double n0437, double n0438, double n0439, double n0440, int n0680, bool n0399, bool n0442)
+		public void ZoomBackground(double left, double right, double top, double bottom, int n0680, bool n0399, bool finish)
 		{
-			if (n0442)
+			if (finish)
 			{
 				zoomActive = false;
-				zoomSourceRect = (zoomTargetRect = n0663);
+				zoomSourceRect = (zoomTargetRect = screenRect);
 				return;
 			}
 			zoomActive = true;
@@ -1447,11 +1447,11 @@ namespace n0001
 				previousBackgroundIsColor = false;
 			}
 			zoomSourceRect = zoomTargetRect;
-			zoomTargetRect = new Rectangle((int)(n0437 * 800.0), (int)(n0439 * 600.0), (int)((n0438 - n0437) * 800.0), (int)((n0440 - n0439) * 600.0));
+			zoomTargetRect = new Rectangle((int)(left * 800.0), (int)(top * 600.0), (int)((right - left) * 800.0), (int)((bottom - top) * 600.0));
 			zoomSpeedIndex = n0680;
 			if (n0399)
 			{
-				zoomCounter = n0681[zoomSpeedIndex];
+				zoomCounter = zoomDurations[zoomSpeedIndex];
 			}
 			else
 			{
@@ -1471,16 +1471,16 @@ namespace n0001
 				{
 					if (!shakeActive || !shakeLoop)
 					{
-						double num = (double)zoomCounter / (double)n0681[zoomSpeedIndex];
+						double num = (double)zoomCounter / (double)zoomDurations[zoomSpeedIndex];
 						double num2 = 1.0 - num;
 						Rectangle n880 = new Rectangle((int)(num * (double)zoomSourceRect.Left + num2 * (double)zoomTargetRect.Left), (int)(num * (double)zoomSourceRect.Top + num2 * (double)zoomTargetRect.Top), (int)(num * (double)zoomSourceRect.Width + num2 * (double)zoomTargetRect.Width), (int)(num * (double)zoomSourceRect.Height + num2 * (double)zoomTargetRect.Height));
 						if (backgroundTexture != null)
 						{
-							QueueDraw(backgroundTexture, n880, n0663, Point.Empty, Color.White);
+							QueueDraw(backgroundTexture, n880, screenRect, Point.Empty, Color.White);
 						}
 						else if (previousBackgroundTexture != null)
 						{
-							QueueDraw(previousBackgroundTexture, n880, n0663, Point.Empty, Color.White);
+							QueueDraw(previousBackgroundTexture, n880, screenRect, Point.Empty, Color.White);
 						}
 					}
 					zoomCounter--;
@@ -1491,11 +1491,11 @@ namespace n0001
 					{
 						if (backgroundTexture != null)
 						{
-							QueueDraw(backgroundTexture, zoomTargetRect, n0663, Point.Empty, Color.White);
+							QueueDraw(backgroundTexture, zoomTargetRect, screenRect, Point.Empty, Color.White);
 						}
 						else if (previousBackgroundTexture != null)
 						{
-							QueueDraw(previousBackgroundTexture, zoomTargetRect, n0663, Point.Empty, Color.White);
+							QueueDraw(previousBackgroundTexture, zoomTargetRect, screenRect, Point.Empty, Color.White);
 						}
 					}
 					zoomCounter = 0;
@@ -1505,11 +1505,11 @@ namespace n0001
 			{
 				if (backgroundTexture != null)
 				{
-					QueueDraw(backgroundTexture, zoomTargetRect, n0663, Point.Empty, Color.White);
+					QueueDraw(backgroundTexture, zoomTargetRect, screenRect, Point.Empty, Color.White);
 				}
 				else if (previousBackgroundTexture != null)
 				{
-					QueueDraw(previousBackgroundTexture, zoomTargetRect, n0663, Point.Empty, Color.White);
+					QueueDraw(previousBackgroundTexture, zoomTargetRect, screenRect, Point.Empty, Color.White);
 				}
 			}
 			if (!shakeActive || !shakeLoop)
@@ -1525,13 +1525,13 @@ namespace n0001
 			shakeFrame = 0;
 		}
 
-		public void n0458(bool n0424, bool n0442)
+		public void n0458(bool loop, bool finish)
 		{
-			if (!n0442)
+			if (!finish)
 			{
 				shakeActive = true;
-				shakeLoop = n0424;
-				if (n0424)
+				shakeLoop = loop;
+				if (loop)
 				{
 					shakeFrame = 0;
 				}
@@ -1566,11 +1566,11 @@ namespace n0001
 				{
 					if (backgroundTexture != null)
 					{
-						QueueDraw(backgroundTexture, Rectangle.Empty, Rectangle.Empty, new Point(n0684[16 - shakeFrame], n0685[16 - shakeFrame]), Color.FromArgb(128, Color.White));
+						QueueDraw(backgroundTexture, Rectangle.Empty, Rectangle.Empty, new Point(shakeOffsetTableX[16 - shakeFrame], shakeOffsetTableY[16 - shakeFrame]), Color.FromArgb(128, Color.White));
 					}
 					else if (previousBackgroundTexture != null)
 					{
-						QueueDraw(previousBackgroundTexture, Rectangle.Empty, Rectangle.Empty, new Point(n0684[16 - shakeFrame], n0685[16 - shakeFrame]), Color.FromArgb(128, Color.White));
+						QueueDraw(previousBackgroundTexture, Rectangle.Empty, Rectangle.Empty, new Point(shakeOffsetTableX[16 - shakeFrame], shakeOffsetTableY[16 - shakeFrame]), Color.FromArgb(128, Color.White));
 					}
 				}
 				shakeFrame--;
@@ -1585,7 +1585,7 @@ namespace n0001
 			{
 				if (zoomCounter > 0 && fadeEnabled)
 				{
-					double num = (double)zoomCounter / (double)n0681[zoomSpeedIndex];
+					double num = (double)zoomCounter / (double)zoomDurations[zoomSpeedIndex];
 					double num2 = 1.0 - num;
 					rectangle = new Rectangle((int)(num * (double)zoomSourceRect.Left + num2 * (double)zoomTargetRect.Left), (int)(num * (double)zoomSourceRect.Top + num2 * (double)zoomTargetRect.Top), (int)(num * (double)zoomSourceRect.Width + num2 * (double)zoomTargetRect.Width), (int)(num * (double)zoomSourceRect.Height + num2 * (double)zoomTargetRect.Height));
 				}
@@ -1600,11 +1600,11 @@ namespace n0001
 			}
 			if (backgroundTexture != null)
 			{
-				QueueDraw(backgroundTexture, rectangle, n0663, new Point(n0686[shakeFrame], n0687[shakeFrame]), Color.White);
+				QueueDraw(backgroundTexture, rectangle, screenRect, new Point(quakeOffsetTableX[shakeFrame], quakeOffsetTableY[shakeFrame]), Color.White);
 			}
 			else if (previousBackgroundTexture != null)
 			{
-				QueueDraw(previousBackgroundTexture, rectangle, n0663, new Point(n0686[shakeFrame], n0687[shakeFrame]), Color.White);
+				QueueDraw(previousBackgroundTexture, rectangle, screenRect, new Point(quakeOffsetTableX[shakeFrame], quakeOffsetTableY[shakeFrame]), Color.White);
 			}
 			shakeFrame++;
 			if (shakeFrame == 16)
@@ -1619,7 +1619,7 @@ namespace n0001
 
 		private void n0670()
 		{
-			sunTexture = TextureLoader.FromStream(device, n0136.ReadEntry("SUN"), 80, 80, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			sunTexture = TextureLoader.FromStream(device, systemArchive.ReadEntry("SUN"), 80, 80, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 			sunActive = false;
 			for (int i = 0; i < 5; i++)
 			{
@@ -1636,9 +1636,9 @@ namespace n0001
 			sunTexture.Dispose();
 		}
 
-		public void n0446(bool n0442)
+		public void n0446(bool finish)
 		{
-			if (!n0442)
+			if (!finish)
 			{
 				sunActive = true;
 				backgroundIsColor = false;
@@ -1700,18 +1700,18 @@ namespace n0001
 			QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.Transparent);
 		}
 
-		private void DrawSunSprite(int n0644, double n0697, double n0441)
+		private void DrawSunSprite(int n0644, double n0697, double durationMode)
 		{
 			int x = (n0644 - 18) * 80 / (int)(450.0 * n0697);
 			int y = (-n0644 - 18) * 80 / (int)(450.0 * n0697);
 			Rectangle n880 = new Rectangle(0, 0, 80, 80);
 			Rectangle n881 = new Rectangle(0, 0, (int)(450.0 * n0697), (int)(450.0 * n0697));
-			QueueDraw(sunTexture, n880, n881, new Point(x, y), Color.FromArgb((int)(n0697 * n0441 * 255.0), Color.White));
+			QueueDraw(sunTexture, n880, n881, new Point(x, y), Color.FromArgb((int)(n0697 * durationMode * 255.0), Color.White));
 		}
 
 		private void n0671()
 		{
-			petalTexture = TextureLoader.FromStream(device, n0136.ReadEntry("SAKURA"), n0699.Width, n0699.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			petalTexture = TextureLoader.FromStream(device, systemArchive.ReadEntry("SAKURA"), petalFrameSize.Width, petalFrameSize.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 			petalActive = false;
 			for (int i = 0; i < 30; i++)
 			{
@@ -1733,9 +1733,9 @@ namespace n0001
 			petalTexture.Dispose();
 		}
 
-		public void n0448(bool n0442)
+		public void n0448(bool finish)
 		{
-			if (!n0442)
+			if (!finish)
 			{
 				petalActive = true;
 				backgroundIsColor = false;
@@ -1892,7 +1892,7 @@ namespace n0001
 
 		private void n0672()
 		{
-			snowTexture = TextureLoader.FromStream(device, n0136.ReadEntry("SNOW"), n0718.Width, n0718.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			snowTexture = TextureLoader.FromStream(device, systemArchive.ReadEntry("SNOW"), snowFrameSize.Width, snowFrameSize.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 			snowActive = false;
 			for (int i = 0; i < 25; i++)
 			{
@@ -1912,9 +1912,9 @@ namespace n0001
 			snowTexture.Dispose();
 		}
 
-		public void n0450(bool n0442)
+		public void n0450(bool finish)
 		{
-			if (!n0442)
+			if (!finish)
 			{
 				snowActive = true;
 				backgroundIsColor = false;
@@ -2007,9 +2007,9 @@ namespace n0001
 			dimCounter = 0;
 		}
 
-		public void n0444(bool n0399, bool n0442)
+		public void n0444(bool n0399, bool finish)
 		{
-			if (!n0442)
+			if (!finish)
 			{
 				dimActive = true;
 				dimReverse = false;
@@ -2068,7 +2068,7 @@ namespace n0001
 
 		private void n0674()
 		{
-			thinkTexture = TextureLoader.FromStream(device, n0136.ReadEntry("THINK"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			thinkTexture = TextureLoader.FromStream(device, systemArchive.ReadEntry("THINK"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 			thinkActive = false;
 			thinkReverse = false;
 			thinkCounter = 0;
@@ -2079,9 +2079,9 @@ namespace n0001
 			thinkTexture.Dispose();
 		}
 
-		public void n0452(bool n0399, bool n0442)
+		public void n0452(bool n0399, bool finish)
 		{
-			if (!n0442)
+			if (!finish)
 			{
 				thinkActive = true;
 				thinkReverse = false;
@@ -2158,18 +2158,18 @@ namespace n0001
 
 		private void n0564()
 		{
-			n0735 = new int[3][];
-			n0735[0] = new int[4] { 4, -4, 4, -4 };
-			n0735[1] = new int[6] { 8, 0, -8, 8, 0, -8 };
-			n0735[2] = new int[16]
+			characterShakeTableX = new int[3][];
+			characterShakeTableX[0] = new int[4] { 4, -4, 4, -4 };
+			characterShakeTableX[1] = new int[6] { 8, 0, -8, 8, 0, -8 };
+			characterShakeTableX[2] = new int[16]
 			{
 				16, 0, -16, 0, 16, 0, -16, 0, 8, -8,
 				8, -8, 4, -4, 4, -4
 			};
-			n0736 = new int[3][];
-			n0736[0] = new int[4] { 0, 0, 4, 4 };
-			n0736[1] = new int[6] { 0, 0, 4, 4, 8, 8 };
-			n0736[2] = new int[16]
+			characterShakeTableY = new int[3][];
+			characterShakeTableY[0] = new int[4] { 0, 0, 4, 4 };
+			characterShakeTableY[1] = new int[6] { 0, 0, 4, 4, 8, 8 };
+			characterShakeTableY[2] = new int[16]
 			{
 				0, 0, 8, 8, 16, 16, 8, 8, 0, 0,
 				8, 8, 0, 0, 4, 4
@@ -2207,28 +2207,28 @@ namespace n0001
 			}
 		}
 
-		public void SetCharacter(Texture n0241, Size n0396, int n0309, int n0397, bool n0398, bool n0399)
+		public void SetCharacter(Texture n0241, Size size, int index, int location, bool isTransparent, bool n0399)
 		{
-			if (previousCharacterTextures[n0309] != null)
+			if (previousCharacterTextures[index] != null)
 			{
-				previousCharacterTextures[n0309].Dispose();
+				previousCharacterTextures[index].Dispose();
 			}
-			previousCharacterTextures[n0309] = characterTextures[n0309];
-			previousCharacterSizes[n0309] = characterSizes[n0309];
-			characterTextures[n0309] = n0241;
-			characterSizes[n0309] = n0396;
-			previousCharacterOffsets[n0309] = characterOffsets[n0309];
-			if (n0397 != int.MaxValue)
+			previousCharacterTextures[index] = characterTextures[index];
+			previousCharacterSizes[index] = characterSizes[index];
+			characterTextures[index] = n0241;
+			characterSizes[index] = size;
+			previousCharacterOffsets[index] = characterOffsets[index];
+			if (location != int.MaxValue)
 			{
-				characterOffsets[n0309] = n0397;
+				characterOffsets[index] = location;
 			}
 			if (n0241 != null)
 			{
-				characterSemiTransparent[n0309] = n0398;
+				characterSemiTransparent[index] = isTransparent;
 			}
 			if (n0399)
 			{
-				characterAppearCounters[n0309] = 8;
+				characterAppearCounters[index] = 8;
 			}
 			if (thinkActive)
 			{
@@ -2245,10 +2245,10 @@ namespace n0001
 			}
 		}
 
-		public void n0403(int n0309, int n0402)
+		public void n0403(int index, int level)
 		{
-			characterShakePatterns[n0309] = n0402;
-			characterShakeCounters[n0309] = n0745[n0402];
+			characterShakePatterns[index] = level;
+			characterShakeCounters[index] = characterShakePatternLengths[level];
 		}
 
 		private void n0586()
@@ -2309,11 +2309,11 @@ namespace n0001
 					{
 						if (fadeEnabled && characterSemiTransparent[i])
 						{
-							QueueDraw(characterTextures[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + characterOffsets[i] * 15 - characterSizes[i].Width / 2 + n0735[characterShakePatterns[i]][n0745[characterShakePatterns[i]] - characterShakeCounters[i]], 600 - characterSizes[i].Height + n0736[characterShakePatterns[i]][n0745[characterShakePatterns[i]] - characterShakeCounters[i]]), n0746);
+							QueueDraw(characterTextures[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + characterOffsets[i] * 15 - characterSizes[i].Width / 2 + characterShakeTableX[characterShakePatterns[i]][characterShakePatternLengths[characterShakePatterns[i]] - characterShakeCounters[i]], 600 - characterSizes[i].Height + characterShakeTableY[characterShakePatterns[i]][characterShakePatternLengths[characterShakePatterns[i]] - characterShakeCounters[i]]), semiTransparentWhite);
 						}
 						else
 						{
-							QueueDraw(characterTextures[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + characterOffsets[i] * 15 - characterSizes[i].Width / 2 + n0735[characterShakePatterns[i]][n0745[characterShakePatterns[i]] - characterShakeCounters[i]], 600 - characterSizes[i].Height + n0736[characterShakePatterns[i]][n0745[characterShakePatterns[i]] - characterShakeCounters[i]]), Color.White);
+							QueueDraw(characterTextures[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + characterOffsets[i] * 15 - characterSizes[i].Width / 2 + characterShakeTableX[characterShakePatterns[i]][characterShakePatternLengths[characterShakePatterns[i]] - characterShakeCounters[i]], 600 - characterSizes[i].Height + characterShakeTableY[characterShakePatterns[i]][characterShakePatternLengths[characterShakePatterns[i]] - characterShakeCounters[i]]), Color.White);
 						}
 						int[] array2;
 						IntPtr intPtr2;
@@ -2321,7 +2321,7 @@ namespace n0001
 					}
 					else if (fadeEnabled && characterSemiTransparent[i])
 					{
-						QueueDraw(characterTextures[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + characterOffsets[i] * 15 - characterSizes[i].Width / 2, 600 - characterSizes[i].Height), n0746);
+						QueueDraw(characterTextures[i], Rectangle.Empty, Rectangle.Empty, new Point(400 + characterOffsets[i] * 15 - characterSizes[i].Width / 2, 600 - characterSizes[i].Height), semiTransparentWhite);
 					}
 					else if (thinkActive)
 					{
@@ -2356,7 +2356,7 @@ namespace n0001
 				{
 					continue;
 				}
-				characterShadowTextures[i] = TextureLoader.FromStream(device, n0136.ReadEntry("WHITE"), characterSizes[i].Width, characterSizes[i].Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+				characterShadowTextures[i] = TextureLoader.FromStream(device, systemArchive.ReadEntry("WHITE"), characterSizes[i].Width, characterSizes[i].Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 				uint[,] array = (uint[,])characterTextures[i].LockRectangle(typeof(uint), 0, LockFlags.None, characterSizes[i].Width, characterSizes[i].Height);
 				uint[,] array2 = (uint[,])characterShadowTextures[i].LockRectangle(typeof(uint), 0, LockFlags.None, characterSizes[i].Width, characterSizes[i].Height);
 				for (int j = 0; j < characterSizes[i].Width; j++)
@@ -2429,8 +2429,8 @@ namespace n0001
 				{
 					alpha = 255;
 				}
-				DrawTextCore(n0747[(int)layoutIndex], 0, n0747[(int)layoutIndex].Length, n0749, n0750.Width, n0750.Height, 2, HorizontalAlign.n0438, 15, n0593, Color.FromArgb(alpha, Color.White), Color.FromArgb(alpha, Color.Black));
-				n0579.Add(1);
+				DrawTextCore(n0747[(int)layoutIndex], 0, n0747[(int)layoutIndex].Length, noticePosition, noticeCharSize.Width, noticeCharSize.Height, 2, HorizontalAlign.right, 15, n0593, Color.FromArgb(alpha, Color.White), Color.FromArgb(alpha, Color.Black));
+				fontIndexQueue.Add(1);
 				n0748--;
 			}
 		}
@@ -2438,7 +2438,7 @@ namespace n0001
 		private void n0566()
 		{
 			messageLines = null;
-			messageFontSizeMode = HorizontalAlign.n0437;
+			messageFontSizeMode = HorizontalAlign.left;
 			messageAlignMode = TextRevealMode.n0487;
 			messageProgress = 0.0;
 			lineRevealCounter = 0;
@@ -2448,7 +2448,7 @@ namespace n0001
 			messageTextColor = Color.White;
 			messageShadowColor = Color.Black;
 			messageVoiceLength = 0.0;
-			lastTextPosition = n0757;
+			lastTextPosition = messagePosition;
 			for (int i = 0; i < 3; i++)
 			{
 				messageStartIndexes[i] = 0;
@@ -2494,17 +2494,17 @@ namespace n0001
 			}
 		}
 
-		public void SetMessage(string[] n0241, HorizontalAlign n0410, TextRevealMode n0411, bool n0758, Color n0412, Color n0413, double n0533)
+		public void SetMessage(string[] n0241, HorizontalAlign align, TextRevealMode showMode, bool n0758, Color foreColor, Color shadowColor, double n0533)
 		{
 			if (n0241 == null)
 			{
 				return;
 			}
-			messageFontSizeMode = n0410;
-			messageAlignMode = n0411;
+			messageFontSizeMode = align;
+			messageAlignMode = showMode;
 			showNextIndicator = n0758;
-			messageTextColor = n0412;
-			messageShadowColor = n0413;
+			messageTextColor = foreColor;
+			messageShadowColor = shadowColor;
 			messageVoiceLength = n0533;
 			if (messageLines == null)
 			{
@@ -2562,8 +2562,8 @@ namespace n0001
 				if (fadeEnabled)
 				{
 					int alpha = (int)((float)messageFadeCounter / 10f * 255f);
-					DrawTextCore(messageLines[(int)layoutIndex], 0, messageLines[(int)layoutIndex].Length, n0757, n0759.Width, n0759.Height, 2, messageFontSizeMode, 25, messageFont, Color.FromArgb(alpha, messageTextColor), (messageShadowColor == Color.Transparent) ? Color.Transparent : Color.FromArgb(alpha, messageShadowColor));
-					n0579.Add(2);
+					DrawTextCore(messageLines[(int)layoutIndex], 0, messageLines[(int)layoutIndex].Length, messagePosition, messageCharSize.Width, messageCharSize.Height, 2, messageFontSizeMode, 25, messageFont, Color.FromArgb(alpha, messageTextColor), (messageShadowColor == Color.Transparent) ? Color.Transparent : Color.FromArgb(alpha, messageShadowColor));
+					fontIndexQueue.Add(2);
 					messageFadeCounter--;
 				}
 				else
@@ -2590,8 +2590,8 @@ namespace n0001
 				{
 					if (messageStartIndexes[(int)layoutIndex] > 0)
 					{
-						lastTextPosition = DrawTextCore(messageLines[(int)layoutIndex], 0, messageStartIndexes[(int)layoutIndex], n0757, n0759.Width, n0759.Height, 2, messageFontSizeMode, 25, messageFont, messageTextColor, messageShadowColor);
-						n0579.Add(2);
+						lastTextPosition = DrawTextCore(messageLines[(int)layoutIndex], 0, messageStartIndexes[(int)layoutIndex], messagePosition, messageCharSize.Width, messageCharSize.Height, 2, messageFontSizeMode, 25, messageFont, messageTextColor, messageShadowColor);
+						fontIndexQueue.Add(2);
 					}
 					if (messageVoiceLength > 0.0 && syncVoice)
 					{
@@ -2609,8 +2609,8 @@ namespace n0001
 					{
 						messageProgress += (double)messageSpeed / 6.0;
 					}
-					lastTextPosition = DrawTextCore(messageLines[(int)layoutIndex], messageStartIndexes[(int)layoutIndex], (double)messageStartIndexes[(int)layoutIndex] + messageProgress - 4.0, n0757, n0759.Width, n0759.Height, 2, messageFontSizeMode, 25, messageFont, true, 4, messageTextColor, messageShadowColor);
-					n0579.Add(2);
+					lastTextPosition = DrawTextCore(messageLines[(int)layoutIndex], messageStartIndexes[(int)layoutIndex], (double)messageStartIndexes[(int)layoutIndex] + messageProgress - 4.0, messagePosition, messageCharSize.Width, messageCharSize.Height, 2, messageFontSizeMode, 25, messageFont, true, 4, messageTextColor, messageShadowColor);
+					fontIndexQueue.Add(2);
 					messageVisibleChars = (int)(messageProgress - 4.0);
 					if (messageVisibleChars < 0)
 					{
@@ -2619,29 +2619,29 @@ namespace n0001
 				}
 				else
 				{
-					lastTextPosition = DrawTextCore(messageLines[(int)layoutIndex], messageLines[(int)layoutIndex].Length, n0757, n0759.Width, n0759.Height, 2, messageFontSizeMode, 25, messageFont, 4, messageTextColor, messageShadowColor);
-					n0579.Add(2);
+					lastTextPosition = DrawTextCore(messageLines[(int)layoutIndex], messageLines[(int)layoutIndex].Length, messagePosition, messageCharSize.Width, messageCharSize.Height, 2, messageFontSizeMode, 25, messageFont, 4, messageTextColor, messageShadowColor);
+					fontIndexQueue.Add(2);
 				}
 				break;
 			case TextRevealMode.n0487:
 				if (messageStartIndexes[(int)layoutIndex] + messageVisibleChars > 0)
 				{
-					lastTextPosition = DrawTextCore(messageLines[(int)layoutIndex], 0, messageStartIndexes[(int)layoutIndex] + messageVisibleChars, n0757, n0759.Width, n0759.Height, 2, messageFontSizeMode, 25, messageFont, messageTextColor, messageShadowColor);
-					n0579.Add(2);
+					lastTextPosition = DrawTextCore(messageLines[(int)layoutIndex], 0, messageStartIndexes[(int)layoutIndex] + messageVisibleChars, messagePosition, messageCharSize.Width, messageCharSize.Height, 2, messageFontSizeMode, 25, messageFont, messageTextColor, messageShadowColor);
+					fontIndexQueue.Add(2);
 				}
 				if (lineRevealCounter > 0)
 				{
 					if (fadeEnabled)
 					{
 						int alpha2 = (int)((float)(10 - lineRevealCounter) / 10f * 255f);
-						lastTextPosition = DrawTextCore(messageLines[(int)layoutIndex], messageStartIndexes[(int)layoutIndex], messageLines[(int)layoutIndex].Length, n0757, n0759.Width, n0759.Height, 2, messageFontSizeMode, 25, messageFont, Color.FromArgb(alpha2, messageTextColor), (messageShadowColor == Color.Transparent) ? Color.Transparent : Color.FromArgb(alpha2, messageShadowColor));
-						n0579.Add(2);
+						lastTextPosition = DrawTextCore(messageLines[(int)layoutIndex], messageStartIndexes[(int)layoutIndex], messageLines[(int)layoutIndex].Length, messagePosition, messageCharSize.Width, messageCharSize.Height, 2, messageFontSizeMode, 25, messageFont, Color.FromArgb(alpha2, messageTextColor), (messageShadowColor == Color.Transparent) ? Color.Transparent : Color.FromArgb(alpha2, messageShadowColor));
+						fontIndexQueue.Add(2);
 						lineRevealCounter--;
 					}
 					else
 					{
-						lastTextPosition = DrawTextCore(messageLines[(int)layoutIndex], messageStartIndexes[(int)layoutIndex], messageLines[(int)layoutIndex].Length, n0757, n0759.Width, n0759.Height, 2, messageFontSizeMode, 25, messageFont, messageTextColor, messageShadowColor);
-						n0579.Add(2);
+						lastTextPosition = DrawTextCore(messageLines[(int)layoutIndex], messageStartIndexes[(int)layoutIndex], messageLines[(int)layoutIndex].Length, messagePosition, messageCharSize.Width, messageCharSize.Height, 2, messageFontSizeMode, 25, messageFont, messageTextColor, messageShadowColor);
+						fontIndexQueue.Add(2);
 						lineRevealCounter = 0;
 					}
 					if (lineRevealCounter == 0)
@@ -2674,8 +2674,8 @@ namespace n0001
 
 		private void n0567()
 		{
-			n0761 = TextureLoader.FromStream(device, n0136.ReadEntry("DIALOGUE"), n0762.Width, n0762.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
-			n0763 = TextureLoader.FromStream(device, n0136.ReadEntry("CHARA"), n0764.Width, n0764.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			dialogueTexture = TextureLoader.FromStream(device, systemArchive.ReadEntry("DIALOGUE"), dialogueRect.Width, dialogueRect.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			characterPanelTexture = TextureLoader.FromStream(device, systemArchive.ReadEntry("CHARA"), characterPanelSize.Width, characterPanelSize.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 			dialogueCounter = 0;
 			dialogueClosing = false;
 			dialogueActive = false;
@@ -2684,16 +2684,16 @@ namespace n0001
 
 		private void n0633()
 		{
-			n0761.Dispose();
-			n0763.Dispose();
+			dialogueTexture.Dispose();
+			characterPanelTexture.Dispose();
 		}
 
-		protected bool DrawDialogueFrame(bool n0390)
+		protected bool DrawDialogueFrame(bool charaNames)
 		{
-			if (n0390)
+			if (charaNames)
 			{
 				characterPanelVisible = true;
-				QueueDraw(n0763, Rectangle.Empty, Rectangle.Empty, n0767, dialogueColor);
+				QueueDraw(characterPanelTexture, Rectangle.Empty, Rectangle.Empty, characterPanelPosition, dialogueColor);
 				return true;
 			}
 			if (!dialogueActive)
@@ -2713,28 +2713,28 @@ namespace n0001
 					if (!dialogueClosing && dialogueCounter < 3)
 					{
 						float num = (float)(3 - dialogueCounter) / 3f;
-						float num2 = ((float)n0762.X + (1f - num) / 2f * (float)n0762.Width) / num;
-						float num3 = ((float)n0762.Y + (1f - num) / 2f * (float)n0762.Height) / num;
-						float num4 = num * (float)n0762.Width;
-						float num5 = num * (float)n0762.Height;
-						QueueDraw(n0761, new Rectangle(0, 0, n0762.Width, n0762.Height), new Rectangle(0, 0, (int)num4, (int)num5), new Point((int)num2, (int)num3), dialogueColor);
+						float num2 = ((float)dialogueRect.X + (1f - num) / 2f * (float)dialogueRect.Width) / num;
+						float num3 = ((float)dialogueRect.Y + (1f - num) / 2f * (float)dialogueRect.Height) / num;
+						float num4 = num * (float)dialogueRect.Width;
+						float num5 = num * (float)dialogueRect.Height;
+						QueueDraw(dialogueTexture, new Rectangle(0, 0, dialogueRect.Width, dialogueRect.Height), new Rectangle(0, 0, (int)num4, (int)num5), new Point((int)num2, (int)num3), dialogueColor);
 						QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.Transparent);
 					}
 					else if (dialogueClosing && dialogueCounter > 0)
 					{
 						float num6 = (float)dialogueCounter / 3f;
-						float num7 = ((float)n0762.X + (1f - num6) / 2f * (float)n0762.Width) / num6;
-						float num8 = ((float)n0762.Y + (1f - num6) / 2f * (float)n0762.Height) / num6;
-						float num9 = num6 * (float)n0762.Width;
-						float num10 = num6 * (float)n0762.Height;
-						QueueDraw(n0761, new Rectangle(0, 0, n0762.Width, n0762.Height), new Rectangle(0, 0, (int)num9, (int)num10), new Point((int)num7, (int)num8), dialogueColor);
+						float num7 = ((float)dialogueRect.X + (1f - num6) / 2f * (float)dialogueRect.Width) / num6;
+						float num8 = ((float)dialogueRect.Y + (1f - num6) / 2f * (float)dialogueRect.Height) / num6;
+						float num9 = num6 * (float)dialogueRect.Width;
+						float num10 = num6 * (float)dialogueRect.Height;
+						QueueDraw(dialogueTexture, new Rectangle(0, 0, dialogueRect.Width, dialogueRect.Height), new Rectangle(0, 0, (int)num9, (int)num10), new Point((int)num7, (int)num8), dialogueColor);
 						QueueDraw(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.Transparent);
 					}
 					dialogueCounter--;
 				}
 				else
 				{
-					QueueDraw(n0761, Rectangle.Empty, Rectangle.Empty, n0762.Location, dialogueColor);
+					QueueDraw(dialogueTexture, Rectangle.Empty, Rectangle.Empty, dialogueRect.Location, dialogueColor);
 					dialogueCounter = 0;
 				}
 				if (dialogueClosing && dialogueCounter == 0)
@@ -2743,7 +2743,7 @@ namespace n0001
 				}
 				return false;
 			}
-			QueueDraw(n0761, Rectangle.Empty, Rectangle.Empty, n0762.Location, dialogueColor);
+			QueueDraw(dialogueTexture, Rectangle.Empty, Rectangle.Empty, dialogueRect.Location, dialogueColor);
 			return true;
 		}
 
@@ -2755,7 +2755,7 @@ namespace n0001
 			captionVisibleChars = 0;
 			captionVoiceLength = 0.0;
 			captionLocked = false;
-			captionLastPosition = n0772;
+			captionLastPosition = captionPosition;
 			for (int i = 0; i < 3; i++)
 			{
 				captionStartIndexes[i] = 0;
@@ -2798,16 +2798,16 @@ namespace n0001
 			}
 		}
 
-		public void SetCaption(string[] n0241, string[] n0390, double n0533, bool n0420, bool n0168)
+		public void SetCaption(string[] n0241, string[] charaNames, double n0533, bool isContinuous, bool instant)
 		{
 			if (n0241 == null)
 			{
 				return;
 			}
 			captionVoiceLength = n0533;
-			captionOptionLines = n0390;
-			captionLocked = n0420;
-			skipCaptionAnimation = n0168;
+			captionOptionLines = charaNames;
+			captionLocked = isContinuous;
+			skipCaptionAnimation = instant;
 			if (captionLines == null)
 			{
 				captionLines = new string[3];
@@ -2827,7 +2827,7 @@ namespace n0001
 			captionProgress = 0.0;
 		}
 
-		public void CloseDialogue(bool n0413, bool n0773, bool n0168)
+		public void CloseDialogue(bool shadowColor, bool n0773, bool instant)
 		{
 			if (captionLocked)
 			{
@@ -2836,13 +2836,13 @@ namespace n0001
 			captionProgress = 0.0;
 			captionLines = null;
 			captionOptionLines = null;
-			skipCaptionAnimation = n0168 && n0413;
+			skipCaptionAnimation = instant && shadowColor;
 			for (int i = 0; i < 3; i++)
 			{
 				captionStartIndexes[i] = 0;
 			}
 			captionVisibleChars = 0;
-			if (n0413)
+			if (shadowColor)
 			{
 				dialogueCounter = ((!skipCaptionAnimation) ? 3 : 0);
 				if (skipCaptionAnimation)
@@ -2894,8 +2894,8 @@ namespace n0001
 					{
 						captionProgress += (double)messageSpeed / 6.0;
 					}
-					captionLastPosition = DrawTextCore(captionLines[(int)layoutIndex], (double)captionStartIndexes[(int)layoutIndex] + captionProgress - 4.0, n0772, n0774.Width, n0774.Height, 2, captionFont, 4, Color.White, Color.Black);
-					n0579.Add(3);
+					captionLastPosition = DrawTextCore(captionLines[(int)layoutIndex], (double)captionStartIndexes[(int)layoutIndex] + captionProgress - 4.0, captionPosition, captionCharSize.Width, captionCharSize.Height, 2, captionFont, 4, Color.White, Color.Black);
+					fontIndexQueue.Add(3);
 					captionVisibleChars = (int)(captionProgress - 4.0);
 					if (captionVisibleChars < 0)
 					{
@@ -2904,8 +2904,8 @@ namespace n0001
 				}
 				else
 				{
-					captionLastPosition = DrawTextCore(captionLines[(int)layoutIndex], captionLines[(int)layoutIndex].Length, n0772, n0774.Width, n0774.Height, 2, captionFont, 4, Color.White, Color.Black);
-					n0579.Add(3);
+					captionLastPosition = DrawTextCore(captionLines[(int)layoutIndex], captionLines[(int)layoutIndex].Length, captionPosition, captionCharSize.Width, captionCharSize.Height, 2, captionFont, 4, Color.White, Color.Black);
+					fontIndexQueue.Add(3);
 				}
 				if ((syncVoice || !audioManager.n0382()) && captionProgress >= (double)captionLines[(int)layoutIndex].Length - (double)captionStartIndexes[(int)layoutIndex] + 4.0)
 				{
@@ -2913,8 +2913,8 @@ namespace n0001
 				}
 				if (captionOptionLines != null && DrawDialogueFrame(true))
 				{
-					DrawTextCore(captionOptionLines[(int)layoutIndex], new Point(n0775.X - n0774.Width * captionOptionLines[(int)layoutIndex].Length / 2, n0775.Y), n0774.Width, n0774.Height, 2, captionFont, Color.White, Color.Black);
-					n0579.Add(3);
+					DrawTextCore(captionOptionLines[(int)layoutIndex], new Point(captionOptionPosition.X - captionCharSize.Width * captionOptionLines[(int)layoutIndex].Length / 2, captionOptionPosition.Y), captionCharSize.Width, captionCharSize.Height, 2, captionFont, Color.White, Color.Black);
+					fontIndexQueue.Add(3);
 				}
 			}
 		}
@@ -2926,7 +2926,7 @@ namespace n0001
 
 		private void n0569()
 		{
-			modeIconTexture = TextureLoader.FromStream(device, n0136.ReadEntry("ICON"), n0776.Width, n0776.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			modeIconTexture = TextureLoader.FromStream(device, systemArchive.ReadEntry("ICON"), modeIconTextureSize.Width, modeIconTextureSize.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 			modeIconFrame = 0;
 		}
 
@@ -2940,7 +2940,7 @@ namespace n0001
 			if (modeIconIndex > 0)
 			{
 				Rectangle n880 = new Rectangle(modeIconFrame / 3 * 32, modeIconIndex * 32, 32, 32);
-				QueueDraw(modeIconTexture, n880, Rectangle.Empty, n0778, Color.White);
+				QueueDraw(modeIconTexture, n880, Rectangle.Empty, modeIconPosition, Color.White);
 				modeIconFrame++;
 				if (modeIconFrame == 9)
 				{

@@ -4,10 +4,10 @@ namespace n0001
 {
 	public class TextureItem : DrawItem
 	{
-		public Texture n0455;
+		public Texture texture;
 
-		public TextureBlend n0456;
+		public TextureBlend blend;
 
-		public int n0441;
+		public int durationMode;
 	}
 }

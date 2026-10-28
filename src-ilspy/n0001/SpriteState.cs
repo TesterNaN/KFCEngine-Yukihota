@@ -4,20 +4,20 @@ namespace n0001
 {
 	public class SpriteState
 	{
-		public Size n0396;
+		public Size size;
 
-		public int n0397;
+		public int location;
 
-		public bool n0398;
+		public bool isTransparent;
 
-		public SpriteMode n0392;
+		public SpriteMode action;
 
-		public int n0402;
+		public int level;
 
-		public int n0309;
+		public int index;
 
 		public bool n0399;
 
-		public bool n0462;
+		public bool sync;
 	}
 }

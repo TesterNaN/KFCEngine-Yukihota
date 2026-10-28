@@ -2,12 +2,12 @@ namespace n0001
 {
 	public class CaptionCommand : ScriptCommand
 	{
-		public string[] n0390 = new string[3];
+		public string[] charaNames = new string[3];
 
-		public bool n0420;
+		public bool isContinuous;
 
-		public bool n0417;
+		public bool disappear;
 
-		public bool n0418;
+		public bool hideCharaName;
 	}
 }

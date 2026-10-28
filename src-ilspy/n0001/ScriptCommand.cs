@@ -2,8 +2,8 @@ namespace n0001
 {
 	public class ScriptCommand
 	{
-		public string n0407;
+		public string voice;
 
-		public bool n0168;
+		public bool instant;
 	}
 }

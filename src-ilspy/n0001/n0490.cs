@@ -2,8 +2,8 @@ namespace n0001
 {
 	public enum HorizontalAlign
 	{
-		n0437,
+		left,
 		n0491,
-		n0438
+		right
 	}
 }

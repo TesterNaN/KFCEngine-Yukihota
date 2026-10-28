@@ -230,9 +230,9 @@ namespace n0001
 
 		protected ArrayList n0220 = new ArrayList();
 
-		protected string n0221;
+		protected string overlayText;
 
-		protected readonly int[] n0271 = new int[3] { 5, 15, 20 };
+		protected readonly int[] logoFadeThresholds = new int[3] { 5, 15, 20 };
 
 		private int logoFrame;
 
@@ -250,7 +250,7 @@ namespace n0001
 
 		private int menuSelection;
 
-		protected readonly Size n0274 = new Size(360, 192);
+		protected readonly Size menuButtonSize = new Size(360, 192);
 
 		private bool[] menuItemEnabled = new bool[5];
 
@@ -262,42 +262,42 @@ namespace n0001
 
 		private Texture[] optionsLabelTextures = new Texture[3];
 
-		protected readonly int[] n0293 = new int[23]
+		protected readonly int[] optionLabelX = new int[23]
 		{
 			500, 650, 500, 650, 500, 650, 500, 650, 275, 350,
 			425, 500, 575, 650, 725, 325, 400, 475, 550, 625,
 			700, 275, 525
 		};
 
-		protected readonly int[] n0294 = new int[23]
+		protected readonly int[] optionLabelY = new int[23]
 		{
 			35, 35, 65, 65, 95, 95, 125, 125, 170, 170,
 			170, 170, 170, 170, 170, 215, 215, 215, 215, 215,
 			215, 260, 260
 		};
 
-		protected readonly int[] n0289 = new int[23]
+		protected readonly int[] optionSourceX = new int[23]
 		{
 			0, 25, 0, 25, 0, 25, 0, 25, 50, 75,
 			100, 125, 150, 175, 200, 225, 245, 265, 285, 305,
 			325, 0, 125
 		};
 
-		protected readonly int[] n0290 = new int[23]
+		protected readonly int[] optionSourceY = new int[23]
 		{
 			0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 			0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 			0, 25, 25
 		};
 
-		protected readonly int[] n0291 = new int[23]
+		protected readonly int[] optionSourceWidth = new int[23]
 		{
 			25, 25, 25, 25, 25, 25, 25, 25, 25, 25,
 			25, 25, 25, 25, 25, 20, 20, 20, 20, 20,
 			20, 125, 100
 		};
 
-		protected readonly int[] n0292 = new int[23]
+		protected readonly int[] optionSourceHeight = new int[23]
 		{
 			25, 25, 25, 25, 25, 25, 25, 25, 25, 25,
 			25, 25, 25, 25, 25, 25, 25, 25, 25, 25,
@@ -306,9 +306,9 @@ namespace n0001
 
 		private int optionCursorFrame;
 
-		protected readonly int[] n0295 = new int[6] { 0, 1, 2, 2, 1, 0 };
+		protected readonly int[] optionCursorFrames = new int[6] { 0, 1, 2, 2, 1, 0 };
 
-		protected readonly Size n0283 = new Size(345, 50);
+		protected readonly Size optionsLabelSize = new Size(345, 50);
 
 		private bool[] optionItemVisible = new bool[23];
 
@@ -326,9 +326,9 @@ namespace n0001
 
 		private int episodeSelection;
 
-		protected readonly int[] n0301 = new int[2] { 100, 420 };
+		protected readonly int[] episodeColumnX = new int[2] { 100, 420 };
 
-		protected readonly Size n0299 = new Size(560, 476);
+		protected readonly Size episodeMenuSize = new Size(560, 476);
 
 		private int albumFadeCounter;
 
@@ -340,17 +340,17 @@ namespace n0001
 
 		private int albumSelection;
 
-		protected readonly int[] n0311 = new int[7] { 360, 500, 640, 500, 640, 500, 640 };
+		protected readonly int[] albumThumbX = new int[7] { 360, 500, 640, 500, 640, 500, 640 };
 
-		protected readonly int[] n0312 = new int[7] { 120, 120, 120, 240, 240, 360, 360 };
+		protected readonly int[] albumThumbY = new int[7] { 120, 120, 120, 240, 240, 360, 360 };
 
-		protected readonly int n0313 = 128;
+		protected readonly int albumThumbDimAlpha = 128;
 
-		protected readonly string[] n0314 = new string[7] { "１：Ｅｉｎｓａｔｚ", "２：Ａｕｆｔａｋｔ", "３：Ａｇｏｇｉｋ", "４：ｆｏｃｏ", "５：ｃｏｎｔｅｎｅｒｅｚｚａ", "６：Ｇ．Ｐ．", "７：Ａａｂｓｔｕｆｅｎ" };
+		protected readonly string[] albumTitles = new string[7] { "１：Ｅｉｎｓａｔｚ", "２：Ａｕｆｔａｋｔ", "３：Ａｇｏｇｉｋ", "４：ｆｏｃｏ", "５：ｃｏｎｔｅｎｅｒｅｚｚａ", "６：Ｇ．Ｐ．", "７：Ａａｂｓｔｕｆｅｎ" };
 
-		protected readonly Point n0223 = new Point(40, 20);
+		protected readonly Point textOrigin = new Point(40, 20);
 
-		protected readonly Size n0224 = new Size(30, 38);
+		protected readonly Size charCellSize = new Size(30, 38);
 
 		private Microsoft.DirectX.Direct3D.Font d3dFont;
 
@@ -364,7 +364,7 @@ namespace n0001
 
 		private Texture albumPrevTexture;
 
-		protected readonly int[] n0310 = new int[7] { 3, 2, 1, 1, 1, 1, 2 };
+		protected readonly int[] albumImageCounts = new int[7] { 3, 2, 1, 1, 1, 1, 2 };
 
 		private readonly Size albumPictureSize = new Size(120, 720);
 
@@ -919,7 +919,7 @@ namespace n0001
 			case Keys.ControlKey:
 				if (gameMode == 1)
 				{
-					director.n0168(true, true);
+					director.instant(true, true);
 				}
 				break;
 			case Keys.Return:
@@ -942,7 +942,7 @@ namespace n0001
 					}
 					break;
 				case 1:
-					director.n0174();
+					director.waitClick();
 					break;
 				case 2:
 					if (episodeFadeCounter == 0 && episodeSelection > 0 && unlockedEpisodeCount >= episodeSelection)
@@ -1089,7 +1089,7 @@ namespace n0001
 					f3KeyDown = true;
 					if (gameMode == 1)
 					{
-						director.n0168();
+						director.instant();
 					}
 				}
 				break;
@@ -1170,7 +1170,7 @@ namespace n0001
 			case Keys.ControlKey:
 				if (gameMode == 1)
 				{
-					director.n0168(false, true);
+					director.instant(false, true);
 				}
 				break;
 			case Keys.Space:
@@ -1204,7 +1204,7 @@ namespace n0001
 			case 1:
 				if (n0036.Button == MouseButtons.Left)
 				{
-					director.n0174();
+					director.waitClick();
 				}
 				else if (n0036.Button == MouseButtons.Right && !director.n0188())
 				{
@@ -1269,18 +1269,18 @@ namespace n0001
 					sprite.Draw2D((Texture)n0216[i], (Rectangle)n0217[i], (Rectangle)n0218[i], Point.Empty, 0f, (Point)n0219[i], (Color)n0220[i]);
 					continue;
 				}
-				for (int j = 0; j < n0221.Length; j++)
+				for (int j = 0; j < overlayText.Length; j++)
 				{
 					Microsoft.DirectX.Direct3D.Font font = d3dFont;
 					Sprite spriteLocal = this.sprite;
-					string text = n0221[j].ToString();
-					int num = n0223.X;
-					font.DrawText(spriteLocal, text, num + n0224.Width * j + 2, n0223.Y + 2, Color.Black);
+					string text = overlayText[j].ToString();
+					int num = textOrigin.X;
+					font.DrawText(spriteLocal, text, num + charCellSize.Width * j + 2, textOrigin.Y + 2, Color.Black);
 					Microsoft.DirectX.Direct3D.Font font2 = d3dFont;
 					Sprite sprite2 = spriteLocal;
-					string text2 = n0221[j].ToString();
-					int num2 = n0223.X;
-					font2.DrawText(sprite2, text2, num2 + n0224.Width * j, n0223.Y, Color.White);
+					string text2 = overlayText[j].ToString();
+					int num2 = textOrigin.X;
+					font2.DrawText(sprite2, text2, num2 + charCellSize.Width * j, textOrigin.Y, Color.White);
 				}
 			}
 			sprite.End();
@@ -1311,13 +1311,13 @@ namespace n0001
 			switch (PollJoystick())
 			{
 			case 0:
-				director.n0174();
+				director.waitClick();
 				break;
 			case 1:
 				director.n0197();
 				break;
 			case 2:
-				director.n0168();
+				director.instant();
 				break;
 			case 3:
 				director.n0200();
@@ -1377,7 +1377,7 @@ namespace n0001
 
 		private void n0103(object n0035, EventArgs n0036)
 		{
-			director.n0168();
+			director.instant();
 		}
 
 		private void n0104(object n0035, EventArgs n0036)
@@ -1816,7 +1816,7 @@ namespace n0001
 			n0218.Clear();
 			n0219.Clear();
 			n0220.Clear();
-			n0221 = null;
+			overlayText = null;
 			gameMode = 1;
 			menuBgmPlayer.n0230();
 			n0255();
@@ -1911,21 +1911,21 @@ namespace n0001
 			n0218.Clear();
 			n0219.Clear();
 			n0220.Clear();
-			n0221 = null;
+			overlayText = null;
 			device.BeginScene();
 			sprite.Begin(SpriteFlags.AlphaBlend);
 			int alpha;
-			if (logoFrame < n0271[0])
+			if (logoFrame < logoFadeThresholds[0])
 			{
-				alpha = (int)((double)logoFrame / (double)n0271[0] * 255.0);
+				alpha = (int)((double)logoFrame / (double)logoFadeThresholds[0] * 255.0);
 			}
-			else if (logoFrame < n0271[1])
+			else if (logoFrame < logoFadeThresholds[1])
 			{
 				alpha = 255;
 			}
-			else if (logoFrame < n0271[2])
+			else if (logoFrame < logoFadeThresholds[2])
 			{
-				alpha = (int)((double)(n0271[2] - logoFrame) / (double)(n0271[2] - n0271[1]) * 255.0);
+				alpha = (int)((double)(logoFadeThresholds[2] - logoFrame) / (double)(logoFadeThresholds[2] - logoFadeThresholds[1]) * 255.0);
 			}
 			else
 			{
@@ -1962,7 +1962,7 @@ namespace n0001
 			titleTextures[0] = TextureLoader.FromStream(device, systemArchive.ReadEntry("TITLESC"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 			titleTextures[1] = TextureLoader.FromStream(device, systemArchive.ReadEntry("TITLETC"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 			titleTextures[2] = TextureLoader.FromStream(device, systemArchive.ReadEntry("TITLEJP"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
-			menuButtonTexture = TextureLoader.FromStream(device, systemArchive.ReadEntry("MENU"), n0274.Width, n0274.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			menuButtonTexture = TextureLoader.FromStream(device, systemArchive.ReadEntry("MENU"), menuButtonSize.Width, menuButtonSize.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 		}
 
 		private void n0255()
@@ -2065,7 +2065,7 @@ namespace n0001
 			n0218.Clear();
 			n0219.Clear();
 			n0220.Clear();
-			n0221 = null;
+			overlayText = null;
 			device.BeginScene();
 			sprite.Begin(SpriteFlags.AlphaBlend);
 			QueueDraw(titleTextures[(int)language], Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
@@ -2173,20 +2173,20 @@ namespace n0001
 			int num = 0;
 			Microsoft.DirectX.Direct3D.Device deviceLocal = this.device;
 			Stream stream = systemArchive.ReadEntry("OPTIONSC");
-			int num2 = n0283.Width;
-			array[num] = TextureLoader.FromStream(deviceLocal, stream, num2, n0283.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			int num2 = optionsLabelSize.Width;
+			array[num] = TextureLoader.FromStream(deviceLocal, stream, num2, optionsLabelSize.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 			Texture[] array2 = optionsLabelTextures;
 			int num3 = 1;
 			Microsoft.DirectX.Direct3D.Device device2 = device;
 			Stream stream2 = systemArchive.ReadEntry("OPTIONTC");
-			int num4 = n0283.Width;
-			array2[num3] = TextureLoader.FromStream(device2, stream2, num4, n0283.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			int num4 = optionsLabelSize.Width;
+			array2[num3] = TextureLoader.FromStream(device2, stream2, num4, optionsLabelSize.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 			Texture[] array3 = optionsLabelTextures;
 			int num5 = 2;
 			Microsoft.DirectX.Direct3D.Device device3 = device;
 			Stream stream3 = systemArchive.ReadEntry("OPTIONJP");
-			int num6 = n0283.Width;
-			array3[num5] = TextureLoader.FromStream(device3, stream3, num6, n0283.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			int num6 = optionsLabelSize.Width;
+			array3[num5] = TextureLoader.FromStream(device3, stream3, num6, optionsLabelSize.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 		}
 
 		private void n0256()
@@ -2441,7 +2441,7 @@ namespace n0001
 			n0218.Clear();
 			n0219.Clear();
 			n0220.Clear();
-			n0221 = null;
+			overlayText = null;
 			device.BeginScene();
 			sprite.Begin(SpriteFlags.AlphaBlend);
 			QueueDraw(optionsBackTextures[(int)language], Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
@@ -2522,16 +2522,16 @@ namespace n0001
 			{
 				if (optionItemVisible[j])
 				{
-					Rectangle n880 = new Rectangle(n0289[j], n0290[j], n0291[j], n0292[j]);
-					QueueDraw(optionsLabelTextures[(int)language], n880, Rectangle.Empty, new Point(n0293[j], n0294[j]), Color.White);
+					Rectangle n880 = new Rectangle(optionSourceX[j], optionSourceY[j], optionSourceWidth[j], optionSourceHeight[j]);
+					QueueDraw(optionsLabelTextures[(int)language], n880, Rectangle.Empty, new Point(optionLabelX[j], optionLabelY[j]), Color.White);
 				}
 			}
 			if (optionSelection > 0)
 			{
-				Rectangle n881 = new Rectangle(225 + 16 * n0295[optionCursorFrame], 25, 16, 25);
-				QueueDraw(optionsLabelTextures[(int)language], n881, Rectangle.Empty, new Point(n0293[optionSelection - 1] - 16, n0294[optionSelection - 1]), Color.White);
-				n881 = new Rectangle(273 + 16 * n0295[optionCursorFrame], 25, 16, 25);
-				QueueDraw(optionsLabelTextures[(int)language], n881, Rectangle.Empty, new Point(n0293[optionSelection - 1] + n0291[optionSelection - 1], n0294[optionSelection - 1]), Color.White);
+				Rectangle n881 = new Rectangle(225 + 16 * optionCursorFrames[optionCursorFrame], 25, 16, 25);
+				QueueDraw(optionsLabelTextures[(int)language], n881, Rectangle.Empty, new Point(optionLabelX[optionSelection - 1] - 16, optionLabelY[optionSelection - 1]), Color.White);
+				n881 = new Rectangle(273 + 16 * optionCursorFrames[optionCursorFrame], 25, 16, 25);
+				QueueDraw(optionsLabelTextures[(int)language], n881, Rectangle.Empty, new Point(optionLabelX[optionSelection - 1] + optionSourceWidth[optionSelection - 1], optionLabelY[optionSelection - 1]), Color.White);
 				optionCursorFrame++;
 				if (optionCursorFrame == 6)
 				{
@@ -2558,7 +2558,7 @@ namespace n0001
 						n0218.Clear();
 						n0219.Clear();
 						n0220.Clear();
-						n0221 = null;
+						overlayText = null;
 						gameMode = 1;
 						director.n0249(fadeEnabled);
 						director.n0250(sunEnabled);
@@ -2632,7 +2632,7 @@ namespace n0001
 			{
 				for (int i = 0; i < 23; i++)
 				{
-					if (n0036.X >= n0293[i] && n0036.X < n0293[i] + n0291[i] && n0036.Y >= n0294[i] && n0036.Y < n0294[i] + n0292[i])
+					if (n0036.X >= optionLabelX[i] && n0036.X < optionLabelX[i] + optionSourceWidth[i] && n0036.Y >= optionLabelY[i] && n0036.Y < optionLabelY[i] + optionSourceHeight[i])
 					{
 						optionSelection = i + 1;
 						return;
@@ -2645,7 +2645,7 @@ namespace n0001
 		private void n0142()
 		{
 			episodeBackTexture = TextureLoader.FromStream(device, systemArchive.ReadEntry("SCUT_BG"), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
-			episodeMenuTexture = TextureLoader.FromStream(device, systemArchive.ReadEntry("SCUTMENU"), n0299.Width, n0299.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			episodeMenuTexture = TextureLoader.FromStream(device, systemArchive.ReadEntry("SCUTMENU"), episodeMenuSize.Width, episodeMenuSize.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 		}
 
 		private void n0258()
@@ -2734,19 +2734,19 @@ namespace n0001
 			ArrayList arrayList = n0219;
 			arrayList.Clear();
 			n0220.Clear();
-			n0221 = null;
+			overlayText = null;
 			device.BeginScene();
 			sprite.Begin(SpriteFlags.AlphaBlend);
 			QueueDraw(episodeBackTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
 			for (int i = 0; i < unlockedEpisodeCount; i++)
 			{
 				Rectangle n880 = new Rectangle((episodeSelection - 1 != i) ? 280 : 0, 28 * i, 280, 28);
-				QueueDraw(episodeMenuTexture, n880, Rectangle.Empty, new Point(n0301[(i >= 8) ? 1 : 0], 80 + 40 * (i % 8)), Color.White);
+				QueueDraw(episodeMenuTexture, n880, Rectangle.Empty, new Point(episodeColumnX[(i >= 8) ? 1 : 0], 80 + 40 * (i % 8)), Color.White);
 			}
 			for (int j = unlockedEpisodeCount; j < 16; j++)
 			{
 				Rectangle n881 = new Rectangle((episodeSelection - 1 != j) ? 280 : 0, 448, 280, 28);
-				QueueDraw(episodeMenuTexture, n881, Rectangle.Empty, new Point(n0301[(j >= 8) ? 1 : 0], 80 + 40 * (j % 8)), Color.White);
+				QueueDraw(episodeMenuTexture, n881, Rectangle.Empty, new Point(episodeColumnX[(j >= 8) ? 1 : 0], 80 + 40 * (j % 8)), Color.White);
 			}
 			if (episodeFadeCounter > 0)
 			{
@@ -2829,7 +2829,7 @@ namespace n0001
 			episodeSelection = 0;
 			for (int i = 0; i < 16; i++)
 			{
-				if (n0036.X > n0301[(i >= 8) ? 1 : 0] && n0036.X < n0301[(i >= 8) ? 1 : 0] + 280 && n0036.Y >= 80 + 40 * (i % 8) && n0036.Y < 80 + 40 * (i % 8) + 28)
+				if (n0036.X > episodeColumnX[(i >= 8) ? 1 : 0] && n0036.X < episodeColumnX[(i >= 8) ? 1 : 0] + 280 && n0036.Y >= 80 + 40 * (i % 8) && n0036.Y < 80 + 40 * (i % 8) + 28)
 				{
 					episodeSelection = i + 1;
 					break;
@@ -2870,22 +2870,22 @@ namespace n0001
 			albumFadeIn = false;
 		}
 
-		private void ShowAlbumImage(int n0308, int n0309)
+		private void ShowAlbumImage(int n0308, int index)
 		{
-			if (n0309 >= n0310[n0308 - 1])
+			if (index >= albumImageCounts[n0308 - 1])
 			{
 				n0191();
 				return;
 			}
 			albumGroup = n0308;
-			albumImageIndex = n0309;
+			albumImageIndex = index;
 			albumImageTransition = 10;
 			if (albumPrevTexture != null)
 			{
 				albumPrevTexture.Dispose();
 			}
 			albumPrevTexture = albumCurrentTexture;
-			albumCurrentTexture = TextureLoader.FromStream(device, bgArchive.ReadEntry("EV_HP0" + n0308 + (char)(n0309 + 65)), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+			albumCurrentTexture = TextureLoader.FromStream(device, bgArchive.ReadEntry("EV_HP0" + n0308 + (char)(index + 65)), 800, 600, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 		}
 
 		private void n0191()
@@ -2982,7 +2982,7 @@ namespace n0001
 			n0218.Clear();
 			n0219.Clear();
 			n0220.Clear();
-			n0221 = null;
+			overlayText = null;
 			device.BeginScene();
 			sprite.Begin(SpriteFlags.AlphaBlend);
 			if (albumGroup == 0 || (albumImageIndex == 0 && albumImageTransition > 0))
@@ -2990,19 +2990,19 @@ namespace n0001
 				QueueDraw(albumBackTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, Color.White);
 				for (int i = 0; i < unlockedAlbumCount; i++)
 				{
-					QueueDraw(albumPictureTexture, new Rectangle(0, 90 * i, 120, 90), Rectangle.Empty, new Point(n0311[i], n0312[i]), (albumSelection - 1 == i) ? Color.White : Color.FromArgb(n0313, Color.White));
+					QueueDraw(albumPictureTexture, new Rectangle(0, 90 * i, 120, 90), Rectangle.Empty, new Point(albumThumbX[i], albumThumbY[i]), (albumSelection - 1 == i) ? Color.White : Color.FromArgb(albumThumbDimAlpha, Color.White));
 				}
 				for (int j = unlockedAlbumCount; j < 7; j++)
 				{
-					QueueDraw(albumPictureTexture, new Rectangle(0, 630, 120, 90), Rectangle.Empty, new Point(n0311[j], n0312[j]), (albumSelection - 1 == j) ? Color.White : Color.FromArgb(n0313, Color.White));
+					QueueDraw(albumPictureTexture, new Rectangle(0, 630, 120, 90), Rectangle.Empty, new Point(albumThumbX[j], albumThumbY[j]), (albumSelection - 1 == j) ? Color.White : Color.FromArgb(albumThumbDimAlpha, Color.White));
 				}
 				if (albumSelection > 0 && unlockedAlbumCount >= albumSelection)
 				{
 					int num = 0;
-					while (num < n0314[albumSelection - 1].Length)
+					while (num < albumTitles[albumSelection - 1].Length)
 					{
-						d3dFont.DrawText(sprite, n0314[albumSelection - 1][num].ToString(), n0223.X + n0224.Width * num + 2, n0223.Y + 2, Color.Black);
-						d3dFont.DrawText(sprite, n0314[albumSelection - 1][num].ToString(), n0223.X + n0224.Width * num, n0223.Y, Color.White);
+						d3dFont.DrawText(sprite, albumTitles[albumSelection - 1][num].ToString(), textOrigin.X + charCellSize.Width * num + 2, textOrigin.Y + 2, Color.Black);
+						d3dFont.DrawText(sprite, albumTitles[albumSelection - 1][num].ToString(), textOrigin.X + charCellSize.Width * num, textOrigin.Y, Color.White);
 						int num2 = num;
 						int num3 = 1;
 						num = num2 + num3;
@@ -3012,7 +3012,7 @@ namespace n0001
 					n0218.Add(null);
 					n0219.Add(null);
 					n0220.Add(null);
-					n0221 = n0314[albumSelection - 1];
+					overlayText = albumTitles[albumSelection - 1];
 				}
 			}
 			else if (albumImageTransition == 0)
@@ -3121,7 +3121,7 @@ namespace n0001
 			albumSelection = 0;
 			for (int i = 0; i < 7; i++)
 			{
-				if (n0036.X > n0311[i] && n0036.X < n0311[i] + 120 && n0036.Y >= n0312[i] && n0036.Y < n0312[i] + 90)
+				if (n0036.X > albumThumbX[i] && n0036.X < albumThumbX[i] + 120 && n0036.Y >= albumThumbY[i] && n0036.Y < albumThumbY[i] + 90)
 				{
 					albumSelection = i + 1;
 					break;

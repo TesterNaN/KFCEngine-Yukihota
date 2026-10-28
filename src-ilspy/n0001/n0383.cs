@@ -3,10 +3,10 @@ namespace n0001
 	public enum ScenarioResult
 	{
 		n0485,
-		n0174,
+		waitClick,
 		n0385,
 		n0387,
-		n0390,
+		charaNames,
 		n0404,
 		n0415,
 		n0421,
@@ -15,6 +15,6 @@ namespace n0001
 		n0428,
 		n0430,
 		n0459,
-		n0442
+		finish
 	}
 }

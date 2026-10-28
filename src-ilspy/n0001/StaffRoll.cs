@@ -42,21 +42,21 @@ namespace n0001
 
 		protected Texture n0135;
 
-		protected readonly string[,] n0537;
+		protected readonly string[,] titleLines;
 
-		protected readonly string[] n0538;
+		protected readonly string[] characterTextureNames;
 
-		protected readonly string[,,] n0539;
+		protected readonly string[,,] castNames;
 
-		protected readonly string[] n0540;
+		protected readonly string[] backgroundTextureNames;
 
-		protected readonly Rectangle n0541;
+		protected readonly Rectangle backgroundSourceRect;
 
-		protected readonly Point n0542;
+		protected readonly Point backgroundPosition;
 
-		protected readonly Point n0543;
+		protected readonly Point barPosition;
 
-		protected readonly Size n0544;
+		protected readonly Size characterNameSize;
 
 		private int staffLineCount;
 
@@ -66,16 +66,16 @@ namespace n0001
 
 		private int backgroundIndex;
 
-		public StaffRoll(string n0387, ArchiveFile n0390, ArchiveFile n0385, XmlNode[] n0348)
+		public StaffRoll(string n0387, ArchiveFile charaNames, ArchiveFile n0385, XmlNode[] n0348)
 		{
-			n0537 = new string[3, 2]
+			titleLines = new string[3, 2]
 			{
 				{ "Ｍｅｍｏｒｉｅｓ\u3000Ｏｆｆ\u3000２ｎｄ～雪萤～", "ＣＡＳＴ" },
 				{ "Ｍｅｍｏｒｉｅｓ\u3000Ｏｆｆ\u3000２ｎｄ～雪螢～", "ＣＡＳＴ" },
 				{ "Ｍｅｍｏｒｉｅｓ\u3000Ｏｆｆ\u3000２ｎｄ～雪蛍～", "ＣＡＳＴ" }
 			};
-			n0538 = new string[6] { "SH01CMA", "IK01CMA", "TT01CMA", "SS01AMA", "NS01CMA", "IS01AMA" };
-			n0539 = new string[3, 6, 2]
+			characterTextureNames = new string[6] { "SH01CMA", "IK01CMA", "TT01CMA", "SS01AMA", "NS01CMA", "IS01AMA" };
+			castNames = new string[3, 6, 2]
 			{
 				{
 					{ "白河 萤", "水树 奈奈" },
@@ -102,14 +102,14 @@ namespace n0001
 					{ "稲穂 信", "間島 淳司" }
 				}
 			};
-			n0540 = new string[7] { "EV_HP07B", "EV_HP01A", "EV_HP02A", "EV_HP03A", "EV_HP04A", "EV_HP06A", "EV_HP07A" };
-			n0541 = new Rectangle(0, 0, 300, 225);
-			n0542 = new Point(1200, 480);
-			n0543 = new Point(0, 560);
-			n0544 = new Size(30, 40);
+			backgroundTextureNames = new string[7] { "EV_HP07B", "EV_HP01A", "EV_HP02A", "EV_HP03A", "EV_HP04A", "EV_HP06A", "EV_HP07A" };
+			backgroundSourceRect = new Rectangle(0, 0, 300, 225);
+			backgroundPosition = new Point(1200, 480);
+			barPosition = new Point(0, 560);
+			characterNameSize = new Size(30, 40);
 			edPackage = new MediaPackage("ED");
 			edPackage.Open(n0387);
-			charaArchive = n0390;
+			charaArchive = charaNames;
 			bgArchive = n0385;
 			xmlDocuments = n0348;
 			for (int i = 0; i < 3; i++)
@@ -181,11 +181,11 @@ namespace n0001
 				}
 				if (num4 == 255)
 				{
-					textFont.DrawText(spriteBatch, n0537[(int)layout, num2], 400 - n0537[(int)layout, num2].Length * 15, 280, Color.White);
+					textFont.DrawText(spriteBatch, titleLines[(int)layout, num2], 400 - titleLines[(int)layout, num2].Length * 15, 280, Color.White);
 				}
 				else
 				{
-					textFont.DrawText(spriteBatch, n0537[(int)layout, num2], 400 - n0537[(int)layout, num2].Length * 15, 280, Color.FromArgb(num4, Color.White));
+					textFont.DrawText(spriteBatch, titleLines[(int)layout, num2], 400 - titleLines[(int)layout, num2].Length * 15, 280, Color.FromArgb(num4, Color.White));
 				}
 			}
 			else if (num < 38.0)
@@ -202,8 +202,8 @@ namespace n0001
 					{
 						characterTexture.Dispose();
 					}
-					imageInfo = TextureLoader.ImageInformationFromStream(charaArchive.ReadEntry(n0538[num5]));
-					characterTexture = TextureLoader.FromStream(graphicsDevice, charaArchive.ReadEntry(n0538[num5]), imageInfo.Width, imageInfo.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+					imageInfo = TextureLoader.ImageInformationFromStream(charaArchive.ReadEntry(characterTextureNames[num5]));
+					characterTexture = TextureLoader.FromStream(graphicsDevice, charaArchive.ReadEntry(characterTextureNames[num5]), imageInfo.Width, imageInfo.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 					characterIndex = num5;
 				}
 				if (num6 < 0.5)
@@ -223,14 +223,14 @@ namespace n0001
 					if (num7 == 255)
 					{
 						spriteBatch.Draw2D(characterTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, 0f, new Point(250 - imageInfo.Width / 2, 600 - imageInfo.Height), Color.White);
-						textFont.DrawText(spriteBatch, n0539[(int)layout, num5, 0], 505 - (int)((double)n0539[(int)layout, num5, 0].Length - 0.5) * 15, 260, Color.White);
-						textFont.DrawText(spriteBatch, n0539[(int)layout, num5, 1], 505 - (int)((double)n0539[(int)layout, num5, 1].Length - 0.5) * 15, 300, Color.White);
+						textFont.DrawText(spriteBatch, castNames[(int)layout, num5, 0], 505 - (int)((double)castNames[(int)layout, num5, 0].Length - 0.5) * 15, 260, Color.White);
+						textFont.DrawText(spriteBatch, castNames[(int)layout, num5, 1], 505 - (int)((double)castNames[(int)layout, num5, 1].Length - 0.5) * 15, 300, Color.White);
 					}
 					else
 					{
 						spriteBatch.Draw2D(characterTexture, Rectangle.Empty, Rectangle.Empty, Point.Empty, 0f, new Point(250 - imageInfo.Width / 2, 600 - imageInfo.Height), Color.FromArgb(num7, Color.White));
-						textFont.DrawText(spriteBatch, n0539[(int)layout, num5, 0], 505 - (int)((double)n0539[(int)layout, num5, 0].Length - 0.5) * 15, 260, Color.FromArgb(num7, Color.White));
-						textFont.DrawText(spriteBatch, n0539[(int)layout, num5, 1], 505 - (int)((double)n0539[(int)layout, num5, 1].Length - 0.5) * 15, 300, Color.FromArgb(num7, Color.White));
+						textFont.DrawText(spriteBatch, castNames[(int)layout, num5, 0], 505 - (int)((double)castNames[(int)layout, num5, 0].Length - 0.5) * 15, 260, Color.FromArgb(num7, Color.White));
+						textFont.DrawText(spriteBatch, castNames[(int)layout, num5, 1], 505 - (int)((double)castNames[(int)layout, num5, 1].Length - 0.5) * 15, 300, Color.FromArgb(num7, Color.White));
 					}
 				}
 			}
@@ -244,8 +244,8 @@ namespace n0001
 					{
 						backgroundTexture.Dispose();
 					}
-					imageInfo = TextureLoader.ImageInformationFromStream(bgArchive.ReadEntry(n0540[num8]));
-					backgroundTexture = TextureLoader.FromStream(graphicsDevice, bgArchive.ReadEntry(n0540[num8]), imageInfo.Width, imageInfo.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
+					imageInfo = TextureLoader.ImageInformationFromStream(bgArchive.ReadEntry(backgroundTextureNames[num8]));
+					backgroundTexture = TextureLoader.FromStream(graphicsDevice, bgArchive.ReadEntry(backgroundTextureNames[num8]), imageInfo.Width, imageInfo.Height, 1, Usage.None, Format.A8R8G8B8, Pool.Managed, Filter.None, Filter.None, 0);
 					backgroundIndex = num8;
 				}
 				if (characterTexture != null)
@@ -268,11 +268,11 @@ namespace n0001
 				{
 					if (num10 == 255)
 					{
-						spriteBatch.Draw2D(backgroundTexture, Rectangle.Empty, n0541, Point.Empty, 0f, n0542, Color.White);
+						spriteBatch.Draw2D(backgroundTexture, Rectangle.Empty, backgroundSourceRect, Point.Empty, 0f, backgroundPosition, Color.White);
 					}
 					else
 					{
-						spriteBatch.Draw2D(backgroundTexture, Rectangle.Empty, n0541, Point.Empty, 0f, n0542, Color.FromArgb(num10, Color.White));
+						spriteBatch.Draw2D(backgroundTexture, Rectangle.Empty, backgroundSourceRect, Point.Empty, 0f, backgroundPosition, Color.FromArgb(num10, Color.White));
 					}
 					spriteBatch.Draw2D(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, 0f, Point.Empty, Color.Transparent);
 				}
@@ -315,7 +315,7 @@ namespace n0001
 				edPackage.n0162();
 				result = false;
 			}
-			spriteBatch.Draw2D(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, 0f, n0543, Color.Black);
+			spriteBatch.Draw2D(n0135, Rectangle.Empty, Rectangle.Empty, Point.Empty, 0f, barPosition, Color.Black);
 			for (int j = 0; j < musicNodes[(int)layout].ChildNodes.Count - 1; j++)
 			{
 				double num13 = double.Parse(musicNodes[(int)layout].ChildNodes[j].Attributes["start"].Value);

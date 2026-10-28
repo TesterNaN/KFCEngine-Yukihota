@@ -20,9 +20,9 @@ namespace n0001
 
 		private ArchiveIndex index;
 
-		public ArchiveFile(string n0494, ArchiveMode n0432)
+		public ArchiveFile(string n0494, ArchiveMode type)
 		{
-			openMode = n0432;
+			openMode = type;
 			if (openMode == ArchiveMode.n0496)
 			{
 				stream = new FileStream(n0494 + ".dat", FileMode.Create, FileAccess.Write);

@@ -95,12 +95,12 @@ namespace n0062
 			}
 		}
 
-		public void Play(bool n0424, int n0860)
+		public void Play(bool loop, int n0860)
 		{
 			if (opened)
 			{
 				string text = "play " + alias;
-				loopEnabled = n0424;
+				loopEnabled = loop;
 				text = text + " from " + n0860;
 				mciSendString(text, null, 0, IntPtr.Zero);
 				playing = true;
@@ -108,9 +108,9 @@ namespace n0062
 			}
 		}
 
-		public void Play(bool n0424)
+		public void Play(bool loop)
 		{
-			Play(n0424, 0);
+			Play(loop, 0);
 		}
 
 		public void Play()
