@@ -7,9 +7,9 @@ namespace Yukihota
 {
 	public class SceneDirector : IDisposable
 	{
-		public const int n0470 = 800;
+		public const int ScreenWidth = 800;
 
-		public const int n0471 = 600;
+		public const int ScreenHeight = 600;
 
 		protected ScenarioScript scenario;
 
@@ -63,7 +63,7 @@ namespace Yukihota
 
 		private ButtonLayout buttonLayout;
 
-		public SceneDirector(string scriptPath, int episode, Microsoft.DirectX.Direct3D.Device device, Sprite sprite, FrameCallback frameCallback, Texture overlayTexture, EffectObject n0352, System.Drawing.Font font, ButtonLayout layout, Color textColor)
+		public SceneDirector(string scriptPath, int episode, Microsoft.DirectX.Direct3D.Device device, Sprite sprite, FrameCallback frameCallback, Texture overlayTexture, EffectObject effectObject, System.Drawing.Font font, ButtonLayout layout, Color textColor)
 		{
 			scenario = new ScenarioScript(scriptPath, episode, device);
 			audio = new AudioManager();
@@ -76,7 +76,7 @@ namespace Yukihota
 			whiteTexture = overlayTexture;
 			uiFont = font;
 			buttonLayout = layout;
-			shakeEffect = n0352;
+			shakeEffect = effectObject;
 			waitingForClick = false;
 			skipMode = false;
 			autoMode = false;
@@ -569,11 +569,11 @@ namespace Yukihota
 			return scenario.GetAlbumIndex();
 		}
 
-		public void SetPaused(bool enabled, bool n0469)
+		public void SetPaused(bool enabled, bool includeBgm)
 		{
 			if (!staffRollPlaying)
 			{
-				audio.SetPaused(enabled, n0469);
+				audio.SetPaused(enabled, includeBgm);
 			}
 			else
 			{
@@ -581,7 +581,7 @@ namespace Yukihota
 			}
 		}
 
-		public bool n0188()
+		public bool IsStaffRollPlaying()
 		{
 			return staffRollPlaying;
 		}

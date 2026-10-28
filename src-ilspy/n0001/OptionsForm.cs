@@ -174,7 +174,7 @@ namespace Yukihota
 			btnFont.Size = new Size(104, 23);
 			btnFont.TabIndex = 5;
 			btnFont.Text = "字体(&F)";
-			btnFont.Click += new EventHandler(this.OnJapaneseCheckedChanged);
+			btnFont.Click += new EventHandler(this.OnFontClick);
 			fontDialog.AllowVerticalFonts = false;
 			fontDialog.Font = new Font("黑体", 24f, FontStyle.Regular, GraphicsUnit.Point, 134);
 			fontDialog.FontMustExist = true;
@@ -237,7 +237,7 @@ namespace Yukihota
 			rdoJapanese.Size = new Size(136, 24);
 			rdoJapanese.TabIndex = 2;
 			rdoJapanese.Text = "日本語(&J)";
-			rdoJapanese.CheckedChanged += new EventHandler(this.n0032);
+			rdoJapanese.CheckedChanged += new EventHandler(this.OnJapaneseCheckedChanged);
 			chkDontShow.BackColor = Color.Transparent;
 			chkDontShow.Location = new Point(8, 232);
 			chkDontShow.Name = "ckbDontShow";
@@ -279,13 +279,13 @@ namespace Yukihota
 			base.Name = "Options";
 			StartPosition = FormStartPosition.CenterScreen;
 			Text = "选项";
-			Load += new EventHandler(this.OnFontClick);
+			Load += new EventHandler(this.OnFormLoad);
 			grpDisplay.ResumeLayout(false);
 			grpLanguage.ResumeLayout(false);
 			base.ResumeLayout(false);
 		}
 
-		private void OnFontClick(object sender, EventArgs e)
+		private void OnFormLoad(object sender, EventArgs e)
 		{
 			fontDialog.Font = font;
 			if (fullscreen)
@@ -355,7 +355,7 @@ namespace Yukihota
 			}
 		}
 
-		private void OnJapaneseCheckedChanged(object sender, EventArgs e)
+		private void OnFontClick(object sender, EventArgs e)
 		{
 			if (fontDialog.ShowDialog() == DialogResult.OK)
 			{
@@ -373,7 +373,7 @@ namespace Yukihota
 			ApplyLanguage(ButtonLayout.TraditionalChinese);
 		}
 
-		private void n0032(object sender, EventArgs e)
+		private void OnJapaneseCheckedChanged(object sender, EventArgs e)
 		{
 			ApplyLanguage(ButtonLayout.Japanese);
 		}
@@ -401,9 +401,9 @@ namespace Yukihota
 			}
 		}
 
-		private void ApplyLanguage(ButtonLayout n0046)
+		private void ApplyLanguage(ButtonLayout layout)
 		{
-			switch (n0046)
+			switch (layout)
 			{
 			case ButtonLayout.SimplifiedChinese:
 				btnOk.Text = "确定(&O)";

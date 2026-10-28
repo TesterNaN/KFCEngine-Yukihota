@@ -980,7 +980,7 @@ namespace Yukihota
 				switch (gameMode)
 				{
 				case 1:
-					if (!director.n0188())
+					if (!director.IsStaffRollPlaying())
 					{
 						contextMenu.Show(this, new Point(400, 300));
 					}
@@ -1107,7 +1107,7 @@ namespace Yukihota
 				if (!f8KeyDown)
 				{
 					f8KeyDown = true;
-					if (gameMode == 1 && !director.n0188())
+					if (gameMode == 1 && !director.IsStaffRollPlaying())
 					{
 						director.SetAutoMode(false);
 						director.SetPaused(true, false);
@@ -1130,11 +1130,11 @@ namespace Yukihota
 					{
 						language = ButtonLayout.SimplifiedChinese;
 					}
-					if (!director.n0188() && language == ButtonLayout.Japanese)
+					if (!director.IsStaffRollPlaying() && language == ButtonLayout.Japanese)
 					{
 						language = ButtonLayout.SimplifiedChinese;
 					}
-					if (director.n0188())
+					if (director.IsStaffRollPlaying())
 					{
 						languageResetPending = true;
 					}
@@ -1206,7 +1206,7 @@ namespace Yukihota
 				{
 					director.waitClick();
 				}
-				else if (e.Button == MouseButtons.Right && !director.n0188())
+				else if (e.Button == MouseButtons.Right && !director.IsStaffRollPlaying())
 				{
 					director.SetPaused(true, false);
 					scenarioTimer.Stop();
@@ -1323,7 +1323,7 @@ namespace Yukihota
 				director.SetAutoMode();
 				break;
 			case 8:
-				if (!director.n0188())
+				if (!director.IsStaffRollPlaying())
 				{
 					director.SetAutoMode(false);
 					director.SetPaused(true, false);
@@ -1334,14 +1334,14 @@ namespace Yukihota
 				}
 				break;
 			case 9:
-				if (!director.n0188())
+				if (!director.IsStaffRollPlaying())
 				{
 					ReturnToTitle();
 					flag = true;
 				}
 				break;
 			}
-			if (languageResetPending && language == ButtonLayout.Japanese && !director.n0188())
+			if (languageResetPending && language == ButtonLayout.Japanese && !director.IsStaffRollPlaying())
 			{
 				language = ButtonLayout.SimplifiedChinese;
 				menuSimplifiedItem.Checked = true;
